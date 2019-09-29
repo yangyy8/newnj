@@ -49,55 +49,17 @@
         </div>
         <div class="pdjh">
               <ul>
-                 <li style="width:10%;float:left;">
-                   <div>江宁区</div>
-                   <div class="mt4"><span class="sz">5</span><span class="sz ml4">0</span><span class="sz ml4">0</span><span class="ci">次</span></div>
-                   <img src="../assets/img/sg/wd_1.png" width="48">
-                 </li>
-                 <li style="width:10%;float:left;">
-                   <div>江宁区</div>
-                   <div class="mt4"><span class="sz">5</span><span class="sz ml4">0</span><span class="sz ml4">0</span><span class="ci">次</span></div>
-                   <img src="../assets/img/sg/wd_1.png" width="48">
-                 </li>
-                 <li style="width:10%;float:left;">
-                   <div>江宁区</div>
-                   <div class="mt4"><span class="sz">5</span><span class="sz ml4">0</span><span class="sz ml4">0</span><span class="ci">次</span></div>
-                   <img src="../assets/img/sg/wd_1.png" width="48">
-                 </li>
-                 <li style="width:10%;float:left;">
-                   <div>江宁区</div>
-                   <div class="mt4"><span class="sz">5</span><span class="sz ml4">0</span><span class="sz ml4">0</span><span class="ci">次</span></div>
-                   <img src="../assets/img/sg/wd_1.png" width="48">
-                 </li>
-                 <li style="width:10%;float:left;">
-                   <div>江宁区</div>
-                   <div class="mt4"><span class="sz">5</span><span class="sz ml4">0</span><span class="sz ml4">0</span><span class="ci">次</span></div>
-                   <img src="../assets/img/sg/wd_1.png" width="48">
-                 </li>
-                 <li style="width:10%;float:left;">
-                   <div>江宁区</div>
-                   <div class="mt4"><span class="sz">5</span><span class="sz ml4">0</span><span class="sz ml4">0</span><span class="ci">次</span></div>
-                   <img src="../assets/img/sg/wd_1.png" width="48">
-                 </li>
-                 <li style="width:10%;float:left;">
-                   <div>江宁区</div>
-                   <div class="mt4"><span class="sz">5</span><span class="sz ml4">0</span><span class="sz ml4">0</span><span class="ci">次</span></div>
-                   <img src="../assets/img/sg/wd_1.png" width="48">
-                 </li>
-                 <li style="width:10%;float:left;">
-                   <div>江宁区</div>
-                   <div class="mt4"><span class="sz">5</span><span class="sz ml4">0</span><span class="sz ml4">0</span><span class="ci">次</span></div>
-                   <img src="../assets/img/sg/wd_1.png" width="48">
-                 </li>
-                 <li style="width:10%;float:left;">
-                   <div>江宁区</div>
-                   <div class="mt4"><span class="sz">5</span><span class="sz ml4">0</span><span class="sz ml4">0</span><span class="ci">次</span></div>
-                   <img src="../assets/img/sg/wd_1.png" width="48">
-                 </li>
-                 <li style="width:10%;float:left;">
-                   <div>江宁区</div>
-                   <div class="mt4"><span class="sz">5</span><span class="sz ml4">0</span><span class="sz ml4">0</span><span class="ci">次</span></div>
-                   <img src="../assets/img/sg/wd_1.png" width="48">
+                 <li style="width:10%;float:left;" v-for="(i,ind) in pdjhdata">
+                   <div>{{i.centername}}</div>
+                   <div class="mt4">
+                    <span  v-for="s in i.queuesum">
+                    <span class="sz ml4">{{s}}</span>
+                   </span>
+                    <span class="ci">次</span></div>
+                   <img src="../assets/img/sg/wd_1.png" width="48" v-if="ind==0">
+                   <img src="../assets/img/sg/wd_2.png" width="48" v-if="ind==1">
+                   <img src="../assets/img/sg/wd_3.png" width="48" v-if="ind==2">
+                   <img src="../assets/img/sg/wd_4.png" width="48" v-if="ind!=0 && ind!=1 &&ind!=2">
                  </li>
 
               </ul>
@@ -131,6 +93,7 @@ export default {
   data() {
     return {
       mapCenter:null,
+      pdjhdata:[],
     }
   },
   mounted() {
@@ -139,8 +102,15 @@ export default {
     ss.push({dm:2,mc:'江宁区',value:123});
     ss.push({dm:3,mc:'栖霞区',value:123});
     this.drawLine(ss,null);
+    this.getpdjh();
   },
   methods:{
+      getpdjh(){
+        this.$api.get(this.Global.aport3+'/pdjh/getCenterNumToday', null,
+          r => {
+            this.pdjhdata=r;
+          })
+      },
       drawLine(data,level){
         if (this.mapCenter != null) {
             this.mapCenter.clear();

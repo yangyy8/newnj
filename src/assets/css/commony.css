@@ -232,6 +232,6 @@ background-size: 100%  100%;}
 .screen .pdjh{margin-top:10px;color: #ffffff;background: url('../../assets/img/sg/pdjhtb.png') left no-repeat; height: 70px;padding-left: 120px; font-weight: bold; padding-top: 10px;font-size: 14px;}
 .screen .sz{background: url('../../assets/img/sg/sz.png') center no-repeat; font-size: 16px;text-align: center;color: #ffffff;}
 .screen .mt4{margin-top: 8px;}
-.screen .ml4{margin-left: 4px;}
-.screen .ci{margin-left: 6px;font-size: 12px;}
+.screen .ml4{margin-right:  4px;}
+.screen .ci{font-size: 12px;}
 /* end */

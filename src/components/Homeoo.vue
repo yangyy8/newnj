@@ -6,7 +6,7 @@
       <div class="top-right">
        <div class="top-nav">
           <ul class="top-nav-ul">
-            <li class="top-nav-li hand" ><img src="../assets/img/nicon.png" /> {{adminname}}  {{dwname}}  <span class="modpwd" v-if="an" @click="$router.push({name:'XGMM'})">修改密码</span></li>
+            <li class="top-nav-li hand" ><img src="../assets/img/nicon.png" /> &nbsp;欢迎您！{{adminname}}  {{dwname}}  <span class="modpwd" v-if="an" @click="$router.push({name:'XGMM'})">修改密码</span></li>
             <li class="top-nav-li hand" @click="$router.push({name:'Index'})"><img src="../assets/img/home.png" /> &nbsp;首页</li>
             <li class="top-nav-li hand" @click="logOut"><img src="../assets/img/close.png" /> &nbsp;退出</li>
           </ul>
