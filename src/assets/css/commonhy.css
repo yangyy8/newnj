@@ -1,0 +1,21 @@
+.bjinput{
+    width: 50%!important;
+  }
+.gzsl{
+    color: red;
+    font-size: 12px;
+}
+ /* .el-table thead th .cell{
+  white-space:normal!important;
+}  */
+.hybutton{
+  display: inline-block;
+  float: right;
+}
+.hyst{
+   display: inline-block;
+   line-height: 32px;
+}
+.hyst_a{
+  clear: both;
+}
