@@ -49,7 +49,7 @@
         </div>
         <div class="pdjh">
               <ul>
-                 <li style="width:10%;float:left;" v-for="(i,ind) in pdjhdata">
+                 <li style="width:10%;float:left;margin-top:10px;" v-for="(i,ind) in pdjhdata">
                    <div>{{i.centername}}</div>
                    <div class="mt4">
                     <span  v-for="s in i.queuesum">
