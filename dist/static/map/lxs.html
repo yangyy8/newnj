@@ -1,0 +1,533 @@
+﻿<!DOCTYPE>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>留学生散居社会面分析</title>
+    <style>
+        *{padding: 0px;margin: 0px;}
+        html{width: 100%;height: 100%}
+        body{width: 100%;height: 100%}
+        #mainMap{width: 100%;height: 100%;}
+		
+		.my-div-icon {
+            background-color: rgba(0, 167, 91, 0.8);
+            border-radius: 50%;
+            /*width: 50 !important;
+            height: 50px !important;*/
+            line-height:50px;
+            text-align: center;
+            vertical-align: middle;
+			font-weight:border;
+        }
+		.my-div-icon div.num {
+			color: #fff;
+		}
+		
+		.leaflet-popup-content {
+			width: 250px;
+		}
+		.leftpanel {
+			position:absolute; top:0; left:0; background-color:#fff; width:300px; height:100%; z-index:555; font-size:13px
+		}
+		.leftpanel .expanded {
+			width: 35px;
+			height: 70px;
+			line-height:60px;
+			border: 1px solid #bbb;
+			border-left-width: 0px;
+			margin-left:100%;
+			margin-top:150px;
+			background-color:#fff;
+			border-top-right-radius: 5px;
+			border-bottom-right-radius: 5px;
+			cursor:pointer;
+			font-size:12px;
+			text-align:center;
+			vertical-align:middle;
+			font-weight: bolder;
+			position:absolute;
+		}
+		.leftpanel table {
+			width: 100%;
+		}
+		.leftpanel table .button {
+			background-color: #3992d0;
+			color:#fff;
+			padding: 6px 12px;
+			border:0;
+		}
+		
+		
+		#filttable td, #cztable td {
+			padding: 5px 0 5px 5px;
+		}
+		
+		.resultpaneltitle {
+			color: #fff;
+			background-color: #3992d0;
+			text-align:center;
+			padding: 9px 10px;
+			font-size:15px
+		}
+		#resultpanel {
+			border-top: 1px solid #ccc;
+			overflow:auto;
+		}
+		#resultpanel div {
+			padding: 6px 10px;
+			cursor:pointer;
+			border: 1px dot #eee;
+		}
+		.selected {
+			background-color:rgba(0, 167, 91, 0.2);
+		}
+		
+
+		
+		.bottompanel {
+			width: 100%;
+			height: 530px;
+			position:absolute; bottom:0; left:0; z-index:9999;
+			background:#fff;
+			border: 1px solid #3992d0;
+			text-align:middle;
+			display:none;
+		}
+		.bottompanel .closed{
+			position:absolute; right:10px; top:0; 
+		}
+		.bottompanel .pagepanel {
+			padding-top:5px;
+			width: 300px;
+			text-align:center;
+			font-size:12px;
+			margin: 0 auto;
+		}
+		.bottompanel .pagepanel span {
+			padding: 2px 7px;
+			border: 1px solid #ccc;
+			text-align:center;
+			cursor:pointer;
+		}
+    </style>
+
+	<script type="text/javascript" include="jquery,leaflet,leaflet.draw,iclient9-leaflet,iclient9-leaflet-css" src="../web/libs/include-leaflet.js"></script>
+	<script src="../dist/common.js" type="text/javascript"></script>
+	<script src="../dist/config.js" type="text/javascript"></script>
+</head>
+<body>
+<!-- 显示地图信息 -->
+<div id="mainMap"></div>
+<div class="leftpanel">
+	<div class="expanded" onclick="doExpand()"><<</div>
+	<table id="filttable" cellspacing="8px" cellpadding="10px">
+		<tr>
+			<td width="80px">国家地区：</td>
+			<td>
+				<select id="query_gjdq" style="width:160px; height: 23px""></select>
+			</td>
+		</tr>
+		<tr>
+			<td>入住方式：</td>
+			<td>
+				<select id="query_rzfs" style="width:160px; height: 23px">
+					<option>全部</option>
+					<option>自租房</option>
+					<option>自购房</option>
+					<option>自建房</option>
+					<option>其他</option>
+					<option>单位租房</option>
+					<option>单位购房</option>
+					<option>单位建房</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>服务处所：</td>
+			<td>
+				<select id="query_fwcs" style="width:160px; height: 23px"></select>
+			</td>
+		</tr>
+		<tr>
+			<td>身份：</td>
+			<td>
+				<select id="query_sf" style="width:160px; height: 23px"></select>
+			</td>
+		</tr>
+		<tr>
+			<td>证件种类：</td>
+			<td>
+				<select id="query_zjzl" style="width:160px; height: 23px"></select>
+			</td>
+		</tr>
+		<tr>
+			<td>签证种类：</td>
+			<td>
+				<select id="query_zjzl" style="width:160px; height: 23px"></select>
+			</td>
+		</tr>
+		<tr>
+			<td>住房类型：</td>
+			<td>
+				<select id="query_zflx" style="width:160px; height: 23px">
+					<option>全部</option>
+					<option>住宅小区</option>
+					<option>商住楼</option>
+					<option>单位内部</option>
+					<option>星级宾馆</option>
+					<option>中小旅社</option>
+					<option>居民小区</option>
+					<option>其他</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>居留事由：</td>
+			<td>
+				<select id="query_jlsy" style="width:160px; height: 23px"></select>
+			</td>
+		</tr>
+		<tr>
+			<td>居住状态类型：</td>
+			<td>
+				<select id="query_zflx" style="width:160px; height: 23px">
+					<option>全部</option>
+					<option>迁入</option>
+					<option>所内变动</option>
+					<option>迁出</option>
+					<option>死亡销户</option>
+					<option>人户分离</option>
+					<option>查无此人</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>所属分局：</td>
+			<td>
+				<select id="query_fj" style="width:160px; height: 23px" onchange="getPCS(this.value)"></select>
+			</td>
+		</tr>
+		<tr>
+			<td>派出所：</td>
+			<td>
+				<select id="query_pcs" style="width:160px; height: 23px"></select>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" style="text-align:center">
+				<input type="button" class="button" value="查 询" onclick="doSearch()" />
+				<input type="button" class="button" value="重 置" onclick="doReset()" />
+			</td>
+		</tr>
+	</table>
+	<div id="resultpanel"></div>
+</div>
+
+<div class="bottompanel">
+	<div onclick="$('.bottompanel').hide()" class="closed">关闭</div>
+	<table id="cztable" style="width: 95%; margin-top:15px">
+		<thead>
+			<tr>
+				<th width="200px;">姓名</th>
+				<th width="120px">性别</th>
+				<th width="100px;">国家地区</th>
+				<th width="100px">证件种类</th>
+				<th>签证种类</th>
+				<th>住房类型</th>
+			</tr>
+		</thead>
+		<tbody id="cztablebody"></tbody>
+	</table>
+	<div class="pagepanel"></div>
+</div>
+
+<script>
+    var map;
+	var markerLayer;
+	
+    $(document).ready(function (){
+		var clientHeight = $(document).height();
+		//alert(clientHeight);
+		$("#resultpanel").css("height", (clientHeight - 180) + "px");
+		
+        createMapL();
+		
+		getFJ();
+		getPCS('');
+    })
+
+	// 创建地图
+    function createMapL() {
+        map = L.map('mainMap', {
+            crs: L.CRS.EPSG4326,
+            preferCanvas: true,
+            center: [32.03613281, 118.78211975],
+            maxZoom: 18,
+            zoom: 10,
+			maxZoom: 16,
+            zoomControl:false,
+            attributionControl:false,
+            closePopupOnClick: false     //点击地图不关闭popup框
+        });
+        L.supermap.wmtsLayer(CONFIG.MAP_URL,
+                {
+                    layer: "GADT",
+                    style: "default",
+                    tilematrixSet: "ChinaPublicServices_GADT",
+                    format: "image/png",
+                    transparent: true
+                }
+        ).addTo(map);
+		
+		markerLayer = L.featureGroup().addTo(map);
+		
+	 }
+	 
+	 function getFJ() {
+		fillSelect("query_fj", CONFIG.ORG + "?jb=2", true);
+	 }
+	 function getPCS(fj) {
+		if (fj.length > 0) {
+			fillSelect("query_pcs", CONFIG.ORG_PARENT + "?pid=" + fj, true);
+		}
+		else {
+			clearSelect("query_pcs", true);
+		}
+	 }
+    
+	//http://10.33.69.24:9200/es_lz_lzxx/doc
+	// 左边列表点击
+	function createDWMap(obj, id, mc) {
+		if ($("#tbdistance").val() == null || isNaN($("#tbdistance").val())) {
+			alert("距离设置应为数字, 且有效区间为5-20");
+			return;
+		}
+		if (parseInt($("#tbdistance").val()) < 5 || parseInt($("#tbdistance").val()) > 20) {
+			alert("距离设置有效区间为5-20");
+			return;
+		}
+		$("#resultpanel div").removeAttr('class');
+		obj.className = "selected";
+		//map.zoomTo(14);	
+		markerLayer.clearLayers();
+		
+		mapSqlSearch("DH_PT学校", "ID='" + id + "'", 0, 5, function(features) {
+			if (features.length > 0) {
+				var x = features[0].properties.SMX;
+				var y = features[0].properties.SMY;				
+				//var pulseIcon = L.icon.pulse({
+				//	iconSize:[12,12],
+				//	color:'#2f8'
+				//});
+				
+				var tm = L.marker([y, x]).bindPopup(mc);
+				markerLayer.addLayer(tm);
+				tm.openPopup();
+				
+				//map.flyTo(new SuperMap.LonLat(x, y), 12);
+				map.flyTo(L.latLng(y, x), 12);
+				
+				getStudents(id, parseFloat(x), parseFloat(y));
+			}
+			else {
+				alert("地图库中未录入该地址的坐标。");
+			}		
+		});
+	}
+	function doSearch() {
+		if (markerLayer != null)
+			markerLayer.clearLayers();
+	
+		var xzqh = $("#query_qx").val();
+		var pcs = $("#query_pcs").val();
+		
+		//ES； http://10.33.69.24:9200/es_lz_lzxx/doc
+		var searchResult = [
+			{ dm: '320113640000', mc: '栖霞派出所', num: 111},
+			{ dm: '320104720000', mc: '	五老村派出所', num: 111},
+			{ dm: '320104760000', mc: '	建康路派出所', num: 111},
+			{ dm: '320113660000', mc: '	摄山派出所', num: 111},
+			{ dm: '320104680000', mc: '	大光路派出所', num: 111}
+			];
+			
+		for (var i = 0; i < searchResult.length; i++) {
+			queryPcsByServer(searchResult[i]);
+		}
+		//renderMarker([32.03613281, 118.78211975], "1111", "xx派出所", 123456);
+	}
+	
+	function queryPcsByServer(data){		
+		//数据集SQL查询服务参数
+		var sqlParam = new SuperMap.GetFeaturesBySQLParameters({
+			queryParameter: {
+				name: "gajg_pcs_3201_pg@ORCL_gt8",
+				attributeFilter: "DWBM='" + data.dm + "'"
+			},
+			datasetNames: ["ORCL_gt8:gajg_pcs_3201_pg"] //数据集名称
+		});
+
+		//向服务器发送请求，并对返回的结果进行处理
+		L.supermap.featureService(CONFIG.DATA_GT8_URL).getFeaturesBySQL(sqlParam, function (serviceResult) {
+			var features = serviceResult.result.features.features;
+			for (var i = 0; i < features.length; i++) {
+				var center = L.latLngBounds(changeLonAndLat(features[i].geometry.coordinates)).getCenter();
+				//features[i].properties.DWDM;
+				renderMarker([center.lat, center.lng], data);
+			}
+		});
+	}
+	
+	function renderMarker(point, data) {
+        // 画圆
+        var myIcon = L.divIcon({
+            html: "<div class='num'>" + data.num + "</div>",
+            className: 'my-div-icon',
+            iconSize: 55
+        });
+        var tempMarker = L.marker(point, { icon: myIcon, pcsdm: data.dm, pcsmc: data.mc,  num: data.num });
+        markerLayer.addLayer(tempMarker);
+		
+		markerLayer.on("mousemove", function(e) {
+			e.layer.bindPopup("<div style='font-weight:bold; font-size: 13px; padding-bottom:5px'>" + e.layer.options.pcsmc + "</div><div>" + "个数：" + e.layer.options.num + "</div>").openPopup();
+		});
+		markerLayer.on("mouseout", function(e) {
+			e.layer.closePopup();
+		});
+		
+        tempMarker.on('click', function(e) {
+          //alert(e.target.options.pcsmc);
+		  requestTableData(e.target.options.pcsdm, 1);
+        });
+    }
+	
+	// 点击派出所marker, 获取常住人员列表
+	function requestTableData(pcsdm, curpage) {
+		//ES 请求
+		var total = 1000;
+		
+		var html = new Array();
+		for (var i = 0; i < 15; i++) {
+			html.push("<tr><td>姓名" + i + "</td><td>111</td><td>111</td><td>111</td><td>111</td><td>111</td></tr>");
+		}
+		$("#cztablebody").html(html.toString());
+		
+		createPage(curpage, total, pcsdm);
+		
+		$('.bottompanel').show();
+	}
+	
+	function doReset() {
+		$("#query_dwxz").val("");
+		$("#query_jwrs").val("");
+		$("#query_szd").val("");
+		$("#query_lb").val("");
+		$("#query_dj").val("");
+	}
+	
+	// 根据学校id获取学生信息
+	function getStudents(id, x, y) {
+		var beginPoint = [y, x];
+		
+		//获取所有留学生信息，获取标准化地址。
+		for (var i = 1; i < 3; i++) {
+			var dzid = "";
+			var msg = "<div><div>姓名：张三</div><div>地址：xxxx</div><div>姓名：李四</div><div>地址：xxxx</div></div>";
+			var endPoint = [y, x + i / 15];
+			var distance = getDistance(endPoint[0], endPoint[1], beginPoint[0], beginPoint[1]);
+			//alert(distance);
+			if (distance > parseInt($("#tbdistance").val())) {
+				var endMarker = L.marker(endPoint, { message: msg });
+				markerLayer.addLayer(endMarker);
+				markerLayer.on("click", function(e) {
+					e.layer.bindPopup(e.layer.options.message).openPopup();
+				});
+			}
+		}
+	}
+	
+	//dz_mlpxx_3201_pt	DH_PT学校
+	function mapSqlSearch(tableName, attributeFilter, from, to, callback) {
+		//向服务器发送请求，并对返回的结果进行处理
+		var sqlParam = new SuperMap.GetFeaturesBySQLParameters({
+                            queryParameter: {
+                                name: tableName + "@ORCL_gt8",
+                                attributeFilter: attributeFilter
+                            },
+                            datasetNames: ["ORCL_gt8:" + tableName], //数据集名称
+                            fromIndex:0,
+                            toIndex:10
+                        });
+		 L.supermap.featureService(CONFIG.DATA_GT8_URL).getFeaturesBySQL(sqlParam, function (serviceResult) {
+            var features = serviceResult.result.features.features;
+			callback(features);		
+		});
+	}
+	
+	function createPage(curPage, total, pcsdm) {
+		var COUNT = 10;
+		var pageHtml = "";
+		var start = (curPage % COUNT == 0) ? (parseInt(curPage / COUNT - 1) * COUNT + 1) : (parseInt(curPage / COUNT) * COUNT + 1);
+		if (curPage > 1) {
+			pageHtml += "<span onclick='requestTableData('" + pcsdm + "'," + (start - COUNT) + ")'>&lt;</span>";
+		}
+		for (var i = 0; i < COUNT; i++) {
+			var np = start + i;
+			if (np < total + 1) {
+				if (np == curPage) {
+					pageHtml += "<span style='background-color: #3992d0'>" + np + "</span>";
+				}
+				else {
+					pageHtml += "<span onclick=\"requestTableData('" + pcsdm + "'," + np + ")\">" + np + "</span>";
+				}
+			}
+		}
+		
+		if (start + COUNT < total + 1) {
+			pageHtml += "<span onclick=\"requestTableData('" + pcsdm + "'," + (start + COUNT) + ")\">&gt;</span>";
+		}
+		
+		$(".pagepanel").html(pageHtml);
+	}
+	
+	//展开事件
+	function doExpand() {
+		var left = "-300px";
+		if (parseInt($(".leftpanel").css("left").replace("px","")) < -100) {
+			left = "0px";
+			$(".expanded").html("&lt;&lt;");
+		}
+		else {
+			left = "-300px";
+			$(".expanded").html("&gt;&gt;");
+		}
+		$(".leftpanel").animate({ left: left }, 800);
+	}
+	
+	//处理geometry数据数组中经纬度 与 leaflet.js API中构建polygon(纬，经)矛盾
+    var changeLonAndLat = function(arr){
+        var arrresult = [];
+        for(var k=0; k<arr.length; k++){
+            var arr1 = [];
+            for(var i=0; i<arr[k].length; i++){
+                var arr2 = [];
+                for(var j=0; j<arr[k][i].length; j++){
+                    var arr3 = [];
+                    var temp = arr[k][i][j][0];
+                    var t1 = arr[k][i][j][0];
+                    var t2 = arr[k][i][j][1];
+                    temp = t1;
+                    t1 = t2;
+                    t2 = temp;
+                    arr3.push(t1,t2);
+                    arr2.push(arr3);
+                }
+                arr1.push(arr2);
+            }
+            arrresult.push(arr1);
+        }
+        return arrresult;
+    }
+</script>
+
+</body>
+</html>

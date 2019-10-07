@@ -131,7 +131,7 @@
                <el-table-column
                    v-for="(val,i) in configHeader"
                    :key="i"
-                   :prop="val.props"
+                   :prop="val.code"
                    :label="val.label">
                </el-table-column>
                <el-table-column

@@ -1,0 +1,385 @@
+﻿<!DOCTYPE>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>境外人员出租房屋隐患分析</title>
+    <style>
+        *{padding: 0px;margin: 0px;}
+        html{width: 100%;height: 100%}
+        body{width: 100%;height: 100%}
+        #mainMap{float:right;width: 100%;height: 100%;}
+
+		.my-div-icon {
+            background-color: rgba(0, 167, 91, 0.8);
+            border-radius: 50%;
+            /*width: 50 !important;
+            height: 50px !important;*/
+            line-height:20px;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+		.my-div-icon div.mc {
+			position:relative;
+			left:0;
+			margin-left: -55px;
+			margin-top: -10px;
+            width: 150px;
+            text-align: center;
+			font-size: 13px;
+			color: red !important;
+			font-weight:bold;
+		}
+		.my-div-icon div.num {
+			color: #fff;
+		}
+    </style>
+
+	<script type="text/javascript" include="jquery,leaflet,leaflet.draw,moment,bootstrap,bootstrap-datetimepicker" src="../web/libs/include-leaflet.js"></script>
+	<script src="../dist/common.js" type="text/javascript"></script>
+	<script src="../dist/config.js" type="text/javascript"></script>
+
+
+	<style type="text/css">
+		.leftpanel {
+			position:absolute; top:0; left:0; background-color:#fff; width:300px; height:100%; z-index:555;
+		}
+		.leftpanel .expanded {
+			width: 35px;
+			height: 70px;
+			line-height:60px;
+			border: 1px solid #bbb;
+			border-left-width: 0px;
+			margin-left:100%;
+			margin-top:150px;
+			background-color:#fff;
+			border-top-right-radius: 5px;
+			border-bottom-right-radius: 5px;
+			cursor:pointer;
+			font-size:12px;
+			text-align:center;
+			vertical-align:middle;
+			font-weight: bolder;
+			position:absolute;
+		}
+		.leftpanel table {
+			width: 100%;
+		}
+		.leftpanel table .button {
+			background-color: #3992d0;
+			color:#fff;
+			padding: 6px 12px;
+			border:0;
+		}
+		#resultpanel {
+			border-top: 1px solid #ccc;
+			overflow:auto;
+		}
+		#resultpanel div {
+			padding: 3px 10px;
+			cursor:pointer;
+		}
+		#pagepanel {
+			position:absolute;
+			bottom:10px;
+			width: 300px;
+			text-align:center;
+			font-size:12px;
+		}
+		#pagepanel span {
+			padding: 2px 7px;
+			border: 1px solid #ccc;
+			text-align:center;
+			cursor:pointer;
+		}
+
+		#filttable td {
+			padding: 5px 0;
+		}
+	</style>
+</head>
+<body>
+<!-- 显示地图信息 -->
+<div id="mainMap"></div>
+<div class="leftpanel">
+	<div class="expanded" onclick="doExpand()"></div>
+	<table id="filttable" cellspacing="8px" cellpadding="10px">
+		<tr>
+			<td width="80px">行政区划：</td>
+			<td>
+				<select id="query_qx" style="width:160px; height: 23px" onchange="getPcs()"></select>
+			</td>
+		</tr>
+		<tr>
+			<td>派出所：</td>
+			<td>
+				<select id="query_pcs" style="width:160px; height: 23px" onchange="getZRQ()"></select>
+			</td>
+		</tr>
+		<tr>
+			<td>责任区：</td>
+			<td>
+				<select id="query_zrq" style="width:160px; height: 23px"></select>
+			</td>
+		</tr>
+		<!--tr>
+			<td>街道：</td>
+			<td>
+				<select id="query_jd" style="width:160px; height: 23px">
+					<option>全部</option>
+					<option>六合</option>
+					<option>六合</option>
+					<option>六合</option>
+					<option>六合</option>
+					<option>六合</option>
+					<option>六合</option>
+				</select>
+			</td>
+		</tr-->
+		<tr>
+			<td style="vertical-align:top">入住时间：</td>
+			<td>
+				<div>
+					<input id="query_data_from" type="text" style="width:160px" />
+				</div>
+				<div style="padding-top:5px">
+					<input id="query_data_to" type="text" style="width:160px" />
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" style="text-align:center">
+				<input type="button" class="button" value="查 询" onclick="doSearch()" />
+				<input type="button" class="button" value="重 置" />
+			</td>
+		</tr>
+	</table>
+	<div id="resultpanel"></div>
+	<div id="pagepanel">
+		<span>1</span>
+		<span>2</span>
+		<span>3</span>
+		<span>5</span>
+		<span>6</span>
+		<span>7</span>
+		<span>8</span>
+	</div>
+</div>
+
+<script>
+    var map;
+	var markerLayer;
+	var layerGroup;
+	var MAP_SIZE = [11, 15];
+	var SEARCH_HEIGHT = 100;
+
+	function initDateControl(ids) {
+		var dateOptions = {
+			format: "YYYY-MM-DD",
+			showClose:true,
+			locale:'zh-cn'
+		};
+		if (ids != null) {
+			for (var i = 0; i < ids.length; i++) {
+				$("#" + ids[i]).datetimepicker(dateOptions);
+			}
+		}
+	}
+
+    $(document).ready(function (){
+		var clientHeight = $(document).height();
+		//alert(clientHeight);
+		$("#resultpanel").css("height", (clientHeight - $("#filttable").height() - SEARCH_HEIGHT) + "px");
+		//加载地图start
+      createMapL();
+    //end
+		//debugger;
+		fillSelect("query_qx", CONFIG.XZQH, false, function() {
+			getPcs();
+		});
+
+		initDateControl(["query_data_from", "query_data_to"]);
+		//getOrgData(1);
+    })
+
+	function getPcs() {
+		var xzqh = $("#query_qx").val();
+		if (xzqh == "320100") {
+			fillSelect("query_pcs", CONFIG.ORG + "?jb=3", true);
+		}
+		else {
+			fillSelect("query_pcs", CONFIG.ORG + "?jb=3&xzqh=" + xzqh, true);
+		}
+		clearSelect("query_zrq", true);
+	}
+
+	function getZRQ() {
+		var xzqh = $("#query_qx").val();
+		var pcs = $("#query_pcs").val();
+		fillSelect("query_zrq", CONFIG.ORG_PARENT + "?pid=" + pcs, true);
+	}
+
+	function doSearch() {
+		if (layerGroup != null)
+			layerGroup.clearLayers();
+
+		var xzqh = $("#query_qx").val();
+		var pcs = $("#query_pcs").val();
+		var zrq = $("#query_zrq").val();
+		var sqlParam, markSql;
+		if (zrq != null && zrq != "" && zrq.length > 0) {
+			sqlParam = new SuperMap.GetFeaturesBySQLParameters({
+				queryParameter: {
+					name: "gajg_zrq_3201_pg@ORCL_gt8",
+					attributeFilter: "DWBM=" + zrq
+				},
+				datasetNames: ["ORCL_gt8:gajg_zrq_3201_pg"]
+			});
+
+			//markSql = "JWZRQ='" + zrq + "'";
+		}
+		else if (pcs != null && pcs != "" && pcs.length > 0) {
+			sqlParam = new SuperMap.GetFeaturesBySQLParameters({
+				queryParameter: {
+					name: "gajg_pcs_3201_pg@ORCL_gt8",
+					attributeFilter: "DWBM=" + pcs
+				},
+				datasetNames: ["ORCL_gt8:gajg_pcs_3201_pg"]
+			});
+
+			//markSql = "PCS='" + pcs + "'";
+		}
+		else if (xzqh != null && xzqh != "" && xzqh.length > 0) {
+			sqlParam = new SuperMap.GetFeaturesBySQLParameters({
+				queryParameter: {
+					name: "XZ_QU_A@ORCL_gt8",
+					attributeFilter: "ADMINCODE='1CHN" + xzqh + "'"
+				},
+				datasetNames: ["ORCL_gt8:XZ_QU_A"]
+			});
+
+			//markSql = "XZQH='" + xzqh + "'";
+		}
+
+		// 列出选中的区域。
+        L.supermap
+            .featureService(CONFIG.DATA_GT8_URL)
+            .getFeaturesBySQL(sqlParam, function (serviceResult) {
+				var resultData = serviceResult.result.features;
+                var resultList = resultData.features;
+				var layers = [];
+				for(var index = 0; index < resultList.length; index++){
+                    var resultLayer = L.polygon(changeLonAndLat(resultList[index].geometry.coordinates),{color:'red',fillColor:'red',fillOpacity:0.2,className:'pcs-layer'});
+					var center = L.latLngBounds(changeLonAndLat(resultList[index].geometry.coordinates)).getCenter();
+					layers.push(resultLayer);
+                }
+				layerGroup = L.layerGroup(layers);
+                map.addLayer(layerGroup);
+				//debugger;
+				//layerGroup.getBounds()
+            });
+
+		//var markSqlParam = new SuperMap.GetFeaturesBySQLParameters({
+		//		queryParameter: {
+		//			name: "gajg_zrq_3201_pg@ORCL_gt8",
+		//			attributeFilter: "DWBM=" + zrq
+		//		},
+		//		datasetNames: ["ORCL_gt8:gajg_zrq_3201_pg"]
+		//	});
+	}
+
+
+    //处理geometry数据数组中经纬度 与 leaflet.js API中构建polygon(纬，经)矛盾
+    var changeLonAndLat = function(arr){
+        var arrresult = [];
+        for(var k=0; k<arr.length; k++){
+            var arr1 = [];
+            for(var i=0; i<arr[k].length; i++){
+                var arr2 = [];
+                for(var j=0; j<arr[k][i].length; j++){
+                    var arr3 = [];
+                    var temp = arr[k][i][j][0];
+                    var t1 = arr[k][i][j][0];
+                    var t2 = arr[k][i][j][1];
+                    temp = t1;
+                    t1 = t2;
+                    t2 = temp;
+                    arr3.push(t1,t2);
+                    arr2.push(arr3);
+                }
+                arr1.push(arr2);
+            }
+            arrresult.push(arr1);
+        }
+        return arrresult;
+    }
+
+    function createMapL() {
+        map = L.map('mainMap', {
+            crs: L.CRS.EPSG4326,
+            preferCanvas: true,
+            center: [32.03613281, 118.78211975],
+            maxZoom: 18,
+            zoom: 10,
+			maxZoom: 16,
+            zoomControl:false,
+            attributionControl:false,
+            closePopupOnClick: false     //点击地图不关闭popup框
+        });
+        L.supermap.wmtsLayer("http://10.33.66.183:2333/iserver/services/map-wmts-GADT/wmts-china",
+                {
+                    layer: "GADT",
+                    style: "default",
+                    tilematrixSet: "ChinaPublicServices_GADT",
+                    format: "image/png",
+                    transparent: true
+                }
+        ).addTo(map);
+
+		//var url = "http://10.33.66.183:8090/iserver/services/map-ugcv5-njcaihuimapsymbol/rest/maps/nj_caihui@mapsymbol";
+        //加载图层
+		//L.supermap.tiledMapLayer(url).addTo(map);
+	 }
+
+	function createPage(curPage, total) {
+		var COUNT = 8;
+		var pageHtml = "";
+		var start = (curPage % COUNT == 0) ? (parseInt(curPage / COUNT - 1) * COUNT + 1) : (parseInt(curPage / COUNT) * COUNT + 1);
+		if (curPage > 1) {
+			pageHtml += "<span onclick='getOrgData(" + (start - COUNT) + ")'>&lt;</span>";
+		}
+		for (var i = 0; i < COUNT; i++) {
+			var np = start + i;
+			if (np < total + 1) {
+				if (np == curPage) {
+					pageHtml += "<span style='background-color: #3992d0'>" + np + "</span>";
+				}
+				else {
+					pageHtml += "<span onclick='getOrgData(" + np + ")'>" + np + "</span>";
+				}
+			}
+		}
+
+		if (start + COUNT < total + 1) {
+			pageHtml += "<span onclick='getOrgData(" + (start + COUNT) + ")'>&gt;</span>";
+		}
+
+		$("#pagepanel").html(pageHtml);
+	}
+	//展开事件
+	function doExpand() {
+		var left = "-300px";
+		if (parseInt($(".leftpanel").css("left").replace("px","")) < -100) {
+			left = "0px";
+			$(".expanded").html("&lt;&lt;");
+		}
+		else {
+			left = "-300px";
+			$(".expanded").html("&gt;&gt;");
+		}
+		$(".leftpanel").animate({ left: left }, 800);
+	}
+</script>
+
+</body>
+</html>
