@@ -33,9 +33,13 @@
       </div>
     </div>
     <div class="" @mouseover="navShow=false">
-      <div class="banner"></div>
+      <div class="banner">
+        <!-- <div class="common-report">
+          常用报表
+        </div> -->
+      </div>
       <div class="time">
-        2019-09-25 11:50
+        {{realTime}}
       </div>
       <div class="main">
       <el-row :gutter="3">
@@ -307,6 +311,7 @@
 </template>
 <script scoped>
 let vm;
+import {formatDate} from '@/assets/js/date.js'
 import {createMapL} from '@/assets/js/SuperMap/indexmap.js'
 import NAV from './NAV'
 import echarts from 'echarts'
@@ -435,23 +440,24 @@ export default {
       ssfj:'',
       timer:null,
       page:0,
+      realTime:'',
     }
   },
   mounted() {
-    window.vm=this;
-    console.log(this.Global.indexstate);
-   if(this.Global.indexstate!=0){
-     this.Global.indexstate=0;
-     window.location.reload();
-   }
-    this.getNavmune();
-    const that = this
-    window.onresize = () => {
+     window.vm=this;
+     console.log(this.Global.indexstate);
+     if(this.Global.indexstate!=0){
+       this.Global.indexstate=0;
+       window.location.reload();
+     }
+     this.getNavmune();
+     const that = this
+     window.onresize = () => {
         return (() => {
             window.screenWidth = document.body.clientWidth
             that.screenWidth = window.screenWidth
         })()
-    }
+     }
     if(this.screenWidth<1550){
       this.seriesData=[
                         [[11, 28, '六合区', 12, 28]],
@@ -547,22 +553,24 @@ export default {
           }
           this.mapFun();
           this.ajFun();
-
       }
   },
   created(){
       setInterval(this.scroll,2000);
       setInterval(this.scrollt,2000);
       this.timer=setInterval(this.scrollYj,2000);
+      setInterval(this.realTimeFun,1000);
   },
   methods:{
+      realTimeFun(){
+        this.realTime = formatDate(new Date(),'yyyy-MM-dd hh:mm')
+      },
       handClose(){
         this.aaDom.innerHTML='';
         this.mapDialogVisible=false;
       },
       //得到派出所
-      getpcs(n,callback)
-        {
+      getpcs(n,callback){
           var searchResult = [];
             let p={
               "lrdw":this.mapList.lrdw,
@@ -589,12 +597,12 @@ export default {
               });
       },
       pageSizeChange(val) {
-      this.getRyxx(this.CurrentPage,val,this.bzhid,this.mc,this.lrdw);
-      console.log(`每页 ${val} 条`);
+        this.getRyxx(this.CurrentPage,val,this.bzhid,this.mc,this.lrdw);
+        console.log(`每页 ${val} 条`);
       },
       handleCurrentChange(val) {
-      this.getRyxx(val,this.pageSize,this.bzhid,this.mc,this.lrdw);
-      console.log(`当前页: ${val}`);
+        this.getRyxx(val,this.pageSize,this.bzhid,this.mc,this.lrdw);
+        console.log(`当前页: ${val}`);
       },
       //获取标准化地址
       getbzhdz(n,callback){
@@ -625,9 +633,7 @@ export default {
             });
       },
       //人员信息
-      getRyxx(currentPage,showCount,bzhid,mc,lrdw)
-      {
-
+      getRyxx(currentPage,showCount,bzhid,mc,lrdw){
         if(currentPage==1){
           this.CurrentPage=1;
           this.tableData=[];this.TotalResult=0;
@@ -641,13 +647,12 @@ export default {
            "showCount":showCount,
            "bzhdzMc":this.bzhid,
            "year":this.lzyear,
-          "month":this.lzmonth,
-          'day':this.lzdate,
+           "month":this.lzmonth,
+           'day':this.lzdate,
            "lrdw":this.ssfj,
-
          };
           var url=this.Global.aport+"/zxdt/getLSZSDJXXRYList";
-         if(this.type=="C"){
+         if(this.mapList.type=="C"){
            p={
              "currentPage":currentPage,
              "showCount":showCount,
@@ -656,11 +661,9 @@ export default {
            };
            url=this.Global.aport+"/zxdt/getCZDJXXRYList";
          }
-
          this.$api.post(url, p,
            r => {
              if (r.success) {
-
                this.tableData=r.data.resultList;
                this.TotalResult=r.data.totalResult;
              }
@@ -672,7 +675,6 @@ export default {
        window.open(routeData.href,'_blank')
       },
       //后期匹配地址
-
       getXY(data, callback) {
         var url = this.Global.xyaddress + "?dz=" + data;
         let p = {
@@ -1469,6 +1471,11 @@ export default {
                  console.log(_this.aaDom);
             })
             createMapL(_this.mapList.lrdw,_this.mapList.lrdwmc,_this.mapList.rs,_this.mapList.type);
+            if(_this.mapList.type=="C"){
+              this.czshow=true;
+            }else {
+              this.czshow=false;
+            }
         })
       },
       ajFun(){

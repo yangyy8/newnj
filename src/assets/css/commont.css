@@ -158,7 +158,7 @@
      .tooltipm{
        width: 100px;
        position: absolute;
-       border: 1px solid #08D9F1;
+       border: 1px solid #03579D;
        padding: 5px;
        box-sizing: border-box;
        background-color: #09295F;
@@ -439,7 +439,7 @@
    .tooltipm{
      width: 100px;
      position: absolute;
-     border: 1px solid #08D9F1;
+     border: 1px solid #03579D;
      padding: 5px;
      box-sizing: border-box;
      background-color: #09295F;
@@ -645,8 +645,22 @@
   .t-screen{height: 100%;min-height: 768px;width: 100%;min-width: 1366px;font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
   background: url('../../assets/img/sg/bg.jpg') no-repeat; overflow: auto;
   background-size: 100%  100%;}
-  .t-screen .banner{padding-top: 73px;background: url('../../assets/img/sg/logo.png') no-repeat;background-size: 100%;}
+  .t-screen .banner{padding-top: 73px;background: url('../../assets/img/sg/logo.png') no-repeat;background-size: 100%;position: relative;}
   .t-screen .time{text-align: center;color: #FFFFFF;margin-top: -20px;font-size: 16px;}
+  .common-report{
+    display: inline-block;
+    width: 80px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    border: 1px solid #03579D;
+    border-radius: 10px;
+    color: #fff;
+    position: absolute;
+    top: 30px;
+    right: 50px;
+    font-size: 12px;
+  }
   /* 中间头部 */
   .content-head{
     display: flex;
@@ -739,7 +753,7 @@
      .tooltipm{
        width: 100px;
        position: absolute;
-       border: 1px solid #066EC3;
+       border: 1px solid #03579D;
        box-sizing: border-box;
        background-color: #09295F;
        border-radius: 5px;
