@@ -15,7 +15,7 @@
           <div class="h3_content" v-for="(c,ind3) in b.children" :key="ind3">
             <div v-if="!c.children">
               <div class="h3_2" :class="{'h3_2check':menuPath==c.url}" @click="checklast(c.url)"><i class="el-icon-caret-right" style="color:#a3a7a8"></i>{{c.mc}}</div>
-            </div> 
+            </div>
             <div v-if="c.children">
               <div class="h3_1" >{{c.mc}}</div>
               <el-row  :gutter="2">

@@ -476,9 +476,11 @@ import {
            'begin':that.pd1.begin==''?'':that.pd1.begin==null?null:that.pd1.begin,
            'end':that.pd1.end==''?'':that.pd1.end==null?null:that.pd1.end,
          };
-         p.SJD=params.name;
-         that.pdTu=p;
 
+         p.SJD=params.name;
+         p.LEGEND=params.seriesName;
+         that.pdTu=p;
+         console.log('p',that.pdTu);
          that.page=1;
          that.CurrentPage=1;
          that.getListTu(that.CurrentPage,that.pageSize,that.pdTu);
