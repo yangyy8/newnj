@@ -6,15 +6,11 @@ const xsd=80;
 const type=99;
 
 const indexstate=0;
-const aport="http://192.168.1.101:9420";//正式环境
-// const aport="api-reporter";//大师网关
+// const aport="http://192.168.1.101:9420";//正式环境
+const aport="api-reporter";//大师网关
 // const aport="http://10.0.30.161:9420";//大师
-// const aport1="api-permission";//大师网关
-<<<<<<< HEAD
-const aport1="http://192.168.3.217:9435";//大师
-=======
-const aport1="http://192.168.1.101:9435";//大师
->>>>>>> db982896617ddca4b59ad9fb58159f6e31612306
+const aport1="api-permission";//大师网关
+// const aport1="http://192.168.3.217:9435";//大师
 const aport2="api-yewu";//左星海网关
 // const aport2="http/://192.168.1.152:9420";//左星海
 const aport3="api-yewu";//石飞网关

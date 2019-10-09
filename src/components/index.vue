@@ -2,6 +2,7 @@
   <div class="bg">
 
     <div class="index_nav_1">
+    
       <div class="nav_1" :class="{'nav_1_check':nav1Id==a.dm}" v-for="(a,ind) in nav1" @mouseover="getNav(a,ind)">
         <i :class="a.icon" :style="{'color':color[ind]}"></i>
         <span>{{a.mc}}</span>
@@ -17,7 +18,7 @@
         <div class="index_nav3_box" :class="{'nav_3_check':nav3Id==c.dm}" v-for="(c,ind3) in nav3">
           <div v-if="!c.children">
             <router-link class="h3_2" :class="{'h3_2check':menuPath==c.url}" :to="{ name: c.url }"><i class="el-icon-caret-right" style="color:#a3a7a8"></i>{{c.mc}}</router-link>
-          </div> 
+          </div>
           <div v-if="c.children">
             <div class="h3_1" >{{c.mc}}</div>
             <el-row  :gutter="2">

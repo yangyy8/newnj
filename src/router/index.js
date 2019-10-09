@@ -45,7 +45,7 @@ export default new Router({
       path: '/Home',
       name: 'Home',
       meta: {logined:true},
-      component: resolve => require(['@/components/Home'], resolve),
+      component: resolve => require(['@/components/Homeoo'], resolve),
 
       children: [
         // 预警============================================================================================

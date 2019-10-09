@@ -29,16 +29,16 @@
                       <span class="yy-input-text"><font color=red>*</font> 住宿时间：</span>
                         <el-date-picker class="yy-input-input"
                            v-model="pd.beginTime" format="yyyy-MM-dd"
-                           type="date" size="small" value-format="yyyy/MM/dd"
-                           placeholder="开始时间" >
+                           type="date" size="small" value-format="yyyy-MM-dd"
+                           placeholder="开始时间">
                         </el-date-picker>
                   </el-col>
                   <el-col :span="24">
                       <span class="yy-input-text"></span>
                         <el-date-picker class="yy-input-input"
                             v-model="pd.endTime" format="yyyy-MM-dd"
-                            type="date" size="small" value-format="yyyy/MM/dd"
-                            placeholder="结束时间" >
+                            type="date" size="small" value-format="yyyy-MM-dd"
+                            placeholder="结束时间">
                         </el-date-picker>
                   </el-col>
                   <el-col :span="24">
@@ -399,8 +399,8 @@ export default {
           "qzzl":this.pd.qzzl,
           "gjdq":this.pd.gjdq,
           "tlsy":this.pd.tlsy,
-          "rzsjStart":this.pd.beginTime,
-          "rzsjEnd":this.pd.endTime,
+          "rzsjStart":formatDate(this.pd.beginTime,"yyyy/MM/dd"),
+          "rzsjEnd":formatDate(this.pd.endTime,"yyyy/MM/dd"),
           "zsbg":this.pd.zsbg,
           "likeBzhdzMc":this.pd.bzhdz,
           "ssfj":this.pd.ssfj.substr(0,6),
@@ -444,8 +444,8 @@ export default {
          "qzzl":this.pd.qzzl,
          "gjdq":this.pd.gjdq,
          "tlsy":this.pd.tlsy,
-         "rzsjStart":this.pd.beginTime,
-         "rzsjEnd":this.pd.endTime,
+         "rzsjStart":formatDate(this.pd.beginTime,"yyyy/MM/dd"),
+         "rzsjEnd":formatDate(this.pd.endTime,"yyyy/MM/dd"),
          "zsbg":this.pd.zsbg,
          "ssfj":this.pd.ssfj.substr(0,6),
          "tsy":this.pd.tsj

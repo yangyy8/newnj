@@ -5,7 +5,7 @@
 
       <div class="top-right">
         <div class="top-center">
-        <div v-for="(s,ind) in topData" :class="{'topbg topbg-a':s.dm==isA,'topbg':s.dm!=isA}" @click="">
+        <div v-for="(s,ind) in topData" :class="{'topbg topbg-a':s.mc==isA,'topbg':s.mc!=isA}" @click="getmemu(s.dm,s.mc)">
           {{s.mc}}
         </div>
         </div>
@@ -20,33 +20,35 @@
       </div>
     </el-header>
     <el-container class="main">
+
       <div class="newside_nav">
-        <div class="side_nav_item" v-for="(a,ind) in memuData" :key="ind">
-          <div class="h1 icon">
-            <span>{{a.mc}}</span>
-          </div>
-          <div class="h2" v-if="showArray[ind]" :class="{'h2checked':h2Id==b.dm}" v-for="(b,ind2) in a.children" :key="ind2" @mouseover="checkH2(b.dm)" @mouseout="h2Id=null">
-            <i :style="{'background':color[ind]}"></i>
-            <span  class="hand" style="font-size:15px; padding-left:10px;">● {{b.mc}}</span>
-            <div class="h3" v-if="h2Id==b.dm&&b.children.length">
-              <div class="h3_content" v-for="(c,ind3) in b.children" :key="ind3">
-                <div v-if="!c.children">
-                  <div class="h3_2" :class="{'h3_2check':menuPath==c.url}" @click="checklast(c.url)"><i class="el-icon-caret-right" style="color:#a3a7a8"></i>{{c.mc}}</div>
-                </div>
-                <div v-if="c.children">
-                  <div class="h3_1" >{{c.mc}}</div>
-                  <el-row  :gutter="2">
-                  <div @click="checklast(d.url)"  class="h3_2" :class="{'h3_2check':menuPath==d.url}" v-for="(d,ind4) in c.children" :key="ind4" >
-                      <el-col :span="11">
-                        <i class="el-icon-caret-right" style="color:#a3a7a8"></i>{{d.mc}}
-                      </el-col>
-                  </div>
-                  </el-row>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <div class="h1 icon1" v-if="isA=='预警研判'"><span>{{isA}}</span></div>
+        <div class="h1 icon2" v-if="isA=='数据分析'"><span>{{isA}}</span></div>
+        <div class="h1 icon3" v-if="isA=='日常管理'"><span>{{isA}}</span></div>
+        <div class="h1 icon4" v-if="isA=='系统管理'"><span>{{isA}}</span></div>
+
+
+        <el-menu
+            default-active="15"
+            class="el-menu-vertical-demo"
+            @open="handleOpen"
+            @close="handleClose"
+            background-color="#092A44"
+            text-color="#859396"
+            active-text-color="#ffd04b" unique-opened="true">
+            <el-submenu :index="ind" v-for="(a,ind) in memuData" :key="ind">
+              <template slot="title">
+                ●
+                <span style="color:#fff">{{a.mc}}</span>
+              </template>
+              <el-menu-item v-for="(b,ind2) in a.children" :key="ind2" :index="ind+'-'+ind2">
+              <div @click="checklast(b.url)" >   {{b.mc}} </div>
+              </el-menu-item>
+            </el-submenu>
+
+
+          </el-menu>
+
       </div>
       <!-- <NAV></NAV> -->
       <!-- <div class="rList">
@@ -96,7 +98,7 @@ export default {
       currentKey:{},
       checkeditem:null,
       topData:[],
-      isA:"02000000000",
+      isA:"",
       memuData:[],
       color:['#02ffd0','#e09144','#50c6ea'],
       showArray:[true,true,true,true],
@@ -138,6 +140,7 @@ export default {
     }
   },
   mounted() {
+
     if(this.$route.name!="Home"){
       if(this.$route.meta.father){
         this.$router.push({name:this.$route.meta.father})
@@ -146,13 +149,24 @@ export default {
         this.tabList.push(this.$route)
         this.tabListCheck=this.$route.name
       }
-
+      this.isA=this.$route.meta.title[0];
     }
+
     this.getname();
     this.getTOP();
-    this.getmemu();
+    this.getmemu("",this.isA);
   },
   methods: {
+    handleOpen(key, keyPath) {
+    console.log(key, keyPath);
+    },
+    handleClose(key, keyPath) {
+      console.log(key, keyPath);
+    },
+
+    checklast(url){
+        this.$router.push({name:url});
+    },
     getTOP(){
       var formData = new FormData();
       formData.append("token", this.$store.state.token);
@@ -166,10 +180,29 @@ export default {
          }
        });
     },
-    getmemu(){
+    getmemu(dm,mc){
+      this.isA=mc;
+      if(dm==""){
+        switch (mc) {
+          case "预警研判":
+            dm="02000000000";
+            break;
+          case "数据分析":
+            dm="04000000000";
+            break;
+          case "日常管理":
+            dm="03000000000";
+            break;
+          case "系统设置":
+            dm="01000000000";
+            break;
+          default:
+
+        }
+      }
       var formData = new FormData();
       formData.append("token", this.$store.state.token);
-      formData.append("menuid", '02000000000');
+      formData.append("menuid", dm);
       let p=formData;
       var url=this.Global.aport1+'/fun/getMyTopNavigation';
       this.$api.post(url, p,
@@ -264,6 +297,16 @@ export default {
 }
 </script>
 <style scoped>
+.h2{
+  color: #ffffff;
+  height: 32px;
+  position: relative;
+
+}
+.h2>span{
+  line-height: 32px;
+  vertical-align: top;
+}
 .el-header {
   padding: 18px 50px 30px 65px;
   display: flex;

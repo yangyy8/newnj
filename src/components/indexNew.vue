@@ -902,7 +902,7 @@ export default {
               itemStyle: {
                 normal: {
                     color:function(params){
-                      console.log('params====',_this.seriesData[0]);
+                      // console.log('params====',_this.seriesData[0]);
                       return _this.mapColor(params.data[7])
                     },
                     shadowBlur: 20,
