@@ -208,6 +208,13 @@
                     </el-date-picker>
                  </div>
                 </el-col>
+                <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
+                  <div class="gjcz">
+                    <el-checkbox-group v-model="checkedList">
+                      <el-checkbox v-for="item in checkItem" :label="item.code" :key="item.code" v-if="item.code=='SHIGUO'||item.code=='SANSHIYIGUO'">{{item.label}}</el-checkbox>
+                    </el-checkbox-group>
+                  </div>
+                </el-col>
               </el-row>
              </el-col>
                 <el-col :span="2" class="down-btn-area">
@@ -228,7 +235,7 @@
           </el-row>
           <div class="mb-15 t-tjCheck">
               <el-checkbox-group v-model="checkedList">
-                <el-checkbox v-for="item in checkItem" :label="item.code" :key="item.code">{{item.label}}</el-checkbox>
+                <el-checkbox v-for="item in checkItem" :label="item.code" :key="item.code" v-if="item.code!='SHIGUO'&&item.code!='SANSHIYIGUO'">{{item.label}}</el-checkbox>
               </el-checkbox-group>
           </div>
           <div v-if="falg">

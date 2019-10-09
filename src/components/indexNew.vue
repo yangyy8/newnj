@@ -34,9 +34,42 @@
     </div>
     <div class="" @mouseover="navShow=false">
       <div class="banner">
-        <!-- <div class="common-report">
+        <div class="common-report hand" @click="shortMenu">
           常用报表
-        </div> -->
+        </div>
+        <div class="arrow_content" v-show="bjShow">
+            <div class="arrow_box">
+                <div class="arrow"></div>
+                <div class="arrow_up"></div>
+            </div>
+            <div class="arrow_line" style="left: 2px; top: 2px; border-bottom-width: 0; border-right-width: 0"></div>
+            <div class="arrow_line" style="right: 2px; top: 2px; border-bottom-width: 0; border-left-width: 0"></div>
+            <div class="arrow_line" style="left: 2px; bottom: 2px; border-top-width: 0; border-right-width: 0"></div>
+            <div class="arrow_line" style="right: 2px; bottom: 2px; border-top-width: 0; border-left-width: 0"></div>
+            <div class="buttonpanel">
+               <el-button size="mini" @click="eidtMenu" v-show="menuSwitch">编辑</el-button>
+              <div v-show="!menuSwitch">
+                <el-button size="mini" @click="saveMenu">保存</el-button>
+                <el-button size="mini" @click="cancelMenu">取消</el-button>
+              </div>
+            </div>
+            <div style="width: 96%; margin: 0px auto; height: 340px; overflow: auto">
+              <div class="show-menu" v-show="menuSwitch">
+                <ul>
+                    <li v-for="(item,ind) in showMenuData" @click="$router.push({name:item.URL})" class="hand">{{item.MC}}</li>
+                </ul>
+                <div style="clear:both"></div>
+              </div>
+              <div class="all-menu" v-show="!menuSwitch">
+                <div v-for="(item,index) in dataList" class="menuClass">
+                  <div class="arrow_title">{{item.parentName}}</div>
+                  <el-checkbox-group v-model="checkedList">
+                    <el-checkbox v-for="val in item.child" :label="val.id" :key="val.id">{{val.mc}}</el-checkbox>
+                  </el-checkbox-group>
+                </div>
+              </div>
+            </div>
+        </div>
       </div>
       <div class="time">
         {{realTime}}
@@ -81,7 +114,7 @@
                   </el-col>
                   <el-col :span="12">
                     <div class="tabRight">
-                      <p class="tabTitle">反恐“防回流”10国人质</p>
+                      <p class="tabTitle">反恐“防回流”10国</p>
                       <ul class="tabContent" :class="{anim:animate==true}">
                         <li v-for="(item,index) in data1" class="tabC-li" :class="[(index+1)%2==0?'color-shu':'color-dan']">
                           <span class="tabC-sl">{{item.MC}}</span>
@@ -105,7 +138,7 @@
                 <div class="lzrq">
                   <div class="fun-choose">
                     <span @click="mapFun('L');page=0" class="tab-fun hand" style="border-right:1px solid #02C8E8">临住登记量</span>
-                    <span @click="mapFun('C');page=1" class="tab-fun hand">常住人员量</span>
+                    <span @click="mapFun('C');page=1" class="tab-fun hand" style="position:relative;z-index:999">常住人员量</span>
                   </div>
                   <div class="choose" v-show="page==0">
                     <el-select v-model="lzyear" size="medium" placeholder="年" clearable @change="mapFun">
@@ -165,7 +198,7 @@
                     <span  v-for="s in i.queuesum">
                       <span class="sz ml4">{{s}}</span>
                     </span>
-                    <span class="ci">次</span>
+                    <span class="ci">人</span>
                    </div>
                    <img src="../assets/img/sg/wd_1.png" width="48" v-if="ind==0">
                    <img src="../assets/img/sg/wd_2.png" width="48" v-if="ind==1">
@@ -403,6 +436,9 @@ export default {
       name:{
         'liuhe':'5000以下',
       },
+      shadowColor:{
+
+      },
       yjl:'',
       ajyjl:'',
       nav1Id:0,
@@ -441,6 +477,12 @@ export default {
       timer:null,
       page:0,
       realTime:'',
+      bjShow:false,
+      menuSwitch:true,
+
+      showMenuData:[],
+      dataList:[],
+      checkedList:[],
     }
   },
   mounted() {
@@ -568,6 +610,49 @@ export default {
       handClose(){
         this.aaDom.innerHTML='';
         this.mapDialogVisible=false;
+      },
+      shortMenu(n){
+        this.menuSwitch = true;
+        if(n==0){
+          this.bjShow = true;
+        }else{
+          this.bjShow = !this.bjShow;
+        }
+        this.$api.post(this.Global.aport+'/home/getCustomReport',{token:this.$store.state.token},
+         r =>{
+           if(r.success){
+             this.showMenuData = r.data;
+           }
+         })
+      },
+      eidtMenu(){
+        this.menuSwitch = !this.menuSwitch;
+        this.$api.post(this.Global.aport+'/home/getEditCustomReport',{token:this.$store.state.token},
+         r =>{
+           if(r.success){
+             this.dataList = r.data.dataList;
+             this.checkedList = r.data.checkList;
+           }
+         })
+      },
+      saveMenu(){
+        let p={
+          token:this.$store.state.token,
+          funids:this.checkedList
+        }
+        this.$api.post(this.Global.aport+'/home/updateCustomReport',p,
+         r =>{
+           if(r.success){
+             this.$message({
+                message: '保存成功',
+                type: 'success'
+             });
+             this.shortMenu(0);
+           }
+         })
+      },
+      cancelMenu(){
+        this.bjShow = false
       },
       //得到派出所
       getpcs(n,callback){
@@ -825,6 +910,7 @@ export default {
       },
       drawLine(data,legend,name){
         this.mapCenter = echarts.init(document.getElementById('home_map'));
+        var shadowColor='';
         //x, y, 名称， 数值， symbolSize
         // var seriesData = [
         //     [13, 27, '六合区', 12, 40],
@@ -852,7 +938,30 @@ export default {
                     this.seriesData[i][h][7] = data[j].level;
                     this.seriesData[i][h][8] = data[j].czvalue;
                     this.seriesData[i][h][9] = data[j].name;
+                    if(data[j].level==3){
+                      // 绿色3
+                      this.seriesData[i][h][10]='#55FE93';
+                      this.seriesData[i][h][11]='#39FF54';
+                      this.seriesData[i][h][12]='#2C916A';
+
+                    }
+                    else if(data[j].level==2){
+                      // 蓝色2
+                      this.seriesData[i][h][10]='#409AFE';
+                      this.seriesData[i][h][11]='#5581FF';
+                    }
+                    else if(data[j].level==1){
+                      // 黄色1
+                      this.seriesData[i][h][10]='#FE9554';
+                      this.seriesData[i][h][11]='#FC5435';
+                    }
+                    else if(data[j].level==0){
+                      // 红色0
+                      this.seriesData[i][h][10]='#ff5b60';
+                      this.seriesData[i][h][11]='#fe3a75';
+                    }
                 }
+
             }
           }
         }
@@ -896,18 +1005,24 @@ export default {
                   return v[4];
               },
               type: 'effectScatter',
+              // hoverAnimation:true,
               rippleEffect: {
-                  brushType: 'stroke'
+                  brushType: 'stroke', //stroke(涟漪)和fill(扩散)，两种效果:3
+                  scale:2
               },
               itemStyle: {
                 normal: {
                     color:function(params){
-                      console.log('params====',_this.seriesData[0]);
-                      return _this.mapColor(params.data[7])
+            					//颜色渐变，右/下/左/上，从下往上渐变
+                      console.log('===',params);
+            					return new echarts.graphic.LinearGradient(0,1,0,0,[
+            						{offset: 0,color: params.value[10]},
+            						{offset: 1,color: params.value[11]},
+            					])
                     },
-                    shadowBlur: 20,
-                    shadowColor: '#333'
-                }
+                    shadowBlur: 40,
+                    shadowColor: _this.seriesData[0][0][10],
+                },
               },
               label: {
                   normal: {
@@ -916,6 +1031,7 @@ export default {
                           return v.value[2];
                       },
                       fontSize: 10,
+                      fontWeight:'bolder',
                       rich: {
                           name: {
                               textBorderColor: '#fff'
@@ -932,17 +1048,22 @@ export default {
                 },
                 type: 'effectScatter',
                 rippleEffect: {
-                    brushType: 'stroke'
+                    brushType: 'stroke', //stroke(涟漪)和fill(扩散)，两种效果:3
+                    scale:2
                 },
                 itemStyle: {
                   normal: {
                       color:function(params){
-                        console.log('params====',params.data[7]);
-                        return _this.mapColor(params.data[7])
+              					//颜色渐变，右/下/左/上，从下往上渐变
+                        shadowColor = params.value[10]
+              					return new echarts.graphic.LinearGradient(0,1,0,0,[
+              						{offset: 0,color: params.value[10]},
+              						{offset: 1,color: params.value[11]},
+              					])
                       },
-                      shadowBlur: 20,
-                      shadowColor: '#333'
-                  }
+                      shadowBlur: 40,
+                      shadowColor: _this.seriesData[1][0][10]
+                  },
                 },
                 label: {
                     normal: {
@@ -967,17 +1088,21 @@ export default {
                   },
                   type: 'effectScatter',
                   rippleEffect: {
-                      brushType: 'stroke'
+                      brushType: 'stroke', //stroke(涟漪)和fill(扩散)，两种效果:3
+                      scale:2
                   },
                   itemStyle: {
                     normal: {
                         color:function(params){
-                          console.log('params====',params.data[7]);
-                          return _this.mapColor(params.data[7])
+                          //颜色渐变，右/下/左/上，从下往上渐变
+                          return new echarts.graphic.LinearGradient(0,1,0,0,[
+                            {offset: 0,color: params.value[10]},
+                            {offset: 1,color: params.value[11]},
+                          ])
                         },
-                        shadowBlur: 20,
-                        shadowColor: '#333'
-                    }
+                        shadowBlur: 40,
+                        shadowColor: _this.seriesData[2][0][10]
+                    },
                   },
                   label: {
                       normal: {
@@ -1002,17 +1127,21 @@ export default {
                     },
                     type: 'effectScatter',
                     rippleEffect: {
-                        brushType: 'stroke'
+                        brushType: 'stroke', //stroke(涟漪)和fill(扩散)，两种效果:3
+                        scale:2
                     },
                     itemStyle: {
                       normal: {
                           color:function(params){
-                            console.log('params====',params.data[7]);
-                            return _this.mapColor(params.data[7])
+                            //颜色渐变，右/下/左/上，从下往上渐变
+                            return new echarts.graphic.LinearGradient(0,1,0,0,[
+                              {offset: 0,color: params.value[10]},
+                              {offset: 1,color: params.value[11]},
+                            ])
                           },
-                          shadowBlur: 20,
-                          shadowColor: '#333'
-                      }
+                          shadowBlur: 40,
+                          shadowColor: _this.seriesData[3][0][10]
+                      },
                     },
                     label: {
                         normal: {
@@ -1037,17 +1166,21 @@ export default {
               },
               type: 'effectScatter',
               rippleEffect: {
-                  brushType: 'stroke'
+                  brushType: 'stroke', //stroke(涟漪)和fill(扩散)，两种效果:3
+                  scale:2
               },
               itemStyle: {
                 normal: {
                     color:function(params){
-                      console.log('params====',params.data[7]);
-                      return _this.mapColor(params.data[7])
+                      //颜色渐变，右/下/左/上，从下往上渐变
+                      return new echarts.graphic.LinearGradient(0,1,0,0,[
+                        {offset: 0,color: params.value[10]},
+                        {offset: 1,color: params.value[11]},
+                      ])
                     },
-                    shadowBlur: 20,
-                    shadowColor: '#333'
-                }
+                    shadowBlur: 40,
+                    shadowColor: _this.seriesData[4][0][10]
+                },
               },
               label: {
                   normal: {
@@ -1072,17 +1205,21 @@ export default {
                 },
                 type: 'effectScatter',
                 rippleEffect: {
-                    brushType: 'stroke'
+                    brushType: 'stroke', //stroke(涟漪)和fill(扩散)，两种效果:3
+                    scale:2
                 },
                 itemStyle: {
                   normal: {
                       color:function(params){
-                        console.log('params====',params.data[7]);
-                        return _this.mapColor(params.data[7])
+                        //颜色渐变，右/下/左/上，从下往上渐变
+                        return new echarts.graphic.LinearGradient(0,1,0,0,[
+                          {offset: 0,color: params.value[10]},
+                          {offset: 1,color: params.value[11]},
+                        ])
                       },
-                      shadowBlur: 20,
-                      shadowColor: '#333'
-                  }
+                      shadowBlur: 25,
+                      shadowColor: _this.seriesData[5][0][10]
+                  },
                 },
                 label: {
                     normal: {
@@ -1107,17 +1244,21 @@ export default {
                 },
                 type: 'effectScatter',
                 rippleEffect: {
-                    brushType: 'stroke'
+                    brushType: 'stroke', //stroke(涟漪)和fill(扩散)，两种效果:3
+                    scale:2
                 },
                 itemStyle: {
                   normal: {
                       color:function(params){
-                        console.log('params====',params.data[7]);
-                        return _this.mapColor(params.data[7])
+              					//颜色渐变，右/下/左/上，从下往上渐变
+              					return new echarts.graphic.LinearGradient(0,1,0,0,[
+              						{offset: 0,color: params.value[10]},
+              						{offset: 1,color: params.value[11]},
+              					])
                       },
                       shadowBlur: 20,
-                      shadowColor: '#333'
-                  }
+                      shadowColor: _this.seriesData[6][0][10]
+                  },
                 },
                 label: {
                     normal: {
@@ -1142,17 +1283,21 @@ export default {
                 },
                 type: 'effectScatter',
                 rippleEffect: {
-                    brushType: 'stroke'
+                    brushType: 'stroke', //stroke(涟漪)和fill(扩散)，两种效果:3
+                    scale:2
                 },
                 itemStyle: {
                   normal: {
                       color:function(params){
-                        console.log('params====',params.data[7]);
-                        return _this.mapColor(params.data[7])
+              					//颜色渐变，右/下/左/上，从下往上渐变
+              					return new echarts.graphic.LinearGradient(0,1,0,0,[
+              						{offset: 0,color: params.value[10]},
+              						{offset: 1,color: params.value[11]},
+              					])
                       },
                       shadowBlur: 20,
-                      shadowColor: '#333'
-                  }
+                      shadowColor: _this.seriesData[7][0][10]
+                  },
                 },
                 label: {
                     normal: {
@@ -1177,17 +1322,21 @@ export default {
                 },
                 type: 'effectScatter',
                 rippleEffect: {
-                    brushType: 'stroke'
+                    brushType: 'stroke', //stroke(涟漪)和fill(扩散)，两种效果:3
+                    scale:2
                 },
                 itemStyle: {
                   normal: {
                       color:function(params){
-                        console.log('params====',params.data[7]);
-                        return _this.mapColor(params.data[7])
+                        //颜色渐变，右/下/左/上，从下往上渐变
+                        return new echarts.graphic.LinearGradient(0,1,0,0,[
+                          {offset: 0,color: params.value[10]},
+                          {offset: 1,color: params.value[11]},
+                        ])
                       },
                       shadowBlur: 20,
-                      shadowColor: '#333'
-                  }
+                      shadowColor: _this.seriesData[8][0][10]
+                  },
                 },
                 label: {
                     normal: {
@@ -1212,17 +1361,21 @@ export default {
                 },
                 type: 'effectScatter',
                 rippleEffect: {
-                    brushType: 'stroke'
+                    brushType: 'stroke', //stroke(涟漪)和fill(扩散)，两种效果:3
+                    scale:2
                 },
                 itemStyle: {
                   normal: {
                       color:function(params){
-                        console.log('params====',params.data[7]);
-                        return _this.mapColor(params.data[7])
+              					//颜色渐变，右/下/左/上，从下往上渐变
+              					return new echarts.graphic.LinearGradient(0,1,0,0,[
+              						{offset: 0,color: params.value[10]},
+              						{offset: 1,color: params.value[11]},
+              					])
                       },
                       shadowBlur: 20,
-                      shadowColor: '#333'
-                  }
+                      shadowColor: _this.seriesData[9][0][10]
+                  },
                 },
                 label: {
                     normal: {
@@ -1247,17 +1400,21 @@ export default {
                 },
                 type: 'effectScatter',
                 rippleEffect: {
-                    brushType: 'stroke'
+                    brushType: 'stroke', //stroke(涟漪)和fill(扩散)，两种效果:3
+                    scale:2
                 },
                 itemStyle: {
                   normal: {
                       color:function(params){
-                        console.log('params====',params.data[7]);
-                        return _this.mapColor(params.data[7])
+                        //颜色渐变，右/下/左/上，从下往上渐变
+                        return new echarts.graphic.LinearGradient(0,1,0,0,[
+                          {offset: 0,color: params.value[10]},
+                          {offset: 1,color: params.value[11]},
+                        ])
                       },
                       shadowBlur: 20,
-                      shadowColor: '#333'
-                  }
+                      shadowColor: _this.seriesData[10][0][10]
+                  },
                 },
                 label: {
                     normal: {
@@ -1282,17 +1439,21 @@ export default {
                 },
                 type: 'effectScatter',
                 rippleEffect: {
-                    brushType: 'stroke'
+                    brushType: 'stroke', //stroke(涟漪)和fill(扩散)，两种效果:3
+                    scale:2
                 },
                 itemStyle: {
                   normal: {
                       color:function(params){
-                        console.log('params====',params.data[7]);
-                        return _this.mapColor(params.data[7])
+                        //颜色渐变，右/下/左/上，从下往上渐变
+                        return new echarts.graphic.LinearGradient(0,1,0,0,[
+                          {offset: 0,color: params.value[10]},
+                          {offset: 1,color: params.value[11]},
+                        ])
                       },
-                      shadowBlur: 20,
-                      shadowColor: '#333'
-                  }
+                      shadowBlur: 30,
+                      shadowColor: _this.seriesData[11][0][10]
+                  },
                 },
                 label: {
                     normal: {
@@ -1336,7 +1497,7 @@ export default {
         if(val==0){return '#91071a'};
         if(val==1){return '#f36334'};
         if(val==2){return '#c3a820'};
-        if(val==3){return '#40a047'};
+        if(val==3){return '#46FF7F'};
       },
       aaa(lzdata,czdata,lrdw,lrdwmc){
         this.mapCharts = echarts.init(document.getElementById('mapecharts'));
