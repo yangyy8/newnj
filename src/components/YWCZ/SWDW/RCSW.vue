@@ -71,7 +71,7 @@
             </div>
             <div v-if="$route.query.hiType=='rysh'">
               <div class="t-el-content del-pb"><div class="t-el-text">姓名：</div><div class="t-el-sub fw600">{{ryshinfo.XM}}</div></div>
-              <div class="t-el-content del-pb"><div class="t-el-text">性别：</div><div class="t-el-sub fw600">{{ryshinfo.XB}}</div></div>
+              <div class="t-el-content del-pb"><div class="t-el-text">性别：</div><div class="t-el-sub fw600">{{ryshinfo.XB_DESC}}</div></div>
               <div class="t-el-content del-pb"><div class="t-el-text">国籍：</div><div class="t-el-sub fw600">{{ryshinfo.GJDQ_DESC}}</div></div>
               <div class="t-el-content del-pb"><div class="t-el-text">单位名称：</div><div class="t-el-sub fw600">{{ryshinfo.SSDWMC}}</div></div>
               <div class="t-el-content del-pb"><div class="t-el-text">单位类别：</div><div class="t-el-sub fw600">{{ryshinfo.DWLB}}</div></div>
