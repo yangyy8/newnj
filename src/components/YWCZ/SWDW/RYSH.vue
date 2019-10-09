@@ -68,7 +68,7 @@
              label="姓名">
            </el-table-column>
            <el-table-column
-             prop="XB"
+             prop="XB_DESC"
              label="性别">
            </el-table-column>
            <el-table-column

@@ -828,6 +828,7 @@ export default {
       }
     },
     getPhoto(){
+      console.log('this.row.ID',this.row.ID);
       this.$api.post(this.Global.aport4+'/ES_SWDW_XT_USERShenHeController/getUSERDATABASEEntityByUSERID',{pd:{USERID:this.row.ID}},
         r => {
           if(r.success){
