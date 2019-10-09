@@ -224,6 +224,22 @@
             </el-option>
           </el-select>
         </el-col>
+        <el-col  :span="12" class="input-item">
+          <span class="input-text">布控时间段：</span>
+          <div class="input-input t-flex ">
+            <el-date-picker
+               v-model="editform.BKRQSTART" format="yyyy-MM-dd"
+               type="date" size="small" value-format="yyyy-MM-dd"
+               placeholder="开始时间" >
+            </el-date-picker>
+            <span class="septum">-</span>
+            <el-date-picker
+                v-model="editform.BKRQEND" format="yyyy-MM-dd"
+                type="date" size="small" value-format="yyyy-MM-dd"
+                placeholder="结束时间" >
+            </el-date-picker>
+         </div>
+        </el-col>
       </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
