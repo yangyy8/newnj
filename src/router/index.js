@@ -116,6 +116,12 @@ export default new Router({
           component: resolve => require(['@/components/YJYP/YJ/LZYJ/CZFWYHYJ_XQ'], resolve),
         },
         {
+          path: 'LZRYTJ',
+          name: 'LZRYTJ',
+          meta:{title:['日常管理','临住信息','临住人像统计']},
+          component: resolve => require(['@/components/YJYP/YJ/LZYJ/LZRYTJ'], resolve),
+        },
+        {
           path: '202TFZLYJ',
           name: '202TFZLYJ',
           meta:{title:['日常管理','常住信息','202表突发增量提醒']},

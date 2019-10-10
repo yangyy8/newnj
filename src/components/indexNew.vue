@@ -657,6 +657,7 @@ export default {
       },
       //得到派出所
       getpcs(n,callback){
+        console.log('this.mapList.type',this.mapList.type)
           var searchResult = [];
             let p={
               "lrdw":this.mapList.lrdw,
@@ -701,7 +702,7 @@ export default {
             "lrdw":n,
           };
           var url=this.Global.aport+"/zxdt/getLSZSDJXXBZHDZList";
-          if(this.type=="C"){
+          if(this.mapList.type=="C"){
             p={
               "ssfj":n,
             };
@@ -1649,6 +1650,7 @@ export default {
             console.log('====',params);
             if(params.name=='临住'||params.value=='临住'){_this.mapList.type="L",_this.mapList.rs=lzdata}
             if(params.name=='常住'||params.value=='常住'){_this.mapList.type="C",_this.mapList.rs=czdata}
+
             _this.lrdw = lrdw;
             _this.mapList.lrdw = lrdw;
             _this.mapList.lrdwmc = lrdwmc;

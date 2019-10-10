@@ -482,9 +482,9 @@
                 <span class="aImg-title">授权申请图片</span>
               </div>
               <div class="t-mt15 t-mb28">
-                <el-carousel height="400px" style="overflow-x:unset">
+                <el-carousel height="400px" style="overflow-x:unset;text-align:center">
                   <el-carousel-item v-for="(item,index) in imgArr" :key="index" v-if="imgshow1">
-                    <img  :src="item" style="height: 352px;width: 600px;">
+                    <img  :src="item.NR_DESC" style="height: 352px;width: 600px;">
                   </el-carousel-item>
                   <el-carousel-item v-if="!imgshow1" style="text-align:center">
                     <img  :src="imgURL" style="height: 352px;width: 600px;">
@@ -688,7 +688,7 @@ export default {
     }
   },
   mounted(){
-    this.getData();
+    // this.getData();
   },
   activated(){
     this.asjCurrentPage=1;
@@ -832,9 +832,7 @@ export default {
       this.$api.post(this.Global.aport4+'/ES_SWDW_XT_USERShenHeController/getUSERDATABASEEntityByUSERID',{pd:{USERID:this.row.ID}},
         r => {
           if(r.success){
-            if(r.data.resultList.length!=0){
-              this.imgArr=r.data.resultList[0].NR_DESC;
-            }
+            this.imgArr=r.data.resultList;
             this.imgArr.length==0?this.imgshow1=false:this.imgshow1=true;
           }
       })
