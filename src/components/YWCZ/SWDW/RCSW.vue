@@ -1049,17 +1049,19 @@ export default {
 
     },
     shSaves(){
-      if(this.pc.SHBZ=="" || this.pc.SHBZ==undefined){
+      if(this.shpc.SHNR=="" || this.shpc.SHNR==undefined){
         this.$alert('审核结果不能为空！', '提示', {
           confirmButtonText: '确定',
         });
         return;
       }
       let p={
-        ID:this.row.ID,
-        SHZT:this.shpc.SHZT,
-        SHNR:this.shpc.SHNR,
-        CLR:this.withname,
+        pd:{
+          ID:this.row.ID,
+          SHZT:this.shpc.SHZT,
+          SHNR:this.shpc.SHNR,
+          CLR:this.withname,
+        }
       }
       this.$api.post(this.Global.aport4+'/ES_SWDW_XT_USERShenHeController/saveSHJG', p,
         r => {

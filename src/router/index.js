@@ -24,6 +24,11 @@ export default new Router({
     component:resolve => require(['@/components/index'], resolve),
     },
     {
+    path:'/indexNew1',
+    name:'IndexNew1',
+    component:resolve => require(['@/components/indexNew1'], resolve),
+    },
+    {
     path:'/homemap',
     name:'Homemap',
     meta: {logined:true},
@@ -120,6 +125,12 @@ export default new Router({
           name: 'LZRYTJ',
           meta:{title:['日常管理','临住信息','临住人像统计']},
           component: resolve => require(['@/components/YJYP/YJ/LZYJ/LZRYTJ'], resolve),
+        },
+        {
+          path: 'LZRYTJLB',
+          name: 'LZRYTJLB',
+          meta:{title:['日常管理','临住信息','临住人像统计'],father:'LZRYTJ'},
+          component: resolve => require(['@/components/YJYP/YJ/LZYJ/LZRYTJLB'], resolve),
         },
         {
           path: '202TFZLYJ',

@@ -37,7 +37,7 @@
          <el-col :span="4" >
            <el-button type="success" size="small" @click="getList(pd,deepCli)" class="mb-15 tt-mr10">查询</el-button>
            <el-button type="info" size="small" @click="$router.go(-1)" class="mb-15 tt-mr10">返回</el-button>
-           <el-button type="warning" size="small" @click="download" class="mb-15">导出</el-button>
+           <el-button type="warning" size="small" @click="download(pd,deepCli)" class="mb-15">导出</el-button>
          </el-col>
         </el-row>
     </div>
@@ -59,28 +59,28 @@
              prop="zrs"
              label="总人数">
              <template slot-scope="scope">
-               <span class="sb" @click="toLink (scope.row,'jsts')">{{scope.row.zrs}}</span>
+               <span class="sb" @click="toLink (pd,scope.row,'zrs')">{{scope.row.zrs}}</span>
              </template>
            </el-table-column>
            <el-table-column
              prop="rxz"
              label="人像照数">
              <template slot-scope="scope">
-               <span class="sb" @click="toLink (scope.row,'cgts')" >{{scope.row.rxz}}</span>
+               <span class="sb" @click="toLink (pd,scope.row,'rxz')" >{{scope.row.rxz}}</span>
              </template>
            </el-table-column>
            <el-table-column
              prop="frxz"
              label="非人像照数">
              <template slot-scope="scope">
-               <span class="sb" @click="toLink (scope.row,'rgsbts')" >{{scope.row.frxz}}</span>
+               <span class="sb" @click="toLink (pd,scope.row,'frxz')" >{{scope.row.frxz}}</span>
              </template>
            </el-table-column>
            <el-table-column
              prop="qrxz"
              label="缺人像照数">
              <template slot-scope="scope">
-                <span class="sb" @click="toLink (scope.row,'sbzts')">{{scope.row.qrxz}}</span>
+                <span class="sb" @click="toLink (pd,scope.row,'qrxz')">{{scope.row.qrxz}}</span>
              </template>
            </el-table-column>
          </el-table>
@@ -143,27 +143,52 @@ export default {
           }
         })
     },
-    toLink(i,type){
-      var btime=this.pd.beginTime;
-      var etime=this.pd.endTime;
-      if(this.pd.beginTime!='' && this.pd.beginTime!=undefined)
-        {
-          btime=this.pd.beginTime+"000000";
-        }
-      if(this.pd.endTime!='' && this.pd.endTime!=undefined)
-        {
-          etime=this.pd.endTime+"235959";
-        }
+    toLink(pd,deepCli,type){
         let p={
-           "beginTime":btime,
-           "endTime":etime,
-           "ssfjmc":i.fj,
-           "sblx":type,
-           "operatorId":this.$store.state.uid,
-           "operatorNm":this.$store.state.uname,
+            beginDate:pd.beginDate,
+            endDate:pd.endDate,
+            bgList:pd.bgList,
+
+            level:deepCli.level,
+            dw:deepCli.dwbm,
+            type:deepCli.dw=='合计'?deepCli.type='1':deepCli.type='0',
+            list:deepCli.dw=='合计'?deepCli.list=deepCli.hjList:[],
+            lx:type,
         }
-        this.$router.push({name: 'LZSJHE',query:{ cdt:p}});
-    }
+        this.$router.push({name:'LZRYTJLB',query:{row:p}});
+    },
+    download(pd,deepCli){
+      let p = {
+        pd:{
+          beginDate:pd.beginDate,
+      		endDate:pd.endDate,
+      		bgList:pd.bgList,
+
+          level:deepCli.level,
+      		dw:deepCli.dwbm,
+      		type:deepCli.dw=='合计'?deepCli.type='1':deepCli.type='0',
+          list:deepCli.dw=='合计'?deepCli.list=deepCli.hjList:[],
+        },
+        userCode:this.$store.state.uid,
+        userName:this.$store.state.uname,
+      };
+      this.$api.post(this.Global.aport3+'/rxtj/exportRxData',p,
+        r =>{
+          this.downloadM(r,'临住人像统计列表');
+        },e=>{},{},'blob')
+    },
+    downloadM (data,name) {
+        if (!data) {
+            return
+        }
+        let url = window.URL.createObjectURL(new Blob([data],{type:"application/xls"}))
+        let link = document.createElement('a')
+        link.style.display = 'none'
+        link.href = url
+        link.setAttribute('download', name+this.format(new Date(),'yyyyMMddhhmmss')+'.xls')
+        document.body.appendChild(link)
+        link.click()
+    },
 
   }
 }
