@@ -37,39 +37,41 @@
         <div class="common-report hand" @click="shortMenu">
           常用报表
         </div>
-        <div class="arrow_content" v-show="bjShow">
-            <div class="arrow_box">
-                <div class="arrow"></div>
-                <div class="arrow_up"></div>
-            </div>
-            <div class="arrow_line" style="left: 2px; top: 2px; border-bottom-width: 0; border-right-width: 0"></div>
-            <div class="arrow_line" style="right: 2px; top: 2px; border-bottom-width: 0; border-left-width: 0"></div>
-            <div class="arrow_line" style="left: 2px; bottom: 2px; border-top-width: 0; border-right-width: 0"></div>
-            <div class="arrow_line" style="right: 2px; bottom: 2px; border-top-width: 0; border-left-width: 0"></div>
-            <div class="buttonpanel">
-               <el-button size="mini" @click="eidtMenu" v-show="menuSwitch">编辑</el-button>
-              <div v-show="!menuSwitch">
-                <el-button size="mini" @click="saveMenu">保存</el-button>
-                <el-button size="mini" @click="cancelMenu">取消</el-button>
+        <transition name="el-zoom-in-top">
+          <div class="arrow_content" v-show="bjShow">
+              <div class="arrow_box">
+                  <div class="arrow"></div>
+                  <div class="arrow_up"></div>
               </div>
-            </div>
-            <div style="width: 96%; margin: 0px auto; height: 340px; overflow: auto">
-              <div class="show-menu" v-show="menuSwitch">
-                <ul>
-                    <li v-for="(item,ind) in showMenuData" @click="$router.push({name:item.URL})" class="hand">{{item.MC}}</li>
-                </ul>
-                <div style="clear:both"></div>
-              </div>
-              <div class="all-menu" v-show="!menuSwitch">
-                <div v-for="(item,index) in dataList" class="menuClass">
-                  <div class="arrow_title">{{item.parentName}}</div>
-                  <el-checkbox-group v-model="checkedList">
-                    <el-checkbox v-for="val in item.child" :label="val.id" :key="val.id">{{val.mc}}</el-checkbox>
-                  </el-checkbox-group>
+              <div class="arrow_line" style="left: 2px; top: 2px; border-bottom-width: 0; border-right-width: 0"></div>
+              <div class="arrow_line" style="right: 2px; top: 2px; border-bottom-width: 0; border-left-width: 0"></div>
+              <div class="arrow_line" style="left: 2px; bottom: 2px; border-top-width: 0; border-right-width: 0"></div>
+              <div class="arrow_line" style="right: 2px; bottom: 2px; border-top-width: 0; border-left-width: 0"></div>
+              <div class="buttonpanel">
+                 <el-button size="mini" @click="eidtMenu" v-show="menuSwitch">编辑</el-button>
+                <div v-show="!menuSwitch">
+                  <el-button size="mini" @click="saveMenu">保存</el-button>
+                  <el-button size="mini" @click="cancelMenu">取消</el-button>
                 </div>
               </div>
-            </div>
-        </div>
+              <div class="buttonMenu">
+                <div class="show-menu" v-show="menuSwitch">
+                  <ul>
+                      <li v-for="(item,ind) in showMenuData" @click="$router.push({name:item.URL})" class="hand">{{item.MC}}</li>
+                  </ul>
+                  <div style="clear:both"></div>
+                </div>
+                <div class="all-menu" v-show="!menuSwitch">
+                  <div v-for="(item,index) in dataList" class="menuClass">
+                    <div class="arrow_title">{{item.parentName}}</div>
+                    <el-checkbox-group v-model="checkedList">
+                      <el-checkbox v-for="val in item.child" :label="val.id" :key="val.id">{{val.mc}}</el-checkbox>
+                    </el-checkbox-group>
+                  </div>
+                </div>
+              </div>
+          </div>
+        </transition>
       </div>
       <div class="time">
         {{realTime}}
@@ -141,7 +143,7 @@
                     <span @click="mapFun('C');page=1" class="tab-fun hand" style="position:relative;z-index:999">常住人员量</span>
                   </div>
                   <div class="choose" v-show="page==0">
-                    <el-select v-model="lzyear" size="medium" placeholder="年" clearable @change="mapFun">
+                    <el-select v-model="lzyear" size="small" placeholder="年" clearable @change="mapFun">
                       <el-option
                         v-for="(item,ind) in years"
                         :key="ind"
@@ -149,7 +151,7 @@
                         :value="item">
                       </el-option>
                     </el-select>
-                    <el-select v-model="lzquarter" size="medium" placeholder="季度" v-show="false">
+                    <el-select v-model="lzquarter" size="small" placeholder="季度" v-show="false">
                       <el-option
                         v-for="(item,ind) in quarters"
                         :key="ind"
@@ -157,7 +159,7 @@
                         :value="item">
                       </el-option>
                     </el-select>
-                    <el-select v-model="lzmonth" size="medium" placeholder="月" @visible-change='monthFun' clearable @change="mapFun">
+                    <el-select v-model="lzmonth" size="small" placeholder="月" @visible-change='monthFun' clearable @change="mapFun">
                       <el-option
                         v-for="(item,ind) in months"
                         :key="ind"
@@ -165,7 +167,7 @@
                         :value="item">
                       </el-option>
                     </el-select>
-                    <el-select v-model="lzdate" size="medium" placeholder="日" @visible-change='dayFun' style="z-index: 999" clearable @change="mapFun">
+                    <el-select v-model="lzdate" size="small" placeholder="日" @visible-change='dayFun' style="z-index: 999" clearable @change="mapFun">
                       <el-option
                         v-for="(item,ind) in dates"
                         :key="ind"
@@ -177,9 +179,11 @@
                 </div>
                 <div id="mapall">
                   <div id="home_map" class="zuobiao"></div>
-                  <div class = "chart tooltipm" v-show="isShow" :class="claname" id="tt">
-                    <div id = "mapecharts" style = "width: 100%;height:80px"></div>
-                  </div>
+                  <transition name="el-fade-in-linear">
+                    <div class = "chart tooltipm" v-show="isShow" :class="claname" id="tt">
+                      <div id = "mapecharts" style = "width: 100%;height:80px"></div>
+                    </div>
+                  </transition>
                 </div>
             </div>
           </div>
@@ -435,9 +439,6 @@ export default {
       yjList:[],
       name:{
         'liuhe':'5000以下',
-      },
-      shadowColor:{
-
       },
       yjl:'',
       ajyjl:'',
@@ -940,10 +941,8 @@ export default {
                     this.seriesData[i][h][9] = data[j].name;
                     if(data[j].level==3){
                       // 绿色3
-                      this.seriesData[i][h][10]='#55FE93';
-                      this.seriesData[i][h][11]='#39FF54';
-                      this.seriesData[i][h][12]='#2C916A';
-
+                      this.seriesData[i][h][10]='#56e4c1';
+                      this.seriesData[i][h][11]='#3ee28d';
                     }
                     else if(data[j].level==2){
                       // 蓝色2
@@ -1005,33 +1004,34 @@ export default {
                   return v[4];
               },
               type: 'effectScatter',
-              // hoverAnimation:true,
+              hoverAnimation:true,
               rippleEffect: {
                   brushType: 'stroke', //stroke(涟漪)和fill(扩散)，两种效果:3
-                  scale:2
+                  scale:1.7
               },
               itemStyle: {
                 normal: {
                     color:function(params){
             					//颜色渐变，右/下/左/上，从下往上渐变
                       console.log('===',params);
-            					return new echarts.graphic.LinearGradient(0,1,0,0,[
+            					return new echarts.graphic.LinearGradient(0,0,1,1,[
             						{offset: 0,color: params.value[10]},
             						{offset: 1,color: params.value[11]},
             					])
                     },
-                    shadowBlur: 40,
-                    shadowColor: _this.seriesData[0][0][10],
+                    shadowBlur: 18,
+                    shadowColor: _this.seriesData[0][0][11],
                 },
               },
               label: {
                   normal: {
                       show: true,
+                      color:'#fff',
                       formatter: function(v) {
                           return v.value[2];
                       },
                       fontSize: 10,
-                      fontWeight:'bolder',
+                      fontWeight:'bold',
                       rich: {
                           name: {
                               textBorderColor: '#fff'
@@ -1043,35 +1043,38 @@ export default {
             {//江宁
                 name:name['jiangning'],
                 data: _this.seriesData[1],
+                hoverAnimation:true,
                 symbolSize: function (v) {
                     return v[4];
                 },
                 type: 'effectScatter',
                 rippleEffect: {
                     brushType: 'stroke', //stroke(涟漪)和fill(扩散)，两种效果:3
-                    scale:2
+                    scale:1.7
                 },
                 itemStyle: {
                   normal: {
                       color:function(params){
               					//颜色渐变，右/下/左/上，从下往上渐变
                         shadowColor = params.value[10]
-              					return new echarts.graphic.LinearGradient(0,1,0,0,[
+              					return new echarts.graphic.LinearGradient(0,0,1,1,[
               						{offset: 0,color: params.value[10]},
               						{offset: 1,color: params.value[11]},
               					])
                       },
-                      shadowBlur: 40,
-                      shadowColor: _this.seriesData[1][0][10]
+                      shadowBlur: 18,
+                      shadowColor: _this.seriesData[1][0][11]
                   },
                 },
                 label: {
                     normal: {
                         show: true,
+                        color:'#fff',
                         formatter: function(v) {
                             return v.value[2];
                         },
                         fontSize: 10,
+                        fontWeight:'bold',
                         rich: {
                             name: {
                                 textBorderColor: '#fff'
@@ -1083,34 +1086,37 @@ export default {
             {//浦口
                   name:name['pukou'],
                   data: _this.seriesData[2],
+                  hoverAnimation:true,
                   symbolSize: function (v) {
                       return v[4];
                   },
                   type: 'effectScatter',
                   rippleEffect: {
                       brushType: 'stroke', //stroke(涟漪)和fill(扩散)，两种效果:3
-                      scale:2
+                      scale:1.7
                   },
                   itemStyle: {
                     normal: {
                         color:function(params){
                           //颜色渐变，右/下/左/上，从下往上渐变
-                          return new echarts.graphic.LinearGradient(0,1,0,0,[
+                          return new echarts.graphic.LinearGradient(0,0,1,1,[
                             {offset: 0,color: params.value[10]},
                             {offset: 1,color: params.value[11]},
                           ])
                         },
-                        shadowBlur: 40,
-                        shadowColor: _this.seriesData[2][0][10]
+                        shadowBlur: 18,
+                        shadowColor: _this.seriesData[2][0][11]
                     },
                   },
                   label: {
                       normal: {
                           show: true,
+                          color:'#fff',
                           formatter: function(v) {
                               return v.value[2];
                           },
                           fontSize: 10,
+                          fontWeight:'bold',
                           rich: {
                               name: {
                                   textBorderColor: '#fff'
@@ -1122,30 +1128,33 @@ export default {
             {//溧水
                     name:name['lishui'],
                     data: _this.seriesData[3],
+                    hoverAnimation:true,
                     symbolSize: function (v) {
                         return v[4];
                     },
                     type: 'effectScatter',
                     rippleEffect: {
                         brushType: 'stroke', //stroke(涟漪)和fill(扩散)，两种效果:3
-                        scale:2
+                        scale:1.7
                     },
                     itemStyle: {
                       normal: {
                           color:function(params){
                             //颜色渐变，右/下/左/上，从下往上渐变
-                            return new echarts.graphic.LinearGradient(0,1,0,0,[
+                            return new echarts.graphic.LinearGradient(0,0,1,1,[
                               {offset: 0,color: params.value[10]},
                               {offset: 1,color: params.value[11]},
                             ])
                           },
-                          shadowBlur: 40,
-                          shadowColor: _this.seriesData[3][0][10]
+                          shadowBlur: 18,
+                          shadowColor: _this.seriesData[3][0][11]
                       },
                     },
                     label: {
                         normal: {
                             show: true,
+                            color:'#fff',
+                            fontWeight:'bold',
                             formatter: function(v) {
                                 return v.value[2];
                             },
@@ -1161,30 +1170,33 @@ export default {
             {//高淳
               name:name['gaochun'],
               data: _this.seriesData[4],
+              hoverAnimation:true,
               symbolSize: function (v) {
                   return v[4];
               },
               type: 'effectScatter',
               rippleEffect: {
                   brushType: 'stroke', //stroke(涟漪)和fill(扩散)，两种效果:3
-                  scale:2
+                  scale:1.7
               },
               itemStyle: {
                 normal: {
                     color:function(params){
                       //颜色渐变，右/下/左/上，从下往上渐变
-                      return new echarts.graphic.LinearGradient(0,1,0,0,[
+                      return new echarts.graphic.LinearGradient(0,0,1,1,[
                         {offset: 0,color: params.value[10]},
                         {offset: 1,color: params.value[11]},
                       ])
                     },
-                    shadowBlur: 40,
-                    shadowColor: _this.seriesData[4][0][10]
+                    shadowBlur: 18,
+                    shadowColor: _this.seriesData[4][0][11]
                 },
               },
               label: {
                   normal: {
                       show: true,
+                      color:'#fff',
+                      fontWeight:'bold',
                       formatter: function(v) {
                           return v.value[2];
                       },
@@ -1200,30 +1212,33 @@ export default {
             {//栖霞
                 name:name['qixia'],
                 data: _this.seriesData[5],
+                hoverAnimation:true,
                 symbolSize: function (v) {
                     return v[4];
                 },
                 type: 'effectScatter',
                 rippleEffect: {
                     brushType: 'stroke', //stroke(涟漪)和fill(扩散)，两种效果:3
-                    scale:2
+                    scale:1.7
                 },
                 itemStyle: {
                   normal: {
                       color:function(params){
                         //颜色渐变，右/下/左/上，从下往上渐变
-                        return new echarts.graphic.LinearGradient(0,1,0,0,[
+                        return new echarts.graphic.LinearGradient(0,0,1,1,[
                           {offset: 0,color: params.value[10]},
                           {offset: 1,color: params.value[11]},
                         ])
                       },
-                      shadowBlur: 25,
-                      shadowColor: _this.seriesData[5][0][10]
+                      shadowBlur: 10,
+                      shadowColor: _this.seriesData[5][0][11]
                   },
                 },
                 label: {
                     normal: {
                         show: true,
+                        color:'#fff',
+                        fontWeight:'bold',
                         formatter: function(v) {
                             return v.value[2];
                         },
@@ -1239,30 +1254,33 @@ export default {
             {//雨花台
                 name:name['yuhua'],
                 data: _this.seriesData[6],
+                hoverAnimation:true,
                 symbolSize: function (v) {
                     return v[4];
                 },
                 type: 'effectScatter',
                 rippleEffect: {
                     brushType: 'stroke', //stroke(涟漪)和fill(扩散)，两种效果:3
-                    scale:2
+                    scale:1.7
                 },
                 itemStyle: {
                   normal: {
                       color:function(params){
               					//颜色渐变，右/下/左/上，从下往上渐变
-              					return new echarts.graphic.LinearGradient(0,1,0,0,[
+              					return new echarts.graphic.LinearGradient(0,0,1,1,[
               						{offset: 0,color: params.value[10]},
               						{offset: 1,color: params.value[11]},
               					])
                       },
-                      shadowBlur: 20,
-                      shadowColor: _this.seriesData[6][0][10]
+                      shadowBlur: 10,
+                      shadowColor: _this.seriesData[6][0][11]
                   },
                 },
                 label: {
                     normal: {
                         show: true,
+                        color:'#fff',
+                        fontWeight:'bold',
                         formatter: function(v) {
                             return v.value[2];
                         },
@@ -1278,30 +1296,33 @@ export default {
             {//鼓楼
                 name:name['gulou'],
                 data: _this.seriesData[7],
+                hoverAnimation:true,
                 symbolSize: function (v) {
                     return v[4];
                 },
                 type: 'effectScatter',
                 rippleEffect: {
                     brushType: 'stroke', //stroke(涟漪)和fill(扩散)，两种效果:3
-                    scale:2
+                    scale:1.7
                 },
                 itemStyle: {
                   normal: {
                       color:function(params){
               					//颜色渐变，右/下/左/上，从下往上渐变
-              					return new echarts.graphic.LinearGradient(0,1,0,0,[
+              					return new echarts.graphic.LinearGradient(0,0,1,1,[
               						{offset: 0,color: params.value[10]},
               						{offset: 1,color: params.value[11]},
               					])
                       },
-                      shadowBlur: 20,
-                      shadowColor: _this.seriesData[7][0][10]
+                      shadowBlur: 10,
+                      shadowColor: _this.seriesData[7][0][11]
                   },
                 },
                 label: {
                     normal: {
                         show: true,
+                        color:'#fff',
+                        fontWeight:'bold',
                         formatter: function(v) {
                             return v.value[2];
                         },
@@ -1317,34 +1338,37 @@ export default {
             {//玄武
                 name:name['xuanwu'],
                 data: _this.seriesData[8],
+                hoverAnimation:true,
                 symbolSize: function (v) {
                     return v[4];
                 },
                 type: 'effectScatter',
                 rippleEffect: {
                     brushType: 'stroke', //stroke(涟漪)和fill(扩散)，两种效果:3
-                    scale:2
+                    scale:1.7
                 },
                 itemStyle: {
                   normal: {
                       color:function(params){
                         //颜色渐变，右/下/左/上，从下往上渐变
-                        return new echarts.graphic.LinearGradient(0,1,0,0,[
+                        return new echarts.graphic.LinearGradient(0,0,1,1,[
                           {offset: 0,color: params.value[10]},
                           {offset: 1,color: params.value[11]},
                         ])
                       },
-                      shadowBlur: 20,
-                      shadowColor: _this.seriesData[8][0][10]
+                      shadowBlur: 10,
+                      shadowColor: _this.seriesData[8][0][11]
                   },
                 },
                 label: {
                     normal: {
                         show: true,
+                        color:'#fff',
                         formatter: function(v) {
                             return v.value[2];
                         },
                         fontSize: 10,
+                        fontWeight:'bold',
                         rich: {
                             name: {
                                 textBorderColor: '#fff'
@@ -1356,30 +1380,33 @@ export default {
             {//建邺
                 name:name['jianye'],
                 data: _this.seriesData[9],
+                hoverAnimation:true,
                 symbolSize: function (v) {
                     return v[4];
                 },
                 type: 'effectScatter',
                 rippleEffect: {
                     brushType: 'stroke', //stroke(涟漪)和fill(扩散)，两种效果:3
-                    scale:2
+                    scale:1.7
                 },
                 itemStyle: {
                   normal: {
                       color:function(params){
               					//颜色渐变，右/下/左/上，从下往上渐变
-              					return new echarts.graphic.LinearGradient(0,1,0,0,[
+              					return new echarts.graphic.LinearGradient(0,0,1,1,[
               						{offset: 0,color: params.value[10]},
               						{offset: 1,color: params.value[11]},
               					])
                       },
-                      shadowBlur: 20,
-                      shadowColor: _this.seriesData[9][0][10]
+                      shadowBlur: 10,
+                      shadowColor: _this.seriesData[9][0][11]
                   },
                 },
                 label: {
                     normal: {
                         show: true,
+                        color:'#fff',
+                        fontWeight:'bold',
                         formatter: function(v) {
                             return v.value[2];
                         },
@@ -1395,30 +1422,34 @@ export default {
             {//秦淮
                 name:name['qihuai'],
                 data: _this.seriesData[10],
+                hoverAnimation:true,
+                hoverAnimation:true,
                 symbolSize: function (v) {
                     return v[4];
                 },
                 type: 'effectScatter',
                 rippleEffect: {
                     brushType: 'stroke', //stroke(涟漪)和fill(扩散)，两种效果:3
-                    scale:2
+                    scale:1.7
                 },
                 itemStyle: {
                   normal: {
                       color:function(params){
                         //颜色渐变，右/下/左/上，从下往上渐变
-                        return new echarts.graphic.LinearGradient(0,1,0,0,[
+                        return new echarts.graphic.LinearGradient(0,0,1,1,[
                           {offset: 0,color: params.value[10]},
                           {offset: 1,color: params.value[11]},
                         ])
                       },
-                      shadowBlur: 20,
-                      shadowColor: _this.seriesData[10][0][10]
+                      shadowBlur: 10,
+                      shadowColor: _this.seriesData[10][0][11]
                   },
                 },
                 label: {
                     normal: {
                         show: true,
+                        color:'#fff',
+                        fontWeight:'bold',
                         formatter: function(v) {
                             return v.value[2];
                         },
@@ -1434,30 +1465,33 @@ export default {
             {//江北
                 name:name['jiangbei'],
                 data: _this.seriesData[11],
+                hoverAnimation:true,
                 symbolSize: function (v) {
                     return v[4];
                 },
                 type: 'effectScatter',
                 rippleEffect: {
                     brushType: 'stroke', //stroke(涟漪)和fill(扩散)，两种效果:3
-                    scale:2
+                    scale:1.7
                 },
                 itemStyle: {
                   normal: {
                       color:function(params){
                         //颜色渐变，右/下/左/上，从下往上渐变
-                        return new echarts.graphic.LinearGradient(0,1,0,0,[
+                        return new echarts.graphic.LinearGradient(0,0,1,1,[
                           {offset: 0,color: params.value[10]},
                           {offset: 1,color: params.value[11]},
                         ])
                       },
-                      shadowBlur: 30,
-                      shadowColor: _this.seriesData[11][0][10]
+                      shadowBlur: 15,
+                      shadowColor: _this.seriesData[11][0][11]
                   },
                 },
                 label: {
                     normal: {
                         show: true,
+                        color:'#fff',
+                        fontWeight:'bold',
                         formatter: function(v) {
                             return v.value[2];
                         },
@@ -1479,19 +1513,15 @@ export default {
           _this.claname = params.value[6];
           _this.isShow=true;
           _this.aaa(params.value[3],params.value[8],params.value[5],params.value[2]);
-          console.log('===========',params.value[2]);
         })
         var mapCan = document.getElementById('mapall');
-        mapCan.onmouseleave = function (e) {
-          // console.log(e.target.lastChild.id)
-          if(e.target.lastChild.id=='tt'){
-            // console.log('鼠标离开',e);
-           _this.isShow=false;
-          }
-        }
-        // mapCan.on('mouseout',function(){
-        //     _this.isShow=false;
-        // })
+         mapCan.onmouseleave = function (e) {
+           console.log(e.target.lastChild.id,e.target.firstChild.id)
+           if(e.target.lastChild.id=='tt'||e.target.firstChild.id=='home_map'){
+             // console.log('鼠标离开',e);
+            _this.isShow=false;
+           }
+         }
       },
       mapColor(val){
         if(val==0){return '#91071a'};
