@@ -11,9 +11,9 @@
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                     <span class="input-text">接收单位：</span>
-                    <el-select v-model="pd.JSDWBH" filterable clearable multiple collapse-tags default-first-option placeholder="请选择"  size="small" class="input-input" @visible-change="getDw">
+                    <el-select v-model="pd.JSDWBH" filterable clearable multiple collapse-tags default-first-option placeholder="请选择"  size="small" class="input-input" :filter-method="userFilter">
                       <el-option
-                        v-for="(item,index) in dwList"
+                        v-for="(item,index) in dwdata"
                         :key="index"
                         :label="item.ZZJGDM+' - '+item.DWZWMC"
                         :value="item.ZZJGDM">
@@ -119,9 +119,9 @@
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="input-text w-ts">接收单位：</span>
-            <el-select v-model="form.JSDWBH" filterable clearable multiple collapse-tags default-first-option placeholder="请选择"  size="small" class="input-input" @visible-change="getDw">
+            <el-select v-model="form.JSDWBH" filterable clearable multiple collapse-tags default-first-option placeholder="请选择"  size="small" class="input-input" :filter-method="userFilter">
               <el-option
-                v-for="(item,index) in dwList"
+                v-for="(item,index) in dwdata"
                 :key="index"
                 :label="item.ZZJGDM+' - '+item.DWZWMC"
                 :value="item.ZZJGDM">
@@ -238,7 +238,8 @@ export default {
       selectionAll:[],
       yuid:[],
       selectionReal:[],
-      dwList:[],
+      dwdata:[],
+      dwList:{},
       form:{},
       dform:{},
       addDialogVisible:false,
@@ -267,6 +268,7 @@ export default {
     this.userName=this.$store.state.uid;
     this.orgName=this.$store.state.orgname;
     this.orgCode=this.$store.state.orgid
+    this.getDw();
   },
   methods: {
     getDw(){
@@ -280,14 +282,15 @@ export default {
     },
     userFilter(query = '') {
              let arr = this.dwList.filter((item) => {
-              if(item.mc!=undefined){
+              console.log(item.DWZWMC);
+              if(item.DWZWMC!=undefined){
                   return item.DWZWMC.includes(query)
                }
              })
              if (arr.length > 50) {
-               this.JSDWBH = arr.slice(0, 50)
+               this.dwdata = arr.slice(0, 50)
              } else {
-               this.JSDWBH= arr
+               this.dwdata= arr
              }
            },
     addNew(){
