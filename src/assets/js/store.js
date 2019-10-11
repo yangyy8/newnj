@@ -20,6 +20,10 @@ var store = new Vuex.Store({
     orgid: localStorage.getItem('ORGID') || '',
     type: localStorage.getItem('Type') || '',
     juState:localStorage.getItem('juState') || '',
+    imgHeightOne:localStorage.getItem('imgHeightOne') || 0,
+    imgHeightTwo:localStorage.getItem('imgHeightTwo') || 0,
+    imgHeightThr:localStorage.getItem('imgHeightThr') || 0,
+    imgHeightFor:localStorage.getItem('imgHeightFor') || 0,
     key: {},
     key2:'',
     ssdw: [],
@@ -72,6 +76,22 @@ var store = new Vuex.Store({
     sqlb:'',
   },
   mutations: {
+    getOne(state,data){
+      localStorage.setItem('imgHeightOne', data);
+      state.imgHeightOne = data;
+    },
+    getTwo(state,data){
+      localStorage.setItem('imgHeightTwo', data);
+      state.imgHeightTwo = data;
+    },
+    getThr(state,data){
+      localStorage.setItem('imgHeightThr', data);
+      state.imgHeightThr = data;
+    },
+    getFor(state,data){
+      localStorage.setItem('imgHeightFor', data);
+      state.imgHeightFor = data;
+    },
     getJuS(state,data){
       localStorage.setItem('juState', data);
       state.juState = data;

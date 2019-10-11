@@ -33,6 +33,6 @@ export default {
 @import "assets/css/commony.css";
 @import "assets/css/commont.css";
 @import "assets/css/commonhy.css";
-/* @import "assets/css/tingting.css"; */
+@import "assets/css/tingting.css";
 @import "assets/css/yangyy.css";
 </style>

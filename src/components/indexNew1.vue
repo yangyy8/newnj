@@ -80,7 +80,7 @@
       <el-row :gutter="3">
         <el-col :span="6"  style="">
              <div class="bgline1 tu4">
-                <img src="../assets/img/sg/frame_1.png" class="img1">
+                <img src="../assets/img/sg/frame_1.png" class="img1" ref="ajC">
                 <div class="title gradient-text-one">
                   案件6个月变化量
                 </div>
@@ -89,20 +89,20 @@
                 </div>
              </div>
 
-             <div class="bgline1 tu4">
-                <img src="../assets/img/sg/frame_1.png" class="img1">
+             <div class="bgline1 tu4 tu-mt">
+                <img src="../assets/img/sg/frame_2.png" class="img1">
                 <div class="title gradient-text-one">
                   常住人员身份分析
                 </div>
                 <div class="tb1">
                   <img src="../assets/img/sg/tb1.png" class="cz-img">
-                   <ul class="huan huan-font">
+                   <ul class="huan huan-font huan-li">
                       <li :class="{'color1':index==0,'color2':index==1,'color3':index==2,'color4':index==3,'color5':index==4}" v-for="(item,index) in czList">{{item}}</li>
                    </ul>
                 </div>
              </div>
-             <div class="bgline11 tu3">
-                <img src="../assets/img/sg/frame_11.png" class="img4">
+             <div class="bgline11 tu3 tu-mt">
+                <img src="../assets/img/sg/frame_21.png" class="img4">
                 <div class="title gradient-text-one">
                   重点国家人员
                 </div>
@@ -143,8 +143,8 @@
             <div class="map">
                 <div class="lzrq">
                   <div class="fun-choose">
-                    <span @click="mapFun('L');page=0" class="tab-fun hand" style="border-right:1px solid #02C8E8">临住登记量</span>
-                    <span @click="mapFun('C');page=1" class="tab-fun hand" style="position:relative;z-index:999">常住人员量</span>
+                    <span @click="mapFun('L');page=0" :class="{'checktab':page==0}" class="tab-fun hand" style="position:relative;z-index:999;border-right:1px solid #02C8E8">临住登记量</span
+                    ><span @click="mapFun('C');page=1" :class="{'checktab':page==1}" class="tab-fun hand" style="position:relative;z-index:999">常住人员量</span>
                   </div>
                   <div class="choose" v-show="page==0">
                     <el-select v-model="lzyear" size="small" placeholder="年" clearable @change="mapFun">
@@ -219,7 +219,7 @@
         </el-col>
         <el-col :span="6">
           <div class="bgline2 tu4">
-             <img src="../assets/img/sg/frame_2.png" class="img4">
+             <img src="../assets/img/sg/frame_2.png" class="img4" ref="lzC">
              <div class="title gradient-text-one">
                临住6个月变化量
              </div>
@@ -227,8 +227,8 @@
                <div id = "lzecharts" style = "width: 100%" class="tu4-4"></div>
              </div>
           </div>
-          <div class="bgline2 tu4">
-             <img src="../assets/img/sg/frame_2.png" class="img4">
+          <div class="bgline2 tu4 tu-mt">
+             <img src="../assets/img/sg/frame_2.png" class="img4" ref='zgC'>
              <div class="title gradient-text-one">
                中管6个月办理量
              </div>
@@ -236,8 +236,8 @@
                <div id = "zgecharts" style = "width: 100%"></div>
              </div>
           </div>
-          <div class="bgline21 tu3">
-             <img src="../assets/img/sg/frame_21.png" class="img4">
+          <div class="bgline21 tu3 tu-mt">
+             <img src="../assets/img/sg/frame_21.png" class="img4" ref='jtC'>
              <div class="title gradient-text-one">
                居留、停留6个月签发量
              </div>
@@ -389,8 +389,10 @@ export default {
       lzdate:'',
       mapList:{},
       screenWidth: document.body.clientWidth,
-      imgHeightOne:0,
-      imgHeightTwo:0,
+      imgHeightOne:this.$store.state.imgHeightOne,
+      imgHeightTwo:this.$store.state.imgHeightTwo,
+      imgHeightThr:this.$store.state.imgHeightThr,
+      imgHeightFor:this.$store.state.imgHeightFor,
       data:[
         {
           gj:'阿尔及利亚',
@@ -503,17 +505,21 @@ export default {
        this.Global.indexstate=0;
        window.location.reload();
      }
-
-
      this.getNavmune();
      const that = this
      window.onresize = () => {
         return (() => {
             window.screenWidth = document.body.clientWidth
             that.screenWidth = window.screenWidth
-            that.imgHeightOne=document.getElementsByClassName("tu4")[0].offsetHeight;
-            that.imgHeightTwo=document.getElementsByClassName("tu3")[1].offsetHeight;
-            console.log('that.imgHeightOne',that.imgHeightOne);
+            that.imgHeightOne=that.$refs.ajC.offsetHeight;
+            that.imgHeightTwo=that.$refs.lzC.offsetHeight;
+            that.imgHeightThr=that.$refs.zgC.offsetHeight;
+            that.imgHeightFor=that.$refs.jtC.offsetHeight;
+            that.$store.commit('getOne',that.imgHeightOne);
+            that.$store.commit('getTwo',that.imgHeightTwo);
+            that.$store.commit('getThr',that.imgHeightThr);
+            that.$store.commit('getFor',that.imgHeightFor);
+            console.log('mounted',that.imgHeightOne,that.imgHeightTwo,that.imgHeightThr,that.imgHeightFor);
         })()
      }
     if(this.screenWidth<1550){
@@ -570,12 +576,7 @@ export default {
     this.aaa();
     this.pdjhFun();
   },
-  activated(){
-    this.$nextTick(()=>{
-      this.imgHeightOne=document.getElementsByClassName("tu4")[0].offsetHeight
-      document.getElementById("lzecharts").style.height=this.imgHeightOne+'px';
-    })
-  },
+  activated(){},
   watch: {
       screenWidth (val) {
           this.screenWidth = val;
@@ -618,20 +619,24 @@ export default {
           this.ajFun();
       },
       imgHeightOne(val){
-        document.getElementById("lzecharts").style.height=(val-10)+'px';
-        document.getElementById("zgecharts").style.height=(val-10)+'px';
-        document.getElementById("ajecharts").style.height=(val)+'px';
-        console.log('height',document.getElementById("lzecharts").style.height);
+        document.getElementById("ajecharts").style.height=(val-20)+'px';
       },
       imgHeightTwo(val){
+        document.getElementById("lzecharts").style.height=(val-20)+'px';
+      },
+      imgHeightThr(val){
+        document.getElementById("zgecharts").style.height=(val-20)+'px';
+      },
+      imgHeightFor(val){
         document.getElementById("jtecharts").style.height=(val)+'px';
-      }
+      },
   },
   created(){
       setInterval(this.scroll,2000);
       setInterval(this.scrollt,2000);
       this.timer=setInterval(this.scrollYj,2000);
       setInterval(this.realTimeFun,1000);
+
   },
   methods:{
       realTimeFun(){
@@ -1721,7 +1726,8 @@ export default {
               },
           },
           legend: {
-              y:_this.ajyjl,
+              // y:_this.ajyjl,
+              bottom:10,
               type: 'scroll',
               data: legend,
               textStyle:{
@@ -1742,8 +1748,6 @@ export default {
           grid: {
             x:70,
             y:5,
-
-            // containLabel: true
           },
           xAxis:  {
               type: 'value',
@@ -2240,6 +2244,25 @@ export default {
         this.zgFun();
         this.jtFun();
         this.mapFun();
+        this.$nextTick(()=>{
+          if(this.imgHeightTwo==0){
+            this.imgHeightOne=this.$refs.ajC.offsetHeight;
+            this.imgHeightTwo=this.$refs.lzC.offsetHeight;
+            this.imgHeightThr=this.$refs.zgC.offsetHeight;
+            this.imgHeightFor=this.$refs.jtC.offsetHeight;
+          }
+          document.getElementById("lzecharts").style.height=(this.imgHeightTwo-20)+'px';
+          document.getElementById("zgecharts").style.height=(this.imgHeightThr-20)+'px';
+          document.getElementById("ajecharts").style.height=(this.imgHeightOne-20)+'px';
+          document.getElementById("jtecharts").style.height=(this.imgHeightFor)+'px';
+          this.$store.commit('getOne',this.imgHeightOne);
+          this.$store.commit('getTwo',this.imgHeightTwo);
+          this.$store.commit('getThr',this.imgHeightThr);
+          this.$store.commit('getFor',this.imgHeightFor);
+          // console.log(document.getElementById("lzecharts"),document.getElementById("zgecharts"),document.getElementById("ajecharts"),document.getElementById("jtecharts"))
+          console.log(this.imgHeightTwo-20,this.imgHeightThr-20,this.imgHeightOne-20,this.imgHeightFor);
+        })
+
         // this.drawAjchart();
         // this.drawLzchart();
         // this.drawZgchart();
@@ -2251,6 +2274,16 @@ export default {
           this.zgCharts.resize();
           this.jtCharts.resize();
           this.mapCenter.resize();
+          this.$nextTick(()=>{
+            this.imgHeightOne=this.$refs.ajC.offsetHeight;
+            this.imgHeightTwo=this.$refs.lzC.offsetHeight;
+            this.imgHeightThr=this.$refs.zgC.offsetHeight;
+            this.imgHeightFor=this.$refs.jtC.offsetHeight;
+            document.getElementById("lzecharts").style.height=(this.imgHeightTwo-20)+'px';
+            document.getElementById("zgecharts").style.height=(this.imgHeightThr-20)+'px';
+            document.getElementById("ajecharts").style.height=(this.imgHeightOne-20)+'px';
+            document.getElementById("jtecharts").style.height=(this.imgHeightFor)+'px';
+          })
         });
       },
   },
