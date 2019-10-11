@@ -9,7 +9,7 @@
                   案件6个月变化量
               </div>
               <div class = "chart" style="width:100%">
-                <div id = "ajecharts" style = "width: 100%"></div>
+                <div id = "ajecharts" style = "width: 100%; height:280px;top:35px;"></div>
               </div>
            </div>
            <div class="bgline1" style="height:296px;margin-top:14px;">
@@ -91,7 +91,7 @@
              临住6个月变化量
            </div>
            <div class = "chart" style="width:100%">
-             <div id = "lzecharts" style = "width: 100%"></div>
+             <div id = "lzecharts" style = "width: 100%;height:280px;top:35px;"></div>
            </div>
         </div>
         <div class="bgline2" style="height:296px;margin-top:14px;">
@@ -99,7 +99,7 @@
              中管6个月办理量
            </div>
            <div class = "chart" style="width:100%">
-             <div id = "zgecharts" style = "width: 100%;"></div>
+             <div id = "zgecharts" style = "width: 100%;height:280px;top:35px;"></div>
            </div>
         </div>
         <div class="bgline21" style="height:255px;margin-top:14px;">
@@ -107,7 +107,7 @@
              居留、停留6个月签发量
            </div>
            <div class = "chart" style="width:100%">
-             <div id = "jtecharts" style = "width: 100%;"></div>
+             <div id = "jtecharts" style = "width: 100%;height:240px;top:35px;"></div>
            </div>
         </div>
       </el-col>
