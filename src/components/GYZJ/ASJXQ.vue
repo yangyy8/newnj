@@ -955,10 +955,11 @@ export default {
 
   },
   mounted() {
-
+   this.getJB();
   },
   methods: {
     getJB(){
+      console.log("this.$store.state.orgid",this.$store.state.orgid);
       let p = {
         "currentPage": 1,
         "showCount": 10,
@@ -966,7 +967,8 @@ export default {
       };
       this.$api.post(this.Global.aport4+'/LRDWController/getMCAndJBByDM', p,
         r => {
-          this.jb=r.data.JB
+          console.log('r.data.JB',r.data[0].JB);
+          this.jb=r.data[0].JB
         })
     },
     pageSizeChange1(val) {
@@ -1148,9 +1150,9 @@ export default {
     chuli() {
         if(this.jb=="2"){
 
-          if(this.pd.CLJG=="" || this.pd.CLJG==undefined)
+          if(this.pd.FJYJ=="" || this.pd.FJYJ==undefined)
           {
-            this.$alert('甄别结果不能为空！', '提示', {
+            this.$alert('分局调查意见不能为空！', '提示', {
               confirmButtonText: '确定',
             });
             return;
@@ -1158,9 +1160,9 @@ export default {
          this.pcl.CLJG=this.pd.FJYJ;
          this.pcl.CLZT="2";
         }else if(this.jb=="4"){
-          if(this.pd.CLJG=="" || this.pd.CLJG==undefined)
+          if(this.pd.ZDYJ=="" || this.pd.ZDYJ==undefined)
           {
-            this.$alert('甄别结果不能为空！', '提示', {
+            this.$alert('支队处理意见不能为空！', '提示', {
               confirmButtonText: '确定',
             });
             return;
@@ -1168,7 +1170,6 @@ export default {
           this.pcl.CLJG=this.pd.ZDYJ;
           this.pcl.CLZT="0";
         }else {
-          
           if(this.pd.CLJG=="" || this.pd.CLJG==undefined)
           {
             this.$alert('甄别结果不能为空！', '提示', {
@@ -1178,8 +1179,6 @@ export default {
           }
          this.pcl.CLJG=this.pd.CLJG;
       }
-
-
       this.pcl.YJID=this.row.YJID;
       this.pcl.CLDW=this.$store.state.orgid;
       this.pcl.CLR=this.withname;

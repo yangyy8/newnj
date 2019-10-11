@@ -79,26 +79,30 @@
       <div class="main">
       <el-row :gutter="3">
         <el-col :span="6"  style="">
-             <div class="bgline1 tu1">
+             <div class="bgline1 tu4">
+                <img src="../assets/img/sg/frame_1.png" class="img1" ref="ajC">
                 <div class="title gradient-text-one">
                   案件6个月变化量
                 </div>
-                <div class = "chart" style="width:100%">
-                  <div id = "ajecharts" style = "width: 100%" class="tu1-1"></div>
+                <div class = "chart1" style="width:100%">
+                  <div id = "ajecharts" style = "width: 100%"></div>
                 </div>
              </div>
 
-             <div class="bgline1 tu2">
+             <div class="bgline1 tu4 tu-mt">
+                <img src="../assets/img/sg/frame_2.png" class="img1">
                 <div class="title gradient-text-one">
                   常住人员身份分析
                 </div>
                 <div class="tb1">
-                     <ul class="huan">
-                        <li :class="{'color1':index==0,'color2':index==1,'color3':index==2,'color4':index==3,'color5':index==4}" v-for="(item,index) in czList">{{item}}</li>
-                     </ul>
+                  <img src="../assets/img/sg/tb1.png" class="cz-img">
+                   <ul class="huan huan-font huan-li">
+                      <li :class="{'color1':index==0,'color2':index==1,'color3':index==2,'color4':index==3,'color5':index==4}" v-for="(item,index) in czList">{{item}}</li>
+                   </ul>
                 </div>
              </div>
-             <div class="bgline11 tu3">
+             <div class="bgline11 tu3 tu-mt">
+                <img src="../assets/img/sg/frame_21.png" class="img4">
                 <div class="title gradient-text-one">
                   重点国家人员
                 </div>
@@ -139,8 +143,8 @@
             <div class="map">
                 <div class="lzrq">
                   <div class="fun-choose">
-                    <span @click="mapFun('L');page=0" class="tab-fun hand" style="border-right:1px solid #02C8E8">临住登记量</span>
-                    <span @click="mapFun('C');page=1" class="tab-fun hand" style="position:relative;z-index:999">常住人员量</span>
+                    <span @click="mapFun('L');page=0" :class="{'checktab':page==0}" class="tab-fun hand" style="position:relative;z-index:999;border-right:1px solid #02C8E8">临住登记量</span
+                    ><span @click="mapFun('C');page=1" :class="{'checktab':page==1}" class="tab-fun hand" style="position:relative;z-index:999">常住人员量</span>
                   </div>
                   <div class="choose" v-show="page==0">
                     <el-select v-model="lzyear" size="small" placeholder="年" clearable @change="mapFun">
@@ -177,7 +181,8 @@
                     </el-select>
                   </div>
                 </div>
-                <div id="mapall">
+                <div id="mapall" class="map-all">
+                  <img src="../assets/img/sg/map2.png" alt="" class="map-img">
                   <div id="home_map" class="zuobiao"></div>
                   <transition name="el-fade-in-linear">
                     <div class = "chart tooltipm" v-show="isShow" :class="claname" id="tt">
@@ -214,27 +219,30 @@
         </el-col>
         <el-col :span="6">
           <div class="bgline2 tu4">
+             <img src="../assets/img/sg/frame_2.png" class="img4" ref="lzC">
              <div class="title gradient-text-one">
                临住6个月变化量
              </div>
-             <div class = "chart" style="width:100%">
+             <div class = "chart4" style="width:100%">
                <div id = "lzecharts" style = "width: 100%" class="tu4-4"></div>
              </div>
           </div>
-          <div class="bgline2 tu5">
+          <div class="bgline2 tu4 tu-mt">
+             <img src="../assets/img/sg/frame_2.png" class="img4" ref='zgC'>
              <div class="title gradient-text-one">
                中管6个月办理量
              </div>
-             <div class = "chart" style="width:100%">
-               <div id = "zgecharts" style = "width: 100%;" class="tu5-5"></div>
+             <div class = "chart4" style="width:100%;">
+               <div id = "zgecharts" style = "width: 100%"></div>
              </div>
           </div>
-          <div class="bgline21 tu6">
+          <div class="bgline21 tu3 tu-mt">
+             <img src="../assets/img/sg/frame_21.png" class="img4" ref='jtC'>
              <div class="title gradient-text-one">
                居留、停留6个月签发量
              </div>
-             <div class = "chart" style="width:100%">
-               <div id = "jtecharts" style = "width: 100%;" class="tu6-6"></div>
+             <div class = "chart4" style="width:100%;height:100%">
+               <div id = "jtecharts" style = "width: 100%;height:100%"></div>
              </div>
           </div>
         </el-col>
@@ -381,6 +389,10 @@ export default {
       lzdate:'',
       mapList:{},
       screenWidth: document.body.clientWidth,
+      imgHeightOne:this.$store.state.imgHeightOne,
+      imgHeightTwo:this.$store.state.imgHeightTwo,
+      imgHeightThr:this.$store.state.imgHeightThr,
+      imgHeightFor:this.$store.state.imgHeightFor,
       data:[
         {
           gj:'阿尔及利亚',
@@ -499,22 +511,31 @@ export default {
         return (() => {
             window.screenWidth = document.body.clientWidth
             that.screenWidth = window.screenWidth
+            that.imgHeightOne=that.$refs.ajC.offsetHeight;
+            that.imgHeightTwo=that.$refs.lzC.offsetHeight;
+            that.imgHeightThr=that.$refs.zgC.offsetHeight;
+            that.imgHeightFor=that.$refs.jtC.offsetHeight;
+            that.$store.commit('getOne',that.imgHeightOne);
+            that.$store.commit('getTwo',that.imgHeightTwo);
+            that.$store.commit('getThr',that.imgHeightThr);
+            that.$store.commit('getFor',that.imgHeightFor);
+            console.log('mounted',that.imgHeightOne,that.imgHeightTwo,that.imgHeightThr,that.imgHeightFor);
         })()
      }
     if(this.screenWidth<1550){
       this.seriesData=[
-                        [[11, 28, '六合区', 12, 28]],
-                        [[10, 13, '江宁区', 10, 28]],
-                        [[4, 18, '浦口区', 10, 28]],
-                        [[15, 7, '溧水区', 10, 28]],
-                        [[15, 0, '高淳区', 10, 28]],
-                        [[12, 21, '栖霞区', 10, 20]],
+                        [[13, 27, '六合区', 12, 28]],
+                        [[11, 13, '江宁区', 10, 28]],
+                        [[3, 18, '浦口区', 10, 28]],
+                        [[18, 7, '溧水区', 10, 28]],
+                        [[15, 1, '高淳区', 10, 28]],
+                        [[11, 22, '栖霞区', 10, 20]],
                         [[7, 16, '雨花台区', 10, 15]],
-                        [[9, 20, '鼓楼区', 10, 13]],
-                        [[10.5, 19, '玄武区', 10, 13]],
-                        [[8, 18, '建邺区', 10, 13]],
-                        [[10, 18, '秦淮区', 10, 13]],
-                        [[8, 23.5, '江北新区', 10, 25]]
+                        [[10, 20, '鼓楼区', 10, 13]],
+                        [[13, 21, '玄武区', 10, 13]],
+                        [[8.5, 18, '建邺区', 10, 13]],
+                        [[11.5, 19, '秦淮区', 10, 13]],
+                        [[9, 23, '江北新区', 10, 25]]
                     ];
       this.yjl='370px';
       this.ajyjl="155px";
@@ -561,18 +582,18 @@ export default {
           this.screenWidth = val;
           if(this.screenWidth<1550){
             this.seriesData=[
-                            [[11, 28, '六合区', 12, 28]],
-                            [[10, 13, '江宁区', 10, 28]],
-                            [[4, 18, '浦口区', 10, 28]],
-                            [[15, 7, '溧水区', 10, 28]],
-                            [[15, 0, '高淳区', 10, 28]],
-                            [[12, 21, '栖霞区', 10, 20]],
-                            [[7, 16, '雨花台区', 10, 15]],
-                            [[9, 20, '鼓楼区', 10, 13]],
-                            [[10.5, 19, '玄武区', 10, 13]],
-                            [[8, 18, '建邺区', 10, 13]],
-                            [[10, 18, '秦淮区', 10, 13]],
-                            [[8, 23.5, '江北新区', 10, 25]]
+                              [[13, 27, '六合区', 12, 28]],
+                              [[11, 13, '江宁区', 10, 28]],
+                              [[3, 18, '浦口区', 10, 28]],
+                              [[18, 7, '溧水区', 10, 28]],
+                              [[15, 1, '高淳区', 10, 28]],
+                              [[11, 22, '栖霞区', 10, 20]],
+                              [[7, 16, '雨花台区', 10, 15]],
+                              [[10, 20, '鼓楼区', 10, 13]],
+                              [[13, 21, '玄武区', 10, 13]],
+                              [[8.5, 18, '建邺区', 10, 13]],
+                              [[11.5, 19, '秦淮区', 10, 13]],
+                              [[9, 23, '江北新区', 10, 25]]
                           ];
             this.yjl='370px';
             this.ajyjl="155px";
@@ -596,13 +617,26 @@ export default {
           }
           this.mapFun();
           this.ajFun();
-      }
+      },
+      imgHeightOne(val){
+        document.getElementById("ajecharts").style.height=(val-20)+'px';
+      },
+      imgHeightTwo(val){
+        document.getElementById("lzecharts").style.height=(val-20)+'px';
+      },
+      imgHeightThr(val){
+        document.getElementById("zgecharts").style.height=(val-20)+'px';
+      },
+      imgHeightFor(val){
+        document.getElementById("jtecharts").style.height=(val)+'px';
+      },
   },
   created(){
       setInterval(this.scroll,2000);
       setInterval(this.scrollt,2000);
       this.timer=setInterval(this.scrollYj,2000);
       setInterval(this.realTimeFun,1000);
+
   },
   methods:{
       realTimeFun(){
@@ -1014,7 +1048,7 @@ export default {
                 normal: {
                     color:function(params){
             					//颜色渐变，右/下/左/上，从下往上渐变
-                      console.log('===',params);
+                      // console.log('===',params);
             					return new echarts.graphic.LinearGradient(0,0,1,1,[
             						{offset: 0,color: params.value[10]},
             						{offset: 1,color: params.value[11]},
@@ -1517,7 +1551,7 @@ export default {
         })
         var mapCan = document.getElementById('mapall');
          mapCan.onmouseleave = function (e) {
-           console.log(e.target.lastChild.id,e.target.firstChild.id)
+           // console.log(e.target.lastChild.id,e.target.firstChild.id)
            if(e.target.lastChild.id=='tt'||e.target.firstChild.id=='home_map'){
              // console.log('鼠标离开',e);
             _this.isShow=false;
@@ -1647,7 +1681,7 @@ export default {
         },true)
         _this.mapCharts.off('click');
         _this.mapCharts.on('click',function(params){
-            console.log('====',params);
+            // console.log('====',params);
             if(params.name=='临住'||params.value=='临住'){_this.mapList.type="L",_this.mapList.rs=lzdata}
             if(params.name=='常住'||params.value=='常住'){_this.mapList.type="C",_this.mapList.rs=czdata}
 
@@ -1692,7 +1726,8 @@ export default {
               },
           },
           legend: {
-              y:_this.ajyjl,
+              // y:_this.ajyjl,
+              bottom:10,
               type: 'scroll',
               data: legend,
               textStyle:{
@@ -1713,8 +1748,6 @@ export default {
           grid: {
             x:70,
             y:5,
-
-            // containLabel: true
           },
           xAxis:  {
               type: 'value',
@@ -2211,6 +2244,25 @@ export default {
         this.zgFun();
         this.jtFun();
         this.mapFun();
+        this.$nextTick(()=>{
+          if(this.imgHeightTwo==0){
+            this.imgHeightOne=this.$refs.ajC.offsetHeight;
+            this.imgHeightTwo=this.$refs.lzC.offsetHeight;
+            this.imgHeightThr=this.$refs.zgC.offsetHeight;
+            this.imgHeightFor=this.$refs.jtC.offsetHeight;
+          }
+          document.getElementById("lzecharts").style.height=(this.imgHeightTwo-20)+'px';
+          document.getElementById("zgecharts").style.height=(this.imgHeightThr-20)+'px';
+          document.getElementById("ajecharts").style.height=(this.imgHeightOne-20)+'px';
+          document.getElementById("jtecharts").style.height=(this.imgHeightFor)+'px';
+          this.$store.commit('getOne',this.imgHeightOne);
+          this.$store.commit('getTwo',this.imgHeightTwo);
+          this.$store.commit('getThr',this.imgHeightThr);
+          this.$store.commit('getFor',this.imgHeightFor);
+          // console.log(document.getElementById("lzecharts"),document.getElementById("zgecharts"),document.getElementById("ajecharts"),document.getElementById("jtecharts"))
+          console.log(this.imgHeightTwo-20,this.imgHeightThr-20,this.imgHeightOne-20,this.imgHeightFor);
+        })
+
         // this.drawAjchart();
         // this.drawLzchart();
         // this.drawZgchart();
@@ -2222,6 +2274,16 @@ export default {
           this.zgCharts.resize();
           this.jtCharts.resize();
           this.mapCenter.resize();
+          this.$nextTick(()=>{
+            this.imgHeightOne=this.$refs.ajC.offsetHeight;
+            this.imgHeightTwo=this.$refs.lzC.offsetHeight;
+            this.imgHeightThr=this.$refs.zgC.offsetHeight;
+            this.imgHeightFor=this.$refs.jtC.offsetHeight;
+            document.getElementById("lzecharts").style.height=(this.imgHeightTwo-20)+'px';
+            document.getElementById("zgecharts").style.height=(this.imgHeightThr-20)+'px';
+            document.getElementById("ajecharts").style.height=(this.imgHeightOne-20)+'px';
+            document.getElementById("jtecharts").style.height=(this.imgHeightFor)+'px';
+          })
         });
       },
   },

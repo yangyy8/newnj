@@ -222,6 +222,14 @@
                label="派出所名称">
              </el-table-column>
              <el-table-column
+               prop="LSDWDZ"
+               label="地址">
+             </el-table-column>
+             <el-table-column
+               prop="TLYXQ"
+               label="停留有效期至">
+             </el-table-column>
+             <el-table-column
                label="操作">
                <template slot-scope="scope">
                  <el-button type="text"  class="a-btn" title="详情" size="mini" icon="el-icon-tickets" @click="details(scope.row)"></el-button>

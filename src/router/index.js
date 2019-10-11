@@ -15,13 +15,18 @@ export default new Router({
     path:'/index',
     name:'Index',
     meta: {logined:true},
-    component:resolve => require(['@/components/indexNew'], resolve),
+    component:resolve => require(['@/components/indexNew1'], resolve),
     },
     {
     path:'/indexNew',
     name:'IndexNew',
     meta: {logined:true},
     component:resolve => require(['@/components/index'], resolve),
+    },
+    {
+    path:'/indexNew1',
+    name:'IndexNew1',
+    component:resolve => require(['@/components/indexNew1'], resolve),
     },
     {
     path:'/homemap',
@@ -45,8 +50,7 @@ export default new Router({
       path: '/Home',
       name: 'Home',
       meta: {logined:true},
-      component: resolve => require(['@/components/Homeoo'], resolve),
-
+      component: resolve => require(['@/components/Home'], resolve),
       children: [
         // 预警============================================================================================
         {
@@ -114,6 +118,18 @@ export default new Router({
           name: 'CZFWYHYJ_XQ',
           meta:{title:['日常管理','临住信息','新增出租房屋提醒'],father:'CZFWYHYJ'},
           component: resolve => require(['@/components/YJYP/YJ/LZYJ/CZFWYHYJ_XQ'], resolve),
+        },
+        {
+          path: 'LZRYTJ',
+          name: 'LZRYTJ',
+          meta:{title:['日常管理','临住信息','临住人像统计']},
+          component: resolve => require(['@/components/YJYP/YJ/LZYJ/LZRYTJ'], resolve),
+        },
+        {
+          path: 'LZRYTJLB',
+          name: 'LZRYTJLB',
+          meta:{title:['日常管理','临住信息','临住人像统计'],father:'LZRYTJ'},
+          component: resolve => require(['@/components/YJYP/YJ/LZYJ/LZRYTJLB'], resolve),
         },
         {
           path: '202TFZLYJ',
