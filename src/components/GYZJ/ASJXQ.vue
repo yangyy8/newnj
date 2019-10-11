@@ -581,7 +581,51 @@
       </div>
     </div>
 
-   <div class="stu-footer">
+   <div class="stu-footer" v-if="jb=='2'">
+     <div class="stu-title">分局调查意见</div>
+     <el-row type="flex" class="mb-15">
+      <el-col :span="20">
+        <el-input
+          type="textarea"
+          :autosize="{ minRows: 3, maxRows: 3}"
+          placeholder="分局调查意见必须填写原因(不超过100个字符)"
+          v-model="pd.FJYJ"
+          :disabled="!sshow">
+        </el-input>
+      </el-col>
+      <el-col :span="4"  class="down-btn-area">
+        <el-button type="primary" class="mb-5" size="small" v-if="sshow" @click="chuli()">确定</el-button>
+        <!-- <el-button type="warning" class="m0" size="small" @click="$router.go(-1)">返回</el-button> -->
+      </el-col>
+    </el-row>
+    <div class="czfont">
+      处理人: {{$store.state.uname}}
+    </div>
+   </div>
+
+   <div class="stu-footer" v-if="jb=='4'">
+     <div class="stu-title">支队处理意见</div>
+     <el-row type="flex" class="mb-15">
+      <el-col :span="20">
+        <el-input
+          type="textarea"
+          :autosize="{ minRows: 3, maxRows: 3}"
+          placeholder="支队处理意见必须填写原因(不超过100个字符)"
+          v-model="pd.ZDYJ"
+          :disabled="!sshow">
+        </el-input>
+      </el-col>
+      <el-col :span="4"  class="down-btn-area">
+        <el-button type="primary" class="mb-5" size="small" v-if="sshow" @click="chuli()">确定</el-button>
+        <!-- <el-button type="warning" class="m0" size="small" @click="$router.go(-1)">返回</el-button> -->
+      </el-col>
+    </el-row>
+    <div class="czfont">
+      处理人: {{$store.state.uname}}
+    </div>
+   </div>
+
+   <div class="stu-footer" v-else>
      <div class="stu-title">甄别结果</div>
      <el-row type="flex" class="mb-15">
       <el-col :span="20">
@@ -867,6 +911,7 @@ export default {
 
       url10:this.Global.aport4 + '/illegalEmploymentWarningController/getYuJingXinXiByRybh',//预警信息
       sshow:true,
+      jb:1,
     }
   },
   activated() {
@@ -913,6 +958,17 @@ export default {
 
   },
   methods: {
+    getJB(){
+      let p = {
+        "currentPage": 1,
+        "showCount": 10,
+        "pd": {"DM":this.$store.state.orgid}
+      };
+      this.$api.post(this.Global.aport4+'/LRDWController/getMCAndJBByDM', p,
+        r => {
+          this.jb=r.data.JB
+        })
+    },
     pageSizeChange1(val) {
       this.pageSize1=val;
       this.getList(this.CurrentPage1,this.pageSize1,this.url1, 1);
@@ -1090,16 +1146,41 @@ export default {
       }
     },
     chuli() {
+        if(this.jb=="2"){
 
-      if(this.pd.CLJG=="" || this.pd.CLJG==undefined)
-      {
-        this.$alert('甄别结果不能为空！', '提示', {
-          confirmButtonText: '确定',
-        });
-        return;
+          if(this.pd.CLJG=="" || this.pd.CLJG==undefined)
+          {
+            this.$alert('甄别结果不能为空！', '提示', {
+              confirmButtonText: '确定',
+            });
+            return;
+          }
+         this.pcl.CLJG=this.pd.FJYJ;
+         this.pcl.CLZT="2";
+        }else if(this.jb=="4"){
+          if(this.pd.CLJG=="" || this.pd.CLJG==undefined)
+          {
+            this.$alert('甄别结果不能为空！', '提示', {
+              confirmButtonText: '确定',
+            });
+            return;
+          }
+          this.pcl.CLJG=this.pd.ZDYJ;
+          this.pcl.CLZT="0";
+        }else {
+          
+          if(this.pd.CLJG=="" || this.pd.CLJG==undefined)
+          {
+            this.$alert('甄别结果不能为空！', '提示', {
+              confirmButtonText: '确定',
+            });
+            return;
+          }
+         this.pcl.CLJG=this.pd.CLJG;
       }
+
+
       this.pcl.YJID=this.row.YJID;
-      this.pcl.CLJG=this.pd.CLJG;
       this.pcl.CLDW=this.$store.state.orgid;
       this.pcl.CLR=this.withname;
       this.pcl.CLRID=this.$store.state.uid;

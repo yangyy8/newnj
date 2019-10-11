@@ -134,7 +134,7 @@
                     </el-option>
                   </el-select>
                 </el-col>
-                <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                <!-- <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                   <span class="input-text">所属单位：</span>
                   <el-select v-model="pd.SSPCS"  filterable clearable default-first-option  placeholder="请选择"  size="small" class="input-input">
                     <el-option
@@ -144,7 +144,30 @@
                       :value="item.dm">
                     </el-option>
                   </el-select>
-                </el-col>
+                </el-col> -->
+
+                <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
+                      <span class="input-text"> 所属分局：</span>
+                      <el-select v-model="pd.SSFJ" filterable clearable default-first-option @change="getSSPCS(pd.SSFJ)" placeholder="请选择"  size="small" class="input-input">
+                        <el-option
+                          v-for="(item,ind1) in ssfj"
+                          :key="ind1"
+                          :label="item.dm+' - '+item.mc"
+                          :value="item.dm">
+                        </el-option>
+                      </el-select>
+                  </el-col>
+                <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
+                      <span class="input-text">派出所：</span>
+                        <el-select v-model="pd.SSPCS" filterable clearable default-first-option placeholder="请输入关键字"  size="small" class="input-input">
+                       <el-option
+                         v-for="(item,ind1) in sspcs"
+                         :key="ind1"
+                         :label="item.dm+' - '+item.mc"
+                         :value="item.dm">
+                       </el-option>
+                     </el-select>
+                  </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                   <span class="input-text">身份：</span>
                   <el-select v-model="pd.SFDM"  filterable clearable default-first-option  placeholder="请选择"  size="small" class="input-input">
@@ -406,6 +429,9 @@
 
     </template>
     <script>
+    import {
+      ToArray,sortByKey
+    } from '@/assets/js/ToArray.js'
     import CZXX from '../../../common/czxx_xq'
     export default {
       components:{CZXX},
@@ -555,6 +581,8 @@
           selectionAll:[],
           yuid:[],
           selectionReal:[],
+          ssfj: [],
+          sspcs: [],
         }
       },
       mounted() {
@@ -568,6 +596,7 @@
          this.$store.dispatch("getRzfs");
          this.$store.dispatch("getJzztlx");
          this.$store.dispatch("getSf");
+         this.getSsfj();
       },
       watch:{
         falg:function(newVal,oldVal){
@@ -586,6 +615,34 @@
         }
       },
       methods: {
+        getSsfj() {
+          let p = {
+            "operatorId": this.$store.state.uid,
+            "operatorNm": this.$store.state.uname
+          };
+          var url = this.Global.aport2 + "/data_report/selectSsfjDm";
+          this.$api.post(url, p,
+            r => {
+
+              this.ssfj = sortByKey(r.data.SSFJ,'dm');
+            })
+        },
+
+        getSSPCS(arr) {
+          this.$set(this.pd, "SSPCS", '');
+          var srr = [];
+          srr.push(arr);
+          console.log(srr);
+          let p = {
+            "fjdmList": srr
+          }
+          this.$api.post(this.Global.aport2 + '/data_report/selectPcsDm', p,
+            r => {
+              if (r.success) {
+                this.sspcs = r.data.PCS;
+              }
+            })
+        },
         handleSelectionChange(val) {
           // console.log(val)
           // this.multipleSelection = val;
