@@ -229,7 +229,7 @@ background-size: 100%  100%;}
 .screen .warning{line-height: 20px;height: 46px;background: url('../../assets/img/sg/yjts.png') left no-repeat; font-size: 14px; color: #90FFFF;border-bottom: 2px #0B88BE solid; padding-left: 160px;}
 .screen .content{ height: 685px; margin-top: 20px; text-align: center;}
 .screen .lineup{margin-top:-35px; width:100%;background: url('../../assets/img/sg/pdjh.png') left no-repeat; height: 35px;text-align: right;}
-.screen .pdjh{color: #ffffff;background: url('../../assets/img/sg/pdjhtb.png') left no-repeat; height: 90px;padding-left: 120px; font-weight: bold; padding-top: 10px;font-size: 14px;}
+.screen .pdjh{color: #ffffff;background: url('../../assets/img/sg/pdjhtb.png') left no-repeat; height: 90px;padding-left: 110px; font-weight: bold; padding-top: 10px;font-size: 14px;}
 .screen .sz{background: url('../../assets/img/sg/sz.png') center no-repeat; font-size: 16px;text-align: center;color: #ffffff;}
 .screen .mt4{margin-top: 8px;}
 .screen .ml4{margin-right:  4px;}

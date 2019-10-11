@@ -69,13 +69,13 @@
         </div>
         <div class="pdjh">
               <ul>
-                 <li style="width:10%;float:left;margin-top:10px;" v-for="(i,ind) in pdjhdata">
+                 <li style="float:left;margin-top:10px;padding:0 3px;" v-for="(i,ind) in pdjhdata">
                    <div>{{i.centername}}</div>
                    <div class="mt4">
                     <span  v-for="s in i.queuesum">
                     <span class="sz ml4">{{s}}</span>
                    </span>
-                    <span class="ci">次</span></div>
+                    <span class="ci">人</span></div>
                    <img src="../assets/img/sg/wd_1.png" width="48" v-if="ind==0">
                    <img src="../assets/img/sg/wd_2.png" width="48" v-if="ind==1">
                    <img src="../assets/img/sg/wd_3.png" width="48" v-if="ind==2">
@@ -88,17 +88,26 @@
       <el-col :span="6" style="margin-left:-30px;">
         <div class="bgline2" style="height:296px">
            <div class="title gradient-text-one">
-             临住12个月变化量
+             临住6个月变化量
+           </div>
+           <div class = "chart" style="width:100%">
+             <div id = "lzecharts" style = "width: 100%" class="tu4-4"></div>
            </div>
         </div>
         <div class="bgline2" style="height:296px;margin-top:14px;">
            <div class="title gradient-text-one">
-             中管12个月办理量
+             中管6个月办理量
+           </div>
+           <div class = "chart" style="width:100%">
+             <div id = "zgecharts" style = "width: 100%;" class="tu5-5"></div>
            </div>
         </div>
         <div class="bgline21" style="height:255px;margin-top:14px;">
            <div class="title gradient-text-one">
-             居留、停留12个月签发量
+             居留、停留6个月签发量
+           </div>
+           <div class = "chart" style="width:100%">
+             <div id = "jtecharts" style = "width: 100%;" class="tu6-6"></div>
            </div>
         </div>
       </el-col>
@@ -118,6 +127,12 @@ export default {
       pdjhdata:[],
         czList:[],
         yjList:[],
+        animate:false,
+        ajCharts:null,
+        lzCharts:null,
+        zgCharts:null,
+        jtCharts:null,
+
         zddata:[
           {
             gj:'阿尔及利亚',
@@ -189,14 +204,21 @@ export default {
         },
         allEcharts(){
           this.yjFun();
-          this.ajFun();
+          this.zdFun();
           this.czFun();
+          this.ajFun();
+          this.lzFun();
+          this.zgFun();
+          this.jtFun();
           window.addEventListener("resize", () => {
             this.ajCharts.resize();
+            this.lzCharts.resize();
+            this.zgCharts.resize();
+            this.jtCharts.resize();
           });
         },
         //预警提示滚动
-        scrollYj(){
+      scrollYj(){
           this.animate=true;    // 因为在消息向上滚动的时候需要添加css3过渡动画，所以这里需要设置true
           setTimeout(()=>{      //  这里直接使用了es6的箭头函数，省去了处理this指向偏移问题，代码也比之前简化了很多
                   this.yjList.push(this.yjList[0]);  // 将数组的第一个元素添加到数组的
@@ -208,13 +230,26 @@ export default {
                   this.animate=false;  // margin-top 为0 的时候取消过渡动画，实现无缝滚动
           },0)
         },
+
       //预警提示接口
-        yjFun(){
+      yjFun(){
           this.$api.post(this.Global.aport+'/home/getWaringData',{},
            r =>{
              this.yjList = r.data
            })
         },
+
+        //重点国家
+      zdFun(){
+          this.$api.post(this.Global.aport+'/home/getCzzdryData',{},
+           r =>{
+             if(r.success){
+               this.zddata = r.data.SK;
+               this.sgdata = r.data.FK;
+             }
+           })
+        },
+
       getpdjh(){
         this.$api.get(this.Global.aport3+'/pdjh/getCenterNumToday', null,
           r => {
@@ -475,6 +510,397 @@ export default {
                     }
                   },
                   data: series['其它']
+              },
+          ]
+        })
+
+      },
+      //临住6个月变化量
+      lzFun(){
+        this.$api.post(this.Global.aport+'/home/getlz6Data',{},
+         r =>{
+           if(r.success){
+             this.drawLzchart(r.data.xAxis,r.data.series);
+           }
+         })
+      },
+      drawLzchart(xdata,series){
+        this.lzCharts = echarts.init(document.getElementById('lzecharts'));
+        let _this = this;
+        _this.lzCharts.setOption({
+          tooltip: {
+              trigger: 'axis',
+              axisPointer: {
+                  type: 'none',
+                  crossStyle: {
+                      color: '#999'
+                  }
+              },
+              formatter:function(){},
+          },
+          grid: {
+            x:60,
+            y:30,
+            // containLabel: true
+          },
+          xAxis: [
+              {
+                  type: 'category',
+                  data: xdata,
+                  axisPointer: {
+                      type: 'none'
+                  },
+                  axisLine:{
+                      lineStyle:{
+                          color:'#fff',
+                      }
+                  },
+              }
+          ],
+          yAxis: [
+              {
+                type: 'value',
+                axisLine:{
+                    lineStyle:{
+                        color:'#fff',
+                        width:0,
+                    },
+                },
+                axisTick:{//去掉坐标刻度线
+                  show:false,
+                },
+                axisLabel: {
+                  show: true //这行代码控制着坐标轴x轴的文字是否显示
+                },
+                splitLine:{
+                  lineStyle:{
+                    color:'#1C3156'
+                  }
+                }
+              },
+          ],
+          series: [
+              {
+                  name:'临住',
+                  type:'bar',
+                  itemStyle:{
+                    normal:{
+                      label: {
+                        show: true, //开启显示
+                        position: 'top', //在上方显示
+                        textStyle: { //数值样式
+                          color: '#fff',
+                          fontSize: 12
+                        }
+                      },
+                      color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                         offset: 0,
+                         color: '#895EDB'
+                       }, {
+                         offset: 1,
+                         color: '#5568D4'
+                       }])
+                    },
+                    emphasis:{
+                      color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                         offset: 0,
+                         color: '#D5C95D'
+                       }, {
+                         offset: 1,
+                         color: '#C39E69'
+                       }])
+                    },
+                  },
+                  barWidth:15,
+                  data:series
+              },
+              // {
+              //     name:'临住',
+              //     type:'line',
+              //     symbolSize:5,
+              //     color:['#F88C68'],  //折线条的颜色
+              //     smooth:true,
+              //     symbol:'roundRect',
+              //     itemStyle:{
+              //           normal:{
+              //               lineStyle:{
+              //                   width:1,
+              //                   type:'dotted'  //'dotted'虚线 'solid'实线
+              //               }
+              //           }
+              //       },
+              //     data:series
+              // }
+          ]
+        })
+      },
+      //中管6个月办理量
+      zgFun(){
+        this.$api.post(this.Global.aport+'/home/getZg12Data',{},
+         r =>{
+           if(r.success){
+             this.drawZgchart(r.data.xAxis,r.data.series);
+           }
+         })
+      },
+      drawZgchart(xdata,series){
+        this.zgCharts = echarts.init(document.getElementById('zgecharts'));
+        let _this = this;
+        _this.zgCharts.setOption({
+          tooltip: {
+              trigger: 'axis',
+              axisPointer: {
+                  type: 'none',
+                  crossStyle: {
+                      color: '#999'
+                  }
+              },
+              formatter:function(){},
+          },
+          grid: {
+            x:60,
+            y:30,
+            // containLabel: true
+          },
+          xAxis: [
+              {
+                  type: 'category',
+                  data: xdata,
+                  axisPointer: {
+                      type: 'none'
+                  },
+                  axisLine:{
+                      lineStyle:{
+                          color:'#fff',
+                      }
+                  },
+              }
+          ],
+          yAxis: [
+              {
+                type: 'value',
+                axisLine:{
+                    lineStyle:{
+                        color:'#fff',
+                        width:0,
+                    },
+                },
+                axisTick:{//去掉坐标刻度线
+                  show:false,
+                },
+                axisLabel: {
+                  show: true //这行代码控制着坐标轴x轴的文字是否显示
+                },
+                splitLine:{
+                  lineStyle:{
+                    color:'#1C3156'
+                  }
+                }
+              },
+          ],
+          series: [
+              {
+                  name:'',
+                  type:'bar',
+                  itemStyle:{
+                    normal:{
+                      label: {
+      									show: true, //开启显示
+      									position: 'top', //在上方显示
+      									textStyle: { //数值样式
+      										color: '#fff',
+      										fontSize: 12
+  									    }
+      								},
+                      color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                         offset: 0,
+                         color: '#2BADD3'
+                       }, {
+                         offset: 1,
+                         color: '#466FD3'
+                       }])
+                    },
+                    emphasis:{
+                      color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                         offset: 0,
+                         color: '#D5C95D'
+                       }, {
+                         offset: 1,
+                         color: '#C39E69'
+                       }])
+                    },
+                  },
+                  barWidth:15,
+                  data:series
+              },
+              // {
+              //     name:'',
+              //     type:'line',
+              //     symbolSize:5,
+              //     color:['#F88C68'],  //折线条的颜色
+              //     smooth:true,
+              //     symbol:'roundRect',
+              //     itemStyle:{
+              //           normal:{
+              //               lineStyle:{
+              //                   width:1,
+              //                   type:'dotted'  //'dotted'虚线 'solid'实线
+              //               }
+              //           }
+              //       },
+              //     data:series
+              // }
+          ]
+        })
+      },
+      //居留、停留6个月签发量
+      jtFun(){
+        this.$api.post(this.Global.aport+'/home/getQzxx6Data',{},
+         r =>{
+           if(r.success){
+             this.drawJtchart(r.data.legend,r.data.xAxis,r.data.series);
+           }
+         })
+      },
+      drawJtchart(legend,xdata,series){
+        this.jtCharts = echarts.init(document.getElementById('jtecharts'));
+        let _this = this;
+        _this.jtCharts.setOption({
+          tooltip: {
+              trigger: 'axis',
+              axisPointer: {
+                  type: 'none',
+                  crossStyle: {
+                      color: '#999'
+                  }
+              }
+          },
+          grid: {
+            x:60,
+            y:40,
+            // containLabel: true
+          },
+          legend: {
+              data:legend,
+              textStyle:{
+                color:'#fff'
+              },
+              width:'100%',
+              x:'right',
+              y:'10px',
+              padding: [
+                  0,  // 上
+                  45, // 右
+                  0,  // 下
+                  0, // 左
+              ],
+              itemWidth: 10,
+              itemHeight: 10,// 标志图形的宽度
+          },
+          xAxis: [
+              {
+                  type: 'category',
+                  data: xdata,
+                  axisPointer: {
+                      type: 'none'
+                  },
+                  axisLine:{
+                      lineStyle:{
+                          color:'#fff',
+                      }
+                  },
+              }
+          ],
+          yAxis: [
+              {
+                type: 'value',
+                axisLine:{
+                    lineStyle:{
+                        color:'#fff',
+                        width:0,
+                    },
+                },
+                axisTick:{//去掉坐标刻度线
+                  show:false,
+                },
+                axisLabel: {
+                  show: true //这行代码控制着坐标轴x轴的文字是否显示
+                },
+                splitLine:{
+                  lineStyle:{
+                    color:'#1C3156'
+                  }
+                }
+              },
+          ],
+          series: [
+              {
+                  name:'签证',
+                  type:'bar',
+                  itemStyle:{
+                    normal:{
+                      label: {
+      									show: true, //开启显示
+      									position: 'top', //在上方显示
+      									textStyle: { //数值样式
+      										color: '#fff',
+      										fontSize: 12
+  									    }
+      								},
+                      color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                         offset: 0,
+                         color: '#1DC7A2'
+                       }, {
+                         offset: 1,
+                         color: '#4375CC'
+                       }])
+                    },
+                    emphasis:{
+                      color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                         offset: 0,
+                         color: '#D6CD5B'
+                       }, {
+                         offset: 1,
+                         color: '#C1966B'
+                       }])
+                    },
+                  },
+                  barWidth:15,
+                  data:series['签证']
+              },
+              {
+                  name:'居留',
+                  type:'bar',
+                  itemStyle:{
+                    normal:{
+                      label: {
+      									show: true, //开启显示
+      									position: 'top', //在上方显示
+      									textStyle: { //数值样式
+      										color: '#fff',
+      										fontSize: 12
+  									    }
+      								},
+                      color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                         offset: 0,
+                         color: '#D5C95D'
+                       }, {
+                         offset: 1,
+                         color: '#C39E69'
+                       }])
+                    },
+                    emphasis:{
+                      color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                         offset: 0,
+                         color: '#D5C95D'
+                       }, {
+                         offset: 1,
+                         color: '#C39E69'
+                       }])
+                    },
+                  },
+                  barWidth:15,
+                  data:series['居留']
               },
           ]
         })
