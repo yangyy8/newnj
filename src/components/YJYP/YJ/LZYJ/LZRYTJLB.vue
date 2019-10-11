@@ -122,7 +122,7 @@
 import LZXX from '../../../common/lzxx_xq'
 export default {
   data(){
-    components:{LZXX},
+    components:{LZXX}
     return{
       tableData:[],
       CurrentPage: 1,
