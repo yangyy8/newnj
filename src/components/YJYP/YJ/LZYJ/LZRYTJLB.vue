@@ -123,7 +123,11 @@ import LZXX from '../../../common/lzxx_xq'
 export default {
   components:{LZXX},
   data(){
+<<<<<<< HEAD
 
+=======
+    components:{LZXX}
+>>>>>>> c33c8e8004c4915ca0464cf7501e82faf1e8b6a0
     return{
       tableData:[],
       CurrentPage: 1,

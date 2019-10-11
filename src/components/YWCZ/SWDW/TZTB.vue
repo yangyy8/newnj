@@ -330,7 +330,15 @@ export default {
     },
     sendOrMoment(val){
       this.form.SFYX = val;
-      this.$api.post(this.Global.aport4+'/SWDW_TZTBController/saveOrSend',{pd:this.form},
+
+      let p={
+        "pd":this.form,
+        "userCode":this.$store.state.uid,
+        "userName":this.$store.state.uname,
+        "orgCode":this.$store.state.orgid,
+        "orgName":this.$store.state.orgname,
+      }
+      this.$api.post(this.Global.aport4+'/SWDW_TZTBController/saveOrSend',p,
        r =>{
          if(r.success){
            if(this.reviewFile){
