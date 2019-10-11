@@ -904,7 +904,6 @@ export default {
               },
           ]
         })
-
       },
   },
 }
