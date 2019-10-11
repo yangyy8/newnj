@@ -9,7 +9,7 @@
                   案件6个月变化量
               </div>
               <div class = "chart" style="width:100%">
-                <div id = "ajecharts" style = "width: 100%" class="tu1-1"></div>
+                <div id = "ajecharts" style = "width: 100%"></div>
               </div>
            </div>
            <div class="bgline1" style="height:296px;margin-top:14px;">
@@ -17,7 +17,7 @@
                 常住人员身份分析
               </div>
               <div class="tb1">
-                <ul class="huan">
+                <ul>
                    <li :class="{'color1':index==0,'color2':index==1,'color3':index==2,'color4':index==3,'color5':index==4}" v-for="(item,index) in czList">{{item}}</li>
                 </ul>
               </div>
@@ -91,7 +91,7 @@
              临住6个月变化量
            </div>
            <div class = "chart" style="width:100%">
-             <div id = "lzecharts" style = "width: 100%" class="tu4-4"></div>
+             <div id = "lzecharts" style = "width: 100%"></div>
            </div>
         </div>
         <div class="bgline2" style="height:296px;margin-top:14px;">
@@ -99,7 +99,7 @@
              中管6个月办理量
            </div>
            <div class = "chart" style="width:100%">
-             <div id = "zgecharts" style = "width: 100%;" class="tu5-5"></div>
+             <div id = "zgecharts" style = "width: 100%;"></div>
            </div>
         </div>
         <div class="bgline21" style="height:255px;margin-top:14px;">
@@ -107,7 +107,7 @@
              居留、停留6个月签发量
            </div>
            <div class = "chart" style="width:100%">
-             <div id = "jtecharts" style = "width: 100%;" class="tu6-6"></div>
+             <div id = "jtecharts" style = "width: 100%;"></div>
            </div>
         </div>
       </el-col>
@@ -132,59 +132,8 @@ export default {
         lzCharts:null,
         zgCharts:null,
         jtCharts:null,
-
-        zddata:[
-          {
-            gj:'阿尔及利亚',
-            count:'2人'
-          },
-          {
-            gj:'尼日利亚',
-            count:'5人'
-          },
-          {
-            gj:'菲力宾',
-            count:'8人'
-          },
-          {
-            gj:'孟加拉国',
-            count:'1人'
-          },
-          {
-            gj:'阿尔及利亚',
-            count:'2人'
-          },
-          {
-            gj:'尼日利亚',
-            count:'5人'
-          },
-        ],
-        sgdata:[
-          {
-            gj:'印度尼西亚',
-            count:'2人'
-          },
-          {
-            gj:'拉克',
-            count:'5人'
-          },
-          {
-            gj:'借耳机四斯坦',
-            count:'8人'
-          },
-          {
-            gj:'巴基斯坦',
-            count:'1人'
-          },
-          {
-            gj:'阿尔及利亚',
-            count:'2人'
-          },
-          {
-            gj:'尼日利亚',
-            count:'5人'
-          },
-        ],
+        zddata:[],
+        sgdata:[],
         realTime:'',
     }
   },
@@ -197,6 +146,7 @@ export default {
     this.getpdjh();
     setInterval(this.realTimeFun,100);
     setInterval(this.scrollYj,2000);
+    this.allEcharts();
   },
   methods:{
         realTimeFun(){
@@ -371,8 +321,10 @@ export default {
       },
       //案件6个月变化量
       ajFun(){
+
         this.$api.post(this.Global.aport+'/home/getaj12data',{},
          r =>{
+
            if(r.success){
              console.log(r.data.series['非法就业'])
              this.drawAjchart(r.data.legend,r.data.yAxis,r.data.series);

@@ -292,8 +292,9 @@ import echarts from 'echarts'
 import {formatDate} from '@/assets/js/date.js'
 import LZXX from '../../../common/lzxx_xq'
  export default {
-   components:{LZXX},
+  components:{LZXX},
   data() {
+
     return {
       pageC:true,
       tableDataC:[],
