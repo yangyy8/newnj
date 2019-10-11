@@ -15,27 +15,15 @@
            width="55">
          </el-table-column> -->
          <el-table-column
-           prop="ywxm"
-           label="英文姓名">
-         </el-table-column>
-         <el-table-column
            prop="zwxm"
            label="中文姓名">
          </el-table-column>
          <el-table-column
-           prop="xb_desc"
-           label="性别">
+           prop="ywxm"
+           label="英文姓名">
          </el-table-column>
          <el-table-column
-           prop="gjdq_desc"
-           label="国家地区">
-         </el-table-column>
-         <el-table-column
-           prop="csrq"
-           label="出生日期">
-         </el-table-column>
-         <el-table-column
-           prop="zjzl_desc"
+           prop="zjzl"
            label="证件种类">
          </el-table-column>
          <el-table-column
@@ -43,24 +31,44 @@
            label="证件号码">
          </el-table-column>
          <el-table-column
-           prop="qzzl_desc"
-           label="签证种类">
+           prop="xb"
+           label="性别">
          </el-table-column>
          <el-table-column
-           prop="qzhm"
-           label="签证号码">
+           prop="gjdq"
+           label="国家地区">
          </el-table-column>
          <el-table-column
-           prop="lrdw_desc"
-           label="派出所名称">
+           prop="csrq"
+           label="出生日期">
          </el-table-column>
          <el-table-column
-           prop="lsdwdz"
+           prop="zsrq"
+           label="住宿日期">
+         </el-table-column>
+         <el-table-column
+           prop="djsj"
+           label="登记日期">
+         </el-table-column>
+         <el-table-column
+           prop="djdw"
+           label="登记单位">
+         </el-table-column>
+         <el-table-column
+           prop="ssfj"
+           label="所属分局">
+         </el-table-column>
+         <el-table-column
+           prop="tlyxqz"
+           label="停留有效期至">
+         </el-table-column>
+         <el-table-column
+           prop="lzdwmc"
            label="地址">
          </el-table-column>
          <el-table-column
-           prop="tlyxq"
-           label="停留有效期至">
+           prop="bz"
+           label="备注">
          </el-table-column>
          <el-table-column
            label="操作">
@@ -72,7 +80,7 @@
        <div class="middle-foot">
           <div class="page-msg">
             <div class="">
-                    共{{TotalResult}}条记录
+                共{{TotalResult}}条记录
             </div>
             <div class="">
               每页显示
@@ -111,8 +119,10 @@
 </template>
 
 <script>
+import LZXX from '../../../common/lzxx_xq'
 export default {
   data(){
+    components:{LZXX},
     return{
       tableData:[],
       CurrentPage: 1,

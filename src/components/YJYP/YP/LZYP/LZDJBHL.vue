@@ -294,7 +294,6 @@ import LZXX from '../../../common/lzxx_xq'
  export default {
    components:{LZXX},
   data() {
-
     return {
       pageC:true,
       tableDataC:[],
