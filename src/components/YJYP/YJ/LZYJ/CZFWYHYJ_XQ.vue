@@ -170,7 +170,7 @@
          </el-col>
          <el-col :span="4"  class="down-btn-area">
            <el-button type="primary"  class="mb-5" size="small" @click="chuli()" v-if="queryClzt!='0'">确定</el-button>
-           <!-- <el-button type="warning"  class="m0" size="small" @click="$router.go(-1)">返回</el-button> -->
+           <el-button type="warning"  class="m0" size="small" @click="$router.go(-1)">返回</el-button>
          </el-col>
        </el-row>
          <el-row type="flex">
@@ -178,7 +178,6 @@
          </el-row>
       </div>
     </div>
-
   <el-dialog title="案件信息详情" :visible.sync="lzxxDialogVisible"  custom-class="big_dialog" :append-to-body="false" :modal="false">
        <LZXX :type="type" :xid="xid" :rybh="rybh" :random="new Date().getTime()"></LZXX>
        <div v-if='flag'>

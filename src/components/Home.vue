@@ -42,7 +42,7 @@
                 <span style="color:#fff">{{a.mc}}</span>
               </template>
               <el-menu-item v-for="(b,ind2) in a.children" :key="ind2" :index="ind+'-'+ind2">
-              <div @click="checklast(b.url)" >   {{b.mc}} </div>
+              <div @click="checklast(b.url)" :title="b.mc" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis; ">   {{b.mc}} </div>
               </el-menu-item>
             </el-submenu>
 
@@ -181,7 +181,17 @@ export default {
        });
     },
     getmemu(dm,mc){
+
+      if(mc==""){
+        if(this.$route.meta.title==undefined){
+this.$router.push({name:"Index"});
+        }else {
+            mc=this.$route.meta.title[0];
+        }
+
+      }
       this.isA=mc;
+
       if(dm==""){
         switch (mc) {
           case "预警研判":
@@ -193,7 +203,7 @@ export default {
           case "日常管理":
             dm="03000000000";
             break;
-          case "系统设置":
+          case "系统管理":
             dm="01000000000";
             break;
           default:

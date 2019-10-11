@@ -1,12 +1,15 @@
 <template lang="html">
   <div class="screen">
-    <div class="banner"><span>2019-09-25 11:50</span></div>
+    <div class="banner"><span>{{realTime}}</span></div>
     <div class="main">
     <el-row :gutter="3">
       <el-col :span="6"  style="">
            <div class="bgline1" style="height:296px">
               <div class="title gradient-text-one">
-                案件12个月变化量
+                  案件6个月变化量
+              </div>
+              <div class = "chart" style="width:100%">
+                <div id = "ajecharts" style = "width: 100%" class="tu1-1"></div>
               </div>
            </div>
            <div class="bgline1" style="height:296px;margin-top:14px;">
@@ -14,28 +17,45 @@
                 常住人员身份分析
               </div>
               <div class="tb1">
-                   <ul>
-                      <li class="color1">90.0%  高校留学生  (30010)</li>
-                      <li class="color2">42.2%  亲属  (11214)</li>
-                      <li class="color3">25.5%  文教专家  (8689)</li>
-                      <li class="color4">9.0%  企业工作人员  (2250)</li>
-                      <li class="color5">1.0%  其他  (265)</li>
-                   </ul>
+                <ul class="huan">
+                   <li :class="{'color1':index==0,'color2':index==1,'color3':index==2,'color4':index==3,'color5':index==4}" v-for="(item,index) in czList">{{item}}</li>
+                </ul>
               </div>
            </div>
            <div class="bgline11" style="height:255px;margin-top:14px;">
               <div class="title gradient-text-one">
                 重点国家人员
               </div>
+              <el-row :gutter="10" class="zdgj">
+                <el-col :span="12">
+                  <div class="tabLeft">
+                    <p class="tabTitle">涉恐重点敏感国家</p>
+                    <ul class="tabContent" :class="{anim:animate==true}">
+                      <li v-for="(item,index) in zddata" class="tabC-li" :class="{'color-shu':(index+1)%2==0,'color-dan':(index+1)%2!=0}">
+                        <span class="tabC-sl">{{item.MC}}</span>
+                        <span class="tabC-sr">{{item.COUNT}}</span>
+                      </li>
+                    </ul>
+                  </div>
+                </el-col>
+                <el-col :span="12">
+                  <div class="tabRight">
+                    <p class="tabTitle">反恐"防回流"10国</p>
+                    <ul class="tabContent" :class="{anim:animate==true}">
+                      <li v-for="(item,index) in sgdata" class="tabC-li" :class="[(index+1)%2==0?'color-shu':'color-dan']">
+                        <span class="tabC-sl">{{item.MC}}</span>
+                        <span class="tabC-sr">{{item.COUNT}}</span>
+                      </li>
+                    </ul>
+                  </div>
+                </el-col>
+              </el-row>
            </div>
       </el-col>
       <el-col :span="12" style="padding:25px 62px;">
         <div class="warning">
-          <ul>
-             <li style="float:left;width:33%;list-style:disc">持短期签证非法就业 <span class="cred">50</span> 条</li>
-             <li style="float:left;width:33%;list-style:disc">临住核查 <span class="cred">50</span> 条</li>
-             <li style="float:left;width:33%;list-style:disc">违临预判预警 <span class="cred">50</span> 条</li>
-             <li style="float:left;width:33%;list-style:disc">布控预警 <span class="cred">50</span> 条</li>
+          <ul :class="{anim:animate==true}" @mouseover="sbEnter()" @mouseout="sbleave()">
+             <li  v-for="(item,index) in yjList" @click="$router.push({name:item.url})" class="hand" style="float:left;width:33%;">● {{item.mc}}<span class="cred tt-pad">{{item.num}}</span>条</li>
           </ul>
         </div>
         <div class="content">
@@ -87,13 +107,70 @@
   </div>
 </template>
 <script scoped>
-
+import {formatDate} from '@/assets/js/date.js'
 import echarts from 'echarts'
+import '../assets/js/jquery-3.4.1.min.js'
+import '../assets/js/scroll.js'
 export default {
   data() {
     return {
       mapCenter:null,
       pdjhdata:[],
+        czList:[],
+        yjList:[],
+        zddata:[
+          {
+            gj:'阿尔及利亚',
+            count:'2人'
+          },
+          {
+            gj:'尼日利亚',
+            count:'5人'
+          },
+          {
+            gj:'菲力宾',
+            count:'8人'
+          },
+          {
+            gj:'孟加拉国',
+            count:'1人'
+          },
+          {
+            gj:'阿尔及利亚',
+            count:'2人'
+          },
+          {
+            gj:'尼日利亚',
+            count:'5人'
+          },
+        ],
+        sgdata:[
+          {
+            gj:'印度尼西亚',
+            count:'2人'
+          },
+          {
+            gj:'拉克',
+            count:'5人'
+          },
+          {
+            gj:'借耳机四斯坦',
+            count:'8人'
+          },
+          {
+            gj:'巴基斯坦',
+            count:'1人'
+          },
+          {
+            gj:'阿尔及利亚',
+            count:'2人'
+          },
+          {
+            gj:'尼日利亚',
+            count:'5人'
+          },
+        ],
+        realTime:'',
     }
   },
   mounted() {
@@ -103,8 +180,41 @@ export default {
     ss.push({dm:3,mc:'栖霞区',value:123});
     this.drawLine(ss,null);
     this.getpdjh();
+    setInterval(this.realTimeFun,100);
+    setInterval(this.scrollYj,2000);
   },
   methods:{
+        realTimeFun(){
+          this.realTime = formatDate(new Date(),'yyyy-MM-dd hh:mm:ss')
+        },
+        allEcharts(){
+          this.yjFun();
+          this.ajFun();
+          this.czFun();
+          window.addEventListener("resize", () => {
+            this.ajCharts.resize();
+          });
+        },
+        //预警提示滚动
+        scrollYj(){
+          this.animate=true;    // 因为在消息向上滚动的时候需要添加css3过渡动画，所以这里需要设置true
+          setTimeout(()=>{      //  这里直接使用了es6的箭头函数，省去了处理this指向偏移问题，代码也比之前简化了很多
+                  this.yjList.push(this.yjList[0]);  // 将数组的第一个元素添加到数组的
+                  this.yjList.shift();               //删除数组的第一个元素
+                  this.yjList.push(this.yjList[1]);  // 将数组的第一个元素添加到数组的
+                  this.yjList.splice(1,1);
+                  this.yjList.push(this.yjList[2]);  // 将数组的第一个元素添加到数组的
+                  this.yjList.splice(2,1);
+                  this.animate=false;  // margin-top 为0 的时候取消过渡动画，实现无缝滚动
+          },0)
+        },
+      //预警提示接口
+        yjFun(){
+          this.$api.post(this.Global.aport+'/home/getWaringData',{},
+           r =>{
+             this.yjList = r.data
+           })
+        },
       getpdjh(){
         this.$api.get(this.Global.aport3+'/pdjh/getCenterNumToday', null,
           r => {
@@ -211,7 +321,163 @@ export default {
         };
         this.mapCenter = echarts.init(document.getElementById('home_map'));
         this.mapCenter.setOption(option);
+        this.allEcharts();
 
+      },
+
+      //常住人员身份分析
+      czFun(){
+        this.$api.post(this.Global.aport+'/home/getCzsfdata',{},
+         r =>{
+           if(r.success){
+             this.czList = r.data;
+           }
+         })
+      },
+      //案件6个月变化量
+      ajFun(){
+        this.$api.post(this.Global.aport+'/home/getaj12data',{},
+         r =>{
+           if(r.success){
+             console.log(r.data.series['非法就业'])
+             this.drawAjchart(r.data.legend,r.data.yAxis,r.data.series);
+           }
+         })
+      },
+      drawAjchart(legend,ydata,series){
+        this.ajCharts = echarts.init(document.getElementById('ajecharts'));
+        let _this = this;
+        _this.ajCharts.setOption({
+          tooltip : {
+              formatter:function(){},
+              trigger: 'axis',
+              axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                  type : 'none'        // 默认为直线，可选为：'line' | 'shadow'
+              },
+          },
+          legend: {
+              y:_this.ajyjl,
+              type: 'scroll',
+              data: legend,
+              textStyle:{
+                color:'#fff'
+              },
+              padding: [
+                  5,  // 上
+                  0, // 右
+                  0,  // 下
+                  0, // 左
+              ],
+              itemWidth: 20,
+              pageIconColor: '#fff',
+              pageIconInactiveColor: '#aaa',
+              pageFormatter: '',//隐藏翻页的数字
+              pageButtonItemGap: -6,//翻页按钮的两个之间的间距
+          },
+          grid: {
+            x:70,
+            y:40,
+
+            // containLabel: true
+          },
+          xAxis:  {
+              type: 'value',
+              axisLine:{
+                  lineStyle:{
+                      color:'#fff',
+                      // fontSize:12
+                  }
+              },
+              splitLine: { //网格线
+                show: false
+              },
+          },
+          yAxis: {
+              type: 'category',
+              data: ydata,
+              axisLine:{
+                  lineStyle:{
+                      color:'#fff',
+                  }
+              },
+          },
+          series: [
+              {
+                  name: '非法就业',
+                  type: 'bar',
+                  barWidth : 20,
+                  stack: '总量',
+                  barGap:'90%', // 控制柱子的间隔
+                  label: {
+                      normal: {
+                          show: true,
+                          position: 'insideRight'
+                      }
+                  },
+                  itemStyle:{
+                    normal:{
+                      color:'#DCAD68'
+                    }
+                  },
+                  data: series['非法就业']
+              },
+              {
+                  name: '非法居留',
+                  type: 'bar',
+                  stack: '总量',
+                  barGap:'90%', // 控制柱子的间隔
+                  label: {
+                      normal: {
+                          show: true,
+                          position: 'insideRight'
+                      }
+                  },
+                  itemStyle:{
+                    normal:{
+                      color:'#7583A0'
+                    }
+                  },
+                  data: series['非法居留']
+              },
+              {
+                  name: '非法入境',
+                  type: 'bar',
+                  stack: '总量',
+                  barGap:'90%', // 控制柱子的间隔
+                  label: {
+                      normal: {
+                          show: true,
+                          position: 'insideRight'
+                      }
+                  },
+                  itemStyle:{
+                    normal:{
+                      color:'#D48265'
+                    }
+                  },
+
+                  data: series['非法入境']
+              },
+              {
+                  name: '其它',
+                  type: 'bar',
+                  stack: '总量',
+                  barGap:'90%', // 控制柱子的间隔
+                  label: {
+                      normal: {
+                          show: true,
+                          position: 'insideRight'
+                      }
+                  },
+                  itemStyle:{
+                    normal:{
+                      color:'#8CBCC0'
+                    }
+                  },
+                  data: series['其它']
+              },
+          ]
+        })
       },
   },
 }
