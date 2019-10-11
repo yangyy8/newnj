@@ -121,8 +121,9 @@
 <script>
 import LZXX from '../../../common/lzxx_xq'
 export default {
+  components:{LZXX},
   data(){
-    components:{LZXX},
+
     return{
       tableData:[],
       CurrentPage: 1,

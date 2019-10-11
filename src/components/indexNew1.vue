@@ -147,11 +147,11 @@
                     ><span @click="mapFun('C');page=1" :class="{'checktab':page==1}" class="tab-fun hand" style="position:relative;z-index:999">常住人员量</span>
                   </div>
                   <div class="choose" v-show="page==0">
-                    <el-select v-model="lzyear" size="small" placeholder="年" clearable @change="mapFun">
+                    <el-select v-model="lzyear" size="small" placeholder="年" style="z-index: 999" clearable @change="mapFun">
                       <el-option
                         v-for="(item,ind) in years"
                         :key="ind"
-                        :label="item+'年'"
+                        :label="item"
                         :value="item">
                       </el-option>
                     </el-select>
@@ -163,7 +163,7 @@
                         :value="item">
                       </el-option>
                     </el-select>
-                    <el-select v-model="lzmonth" size="small" placeholder="月" @visible-change='monthFun' clearable @change="mapFun">
+                    <el-select v-model="lzmonth" size="small" placeholder="月" style="z-index: 999" @visible-change='monthFun' clearable @change="mapFun">
                       <el-option
                         v-for="(item,ind) in months"
                         :key="ind"
@@ -840,7 +840,7 @@ export default {
                  this.data.push(this.data[0]);  // 将数组的第一个元素添加到数组的
                  this.data.shift();               //删除数组的第一个元素
                  this.animate=false;  // margin-top 为0 的时候取消过渡动画，实现无缝滚动
-         },1)
+         },0)
       },
       scrollt(){
          this.animate=true;    // 因为在消息向上滚动的时候需要添加css3过渡动画，所以这里需要设置true
@@ -848,7 +848,7 @@ export default {
                  this.data1.push(this.data1[0]);  // 将数组的第一个元素添加到数组的
                  this.data1.shift();               //删除数组的第一个元素
                  this.animate=false;  // margin-top 为0 的时候取消过渡动画，实现无缝滚动
-         },1)
+         },0)
       },
       scrollYj(){
         this.animate=true;    // 因为在消息向上滚动的时候需要添加css3过渡动画，所以这里需要设置true
