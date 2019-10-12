@@ -738,7 +738,6 @@ export default {
   activated() {
     this.eidtsDialogVisible=false;
     this.CurrentPage=1;
-    console.log('------');
     this.cdt = this.$route.query.cdt;
     if (this.cdt.sblx == "cgts" || this.cdt.sblx=="jsts") {
       this.edit = false;
@@ -761,7 +760,6 @@ export default {
       this.checkshow = false;
     }
     this.pd = {};
-
     this.getList(this.CurrentPage, this.pageSize, this.pd);
 
   },
@@ -865,11 +863,13 @@ export default {
         "endTime": this.cdt.endTime,
         "ssfjmc": this.cdt.ssfjmc,
         "sblx": this.cdt.sblx,
+        'zjhm':this.cdt.zjhm,
+        'type':this.cdt.type,
+        'gjdqList':this.cdt.gjdqList,
         "pd": pd,
         "operatorId":this.$store.state.uid,
         "operatorNm":this.$store.state.uname,
       };
-
       var url = this.Global.aport2 + '/data_report/findAll';
       this.$api.post(url, p,
         r => {

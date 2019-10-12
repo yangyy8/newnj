@@ -3,7 +3,7 @@
   <div class="yymain tshu">
     <div class="yytitle">
       <el-row type="flex">
-        <el-col :span="20" class="br pr-20">
+        <el-col :span="19" class="br pr-20">
           <el-row align="center" :gutter="1">
                 <el-col  :sm="24" :md="12" :lg="12"  class="input-item">
                   <span class="input-text">时间范围：</span>
@@ -34,9 +34,9 @@
                 </el-col>
          </el-row>
          </el-col>
-         <el-col :span="4" >
-           <el-button type="success" size="small" @click="getList(pd,deepCli)" class="mb-15 tt-mr10">查询</el-button>
-           <el-button type="info" size="small" @click="$router.go(-1)" class="mb-15 tt-mr10">返回</el-button>
+         <el-col :span="5" >
+           <el-button type="success" size="small" @click="getList(pd,deepCli,1)" class="mb-15 tt-mr10">查询</el-button>
+           <el-button type="info" size="small" @click="goBack" class="mb-15 tt-mr10">返回</el-button>
            <el-button type="warning" size="small" @click="download(pd,deepCli)" class="mb-15">导出</el-button>
          </el-col>
         </el-row>
@@ -52,7 +52,8 @@
              prop="dw"
              label="单位">
              <template slot-scope="scope">
-               <span class="sb" @click="getList(pd,scope.row)">{{scope.row.dw}}</span>
+               <span class="sb" @click="getList(pd,scope.row)" v-if="scope.row.level!='3'">{{scope.row.dw}}</span>
+               <span v-if="scope.row.level=='3'">{{scope.row.dw}}</span>
              </template>
            </el-table-column>
            <el-table-column
@@ -108,10 +109,22 @@ export default {
       tableData:[],
       eidtsDialogVisible:false,
       tableData: [],
+      levelSave:'',
+      dwSave:'',
+      typeSave:'',
+      listSave:[],
+      levelKon:{
+        level:'',
+        type:'0',
+        list:[],//合计
+        dwbm:'',
+      },
+      levelOne:{},
+      levelTwo:{},
     }
   },
   activated(){
-    this.getList(this.pd,this.deepCli);
+    this.getList(this.pd,this.deepCli,1);
   },
   mounted() {
     this.$store.dispatch('getZsbg');
@@ -120,21 +133,48 @@ export default {
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
-    getList(pd,deepCli) {
-      let p = {
-        pd:{
-          beginDate:pd.beginDate,
-      		endDate:pd.endDate,
-      		bgList:pd.bgList,
+    getList(pd,deepCli,type) {
+      let p={};
+      if(type==1){//点击查询按钮查询当前
+        deepCli.level = this.levelSave;
+        if(this.levelSave=='2'){deepCli = this.levelTwo};
+        if(this.levelSave=='1'){deepCli = this.levelOne};
+        if(this.levelSave==''){deepCli = this.levelKon};
+         p = {
+          pd:{
+            beginDate:pd.beginDate,
+            endDate:pd.endDate,
+            bgList:pd.bgList,
 
-          level:deepCli.level,
-      		dw:deepCli.dwbm,
-      		type:deepCli.dw=='合计'?deepCli.type='1':deepCli.type='0',
-          list:deepCli.dw=='合计'?deepCli.list=deepCli.hjList:[],
-        },
-        userCode:this.$store.state.uid,
-        userName:this.$store.state.uname,
-      };
+            level:this.levelSave,
+            dw:deepCli.dwbm,
+            type:deepCli.type,
+            list:deepCli.list,
+          },
+          userCode:this.$store.state.uid,
+          userName:this.$store.state.uname,
+        };
+      }else{//点击列表嵌入
+         p = {
+          pd:{
+            beginDate:pd.beginDate,
+            endDate:pd.endDate,
+            bgList:pd.bgList,
+
+            level:deepCli.level,
+            dw:deepCli.dwbm,
+            type:deepCli.dw=='合计'?deepCli.type='1':deepCli.type='0',
+            list:deepCli.dw=='合计'?deepCli.list=deepCli.hjList:[],
+          },
+          userCode:this.$store.state.uid,
+          userName:this.$store.state.uname,
+        };
+        this.levelSave = deepCli.level;
+        if(this.levelSave=='2'){this.levelTwo.dwbm = deepCli.dwbm;this.levelTwo.list = deepCli.hjList;this.levelTwo.type = deepCli.type;this.levelTwo.level = deepCli.level;};
+        if(this.levelSave=='1'){this.levelOne.dwbm = deepCli.dwbm;this.levelOne.list = deepCli.hjList;this.levelOne.type = deepCli.type;this.levelOne.level = deepCli.level;};
+        if(this.levelSave==''){this.levelKon.dwbm = deepCli.dwbm;this.levelKon.list = deepCli.hjList;this.levelKon.type = deepCli.type;this.levelKon.level = deepCli.level;};
+      }
+
       var url=this.Global.aport3+'/rxtj/getRxData';
       this.$api.post(url, p,
         r => {
@@ -142,6 +182,17 @@ export default {
             this.tableData = r.data;
           }
         })
+    },
+    goBack(){
+      console.log(this.deepCli.level)
+      if(this.levelSave=='2'){
+        this.deepCli.level='1';
+        this.getList(this.pd,this.levelOne)
+      }else if(this.levelSave=='1'){
+        this.deepCli.level='';
+        this.getList(this.pd,this.levelKon)
+      }
+      this.levelSave = this.deepCli.level;
     },
     toLink(pd,deepCli,type){
         let p={
@@ -158,6 +209,9 @@ export default {
         this.$router.push({name:'LZRYTJLB',query:{row:p}});
     },
     download(pd,deepCli){
+      if(this.levelSave=='2'){deepCli = this.levelTwo};
+      if(this.levelSave=='1'){deepCli = this.levelOne};
+      if(this.levelSave==''){deepCli = this.levelKon};
       let p = {
         pd:{
           beginDate:pd.beginDate,
@@ -166,8 +220,8 @@ export default {
 
           level:deepCli.level,
       		dw:deepCli.dwbm,
-      		type:deepCli.dw=='合计'?deepCli.type='1':deepCli.type='0',
-          list:deepCli.dw=='合计'?deepCli.list=deepCli.hjList:[],
+      		type:deepCli.type,
+          list:deepCli.list,
         },
         userCode:this.$store.state.uid,
         userName:this.$store.state.uname,

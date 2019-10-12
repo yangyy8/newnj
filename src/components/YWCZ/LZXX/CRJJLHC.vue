@@ -21,6 +21,25 @@
                     </el-date-picker>
                  </div>
                 </el-col>
+                <el-col  :sm="24" :md="12" :lg="12"  class="input-item">
+                  <span class="input-text">证件号码：</span>
+                  <el-input placeholder="请输入内容" size="small" v-model="pd.zjhm"  class="yy-input-input"></el-input>
+                </el-col>
+                <el-col  :sm="24" :md="12" :lg="12"  class="input-item">
+                  <span class="input-text">国家列表：</span>
+                  <el-select v-model="pd.type" filterable clearable  default-first-option placeholder="请选择"  size="small" class="ts-judge">
+                    <el-option value="0" label="等于"></el-option>
+                    <el-option value="1" label="不等于"></el-option>
+                  </el-select>
+                  <el-select v-model="pd.gjdq" filterable clearable multiple collapse-tags :multiple-limit="5" default-first-option placeholder="请选择" class="ts-country" size="small">
+                    <el-option
+                      v-for="(item,ind) in $store.state.gjdq"
+                      :key="ind"
+                      :label="item.dm+' - '+item.mc"
+                      :value="item.dm">
+                    </el-option>
+                  </el-select>
+                </el-col>
          </el-row>
          </el-col>
 
@@ -145,16 +164,14 @@ export default {
 
       }
     ],
-      tableData: [],
-
-
+    tableData: [],
     }
   },
   activated(){
     this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   mounted() {
-
+    this.$store.dispatch('getGjdq');
   //  this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   methods: {
@@ -186,6 +203,9 @@ export default {
       let p = {
         "beginTime": btime,
         "endTime":etime,
+        'zjhm':pd.zjhm,
+        'type':pd.type,
+        'gjdqList':pd.gjdq,
         "operatorId":this.$store.state.uid,
         "operatorNm":this.$store.state.uname,
       };
@@ -213,6 +233,9 @@ export default {
            "endTime":etime,
            "ssfjmc":i.fj,
            "sblx":type,
+           'zjhm':this.pd.zjhm,
+           'type':this.pd.type,
+           'gjdqList':this.pd.gjdq,
            "operatorId":this.$store.state.uid,
            "operatorNm":this.$store.state.uname,
         }

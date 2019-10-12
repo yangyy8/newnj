@@ -1,4 +1,12 @@
 @media screen and (min-width:1550px) and (max-width:1700px){
+  /* 非地图 */
+  .ts-judge{
+    width: 16%!important;
+    margin-right: 1.5%;
+  }
+  .ts-country{
+    width: 52.4%!important;
+  }
   .content .map-img{
     width: 50%;
     margin-left: -28%;
@@ -284,7 +292,7 @@
        width: 25%;
        height: 30px;
      }
-     
+
      .img-tr{
 
      }
@@ -346,6 +354,15 @@
   }
 }
 @media only screen and (min-width: 1700px){
+  /* 非首页 */
+  .ts-judge{
+    width: 16%!important;
+    margin-right: 1.5%;
+  }
+  .ts-country{
+    width: 52.4%!important;
+  }
+  /* 首页 */
   .content .map-img{
     width: 48%;
     margin-left: -28%;
@@ -509,7 +526,7 @@
   }
   .anim{
     transition: all 1s linear;
-    margin-top: -25px;
+    margin-top: -20px;
    }
    /* .tu1{height:296px}
    .tu1-1{height: 280px}
@@ -735,6 +752,15 @@
   }
 }
 @media only screen and (max-width: 1550px){
+  /* 非首页 */
+  .ts-judge{
+    width: 18%!important;
+    margin-right: 1.5%;
+  }
+  .ts-country{
+    width: 50.4%!important;
+  }
+  /* 首页 */
   .content .map-img{
     width: 46%;
     margin-left: -28%;
@@ -1132,7 +1158,7 @@
 .t-screen{width: 100%;font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
 background: url('../../assets/img/sg/bg.jpg') no-repeat;
 background-size: 100%  auto;}
-.t-screen .content{ height:100%; margin-top: 20px; text-align: center;}
+.t-screen .content{ height:100%; margin-top: 2%; text-align: center;}
 /* 中间地图 */
 .content .map{
   /* background: url('../../assets/img/sg/map2.png') no-repeat;

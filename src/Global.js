@@ -14,18 +14,18 @@ const aport1="api-permission";//大师网关
 const aport2="api-yewu";//左星海网关
 // const aport2="http/://192.168.1.101:9420";//左星海
 const aport3="api-yewu";//石飞网关
-// const aport3="http://10.0.30.177:9439";//石飞
+// const aport3="http://192.168.1.102:9439";//石飞
 const aport4="api-yujing";//李文龙 预警
 // const aport4="http://192.168.3.217:9440";//李文龙
 const aport5="api-yanpan";//李文龙研判
 // const aport5="http://10.0.30.47:9438";//李文龙
 
-// const aport6="http://10.33.72.217:9447";//孙
-const aport6="http://192.168.3.217:9447";
-// const aport7="http://10.33.72.218:9436";//游
-const aport7="http://192.168.3.217:9436";
-// const aport8="http://10.33.72.144:9438";//中管
-const aport8="http://192.168.3.217:9438";
+const aport6="http://10.33.72.217:9447";//孙
+// const aport6="http://192.168.3.217:9447";
+const aport7="http://10.33.72.218:9436";//游
+// const aport7="http://192.168.3.217:9436";
+const aport8="http://10.33.72.144:9438";//中管
+// const aport8="http://192.168.3.217:9438";
 // const serviceState=0 //217
 const serviceState=1 //公安网
 
