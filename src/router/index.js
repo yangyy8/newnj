@@ -379,6 +379,19 @@ export default new Router({
           meta:{title:['预警研判','预警信息','受理、签发信息核查预警']},
           component: resolve => require(['@/components/YJYP/YJ/QZXXYJ/SLQFXXYJ'], resolve),
         },
+        // 公务护照
+        {
+          path: 'GWHZYJ_XQ',
+          name: 'GWHZYJ_XQ',
+          meta:{title:['预警研判','预警信息','公务护照预警详情']},
+          component: resolve => require(['@/components/GYZJ/ASJXQ'], resolve),
+        },
+        {
+          path: 'GWHZYJ',
+          name: 'GWHZYJ',
+          meta:{title:['预警研判','预警信息','公务护照预警']},
+          component: resolve => require(['@/components/YJYP/YJ/QZXXYJ/GWHZYJ'], resolve),
+        },
         // 研判=====================================================================================
         {
           path: 'CZJWZHFX',
@@ -887,8 +900,15 @@ export default new Router({
         {
         path: 'BJSC',
         name: 'BJSC',
-        meta:{title:['日常管理','涉外单位','背景审查']},
+        meta:{title:['日常管理','涉外单位','数据上报']},
         component: resolve => require(['@/components/XTGL/XTSZ/BJSC'], resolve),
+        },
+        /* 数据上报 */
+        {
+        path: 'SJSB',
+        name: 'SJSB',
+        meta:{title:['日常管理','涉外单位','数据上报']},
+        component: resolve => require(['@/components/XTGL/XTSZ/SJSB'], resolve),
         },
         /* shy添加 */
         {

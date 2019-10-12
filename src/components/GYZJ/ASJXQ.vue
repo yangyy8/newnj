@@ -929,7 +929,7 @@ export default {
       this.pd.CLJG=this.row.CLJG;
     }
       this.getList(1,10,this.url0, 0); //人员基本信息
-      if(this.yjType=="1" || this.yjType=="2" || this.yjType=="5"){
+      if(this.yjType=="1" || this.yjType=="2" || this.yjType=="5" || this.yjType=="20"){
         this.getList(this.CurrentPage1,this.pageSize1,this.url1, 1); //签证信息
       }
 
@@ -942,7 +942,7 @@ export default {
       this.getList(1,10,this.url65, 65); //交通信息
       }
 
-      if(this.yjType=="1" || this.yjType=="2" || this.yjType=="4" || this.yjType=="5"){
+      if(this.yjType=="1" || this.yjType=="2" || this.yjType=="4" || this.yjType=="5" || this.yjType=="20"){
       this.getList(this.CurrentPage3,this.pageSize3,this.url3, 3); //临住信息
       }
       if(this.yjType=="1"){

@@ -194,8 +194,17 @@
           </div>
           <div class="content-foot">
             <div class="foot-title">
-              <img src="../assets/img/sg/pdjh.png" class="img-tl">
-              <img src="../assets/img/sg/warm.png" class="img-tr">
+              <div>
+                <img src="../assets/img/sg/pdjh.png" class="img-tl">
+              </div>
+              <div class="img-tr">
+                <ul>
+                  <li><img src="../assets/img/sg/wd_33.png" class="foot-imgbz"><span>正常</span></li>
+                  <li><img src="../assets/img/sg/wd_22.png" class="foot-imgbz"><span>繁忙</span></li>
+                  <li><img src="../assets/img/sg/wd_11.png" class="foot-imgbz"><span>拥挤</span></li>
+                  <div style="clear:both"></div>
+                </ul>
+              </div>
             </div>
           </div>
           <div class="pdjh-content">
@@ -209,10 +218,7 @@
                     </span>
                     <span class="ci">人</span>
                    </div>
-                   <img src="../assets/img/sg/wd_1.png" width="48" v-if="ind==0">
-                   <img src="../assets/img/sg/wd_2.png" width="48" v-if="ind==1">
-                   <img src="../assets/img/sg/wd_3.png" width="48" v-if="ind==2">
-                   <img src="../assets/img/sg/wd_4.png" width="48" v-if="ind!=0 && ind!=1 &&ind!=2">
+                   <img :src="i.isbusy=='拥挤'?imgOne:i.isbusy=='繁忙'?imgTwo:imgFor" width="48">
                  </li>
               </ul>
           </div>
@@ -362,10 +368,18 @@ import NAV from './NAV'
 import echarts from 'echarts'
 import '../assets/js/jquery-3.4.1.min.js'
 import '../assets/js/scroll.js'
+import imgUrlOne from "../assets/img/sg/wd_1.png"
+import imgUrlTwo from "../assets/img/sg/wd_2.png"
+// import imgUrlThr from "../assets/img/sg/wd_3.png"
+import imgUrlFor from "../assets/img/sg/wd_4.png"
 export default {
   components:{NAV},
   data() {
     return {
+      imgOne:imgUrlOne,
+      imgTwo:imgUrlTwo,
+      // imgThr:imgUrlThr,
+      imgFor:imgUrlFor,
       mapCenter:null,
       ajCharts:null,
       lzCharts:null,
@@ -496,6 +510,7 @@ export default {
       showMenuData:[],
       dataList:[],
       checkedList:[],
+
     }
   },
   mounted() {

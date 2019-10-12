@@ -1,4 +1,9 @@
-
+.green{
+  color: green;
+}
+.el-textarea.is-disabled .el-textarea__inner{
+  color: #a7aab1!important;
+}
 .inputInner .el-input__inner{
   border: 1px solid #e4e8ee;
 }
