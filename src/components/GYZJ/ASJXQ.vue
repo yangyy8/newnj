@@ -581,7 +581,7 @@
       </div>
     </div>
 
-   <div class="stu-footer" v-if="jb=='2'">
+   <div class="stu-footer" v-if="jb=='2' && sshow">
      <div class="stu-title">分局调查意见</div>
      <el-row type="flex" class="mb-15">
       <el-col :span="20">
@@ -602,8 +602,14 @@
       处理人: {{$store.state.uname}}
     </div>
    </div>
+   <div class="stu-footer" v-if="jb=='2' && !sshow">
+     <div class="stu-title">分局调查意见：{{pd.FJYJ}}</div>
 
-   <div class="stu-footer" v-if="jb=='4'">
+   </div>
+
+
+   <div class="stu-footer" v-if="org=='320100060000' && sshow">
+     <div class="stu-title">分局调查意见：{{pd.FJYJ}}</div>
      <div class="stu-title">支队处理意见</div>
      <el-row type="flex" class="mb-15">
       <el-col :span="20">
@@ -617,16 +623,20 @@
       </el-col>
       <el-col :span="4"  class="down-btn-area">
         <el-button type="primary" class="mb-5" size="small" v-if="sshow" @click="chuli()">确定</el-button>
-        <!-- <el-button type="warning" class="m0" size="small" @click="$router.go(-1)">返回</el-button> -->
       </el-col>
     </el-row>
     <div class="czfont">
       处理人: {{$store.state.uname}}
     </div>
    </div>
+   <div class="stu-footer" v-if="jb=='4' && !sshow">
+     <div class="stu-title">分局调查意见：{{pd.FJYJ}}</div>
+      <div class="stu-title">支队处理意见：{{pd.ZDYJ}}</div>
+   </div>
 
-   <div class="stu-footer" v-else>
-     <div class="stu-title">甄别结果</div>
+   <div class="stu-footer" v-if="jb=='1'">
+     <div class="stu-title">分局调查意见：{{pd.FJYJ}}</div>
+     <div class="stu-title">处理意见：</div>
      <el-row type="flex" class="mb-15">
       <el-col :span="20">
         <el-input
@@ -639,7 +649,6 @@
       </el-col>
       <el-col :span="4"  class="down-btn-area">
         <el-button type="primary" class="mb-5" size="small" v-if="sshow" @click="chuli()">确定</el-button>
-        <!-- <el-button type="warning" class="m0" size="small" @click="$router.go(-1)">返回</el-button> -->
       </el-col>
     </el-row>
     <div class="czfont">
@@ -912,6 +921,7 @@ export default {
       url10:this.Global.aport4 + '/illegalEmploymentWarningController/getYuJingXinXiByRybh',//预警信息
       sshow:true,
       jb:1,
+      org:'320100060000',
     }
   },
   activated() {
@@ -924,6 +934,7 @@ export default {
     this.row = this.$route.query.row;
     this.sshow=true;
     this.pd={};
+   this.org=this.$store.state.orgid;
     if(this.row!=undefined && (this.row.CLZT=='0'||this.row.CLZT=='CLZT_0')){
       this.sshow=false;
       this.pd.CLJG=this.row.CLJG;
@@ -1178,6 +1189,7 @@ export default {
             return;
           }
          this.pcl.CLJG=this.pd.CLJG;
+         this.pcl.CLZT="1";
       }
       this.pcl.YJID=this.row.YJID;
       this.pcl.CLDW=this.$store.state.orgid;

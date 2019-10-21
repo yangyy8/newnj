@@ -277,4 +277,5 @@ background-size: 100%  100%;}
   transition: all 1s linear;
   margin-top: -25px;
  }
+ .screen .footer{text-align: right;}
 /* end */
