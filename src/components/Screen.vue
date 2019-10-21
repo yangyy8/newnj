@@ -55,7 +55,7 @@
       <el-col :span="12" style="padding:25px 62px;">
         <div class="warning">
           <ul :class="{anim:animate==true}" @mouseover="sbEnter()" @mouseout="sbleave()">
-             <li  v-for="(item,index) in yjList" @click="$router.push({name:item.url})" class="hand" style="float:left;width:33%;">● {{item.mc}}<span class="cred tt-pad">{{item.num}}</span>条</li>
+             <li  v-for="(item,index) in yjList" @click="$router.push({name:item.url})" class="hand" style="float:left;width:33%;  padding: 0px 0px 4px 0px;">● {{item.mc}}<span class="cred tt-pad">{{item.num}}</span>条</li>
           </ul>
         </div>
         <div class="content">
@@ -135,19 +135,25 @@ export default {
         zddata:[],
         sgdata:[],
         realTime:'',
+        maptype:'L',
     }
   },
   mounted() {
-    var ss=[];
-    ss.push({dm:1,mc:'六合区',value:123});
-    ss.push({dm:2,mc:'江宁区',value:123});
-    ss.push({dm:3,mc:'栖霞区',value:123});
-    this.drawLine(ss,null);
     this.getpdjh();
     setInterval(this.realTimeFun,100);
     setInterval(this.scrollYj,2000);
+    setInterval(this.scroll,2000);
+    setInterval(this.scrollt,2000);
+    this.maptype=this.$route.query.mtype;
+    if(this.maptype==undefined){
+      this.maptype="L";
+    }
     this.allEcharts();
+
+
+
   },
+
   methods:{
         realTimeFun(){
           this.realTime = formatDate(new Date(),'yyyy-MM-dd hh:mm:ss')
@@ -160,12 +166,36 @@ export default {
           this.lzFun();
           this.zgFun();
           this.jtFun();
+          this.mapFun(this.maptype);
           window.addEventListener("resize", () => {
             this.ajCharts.resize();
             this.lzCharts.resize();
             this.zgCharts.resize();
             this.jtCharts.resize();
           });
+        },
+        scroll(){
+           this.animate=true;    // 因为在消息向上滚动的时候需要添加css3过渡动画，所以这里需要设置true
+          if(this.zddata.length>0){
+           setTimeout(()=>{
+              //  这里直接使用了es6的箭头函数，省去了处理this指向偏移问题，代码也比之前简化了很多
+                   this.zddata.push(this.zddata[0]);  // 将数组的第一个元素添加到数组的
+                   this.zddata.shift();               //删除数组的第一个元素
+                   this.animate=false; // margin-top 为0 的时候取消过渡动画，实现无缝滚动
+           },0)
+         }
+        },
+        scrollt(){
+           this.animate=true;    // 因为在消息向上滚动的时候需要添加css3过渡动画，所以这里需要设置true
+           if(this.sgdata.length>0){
+           setTimeout(()=>{      //  这里直接使用了es6的箭头函数，省去了处理this指向偏移问题，代码也比之前简化了很多
+
+                   this.sgdata.push(this.sgdata[0]);  // 将数组的第一个元素添加到数组的
+                   this.sgdata.shift();               //删除数组的第一个元素
+                   this.animate=false;
+                 // margin-top 为0 的时候取消过渡动画，实现无缝滚动
+           },0)
+           }
         },
         //预警提示滚动
       scrollYj(){
@@ -206,92 +236,364 @@ export default {
             this.pdjhdata=r;
           })
       },
-      drawLine(data,level){
-        if (this.mapCenter != null) {
-            this.mapCenter.clear();
+      sbEnter(){
+        console.log('enter')
+        // this.animate=false;
+        clearInterval(this.timer);
+        this.timer=null;
+      },
+      sbleave(){
+        console.log('leave')
+        // this.animate=true;
+        this.timer=setInterval(this.scrollYj,2000);
+      },
+      mapFun(val){
+        let p={
+          year:this.lzyear,
+          month:this.lzmonth,
+          day:this.lzdate,
+          type:val
         }
+        this.$api.post(this.Global.aport+'/home/getCenterData',p,
+         r =>{
+           if(r.success){
+             this.drawLine(r.data.series,r.data.legend,r.data.name)
+           }
+         })
+      },
+
+      drawLine(data,legend,name){
+        console.log(data,legend,name);
+        this.mapCenter = echarts.init(document.getElementById('home_map'));
+        var shadowColor='';
         //x, y, 名称， 数值， symbolSize
-        var seriesData = [
-            [13, 27, '六合区', 12, 40],
-            [11, 13, '江宁区', 10, 40],
-            [3, 18, '浦口区', 10, 40],
-            [18, 7, '溧水区', 10, 40],
-            [15, 1, '高淳区', 10, 40],
-            [11, 22, '栖霞区', 10, 30],
-            [7, 16, '雨花台区', 10, 20],
-            [10, 20, '鼓楼区', 10, 20],
-            [13, 21, '玄武区', 10, 25],
-            [8.5, 18, '建邺区', 10, 20],
-            [11.5, 19, '秦淮区', 10, 20],
-            [9, 23, '江北新区', 10, 20]
-        ];
-
-        for (var i =0; i < seriesData.length; i++) {
-            for (var j =0; j< data.length; j++) {
-
-                if (seriesData[i][2] == data[j].mc) {
-                    seriesData[i][3] = data[j].value;
-                    seriesData[i][6] = data[j].dm;
-                }
-            }
-        }
+        // var seriesData = [
+        //     [13, 27, '六合区', 12, 40],
+        //     [11, 13, '江宁区', 10, 40],
+        //     [3, 18, '浦口区', 10, 40],
+        //     [18, 7, '溧水区', 10, 40],
+        //     [15, 1, '高淳区', 10, 40],
+        //     [11, 22, '栖霞区', 10, 30],
+        //     [7, 16, '雨花台区', 10, 20],
+        //     [10, 20, '鼓楼区', 10, 20],
+        //     [13, 21, '玄武区', 10, 25],
+        //     [8.5, 18, '建邺区', 10, 20],
+        //     [11.5, 19, '秦淮区', 10, 20],
+        //     [9, 23, '江北新区', 10, 20]
+        // ];
         //玄武区、秦淮区、鼓楼区、建邺区、栖霞区、雨花台区、浦口区、江宁区、六合区、溧水区、高淳区
-        var option = {
-            //backgroundColor: '#404a59',
-            xAxis: {
-                type: 'category',
-                data: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22],
-                show: false
-            },
-            yAxis: {
-                type: 'category',
-                data: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,35,26,27,28,29,30,31,32],
-                show: false,
-                boundaryGap: false
-            },
-            grid: {
-                left: '0%',
-                right: '0%',
-                bottom: '0%',
-                containLabel: true
-            },
-            tooltip : {
-                trigger: 'item',
-                formatter: function (params, ticket, callback) {
-                  console.log(params);
-                    var html = "<div style='border-bottom: 1px dotted #666'>" + params.value[2] + "统计情况</div>";
-                    html+= "<div style='text-align: left'>总人数：" + params.value[3] + "</div>";
-                    return html;
+        for (var i =0; i < this.seriesData.length; i++) {
+          for(var h=0;h<this.seriesData[i].length;h++){
+            for (var j =0; j< data.length; j++) {
+              // console.log('=====',this.seriesData[i][h][2])
+                if (this.seriesData[i][h][2] == data[j].mc) {
+                    this.seriesData[i][h][3] = data[j].lzvalue;
+                    this.seriesData[i][h][5] = data[j].dm;
+                    this.seriesData[i][h][6] = data[j].cla;
+                    this.seriesData[i][h][7] = data[j].level;
+                    this.seriesData[i][h][8] = data[j].czvalue;
+                    this.seriesData[i][h][9] = data[j].name;
+                    if(data[j].level==3){
+                      // 绿色3
+                      this.seriesData[i][h][10]='#56e4c1';
+                      this.seriesData[i][h][11]='#3ee28d';
+                    }
+                    else if(data[j].level==2){
+                      // 蓝色2
+                      this.seriesData[i][h][10]='#409AFE';
+                      this.seriesData[i][h][11]='#5581FF';
+                    }
+                    else if(data[j].level==1){
+                      // 黄色1
+                      this.seriesData[i][h][10]='#FE9554';
+                      this.seriesData[i][h][11]='#FC5435';
+                    }
+                    else if(data[j].level==0){
+                      // 红色0
+                      this.seriesData[i][h][10]='#ff5b60';
+                      this.seriesData[i][h][11]='#fe3a75';
+                    }
                 }
+
+            }
+          }
+        }
+        let _this = this
+        _this.mapCenter.setOption({
+          xAxis: {
+              type: 'category',
+              data: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22],
+              show: false
+          },
+          legend:{
+            data:legend,
+            textStyle:{
+              color:'#fff'
             },
-            series: [{
-                data: seriesData,
+            y:_this.yjl,
+            x:'10px',
+            orient: 'vertical', // 'vertical'
+          },
+          yAxis: {
+              type: 'category',
+              data: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,35,26,27,28,29,30,31,32],
+              show: false,
+              boundaryGap: false
+          },
+          grid: {
+              left: '0%',
+              right: '0%',
+              bottom: '0%',
+              containLabel: true
+          },
+          tooltip : {
+              trigger: 'item',
+              formatter: function (params, ticket, callback) {}
+          },
+          series: [
+            {//六合
+              name:name['liuhe'],
+              data: _this.seriesData[0],
+              symbolSize: function (v) {
+                  return v[4];
+              },
+              type: 'effectScatter',
+              hoverAnimation:true,
+              rippleEffect: {
+                  brushType: 'stroke', //stroke(涟漪)和fill(扩散)，两种效果:3
+                  scale:1.7
+              },
+              itemStyle: {
+                normal: {
+                    color:function(params){
+            					//颜色渐变，右/下/左/上，从下往上渐变
+                      // console.log('===',params);
+            					return new echarts.graphic.LinearGradient(0,0,1,1,[
+            						{offset: 0,color: params.value[10]},
+            						{offset: 1,color: params.value[11]},
+            					])
+                    },
+                    shadowBlur: 18,
+                    shadowColor: _this.seriesData[0][0][11],
+                },
+              },
+              label: {
+                  normal: {
+                      show: true,
+                      color:'#fff',
+                      formatter: function(v) {
+                          return v.value[2];
+                      },
+                      fontSize: 10,
+                      fontWeight:'bold',
+                      rich: {
+                          name: {
+                              textBorderColor: '#fff'
+                          }
+                      }
+                  }
+              },
+            },
+            {//江宁
+                name:name['jiangning'],
+                data: _this.seriesData[1],
+                hoverAnimation:true,
                 symbolSize: function (v) {
                     return v[4];
                 },
                 type: 'effectScatter',
                 rippleEffect: {
-                    brushType: 'stroke'
+                    brushType: 'stroke', //stroke(涟漪)和fill(扩散)，两种效果:3
+                    scale:1.7
                 },
                 itemStyle: {
-                    normal: {
-
-                        color:'#f36334',
-                        shadowBlur: 20,
-                        shadowColor: '#333'
-                    }
+                  normal: {
+                      color:function(params){
+              					//颜色渐变，右/下/左/上，从下往上渐变
+                        shadowColor = params.value[10]
+              					return new echarts.graphic.LinearGradient(0,0,1,1,[
+              						{offset: 0,color: params.value[10]},
+              						{offset: 1,color: params.value[11]},
+              					])
+                      },
+                      shadowBlur: 18,
+                      shadowColor: _this.seriesData[1][0][11]
+                  },
                 },
                 label: {
                     normal: {
                         show: true,
-                        //position: app.config.position,
-                        //distance: app.config.distance,
-                        //align: app.config.align,
-                        //verticalAlign: app.config.verticalAlign,
-                        //rotate: app.config.rotate,
-                        //formatter: '{c}  {name|{a}}',
+                        color:'#fff',
                         formatter: function(v) {
-
+                            return v.value[2];
+                        },
+                        fontSize: 10,
+                        fontWeight:'bold',
+                        rich: {
+                            name: {
+                                textBorderColor: '#fff'
+                            }
+                        }
+                    }
+                },
+            },
+            {//浦口
+                  name:name['pukou'],
+                  data: _this.seriesData[2],
+                  hoverAnimation:true,
+                  symbolSize: function (v) {
+                      return v[4];
+                  },
+                  type: 'effectScatter',
+                  rippleEffect: {
+                      brushType: 'stroke', //stroke(涟漪)和fill(扩散)，两种效果:3
+                      scale:1.7
+                  },
+                  itemStyle: {
+                    normal: {
+                        color:function(params){
+                          //颜色渐变，右/下/左/上，从下往上渐变
+                          return new echarts.graphic.LinearGradient(0,0,1,1,[
+                            {offset: 0,color: params.value[10]},
+                            {offset: 1,color: params.value[11]},
+                          ])
+                        },
+                        shadowBlur: 18,
+                        shadowColor: _this.seriesData[2][0][11]
+                    },
+                  },
+                  label: {
+                      normal: {
+                          show: true,
+                          color:'#fff',
+                          formatter: function(v) {
+                              return v.value[2];
+                          },
+                          fontSize: 10,
+                          fontWeight:'bold',
+                          rich: {
+                              name: {
+                                  textBorderColor: '#fff'
+                              }
+                          }
+                      }
+                  },
+            },
+            {//溧水
+                    name:name['lishui'],
+                    data: _this.seriesData[3],
+                    hoverAnimation:true,
+                    symbolSize: function (v) {
+                        return v[4];
+                    },
+                    type: 'effectScatter',
+                    rippleEffect: {
+                        brushType: 'stroke', //stroke(涟漪)和fill(扩散)，两种效果:3
+                        scale:1.7
+                    },
+                    itemStyle: {
+                      normal: {
+                          color:function(params){
+                            //颜色渐变，右/下/左/上，从下往上渐变
+                            return new echarts.graphic.LinearGradient(0,0,1,1,[
+                              {offset: 0,color: params.value[10]},
+                              {offset: 1,color: params.value[11]},
+                            ])
+                          },
+                          shadowBlur: 18,
+                          shadowColor: _this.seriesData[3][0][11]
+                      },
+                    },
+                    label: {
+                        normal: {
+                            show: true,
+                            color:'#fff',
+                            fontWeight:'bold',
+                            formatter: function(v) {
+                                return v.value[2];
+                            },
+                            fontSize: 10,
+                            rich: {
+                                name: {
+                                    textBorderColor: '#fff'
+                                }
+                            }
+                        }
+                    },
+            },
+            {//高淳
+              name:name['gaochun'],
+              data: _this.seriesData[4],
+              hoverAnimation:true,
+              symbolSize: function (v) {
+                  return v[4];
+              },
+              type: 'effectScatter',
+              rippleEffect: {
+                  brushType: 'stroke', //stroke(涟漪)和fill(扩散)，两种效果:3
+                  scale:1.7
+              },
+              itemStyle: {
+                normal: {
+                    color:function(params){
+                      //颜色渐变，右/下/左/上，从下往上渐变
+                      return new echarts.graphic.LinearGradient(0,0,1,1,[
+                        {offset: 0,color: params.value[10]},
+                        {offset: 1,color: params.value[11]},
+                      ])
+                    },
+                    shadowBlur: 18,
+                    shadowColor: _this.seriesData[4][0][11]
+                },
+              },
+              label: {
+                  normal: {
+                      show: true,
+                      color:'#fff',
+                      fontWeight:'bold',
+                      formatter: function(v) {
+                          return v.value[2];
+                      },
+                      fontSize: 10,
+                      rich: {
+                          name: {
+                              textBorderColor: '#fff'
+                          }
+                      }
+                  }
+              },
+            },
+            {//栖霞
+                name:name['qixia'],
+                data: _this.seriesData[5],
+                hoverAnimation:true,
+                symbolSize: function (v) {
+                    return v[4];
+                },
+                type: 'effectScatter',
+                rippleEffect: {
+                    brushType: 'stroke', //stroke(涟漪)和fill(扩散)，两种效果:3
+                    scale:1.7
+                },
+                itemStyle: {
+                  normal: {
+                      color:function(params){
+                        //颜色渐变，右/下/左/上，从下往上渐变
+                        return new echarts.graphic.LinearGradient(0,0,1,1,[
+                          {offset: 0,color: params.value[10]},
+                          {offset: 1,color: params.value[11]},
+                        ])
+                      },
+                      shadowBlur: 10,
+                      shadowColor: _this.seriesData[5][0][11]
+                  },
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        color:'#fff',
+                        fontWeight:'bold',
+                        formatter: function(v) {
                             return v.value[2];
                         },
                         fontSize: 10,
@@ -302,12 +604,278 @@ export default {
                         }
                     }
                 },
-            }]
-        };
-        this.mapCenter = echarts.init(document.getElementById('home_map'));
-        this.mapCenter.setOption(option);
-        this.allEcharts();
-
+            },
+            {//雨花台
+                name:name['yuhua'],
+                data: _this.seriesData[6],
+                hoverAnimation:true,
+                symbolSize: function (v) {
+                    return v[4];
+                },
+                type: 'effectScatter',
+                rippleEffect: {
+                    brushType: 'stroke', //stroke(涟漪)和fill(扩散)，两种效果:3
+                    scale:1.7
+                },
+                itemStyle: {
+                  normal: {
+                      color:function(params){
+              					//颜色渐变，右/下/左/上，从下往上渐变
+              					return new echarts.graphic.LinearGradient(0,0,1,1,[
+              						{offset: 0,color: params.value[10]},
+              						{offset: 1,color: params.value[11]},
+              					])
+                      },
+                      shadowBlur: 10,
+                      shadowColor: _this.seriesData[6][0][11]
+                  },
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        color:'#fff',
+                        fontWeight:'bold',
+                        formatter: function(v) {
+                            return v.value[2];
+                        },
+                        fontSize: 10,
+                        rich: {
+                            name: {
+                                textBorderColor: '#fff'
+                            }
+                        }
+                    }
+                },
+            },
+            {//鼓楼
+                name:name['gulou'],
+                data: _this.seriesData[7],
+                hoverAnimation:true,
+                symbolSize: function (v) {
+                    return v[4];
+                },
+                type: 'effectScatter',
+                rippleEffect: {
+                    brushType: 'stroke', //stroke(涟漪)和fill(扩散)，两种效果:3
+                    scale:1.7
+                },
+                itemStyle: {
+                  normal: {
+                      color:function(params){
+              					//颜色渐变，右/下/左/上，从下往上渐变
+              					return new echarts.graphic.LinearGradient(0,0,1,1,[
+              						{offset: 0,color: params.value[10]},
+              						{offset: 1,color: params.value[11]},
+              					])
+                      },
+                      shadowBlur: 10,
+                      shadowColor: _this.seriesData[7][0][11]
+                  },
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        color:'#fff',
+                        fontWeight:'bold',
+                        formatter: function(v) {
+                            return v.value[2];
+                        },
+                        fontSize: 10,
+                        rich: {
+                            name: {
+                                textBorderColor: '#fff'
+                            }
+                        }
+                    }
+                },
+            },
+            {//玄武
+                name:name['xuanwu'],
+                data: _this.seriesData[8],
+                hoverAnimation:true,
+                symbolSize: function (v) {
+                    return v[4];
+                },
+                type: 'effectScatter',
+                rippleEffect: {
+                    brushType: 'stroke', //stroke(涟漪)和fill(扩散)，两种效果:3
+                    scale:1.7
+                },
+                itemStyle: {
+                  normal: {
+                      color:function(params){
+                        //颜色渐变，右/下/左/上，从下往上渐变
+                        return new echarts.graphic.LinearGradient(0,0,1,1,[
+                          {offset: 0,color: params.value[10]},
+                          {offset: 1,color: params.value[11]},
+                        ])
+                      },
+                      shadowBlur: 10,
+                      shadowColor: _this.seriesData[8][0][11]
+                  },
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        color:'#fff',
+                        formatter: function(v) {
+                            return v.value[2];
+                        },
+                        fontSize: 10,
+                        fontWeight:'bold',
+                        rich: {
+                            name: {
+                                textBorderColor: '#fff'
+                            }
+                        }
+                    }
+                },
+            },
+            {//建邺
+                name:name['jianye'],
+                data: _this.seriesData[9],
+                hoverAnimation:true,
+                symbolSize: function (v) {
+                    return v[4];
+                },
+                type: 'effectScatter',
+                rippleEffect: {
+                    brushType: 'stroke', //stroke(涟漪)和fill(扩散)，两种效果:3
+                    scale:1.7
+                },
+                itemStyle: {
+                  normal: {
+                      color:function(params){
+              					//颜色渐变，右/下/左/上，从下往上渐变
+              					return new echarts.graphic.LinearGradient(0,0,1,1,[
+              						{offset: 0,color: params.value[10]},
+              						{offset: 1,color: params.value[11]},
+              					])
+                      },
+                      shadowBlur: 10,
+                      shadowColor: _this.seriesData[9][0][11]
+                  },
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        color:'#fff',
+                        fontWeight:'bold',
+                        formatter: function(v) {
+                            return v.value[2];
+                        },
+                        fontSize: 10,
+                        rich: {
+                            name: {
+                                textBorderColor: '#fff'
+                            }
+                        }
+                    }
+                },
+            },
+            {//秦淮
+                name:name['qihuai'],
+                data: _this.seriesData[10],
+                hoverAnimation:true,
+                hoverAnimation:true,
+                symbolSize: function (v) {
+                    return v[4];
+                },
+                type: 'effectScatter',
+                rippleEffect: {
+                    brushType: 'stroke', //stroke(涟漪)和fill(扩散)，两种效果:3
+                    scale:1.7
+                },
+                itemStyle: {
+                  normal: {
+                      color:function(params){
+                        //颜色渐变，右/下/左/上，从下往上渐变
+                        return new echarts.graphic.LinearGradient(0,0,1,1,[
+                          {offset: 0,color: params.value[10]},
+                          {offset: 1,color: params.value[11]},
+                        ])
+                      },
+                      shadowBlur: 10,
+                      shadowColor: _this.seriesData[10][0][11]
+                  },
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        color:'#fff',
+                        fontWeight:'bold',
+                        formatter: function(v) {
+                            return v.value[2];
+                        },
+                        fontSize: 10,
+                        rich: {
+                            name: {
+                                textBorderColor: '#fff'
+                            }
+                        }
+                    }
+                },
+            },
+            {//江北
+                name:name['jiangbei'],
+                data: _this.seriesData[11],
+                hoverAnimation:true,
+                symbolSize: function (v) {
+                    return v[4];
+                },
+                type: 'effectScatter',
+                rippleEffect: {
+                    brushType: 'stroke', //stroke(涟漪)和fill(扩散)，两种效果:3
+                    scale:1.7
+                },
+                itemStyle: {
+                  normal: {
+                      color:function(params){
+                        //颜色渐变，右/下/左/上，从下往上渐变
+                        return new echarts.graphic.LinearGradient(0,0,1,1,[
+                          {offset: 0,color: params.value[10]},
+                          {offset: 1,color: params.value[11]},
+                        ])
+                      },
+                      shadowBlur: 15,
+                      shadowColor: _this.seriesData[11][0][11]
+                  },
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        color:'#fff',
+                        fontWeight:'bold',
+                        formatter: function(v) {
+                            return v.value[2];
+                        },
+                        fontSize: 10,
+                        rich: {
+                            name: {
+                                textBorderColor: '#fff'
+                            }
+                        }
+                    }
+                },
+            },
+        ]
+        })
+        window.addEventListener("resize", () => {
+          _this.mapCenter.resize();
+        });
+        _this.mapCenter.on('mouseover',function(params){
+          _this.claname = params.value[6];
+          _this.isShow=true;
+          _this.aaa(params.value[3],params.value[8],params.value[5],params.value[2]);
+        })
+        var mapCan = document.getElementById('mapall');
+         mapCan.onmouseleave = function (e) {
+           // console.log(e.target.lastChild.id,e.target.firstChild.id)
+           if(e.target.lastChild.id=='tt'||e.target.firstChild.id=='home_map'){
+             // console.log('鼠标离开',e);
+            _this.isShow=false;
+           }
+         }
       },
 
       //常住人员身份分析
