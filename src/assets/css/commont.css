@@ -28,7 +28,7 @@
 }
 .del-title{
   color:#1297d5;
-  font-size: 16px;
+  font-size: 15px;
   padding-bottom: 24px;
   font-weight: bold;
 }
@@ -81,7 +81,7 @@
 .t-bjrt{
   border-radius: 3px;
   padding: 18px 0 0 44px;
-  border-left: 1px solid #e9eeef
+  /* border-left: 1px solid #e9eeef */
 }
 .t-tsh{
   min-height: 350px;
@@ -328,6 +328,9 @@
 .t-pad{
   padding: 0px 3%;
 }
+.t-pb20{
+  padding-bottom: 20px;
+}
 .redx{
   color: red;
 }
@@ -445,4 +448,12 @@
 .menuClass  .el-checkbox-group{
   display: flex;
   flex-wrap:wrap;
+}
+.imgFd .el-dialog__body{
+  overflow: scroll;
+  margin: 30px 20px;
+  padding: 0!important;
+}
+.border-bot{
+  border-bottom: 1px dotted #dedada;
 }

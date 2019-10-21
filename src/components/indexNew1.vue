@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="t-screen">
+  <div class="t-screen" :class="{'tt-screent':isFull,'tt-screenM':isFullM}" ref="fullS" style="">
     <div class="">
       <div class="index_nav_1" style="z-index:1000">
         <div class="nav_1" :class="{'nav_1_check':nav1Id==a.dm}" v-for="(a,ind) in nav1" @mouseover="getNav(a,ind)">
@@ -37,6 +37,7 @@
         <div class="common-report hand" @click="shortMenu">
           常用报表
         </div>
+        <span class="el-icon-switch-button login-out hand" title="退出" @click="loginOut"></span>
         <transition name="el-zoom-in-top">
           <div class="arrow_content" v-show="bjShow">
               <div class="arrow_box">
@@ -403,6 +404,7 @@ export default {
       lzdate:'',
       mapList:{},
       screenWidth: document.body.clientWidth,
+      fullHeight: document.documentElement.clientHeight,
       imgHeightOne:this.$store.state.imgHeightOne,
       imgHeightTwo:this.$store.state.imgHeightTwo,
       imgHeightThr:this.$store.state.imgHeightThr,
@@ -510,7 +512,8 @@ export default {
       showMenuData:[],
       dataList:[],
       checkedList:[],
-
+      isFull:false,
+      isFullM:false,
     }
   },
   mounted() {
@@ -524,8 +527,10 @@ export default {
      const that = this
      window.onresize = () => {
         return (() => {
-            window.screenWidth = document.body.clientWidth
-            that.screenWidth = window.screenWidth
+            window.screenWidth = document.body.clientWidth;
+            that.screenWidth = window.screenWidth;
+            window.fullHeight = document.documentElement.clientHeight
+            that.fullHeight = window.fullHeight;
             that.imgHeightOne=that.$refs.ajC.offsetHeight;
             that.imgHeightTwo=that.$refs.lzC.offsetHeight;
             that.imgHeightThr=that.$refs.zgC.offsetHeight;
@@ -536,6 +541,16 @@ export default {
             that.$store.commit('getFor',that.imgHeightFor);
             console.log('mounted',that.imgHeightOne,that.imgHeightTwo,that.imgHeightThr,that.imgHeightFor);
         })()
+     }
+     if(this.fullHeight>=657&&this.fullHeight<=768){
+       this.isFullM = true;
+     }else{
+       this.isFullM = false;
+     }
+     if(this.fullHeight>800){
+       // this.isFull = true
+       console.log('this.fullHeight',this.fullHeight)
+       this.$refs.fullS.style.height = this.fullHeight +'px';
      }
     if(this.screenWidth<1550){
       this.seriesData=[
@@ -586,6 +601,14 @@ export default {
     //   {dm:11,mc:'江宁区',value:123,cla:'jiangning'},
     //   {dm:12,mc:'高淳区',value:123,cla:'gaochun'},
     // ];
+    // this.$nextTick(()=>{
+    //   this.imgHeightOne=this.$refs.ajC.offsetHeight;
+    //   this.imgHeightTwo=this.$refs.lzC.offsetHeight;
+    //   this.imgHeightThr=this.$refs.zgC.offsetHeight;
+    //   this.imgHeightFor=this.$refs.jtC.offsetHeight;
+    //   console.log('mounted==',this.imgHeightOne,this.imgHeightTwo,this.imgHeightThr,this.imgHeightFor);
+    // })
+
     this.allEcharts();
     this.yearFun();
     this.aaa();
@@ -593,6 +616,28 @@ export default {
   },
   activated(){},
   watch: {
+    fullHeight (val) {
+       // if(!this.timer) {
+       //   this.fullHeight = val
+       //   this.timer = true
+       //   let that = this
+       //    setTimeout(function (){
+       //     that.timer = false
+       //    },400)
+       // }
+       if(val>=657&&val<=768){
+         this.isFullM = true;
+       }else{
+         this.isFullM = false;
+       }
+       if(val>800){
+         // this.isFull = true
+         this.$refs.fullS.style.height = val+'px';
+       }
+       // else{
+       //   this.isFull = false
+       // }
+     },
       screenWidth (val) {
           this.screenWidth = val;
           if(this.screenWidth<1550){
@@ -634,16 +679,32 @@ export default {
           this.ajFun();
       },
       imgHeightOne(val){
-        document.getElementById("ajecharts").style.height=(val-20)+'px';
+        this.$nextTick(()=>{
+          console.log('one==',val);
+          document.getElementById("ajecharts").style.height=(val-20)+'px';
+        })
+
       },
       imgHeightTwo(val){
-        document.getElementById("lzecharts").style.height=(val-20)+'px';
+        this.$nextTick(()=>{
+          console.log('two==',val);
+          document.getElementById("lzecharts").style.height=(val-20)+'px';
+        })
+
       },
       imgHeightThr(val){
-        document.getElementById("zgecharts").style.height=(val-20)+'px';
+        this.$nextTick(()=>{
+          console.log('thr==',val);
+          document.getElementById("zgecharts").style.height=(val-20)+'px';
+        })
+
       },
       imgHeightFor(val){
-        document.getElementById("jtecharts").style.height=(val)+'px';
+        this.$nextTick(()=>{
+          console.log('for==',val);
+          document.getElementById("jtecharts").style.height=(val)+'px';
+        })
+
       },
   },
   created(){
@@ -651,9 +712,29 @@ export default {
       setInterval(this.scrollt,2000);
       this.timer=setInterval(this.scrollYj,2000);
       setInterval(this.realTimeFun,1000);
-
   },
   methods:{
+      loginOut(){
+          if(this.$store.state.wtoken!='' && this.$store.state.wtoken!=undefined && this.$store.state.serverip!='' && this.$store.state.serverip!=undefined){
+           window.location.href='http://tymh.gaj.nkg.js:908/loginOperate/toUserLogin';return ;
+          }else {
+            var url=this.Global.aport1+'/user/logout';
+            var formData = new FormData();
+            formData.append("token",this.$store.state.token);
+            let p=formData;
+            this.$api.post(url, p,
+              r => {
+                if (r.success) {
+                  // this.$message({
+                  //   message: '退出成功',
+                  //   type: 'success'
+                  // });
+                }
+                localStorage.clear();
+                this.$router.push('/')
+              })
+        }
+      },
       realTimeFun(){
         this.realTime = formatDate(new Date(),'yyyy-MM-dd hh:mm')
       },
@@ -1792,12 +1873,12 @@ export default {
                   barWidth : 20,
                   stack: '总量',
                   barGap:'90%', // 控制柱子的间隔
-                  label: {
-                      normal: {
-                          show: true,
-                          position: 'insideRight'
-                      }
-                  },
+                  // label: {
+                  //     normal: {
+                  //         show: true,
+                  //         position: 'insideRight'
+                  //     }
+                  // },
                   itemStyle:{
                     normal:{
                       color:'#DCAD68'
@@ -1810,12 +1891,12 @@ export default {
                   type: 'bar',
                   stack: '总量',
                   barGap:'90%', // 控制柱子的间隔
-                  label: {
-                      normal: {
-                          show: true,
-                          position: 'insideRight'
-                      }
-                  },
+                  // label: {
+                  //     normal: {
+                  //         show: true,
+                  //         position: 'insideRight'
+                  //     }
+                  // },
                   itemStyle:{
                     normal:{
                       color:'#7583A0'
@@ -1828,12 +1909,12 @@ export default {
                   type: 'bar',
                   stack: '总量',
                   barGap:'90%', // 控制柱子的间隔
-                  label: {
-                      normal: {
-                          show: true,
-                          position: 'insideRight'
-                      }
-                  },
+                  // label: {
+                  //     normal: {
+                  //         show: true,
+                  //         position: 'insideRight'
+                  //     }
+                  // },
                   itemStyle:{
                     normal:{
                       color:'#E7D188'
@@ -1847,12 +1928,12 @@ export default {
                   type: 'bar',
                   stack: '总量',
                   barGap:'90%', // 控制柱子的间隔
-                  label: {
-                      normal: {
-                          show: true,
-                          position: 'insideRight'
-                      }
-                  },
+                  // label: {
+                  //     normal: {
+                  //         show: true,
+                  //         position: 'insideRight'
+                  //     }
+                  // },
                   itemStyle:{
                     normal:{
                       color:'#8CBCC0'
@@ -1862,6 +1943,7 @@ export default {
               },
           ]
         })
+
       },
       lzFun(){
         this.$api.post(this.Global.aport+'/home/getlz6Data',{},
@@ -2326,17 +2408,13 @@ export default {
   display: flex;
   flex-direction: column;
 } */
-.nav_1{
+/* .nav_1{
   width: 16px;
-  /* height: 193px!important; */
   font-size: 16px;
   color: #787e8c;
-  /* display: flex; */
-  /* flex-direction: column; */
-  /* align-items: center; */
   padding: 20px 0;
   border-bottom: 1px solid #273542;
-}
+} */
 .nav_1_check,.nav_1:hover{
   color: #fff;
 }
@@ -2411,8 +2489,27 @@ export default {
   font-size: 18px;font-weight: lighter;
         border-left: 4px #86cdfb solid;padding-left: 10px;
       }
+    .bgh1  .el-dialog__headerbtn{
+        position: absolute;
+        top: -6px;
+        right: -11px;
+        padding: 0px;
+        background: #fff;
+        border: none;
+        border-radius: 50%;
+        outline: 0;
+        cursor: pointer;
+        font-size: 16px;
+        width: 25px;
+        height: 25px;
+        color: #000;
+      }
+      .bgh1 .el-dialog__wrapper{
+        top: -79px!important;
+      }
     .bgh1 .el-dialog__header{
         border-bottom: none;
+        padding: 0px 20px 10px!important;
       }
     .bgh1 .el-dialog__body {
       padding: 10px 20px;

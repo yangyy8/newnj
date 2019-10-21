@@ -5,7 +5,7 @@
 
       <div class="top-right">
         <div class="top-center">
-        <div v-for="(s,ind) in topData" :class="{'topbg topbg-a':s.mc==isA,'topbg':s.mc!=isA}" @click="getmemu(s.dm,s.mc)">
+        <div v-for="(s,ind) in topData" :key="ind" :class="{'topbg topbg-a':s.mc==isA,'topbg':s.mc!=isA}" @click="getmemu(s.dm,s.mc)">
           {{s.mc}}
         </div>
         </div>
@@ -34,9 +34,10 @@
             @open="handleOpen"
             @close="handleClose"
             background-color="#092A44"
+            :unique-opened='true'
             text-color="#859396"
-            active-text-color="#ffd04b" unique-opened="true">
-            <el-submenu :index="ind" v-for="(a,ind) in memuData" :key="ind">
+            active-text-color="#ffd04b">
+            <el-submenu :index="ind+''" v-for="(a,ind) in memuData" :key="ind">
               <template slot="title">
                 ●
                 <span style="color:#fff">{{a.mc}}</span>
@@ -176,22 +177,18 @@ export default {
        r => {
          if(r.success){
            this.topData=r.data;
-
          }
        });
     },
     getmemu(dm,mc){
-
       if(mc==""){
         if(this.$route.meta.title==undefined){
-this.$router.push({name:"Index"});
+           this.$router.push({name:"Index"});
         }else {
             mc=this.$route.meta.title[0];
         }
-
       }
       this.isA=mc;
-
       if(dm==""){
         switch (mc) {
           case "预警研判":
@@ -207,7 +204,6 @@ this.$router.push({name:"Index"});
             dm="01000000000";
             break;
           default:
-
         }
       }
       var formData = new FormData();
@@ -219,23 +215,17 @@ this.$router.push({name:"Index"});
        r => {
          if(r.success){
            this.memuData=r.data;
-
          }
        });
     },
     tabClick(i,index,is){
       this.$router.push({name:i.name,query:i.query});
       console.log("this.checkeditem",this.checkeditem)
-
       if(is){
-
         this.close1(index,i,is)
-
       }else{
         this.checkeditem=i;
-
       }
-
       this.$store.commit('getActiveTab',i);
     },
     tabClicknew(i,n){

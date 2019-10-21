@@ -10,15 +10,29 @@
                    <el-input placeholder="请输入内容" size="small" v-model="pd.BT" class="input-input"></el-input>
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-                    <span class="input-text">接收单位：</span>
-                    <el-select v-model="pd.JSDWBH" filterable clearable multiple collapse-tags default-first-option placeholder="请选择"  size="small" class="input-input" :filter-method="userFilter">
+                    <span class="input-text">单位类别：</span>
+                    <el-select v-model="pd.DWLXBM" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input" @visible-change="dwTypeFun">
                       <el-option
-                        v-for="(item,index) in dwdata"
+                        v-for="(item,index) in dwTypeList"
                         :key="index"
-                        :label="item.ZZJGDM+' - '+item.DWZWMC"
-                        :value="item.ZZJGDM">
+                        :label="item.DWLXBM+' - '+item.DWLXMC"
+                        :value="item.DWLXBM">
                       </el-option>
                     </el-select>
+                </el-col>
+                <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                    <span class="input-text">接收单位：</span>
+                    <div class="input-input t-fuzzy-12 t-flex">
+                      <el-select v-model="pd.JSDWBH" filterable :disabled="pd.isAll" clearable multiple collapse-tags default-first-option placeholder="请选择"  size="small" class="input-input" :filter-method="userFilter" @visible-change="getDw(pd.DWLXBM)">
+                        <el-option
+                          v-for="(item,index) in dwdata"
+                          :key="index"
+                          :label="item.ZZJGDM+' - '+item.DWZWMC"
+                          :value="item.ZZJGDM">
+                        </el-option>
+                      </el-select>
+                      <el-checkbox v-model="pd.isAll"  @change="dwCheckFun(pd.isAll)" style="margin-left: 13px;">全选</el-checkbox>
+                    </div>
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
                   <span class="input-text">发送状态：</span>
@@ -60,7 +74,8 @@
            </el-table-column>
            <el-table-column
              prop="JSDWMC"
-             label="接收单位">
+             label="接收单位"
+             :show-overflow-tooltip="true">
            </el-table-column>
            <el-table-column
              prop="CREATETIME"
@@ -117,9 +132,22 @@
     <el-dialog title="新增"  :visible.sync="addDialogVisible" width="800px">
       <el-form :model="form" ref="addForm">
         <el-row type="flex"  class="mb-6">
+          <el-col  :sm="24" :md="24" :lg="24"  class="input-item">
+              <span class="input-text w-ts">单位类别：</span>
+              <el-select v-model="form.DWLXBM" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input" @visible-change="dwTypeFun">
+                <el-option
+                  v-for="(item,index) in dwTypeList"
+                  :key="index"
+                  :label="item.DWLXBM+' - '+item.DWLXMC"
+                  :value="item.DWLXBM">
+                </el-option>
+              </el-select>
+          </el-col>
+        </el-row>
+        <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
             <span class="input-text w-ts">接收单位：</span>
-            <el-select v-model="form.JSDWBH" filterable clearable multiple collapse-tags default-first-option placeholder="请选择"  size="small" class="input-input" :filter-method="userFilter">
+            <el-select v-model="form.JSDWBH" filterable clearable :disabled="form.isAll" multiple collapse-tags default-first-option placeholder="请选择"  size="small" class="input-input" :filter-method="userFilter" @visible-change="getDw(form.DWLXBM)">
               <el-option
                 v-for="(item,index) in dwdata"
                 :key="index"
@@ -127,6 +155,7 @@
                 :value="item.ZZJGDM">
               </el-option>
             </el-select>
+            <el-checkbox v-model="form.isAll"  @change="addCheckFun(form.isAll)" style="margin-left: 13px;">全选</el-checkbox>
           </el-col>
         </el-row>
         <el-row type="flex"  class="mb-6">
@@ -151,18 +180,18 @@
         </el-row>
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
-            <span class="input-text" style="width:17.3%!important">回复内容：</span>
+            <span class="input-text" style="width:17.3%!important">内容：</span>
             <el-input type="textarea" v-model="form.NR" maxlength="300" :autosize="{ minRows: 3, maxRows: 6}" placeholder="请输入描述(不能超过300字)"></el-input>
           </el-col>
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="" size="small" @click="sendOrMoment('2')">暂存</el-button>
+        <!-- <el-button type="primary" @click="" size="small" @click="sendOrMoment('2')">暂存</el-button> -->
         <el-button type="primary" @click="" size="small" @click="sendOrMoment('1')">发送</el-button>
         <el-button @click="" size="small" type="warning" @click="addDialogVisible = false">返回</el-button>
       </div>
     </el-dialog>
-    <el-dialog title="详情"  :visible.sync="detailDialogVisible" width="800px" class="tt">
+    <el-dialog title="详情"  :visible.sync="detailDialogVisible" width="1000px" class="tt">
       <el-form :model="dform" ref="addForm">
         <el-row type="flex"  class="mb-6">
           <el-col :span="24" class="input-item">
@@ -212,6 +241,36 @@
                label="签收人">
              </el-table-column>
            </el-table>
+           <div class="middle-foot">
+              <div class="page-msg">
+                <div class="">
+              共{{TotalResult1}}条记录
+                </div>
+                <div class="">
+                  每页显示
+                  <el-select v-model="pageSize1" @change="pageSizeChange1(pageSize1)" placeholder="10" size="mini" class="page-select">
+                    <el-option
+                      v-for="item in options"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value">
+                    </el-option>
+                  </el-select>
+                  条
+                </div>
+                <div class="">
+                  共{{Math.ceil(TotalResult1/pageSize1)}}页
+                </div>
+              </div>
+              <el-pagination
+                background
+                @current-change="handleCurrentChange1"
+                :current-page.sync ="CurrentPage1"
+                :page-size="pageSize1"
+                layout="prev, pager, next"
+                :total="TotalResult1">
+              </el-pagination>
+            </div>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="" size="small" type="warning" @click="detailDialogVisible = false">返回</el-button>
@@ -224,10 +283,16 @@
 export default {
   data() {
     return {
+      dwTypeList:[],
+
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
-      pd: {SSPCS:this.$store.state.orgid},
+
+      CurrentPage1: 1,
+      pageSize1: 10,
+      TotalResult1: 0,
+      pd: {SSPCS:this.$store.state.orgid,isAll:false},
       options: this.pl.ps,
       tableData: [],
       userCode:'',
@@ -240,13 +305,15 @@ export default {
       selectionReal:[],
       dwdata:[],
       dwList:{},
-      form:{},
+      form:{isAll:false},
       dform:{},
       addDialogVisible:false,
       detailDialogVisible:false,
       reviewFile:{},
+      reviewFiles:{},
       inFiles:[],
       tableDataDW:[],
+      fileId:'',
     }
   },
 
@@ -268,11 +335,28 @@ export default {
     this.userName=this.$store.state.uid;
     this.orgName=this.$store.state.orgname;
     this.orgCode=this.$store.state.orgid
-    this.getDw();
   },
   methods: {
-    getDw(){
-      this.$api.post(this.Global.aport4+'/SWDW_TZTBController/getAllDW',{},
+    dwCheckFun(n){
+      if(n==true){
+        this.$set(this.pd,'JSDWBH',[]);
+      }
+    },
+    addCheckFun(n){
+      if(n==true){
+        this.$set(this.form,'JSDWBH',[]);
+      }
+    },
+    dwTypeFun(){
+      this.$api.post(this.Global.aport4+'/SWDW_TZTBController/getAllDWLX',{},
+       r =>{
+         if(r.success){
+           this.dwTypeList = r.data.resultList;
+         }
+       })
+    },
+    getDw(val){
+      this.$api.post(this.Global.aport4+'/SWDW_TZTBController/getAllDW',{pd:{DWLXBM:val}},
         r =>{
           if(r.success){
             this.dwList = r.data.resultList;
@@ -282,7 +366,7 @@ export default {
     },
     userFilter(query = '') {
              let arr = this.dwList.filter((item) => {
-              console.log(item.DWZWMC);
+              // console.log(item.DWZWMC);
               if(item.DWZWMC!=undefined){
                   return item.DWZWMC.includes(query)
                }
@@ -294,7 +378,7 @@ export default {
              }
            },
     addNew(){
-      this.form={};
+      this.form={isAll:false};
       this.reviewFile={};
       this.addDialogVisible=true;
     },
@@ -317,8 +401,13 @@ export default {
         link.click()
     },
     reviewUpload(event){//消息回复的附件
-      this.reviewFile=event.target.files;
-      console.log(this.reviewFile)
+      // console.log(this.reviewFile,event.target.files,event);
+      this.reviewFile = event.target.files;
+      // this.reviewFiles=Object.assign(this.reviewFile,event.target.files);
+      // for(var key in event.target.files){
+      //   console.log(event.target.files[key])
+      // }
+      // console.log('====',this.reviewFiles)
     },
     upload(val){//上传文件
       var formData = new FormData();
@@ -331,7 +420,7 @@ export default {
       formData.append("orgName",this.orgName);
       let p=formData;
       console.log('formData',formData)
-      this.$api.post(this.Global.aport4+'/SWDW_TZTBController/upload',p,
+      this.$api.post('/zuul/'+this.Global.aport4+'/SWDW_TZTBController/upload',p,
        r =>{
          if(r.success){
            this.$message({
@@ -375,18 +464,28 @@ export default {
     details(row){
       this.detailDialogVisible=true;
       this.dform = row;
+      this.fileId = row.DTID
       this.$api.post(this.Global.aport4+'/SWDW_TZTBController/getPAPERByYWDTID',{pd:{YWDTID:row.DTID}},
        r =>{
          if(r.success){
            this.inFiles = r.data;
          }
        })
-       this.$api.post(this.Global.aport4+'/SWDW_TZTBController/getTZTBJSDW_EntityByYWDTID',{pd:{YWDTID:row.DTID}},
-        r =>{
-          if(r.success){
-            this.tableDataDW = r.data;
-          }
-        })
+       this.getFiles(this.CurrentPage1,this.pageSize1,row.DTID);
+    },
+    getFiles(currentPage,showCount, pd){
+      let p={
+        "currentPage": currentPage,
+        "showCount": showCount,
+        "pd": {YWDTID:pd},
+      }
+      this.$api.post(this.Global.aport4+'/SWDW_TZTBController/getTZTBJSDW_EntityByYWDTID',p,
+       r =>{
+         if(r.success){
+           this.tableDataDW = r.data.resultList;
+           this.TotalResult1 = r.data.totalResult;
+         }
+       })
     },
     cutOff(row){
       this.$api.post(this.Global.aport4+'/SWDW_TZTBController/deleteByDTID',{pd:{DTID:row.DTID}},
@@ -464,6 +563,14 @@ export default {
       this.CurrentPage=val;
       this.getList(this.CurrentPage, this.pageSize, this.pd);
       console.log(`当前页: ${val}`);
+    },
+    pageSizeChange1(val) {
+      this.pageSize1=val;
+      this.getFiles(this.CurrentPage1, this.pageSize1, this.fileId);
+    },
+    handleCurrentChange1(val) {
+      this.CurrentPage1=val;
+      this.getFiles(this.CurrentPage1, this.pageSize1, this.fileId);
     },
     getList(currentPage, showCount, pd) {
       if(pd.hasOwnProperty('YJID')){

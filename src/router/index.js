@@ -23,11 +23,12 @@ export default new Router({
     meta: {logined:true},
     component:resolve => require(['@/components/index'], resolve),
     },
-    {
-    path:'/indexNew1',
-    name:'IndexNew1',
-    component:resolve => require(['@/components/indexNew1'], resolve),
-    },
+    // {
+    // path:'/indexNew1',
+    // name:'IndexNew1',
+    // meta: {logined:true},
+    // component:resolve => require(['@/components/indexNew1'], resolve),
+    // },
     {
     path:'/homemap',
     name:'Homemap',
@@ -154,6 +155,12 @@ export default new Router({
           name: 'LXSWBDYJ',
           meta:{title:['日常管理','常住信息','留学生录取未报到提醒']},
           component: resolve => require(['@/components/YJYP/YJ/LXSYJ/LXSWBDYJ'], resolve),
+        },
+        {
+          path: 'LXSWBDHC',
+          name: 'LXSWBDHC',
+          meta:{title:['日常管理','常住信息','留学生录取未报到核查']},
+          component: resolve => require(['@/components/YJYP/YJ/LXSYJ/LXSWBDHC'], resolve),
         },
         // {
         //   path: 'LXSWBDYJ_X',
@@ -900,14 +907,14 @@ export default new Router({
         {
         path: 'BJSC',
         name: 'BJSC',
-        meta:{title:['日常管理','涉外单位','数据上报']},
+        meta:{title:['日常管理','涉外单位','背景审查']},
         component: resolve => require(['@/components/XTGL/XTSZ/BJSC'], resolve),
         },
         /* 数据上报 */
         {
         path: 'SJSB',
         name: 'SJSB',
-        meta:{title:['日常管理','涉外单位','数据上报']},
+        meta:{title:['日常管理','涉外单位','涉外单位上报数据']},
         component: resolve => require(['@/components/XTGL/XTSZ/SJSB'], resolve),
         },
         /* shy添加 */

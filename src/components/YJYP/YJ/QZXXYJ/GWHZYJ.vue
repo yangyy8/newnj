@@ -188,7 +188,7 @@
              label="操作" width="120">
              <template slot-scope="scope">
                <div>
-                  <el-button type="text"  class="a-btn"  title="编辑"  icon="el-icon-edit-outline" @click="$router.push({name:'DQQZFFJYYJ_XQ',query:{yjType:'20',row:scope.row}})"></el-button>
+                  <el-button type="text"  class="a-btn"  title="编辑"  icon="el-icon-edit-outline" @click="$router.push({name:'GWHZYJ_XQ',query:{yjType:20,row:scope.row}})"></el-button>
                   <el-button type="text"  class="a-btn"  title="设为重点人员"  icon="iconfont el-icon-yy-jiaoseyonghu" @click="adds(scope.row);form={};"></el-button>
                </div>
              </template>

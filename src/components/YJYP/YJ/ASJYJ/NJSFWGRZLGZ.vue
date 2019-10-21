@@ -128,62 +128,62 @@
               </el-table-column>
               <el-table-column label="发现方式" width="70px">
                 <el-table-column
-                prop="xj6"
+                prop="jczjh"
                 label="检查站截获" width="70px">
                 </el-table-column>
                 <el-table-column
-                prop="jg"
+                prop="sjfx"
                 label="数据分析" width="70px">
                 </el-table-column>
                 <el-table-column
-                prop="fk"
+                prop="qtfx"
                 label="前台发现" width="70px">
                 </el-table-column>
                 <el-table-column
-                prop="xzjl"
+                prop="zfjc"
                 label="走访检查" width="70px">
                 </el-table-column>
                 <el-table-column
-                prop="xqcj"
+                prop="qzjb"
                 label="群众举报" width="70px">
                 </el-table-column>
                 <el-table-column
-                prop="qzcj"
+                prop="shmqc"
                 label="社会面清查" width="70px">
                 </el-table-column>
                 <el-table-column
-                prop="qzcj"
+                prop="apphc"
                 label="APP 核查" width="70px">
                 </el-table-column>
               </el-table-column>
               <el-table-column label="活动场所" width="70px">
                 <el-table-column
-                prop="xj7"
+                prop="ldmjxqy"
                 label="劳动密集型企业" width="70px">
                 </el-table-column>
                 <el-table-column
-                prop="qbhs"
+                prop="pxjg"
                 label="培训机构" width="70px">
                 </el-table-column>
                 <el-table-column
-                prop="jsjz"
+                prop="swyx"
                 label="涉外院校" width="70px">
                 </el-table-column>
                 <el-table-column
-                prop="xsjl"
+                prop="jzzj"
                 label="家政中介" width="70px">
                 </el-table-column>
                 <el-table-column
-                prop="db"
+                prop="ylcs"
                 label="娱乐场所" width="70px">
                 </el-table-column>
                 <el-table-column
-                prop="jc"
+                prop="czw"
                 label="出租屋" width="70px">
                 </el-table-column>
                 <el-table-column
-                prop="jc"
-                label="其他" width="70px">
+                prop="qthdcs"
+                label="其他活动场所" width="70px">
                 </el-table-column>
               </el-table-column>
          </el-table>

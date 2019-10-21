@@ -51,11 +51,26 @@
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                   <span class="input-text">停留有效期：</span>
-                  <el-date-picker
-                     v-model="pd.TLYXQ_Nokeyword" format="yyyy-MM-dd"
-                     type="date" size="small" value-format="yyyy/MM/dd"
-                     placeholder="开始时间" class="input-input">
-                  </el-date-picker>
+                  <div class="input-input t-flex t-date">
+                    <el-date-picker
+                       v-model="pd.TLYXQ_DateRange.begin" format="yyyy-MM-dd"
+                       type="date" size="small" value-format="yyyy/MM/dd"
+                       placeholder="开始时间" >
+                    </el-date-picker>
+                    <span class="septum">-</span>
+                    <el-date-picker
+                        v-model="pd.TLYXQ_DateRange.end" format="yyyy-MM-dd"
+                        type="date" size="small" value-format="yyyy/MM/dd"
+                        placeholder="结束时间" >
+                    </el-date-picker>
+                 </div>
+                </el-col>
+                <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                  <span class="input-text">是否查有效人员：</span>
+                  <el-select v-model="pd.isYXRY" filterable clearable default-first-option  placeholder="请选择"  size="small" class="input-input">
+                    <el-option value="true" label="是"></el-option>
+                    <el-option value="false" label="否"></el-option>
+                  </el-select>
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                   <span class="input-text">国家地区：</span>
@@ -451,7 +466,9 @@
             FJJSSJ_DateRange:{begin:'',end:'',dataType:'date'},
             SJXFSJ_DateRange:{begin:'',end:'',dataType:'date'},
             PCSJSSJ_DateRange:{begin:'',end:'',dataType:'date'},
+            TLYXQ_DateRange:{begin:'',end:'',dataType:'date'},
             JZZT:"1",
+            isYXRY:"true"
           },
           // pdGjItem:{
           //   GJDQITEM:'',

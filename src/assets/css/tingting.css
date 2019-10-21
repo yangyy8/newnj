@@ -1,4 +1,50 @@
 @media screen and (min-width:1550px) and (max-width:1700px){
+  /* 常用报表 */
+  .arrow_content {
+      width: 780px; height: 400px;border:1px solid #2e9de7; border-radius: 2px; position: absolute;
+      right: 2%;
+      top: 97%;
+      background-color: rgba(7,38,99,0.8);
+      z-index: 9;
+      box-shadow:-4px -4px 10px #06B4FB;
+  }
+  .arrow_box {
+      position:relative;
+      width: 10px;
+      height: 10px;
+      top:-10px;
+      left: 700px;
+  }
+  .arrow {
+      position:absolute;
+      width: 0px;
+      height: 0px;
+      line-height: 0px;/*为了防止ie下出现题型*/
+      border-bottom: 10px solid #2e9de7;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      left: 0px;
+      top: 0px;
+      z-index: 1;
+  }
+  .arrow_up {
+      position:absolute;
+      width: 0px;
+      height: 0px;
+      line-height: 0px;/*为了防止ie下出现题型*/
+      border-bottom: 10px solid rgba(7,67,124,0.9);
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      left: 0px;
+      top: 2px;
+      z-index: 2;
+  }
+  .buttonMenu{
+    width: 96%;
+    margin: 0px auto;
+    height: 300px;
+    overflow: auto
+  }
   /* 非地图 */
   .ts-judge{
     width: 16%!important;
@@ -24,7 +70,13 @@
   .huan-font{
     font-size: 14px;
   }
-  .t-screen .banner{padding-top: 73px;background: url('../../assets/img/sg/logo.png') no-repeat;background-size: 100%;}
+  .t-screen .banner{
+    padding-top: 73px;
+    background: url('../../assets/img/sg/logo.png') no-repeat;
+    background-size: 100%;
+    position: relative;
+  }
+
   .common-report{
     display: inline-block;
     width: 80px;
@@ -36,11 +88,21 @@
     color: #fff;
     position: absolute;
     top: 30px;
-    right: 50px;
+    right: 70px;
     font-size: 12px;
     box-shadow:0 0 10px #2b6dd6 inset;
   }
-  .t-screen .time{text-align: center;color: #FFFFFF;margin-top: -20px;font-size: 20px;}
+  .login-out{
+    position: absolute;
+    top: 35px;
+    right: 44px;
+    font-size: 20px;
+    color: #fff;
+  }
+  .login-out:hover{
+    color: red;
+  }
+  .t-screen .time{text-align: center;color: #FFFFFF;margin-top: -10px;font-size: 20px;}
   /* 中间头部 */
   .content-head{
     display: flex;
@@ -51,12 +113,12 @@
   .show-yj{
     max-height: 35px;
     overflow: hidden;
+    margin-left: -30px;
     /* list-style:disc!important; */
   }
   .content-head .show-yj li{
     float:left;
-    width:33%;
-    /* list-style:disc!important; */
+    width:45%;
     color: #90FFFF;
     font-size: 14px;
     padding: 0px 0px 4px 0px;
@@ -65,7 +127,7 @@
     padding: 0 3px;
   }
   .center-map .t-yjts{
-    /* width: 80% */
+    width: 23%
   }
     /* 两边格子 */
     .tabLeft{
@@ -111,30 +173,6 @@
       transition: all 1s linear;
       margin-top: -25px;
      }
-     /* .tu1{height:296px}
-     .tu1-1{height: 280px}
-     .tu2{height:296px}
-     .tu3{height:255px}
-     .tu4{height:296px}
-     .tu4-4{height:280px}
-     .tu5{height:296px}
-     .tu5-5{height:280px}
-     .tu6{height:255px}
-     .tu6-6{height:250px} */
-     /* 中间地图 */
-     /* .content .map{
-       background: url('../../assets/img/sg/map2.png') no-repeat;
-       height: 685px;
-       background-size: 50% 100%;
-       background-position: center;
-       position: relative;
-     }
-     .content .zuobiao{
-       width: 377px;
-       height: 685px;
-       position: absolute;
-       top: -2%;left:24%;
-     } */
      .tooltipm{
        width: 100px;
        position: absolute;
@@ -202,7 +240,7 @@
      }
      .fun-choose{
        width: 100%;
-       height: 30px;
+       height: 26px;
        border: 1px solid #02C8E8;
        /* border-bottom: none!important; */
        border-radius: 5px;
@@ -212,8 +250,8 @@
        font-size: 12px;
        color: #02C8E8;
        width: 48%;
-       height: 30px;
-       line-height: 30px;
+       height: 26px;
+       line-height: 26px;
        text-align: center;
        display: inline-block;
        box-sizing: border-box;
@@ -234,9 +272,22 @@
        background-color: rgba(9,162,201, 0.3)!important;
        border: 1px solid #04C2DF!important;
        color: #fff!important;
+       padding: 0 4px!important;
      }
      .choose .el-select .el-input .el-select__caret{
        color: #03EFFA!important
+     }
+     .choose .el-input--small .el-input__inner{
+       height: 28px!important;
+       line-height: 28px!important;
+     }
+     .choose .el-input__prefix, .el-input__suffix{
+       top: 0px!important;
+       right: 0px!important;
+     }
+     .choose .el-input--suffix .el-input__inner{
+       padding-right: 17px!important;
+       font-size: 12px!important;
      }
      /* 导航 */
      .index_nav_1{
@@ -255,6 +306,13 @@
        flex-direction: column;
        /* justify-content: flex-start; */
        /* justify-content: space-between; */
+     }
+     .nav_1{
+       width: 16px;
+       font-size: 16px;
+       color: #787e8c;
+       padding: 20px 0;
+       border-bottom: 1px solid #273542;
      }
      .index_nav{
        position: fixed;
@@ -399,7 +457,7 @@
       width: 10px;
       height: 10px;
       top:-10px;
-      left: 720px;
+      left: 700px;
   }
   .arrow {
       position:absolute;
@@ -451,9 +509,19 @@
     color: #fff;
     position: absolute;
     top: 30px;
-    right: 50px;
+    right: 70px;
     font-size: 12px;
     box-shadow:0 0 10px #2b6dd6 inset;
+  }
+  .login-out{
+    position: absolute;
+    top: 35px;
+    right: 44px;
+    font-size: 20px;
+    color: #fff;
+  }
+  .login-out:hover{
+    color: red;
   }
   .common-report:hover{
     box-shadow:0 0 15px #2b6dd6 inset;
@@ -481,6 +549,7 @@
   .show-yj{
     max-height: 35px;
     overflow: hidden;
+    margin-left: -30px;
   }
   .center-map .show-yj li{
     float:left;
@@ -673,6 +742,13 @@
      display: flex;
      flex-direction: column;
    }
+   .nav_1{
+     width: 16px;
+     font-size: 16px;
+     color: #787e8c;
+     padding: 20px 0;
+     border-bottom: 1px solid #273542;
+   }
    .index_nav{
      position: fixed;
      left: 48px;
@@ -808,7 +884,7 @@
       width: 10px;
       height: 10px;
       top:-6px;
-      left: 611px;
+      left: 591px;
   }
   .arrow {
       position:absolute;
@@ -859,9 +935,19 @@
     color: #fff;
     position: absolute;
     top: 30px;
-    right: 50px;
+    right: 70px;
     font-size: 12px;
     box-shadow:0 0 10px #2b6dd6 inset;
+  }
+  .login-out{
+    position: absolute;
+    top: 35px;
+    right: 44px;
+    font-size: 20px;
+    color: #fff;
+  }
+  .login-out:hover{
+    color: red;
   }
   /* 中间头部 */
   .content-head{
@@ -873,7 +959,6 @@
   .content-head ul li{
     float:left;
     width:45%;
-    /* list-style:disc; */
     color: #90FFFF;
     font-size: 12px;
     padding: 0px 0px 4px 0px;
@@ -884,6 +969,7 @@
   .show-yj{
     max-height: 33px;
     overflow: hidden;
+    margin-left: -30px;
   }
     .tabLeft{
       text-align: center;
@@ -1069,24 +1155,36 @@
      }
      /* 导航 */
      .index_nav_1{
-       position: fixed;
-       height: 555px;
-       top:50%;
-       margin-top: -292px;
-       left: 0;
-       width: 18px;
-       background: rgba(4, 31, 78, 0.79);
-       padding:0 14px;
-       border-radius: 0 8px 8px 0;
-       border: 1px solid #133358;
-       font-size: 14px;
-       display: flex;
-       flex-direction: column;
+        position: fixed;
+        height: 555px;
+        top: 56%;
+        margin-top: -292px;
+        left: 0;
+        width: 14px;
+        background: rgba(4, 31, 78, 0.79);
+        padding: 0 12px;
+        border-radius: 0 8px 8px 0;
+        border: 1px solid #133358;
+        font-size: 14px;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+        flex-direction: column;
+     }
+     .nav_1{
+       width: 16px;
+       font-size: 16px;
+       color: #787e8c;
+       padding: 16px 0;
+       border-bottom: 1px solid #273542;
      }
      .index_nav{
        position: fixed;
-       left: 48px;
-       top:50%;
+       left: 40px;
+       top: 57%;
        margin-top: -292px;
        min-height: 555px;
        box-sizing: border-box;
@@ -1151,7 +1249,7 @@
        padding: 0 4px;
        font-size: 12px;
      }
-  .t-screen .main{margin: -10px 48px 0px 48px;}
+  .t-screen .main{margin: 0px 40px 0px 40px;}
   .t-screen .gradient-text-one{
       background-image:-webkit-linear-gradient(bottom,#09F3FD,#7BFBFF,#B2FDFE);
       -webkit-background-clip:text;
@@ -1187,9 +1285,17 @@
     margin-left: 1px;
   }
 }
-.t-screen{width: 100%;font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
-background: url('../../assets/img/sg/bg.jpg') no-repeat;
-background-size: 100%  auto;}
+.t-screen{width: 100%;
+font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+background: url('../../assets/img/sg/bg1.jpg') no-repeat;
+background-size:100% auto;
+}
+.tt-screent{
+  min-height: 1080px;
+}
+.tt-screenM{
+  min-height: 768px;
+}
 .t-screen .content{ height:100%; margin-top: 2%; text-align: center;}
 /* 中间地图 */
 .content .map{
