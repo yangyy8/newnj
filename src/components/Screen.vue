@@ -136,6 +136,18 @@ export default {
         sgdata:[],
         realTime:'',
         maptype:'L',
+        seriesData:[  [[13, 27, '六合区', 12, 40]],
+          [[11, 13, '江宁区', 10, 40]],
+          [[3, 18, '浦口区', 10, 40]],
+          [[18, 7, '溧水区', 10, 40]],
+          [[15, 1, '高淳区', 10, 40]],
+          [[11, 22, '栖霞区', 10, 30]],
+          [[7, 16, '雨花台区', 10, 20]],
+          [[10, 20, '鼓楼区', 10, 20]],
+          [[13, 21, '玄武区', 10, 25]],
+          [[8.5, 18, '建邺区', 10, 20]],
+          [[11.5, 19, '秦淮区', 10, 20]],
+          [[9, 23, '江北新区', 10, 20]]],
     }
   },
   mounted() {
@@ -325,15 +337,15 @@ export default {
               data: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22],
               show: false
           },
-          legend:{
-            data:legend,
-            textStyle:{
-              color:'#fff'
-            },
-            y:_this.yjl,
-            x:'10px',
-            orient: 'vertical', // 'vertical'
-          },
+          // legend:{
+          //   data:legend,
+          //   textStyle:{
+          //     color:'#fff'
+          //   },
+          //   y:_this.yjl,
+          //   x:'10px',
+          //   orient: 'vertical', // 'vertical'
+          // },
           yAxis: {
               type: 'category',
               data: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,35,26,27,28,29,30,31,32],
@@ -863,19 +875,19 @@ export default {
         window.addEventListener("resize", () => {
           _this.mapCenter.resize();
         });
-        _this.mapCenter.on('mouseover',function(params){
-          _this.claname = params.value[6];
-          _this.isShow=true;
-          _this.aaa(params.value[3],params.value[8],params.value[5],params.value[2]);
-        })
-        var mapCan = document.getElementById('mapall');
-         mapCan.onmouseleave = function (e) {
-           // console.log(e.target.lastChild.id,e.target.firstChild.id)
-           if(e.target.lastChild.id=='tt'||e.target.firstChild.id=='home_map'){
-             // console.log('鼠标离开',e);
-            _this.isShow=false;
-           }
-         }
+        // _this.mapCenter.on('mouseover',function(params){
+        //   _this.claname = params.value[6];
+        //   _this.isShow=true;
+        //   _this.aaa(params.value[3],params.value[8],params.value[5],params.value[2]);
+        // })
+        // var mapCan = document.getElementById('mapall');
+        //  mapCan.onmouseleave = function (e) {
+        //    // console.log(e.target.lastChild.id,e.target.firstChild.id)
+        //    if(e.target.lastChild.id=='tt'||e.target.firstChild.id=='home_map'){
+        //      // console.log('鼠标离开',e);
+        //     _this.isShow=false;
+        //    }
+        //  }
       },
 
       //常住人员身份分析

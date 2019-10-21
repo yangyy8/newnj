@@ -26,12 +26,11 @@ const aport6="http://192.168.3.217:9447";
 const aport7="http://192.168.3.217:9436";
 // const aport8="http://10.33.72.144:9438";//中管
 const aport8="http://192.168.3.217:9438";
+
 const serviceState=0 //217
-<<<<<<< HEAD
+
 // const serviceState=1 //公安网
-=======
-// const serviceState=1 //公安网yexing
->>>>>>> 68e04a898826a36b120eb4b0c6b72bc278e68a5c
+
 
 const xyaddress="http://10.33.66.183:8081/map/poi";//坐标地址
 const dmall="/data_report/selectDmList"; //加载全部代码
