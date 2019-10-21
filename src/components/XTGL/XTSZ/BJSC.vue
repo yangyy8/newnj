@@ -42,6 +42,22 @@
                       </el-option>
                     </el-select>
                 </el-col>
+                <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                  <span class="input-text">审查时间：</span>
+                  <div class="input-input t-flex t-date">
+                    <el-date-picker
+                       v-model="pd0.SCSJ_DateRange.begin" format="yyyy-MM-dd"
+                       type="date" size="small" value-format="yyyyMMdd"
+                       placeholder="开始时间" >
+                    </el-date-picker>
+                    <span class="septum">-</span>
+                    <el-date-picker
+                        v-model="pd0.SCSJ_DateRange.end" format="yyyy-MM-dd"
+                        type="date" size="small" value-format="yyyyMMdd"
+                        placeholder="结束时间" >
+                    </el-date-picker>
+                 </div>
+                </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
                    <span class="input-text">证件号码：</span>
                    <el-input placeholder="请输入内容" size="small" v-model="pd.ZJHM" class="input-input"></el-input>
@@ -96,21 +112,25 @@
              prop="AJHCJG_DESC"
              label="案件核查结果">
              <template slot-scope="scope">
-              <span :class="{'bjscred':scope.row.AJHCJG_DESC == '查中','bjscblue':scope.row.AJHCJG_DESC == '无异常','bjscyellow':scope.row.AJHCJG_DESC == '疑似'}" @click="gotos(scope.row,1)">{{scope.row.AJHCJG_DESC}}</span>
+              <span  class="bjscblue" v-if="scope.row.AJHCJG_DESC == '无异常'">{{scope.row.AJHCJG_DESC}}</span>
+              <span  class="hand bjscred" v-else @click="gotos(scope.row,1)">{{scope.row.AJHCJG_DESC}}</span>
              </template>
            </el-table-column>
            <el-table-column
              prop="TBRYHCJG_DESC"
              label="通报人员核查结果">
              <template slot-scope="scope">
-              <span :class="{'bjscred':scope.row.TBRYHCJG_DESC == '查中','bjscblue':scope.row.TBRYHCJG_DESC == '无异常','bjscyellow':scope.row.TBRYHCJG_DESC == '疑似'}" @click="gotos(scope.row,2)">{{scope.row.TBRYHCJG_DESC}}</span>
+               <span class="bjscblue" v-if="scope.row.TBRYHCJG_DESC == '无异常'">{{scope.row.TBRYHCJG_DESC}}</span>
+               <span class="bjscyellow hand" @click="gotos(scope.row,2)" v-else>{{scope.row.TBRYHCJG_DESC}}</span>
              </template>
            </el-table-column>
            <el-table-column
              prop="SJXXHCJG_DESC"
              label="涉警信息核查结果">
              <template slot-scope="scope">
-              <span :class="{'bjscred':scope.row.SJXXHCJG_DESC == '查中','bjscblue':scope.row.SJXXHCJG_DESC == '无异常','bjscyellow':scope.row.SJXXHCJG_DESC == '疑似'}" @click="gotos(scope.row,3)">{{scope.row.SJXXHCJG_DESC}}</span>
+               <span  class="bjscblue" v-if="scope.row.SJXXHCJG_DESC == '无异常'">{{scope.row.SJXXHCJG_DESC}}</span>
+               <span  class="hand bjscred" v-else @click="gotos(scope.row,3)">{{scope.row.SJXXHCJG_DESC}}</span>
+              <!-- <span :class="{'bjscred':scope.row.SJXXHCJG_DESC == '查中','bjscblue':scope.row.SJXXHCJG_DESC == '无异常','bjscyellow':scope.row.SJXXHCJG_DESC == '疑似'}" @click="gotos(scope.row,3)">{{scope.row.SJXXHCJG_DESC}}</span> -->
              </template>
            </el-table-column>
            <el-table-column
@@ -129,7 +149,7 @@
              </template>
            </el-table-column> -->
          </el-table>
-     <!-- <div class="middle-foot">
+     <div class="middle-foot">
         <div class="page-msg">
           <div class="">
         共{{TotalResult}}条记录
@@ -158,7 +178,7 @@
           layout="prev, pager, next"
           :total="TotalResult">
         </el-pagination>
-      </div> -->
+      </div>
     </div>
     <el-dialog title="上传模板" :visible.sync="uploadDialogVisible"  width="640px">
     <el-form>
@@ -385,15 +405,15 @@
        border
        style="width: 100%;" class="stu-table t-mt10">
        <el-table-column
-         prop="ioDate"
+         prop="IO_DATE"
          label="出入境日期">
        </el-table-column>
        <el-table-column
-         prop="personType.value"
+         prop="PERSON_TYPE_DESC"
          label="人员类别（出入境状态）">
        </el-table-column>
        <el-table-column
-         prop="ioPort.value"
+         prop="IO_PORT_DESC"
          label="出入境口岸">
        </el-table-column>
        <el-table-column
@@ -435,7 +455,110 @@
        :total="TotalResult1">
      </el-pagination>-->
     </div>
-    <CRJXXRY :type="type" :xid="xid" :random="randomcrj" v-if="crjshow"></CRJXXRY>
+    <!-- <CRJXXRY :type="type" :xid="xid" :random="randomcrj" v-if="crjshow"></CRJXXRY> -->
+    <el-form :model="crjinfo" v-if="crjshow">
+        <el-row :gutter="2"  class="mb-6">
+            <el-col :span="8" class="input-item">
+              <span class="input-text">人员姓名：</span>
+              <span class="input-input detailinput">  {{crjinfo.NAME}}</span>
+            </el-col>
+            <el-col :span="8" class="input-item">
+              <span class="input-text">人员类别：</span>
+              <span class="input-input detailinput">  {{crjinfo.PERSON_TYPE_DESC}}</span>
+            </el-col>
+            <el-col :span="8" class="input-item">
+             <span class="input-text">国家地区：</span>
+             <span class="input-input detailinput">  {{crjinfo.NATIONALITY_DESC}}</span>
+            </el-col>
+            <el-col :span="8" class="input-item">
+             <span class="input-text">性别：</span>
+             <span class="input-input detailinput">  {{crjinfo.GENDER_DESC}}</span>
+            </el-col>
+            <el-col :span="8" class="input-item">
+              <span class="input-text">出生日期：</span>
+              <span class="input-input detailinput">  {{crjinfo.BIRTH}}</span>
+            </el-col>
+            <el-col :span="8" class="input-item">
+              <span class="input-text">证件号码：</span>
+              <span class="input-input detailinput">  {{crjinfo.CERTIFICATENO}}</span>
+            </el-col>
+            <el-col :span="8" class="input-item">
+              <span class="input-text">证件类型：</span>
+              <span class="input-input detailinput">  {{crjinfo.CERTIFICATE_TYPE_DESC}}</span>
+            </el-col>
+            <el-col :span="8" class="input-item">
+              <span class="input-text">签证类型：</span>
+              <span class="input-input detailinput">  {{crjinfo.VISA_TYPE_DESC}}</span>
+            </el-col>
+            <!-- <el-col :span="8" class="input-item">
+              <span class="input-text">职业代码：</span>
+              <span class="input-input detailinput">  {{crjinfo.profCode}}</span>
+            </el-col> -->
+            <el-col :span="8" class="input-item">
+              <span class="input-text">出入境日期：</span>
+              <span class="input-input detailinput">  {{crjinfo.IO_DATE}}</span>
+            </el-col>
+
+
+            <el-col :span="8" class="input-item">
+              <span class="input-text">出入境时间：</span>
+              <span class="input-input detailinput">  {{crjinfo.IO_TIME}}</span>
+            </el-col>
+            <el-col :span="8" class="input-item">
+              <span class="input-text">出入口岸：</span>
+              <span class="input-input detailinput">  {{crjinfo.IO_PORT_DESC}}</span>
+            </el-col>
+            <el-col :span="8" class="input-item">
+              <span class="input-text">检查员号：</span>
+              <span class="input-input detailinput">  {{crjinfo.INSPECTORID}}</span>
+            </el-col>
+            <el-col :span="8" class="input-item">
+              <span class="input-text">交通方式：</span>
+              <span class="input-input detailinput">  {{crjinfo.TRAFFIC_MODE}}</span>
+            </el-col>
+            <el-col :span="8" class="input-item">
+              <span class="input-text">交通工具：</span>
+              <span class="input-input detailinput">  {{crjinfo.TRAFFIC_TOOL}}</span>
+            </el-col>
+            <el-col :span="8" class="input-item">
+              <span class="input-text">前往地：</span>
+              <span class="input-input detailinput">  {{crjinfo.DESTINATION}}</span>
+            </el-col>
+            <el-col :span="8" class="input-item">
+              <span class="input-text">发证机关：</span>
+              <span class="input-input detailinput">  {{crjinfo.GRANT_CERT_ORG}}</span>
+            </el-col>
+            <el-col :span="8" class="input-item">
+              <span class="input-text">发证日期：</span>
+              <span class="input-input detailinput">  {{crjinfo.GRANT_CERT_DATE}}</span>
+            </el-col>
+            <el-col :span="8" class="input-item">
+              <span class="input-text">出境理由：</span>
+              <span class="input-input detailinput">  {{crjinfo.OUT_REASON_DESC}}</span>
+            </el-col>
+            <el-col :span="8" class="input-item">
+              <span class="input-text">通道号：</span>
+              <span class="input-input detailinput">  {{crjinfo.CHANNELNO}}</span>
+            </el-col>
+            <el-col :span="8" class="input-item">
+              <span class="input-text">旅游团号：</span>
+              <span class="input-input detailinput">  {{crjinfo.TOUR_GROUPNO}}</span>
+            </el-col>
+            <el-col :span="8" class="input-item">
+              <span class="input-text">入库时间：</span>
+              <span class="input-input detailinput">  {{crjinfo.IN_TIME}}</span>
+            </el-col>
+            <!-- <el-col :span="8" class="input-item">
+              <span class="input-text">境内外标识：</span>
+              <span class="input-input detailinput">  {{crjinfo.id}}</span>
+            </el-col>
+            <el-col :span="8" class="input-item">
+              <span class="input-text">出入境标识：</span>
+              <span class="input-input detailinput">  {{crjinfo.CRJBS_DESC}}</span>
+            </el-col> -->
+        </el-row>
+
+    </el-form>
     <div slot="footer" class="dialog-footer">
       <el-button @click="crjDialogVisible = false" size="small">取 消</el-button>
     </div>
@@ -467,7 +590,8 @@ export default {
       CurrentPage1: 1,
       pageSize1: 10,
       TotalResult1: 0,
-      pd: {},
+      pd: {SCSJ_DateRange:{begin:'',end:''}},
+      pd0:{SCSJ_DateRange:{begin:'',end:''}},
       options: this.pl.ps,
       tableData: [],
       userCode:'',
@@ -498,7 +622,7 @@ export default {
       tableData1:[],
       randomasj:'',
       px:{},
-
+      crjinfo:{},
     }
   },
 
@@ -512,8 +636,8 @@ export default {
     this.$store.dispatch('getGjdq');
     this.$store.dispatch('getXB');
     this.$store.dispatch('getZjzl');
-    this.userCode=this.$store.state.uname;
-    this.userName=this.$store.state.uid;
+    this.userCode=this.$store.state.uid;
+    this.userName=this.$store.state.uname;
     this.orgCode=this.$store.state.orgname;
     this.orgName=this.$store.state.orgid
   },
@@ -592,7 +716,10 @@ export default {
             this.uploadDialogVisible=false;
             this.fileData=[];
             this.tableData=r.data.resultList;
-
+            this.$message({
+              type: 'info',
+              message: '导入成功'
+            });
           }else{
             this.$confirm('上传文件存在错误信息, 是否导出错误信息?', '提示', {
               confirmButtonText: '确定',
@@ -636,9 +763,9 @@ export default {
       for (var i = 0; i < arr.length; i++) {
       srr.push(arr[i].RYBH);
       }
-    var pes={
-      "RYBH":srr
-    };
+      var pes={
+        "RYBH":srr
+      };
 
       let p={
         "pd": pes,
@@ -681,18 +808,18 @@ export default {
         document.body.appendChild(link)
         link.click()
     },
-    // pageSizeChange(val) {
-    //   this.pageSize=val;
-    //   this.getList(this.CurrentPage, this.pageSize, this.pd,this.type);
-    //   console.log(`每页 ${val} 条`);
-    // },
-    // handleCurrentChange(val) {
-    //   this.CurrentPage=val;
-    //   this.getList(this.CurrentPage, this.pageSize, this.pd,this.type);
-    //   console.log(`当前页: ${val}`);
-    // },
+    pageSizeChange(val) {
+      this.pageSize=val;
+      this.getList(this.CurrentPage, this.pageSize, this.pd,this.type);
+      console.log(`每页 ${val} 条`);
+    },
+    handleCurrentChange(val) {
+      this.CurrentPage=val;
+      this.getList(this.CurrentPage, this.pageSize, this.pd,this.type);
+      console.log(`当前页: ${val}`);
+    },
     getList(currentPage, showCount, pd, type) {
-
+        this.type=type;
          if(type==2){
            if(this.fileData==null){
              this.$message({
@@ -727,9 +854,11 @@ export default {
            }else {
              url=this.Global.aport2+'/bjsc/getbjsc';
            }
+           this.pd0.SCSJ_DateRange.begin==''?this.pd.SCSJ_DateRange.begin='':this.pd0.SCSJ_DateRange.begin==null?this.pd.SCSJ_DateRange.begin=null:this.pd.SCSJ_DateRange.begin=this.pd0.SCSJ_DateRange.begin+'000000';
+           this.pd0.SCSJ_DateRange.end==''?this.pd.SCSJ_DateRange.end='':this.pd0.SCSJ_DateRange.end==null?this.pd.SCSJ_DateRange.end=null:this.pd.SCSJ_DateRange.end=this.pd0.SCSJ_DateRange.end+'000000';
            let p = {
-             // "currentPage": currentPage,
-             // "showCount": showCount,
+             "currentPage": currentPage,
+             "showCount": showCount,
              "userCode":this.$store.state.uid,
              "userName":this.$store.state.uname,
              "pd": pd,
@@ -789,20 +918,26 @@ export default {
     },
     //出入境
     getCrj(currentPage,showCount){
+      console.log('this.px.RYBH',this.px.RYBH);
       let p={
         "currentPage":currentPage,
         "showCount":showCount,
-        // "pd":pd
-        "certificateNO":this.px.ZJHM,
+        "pd":{
+          "RYBH":this.px.RYBH,
+        },
+        "userCode":this.userCode,
+        "userName":this.userName,
       };
-      this.$api.post(this.Global.aport3+'/ryhxhx/getcrjjl', p,
+      this.$api.post(this.Global.aport3+'/bjsc/getbjsccrjjl', p,
         r => {
-          if(r.data.length>1){
-            var pp=[];
-            pp.push(r.data[0]);
-            this.tableData1 = pp;
+          // if(r.data.length>1){
+          //   var pp=[];
+          //   pp.push(r.data[0]);
+          //   this.tableData1 = pp;
+          // }
+          if(r.success){
+            this.tableData1 = r.data.resultList;
           }
-
         })
     },
     //通报详情
@@ -818,8 +953,8 @@ export default {
     },
     //出入境详情
     detailscrj(n){
-        this.xid=n;
-        this.randomcrj=new Date().getTime();
+        this.crjinfo=n;
+        // this.randomcrj=new Date().getTime();
         this.crjshow=true;
     },
     detailssj(n){
@@ -831,6 +966,7 @@ export default {
       console.log(n,t);
       this.px.ZJHM=n.ZJHM;
       this.px.GJDQ=n.GJDQ;
+      this.px.RYBH=n.RYBH;
       this.sjshow=false;
       this.crjshow=false;
       this.anshow=false;
@@ -882,7 +1018,7 @@ export default {
   border-color: #66b1ff;
   color: #fff;
 }
-.bjscred{cursor: pointer;color: red}
-.bjscblue{cursor: pointer;color: blue}
-.bjscyellow{cursor: pointer;color: #D07D00}
+.bjscred{color: red}
+.bjscblue{color: blue}
+.bjscyellow{color: #D07D00}
 </style>

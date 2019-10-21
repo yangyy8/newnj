@@ -6,13 +6,13 @@
         <el-col :span="22" class="br pr-20">
           <el-row align="center"   :gutter="2">
                 <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
-                   <span class="input-text">英文姓：</span>
-                   <el-input placeholder="请输入内容" size="small" v-model="pd.YWX" class="input-input"></el-input>
+                   <span class="input-text">姓名：</span>
+                   <el-input placeholder="请输入内容" size="small" v-model="pd.XM" class="input-input"></el-input>
                 </el-col>
-                <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
+                <!-- <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
                    <span class="input-text">英文名：</span>
                    <el-input placeholder="请输入内容" size="small" v-model="pd.YWM" class="input-input"></el-input>
-                </el-col>
+                </el-col> -->
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                     <span class="input-text">国家地区：</span>
                     <el-select v-model="pd.GJDQ" filterable clearable multiple collapse-tags default-first-option placeholder="请选择"  size="small" class="input-input">
@@ -30,15 +30,16 @@
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
                   <span class="input-text">核查状态：</span>
+                  <el-select v-model="pd.HCZT" placeholder="请选择"  filterable clearable default-first-option size="small" class="input-input">
+                    <el-option label="核查通过" value="0"></el-option>
+                    <el-option label="核查不通过" value="1"></el-option>
+                  </el-select>
+                </el-col>
+                <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
+                  <span class="input-text">处理状态：</span>
                   <el-select v-model="pd.CLZT" placeholder="请选择"  filterable clearable default-first-option size="small" class="input-input">
-                    <el-option label="已核查" value="0"></el-option>
-                    <el-option label="未核查" value="1"></el-option>
-                    <!-- <el-option
-                      v-for="item in $store.state.clzt"
-                      :key="item.dm"
-                      :label="item.dm+' - '+item.mc"
-                      :value="item.dm">
-                    </el-option> -->
+                    <el-option label="已处理" value="0"></el-option>
+                    <el-option label="未处理" value="1"></el-option>
                   </el-select>
                 </el-col>
           </el-row>
@@ -64,13 +65,13 @@
              width="55">
            </el-table-column> -->
            <el-table-column
-             prop="YWX"
-             label="英文姓">
+             prop="XM"
+             label="姓名">
            </el-table-column>
-           <el-table-column
+           <!-- <el-table-column
              prop="YWM"
              label="英文名">
-           </el-table-column>
+           </el-table-column> -->
            <el-table-column
              prop="GJDQ_DESC"
              label="国家地区">
@@ -88,8 +89,18 @@
              label="上报时间">
            </el-table-column>
            <el-table-column
-             prop="CLZT_DESC"
+             prop="HCZT"
              label="核查状态">
+            <template slot-scope="scope">
+              {{scope.row.HCZT=='0'?'核查通过':scope.row.HCZT=='1'?'核查不通过':''}}
+            </template>
+           </el-table-column>
+           <el-table-column
+             prop="CLZT_DESC"
+             label="处理状态">
+             <!-- <template slot-scope="scope">
+               {{scope.row.CLZT=='0'?'已处理':'未处理'}}
+             </template> -->
            </el-table-column>
            <el-table-column
              label="操作" width="120">
@@ -199,7 +210,7 @@ export default {
       if(this.selectionAll.length==0){//全部导出
          p={
           "pd":this.pd,
-          "orderBy":'SBSJ',
+          "orderBy":'BJSJ',
           "orderType":'DESC',
         }
       }else{//导出选中
@@ -210,7 +221,7 @@ export default {
         this.pd.YJID=this.yuid;
          p={
           "pd":this.pd,
-          "orderBy":'SBSJ',
+          "orderBy":'BJSJ',
           "orderType":'DESC',
         }
       }
@@ -249,7 +260,7 @@ export default {
         "currentPage": currentPage,
         "showCount": showCount,
         "pd": pd,
-        "orderBy":'SBSJ',
+        "orderBy":'BJSJ',
         "orderType":'DESC',
       };
       this.$api.post(this.Global.aport4+'/SWDWWarningInfoController/getInfoListByHCMX', p,

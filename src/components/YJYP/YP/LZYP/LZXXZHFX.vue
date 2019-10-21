@@ -412,8 +412,12 @@ import LZXX from '../../../common/lzxx_xq'
             label:'证件种类'
           },
           {
-            code:'LRDW',
-            label:'所属单位'
+            code:'SSFJ',
+            label:'所属分局'
+          },
+          {
+            code:'SSPCS',
+            label:'所属派出所'
           },
           {
             code:'XB',
@@ -459,8 +463,12 @@ import LZXX from '../../../common/lzxx_xq'
             label:'证件种类'
           },
           {
-            code:'LRDW_DESC',
-            label:'所属单位'
+            code:'SSFJ_DESC',
+            label:'所属分局'
+          },
+          {
+            code:'SSPCS_DESC',
+            label:'所属派出所'
           },
           {
             code:'XB_DESC',

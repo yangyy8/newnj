@@ -186,6 +186,10 @@
           <span class="yy-input-text">修改日期：</span>
               <el-input placeholder="" size="small" v-model="form.GXSJ"  class="yy-input-input"></el-input>
         </el-col>
+        <el-col :span="8" >
+          <span class="yy-input-text">行政区划：</span>
+              <el-input placeholder="" size="small" v-model="form.XZQH_DESC"  class="yy-input-input"></el-input>
+        </el-col>
       </el-row>
      </el-form>
      <el-dialog  title="放大显示" :visible.sync="tcDialogVisible" style="text-align:center" custom-class="big_dialog" :append-to-body="false" :modal="false" >

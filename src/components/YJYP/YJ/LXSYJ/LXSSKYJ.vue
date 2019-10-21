@@ -810,11 +810,10 @@ export default {
       }
     },
     getEdit(n){
-
       if(this.type==4){
-      this.$router.push({name:'NMXQPHZYJ_XQ',query:{row:n}});
+        this.$router.push({name:'NMXQPHZYJ_XQ',query:{row:n}});
       }else {
-      this.$router.push({name:'LXSXXGLYJ_XQ',query:{row:n}});
+        this.$router.push({name:'LXSXXGLYJ_XQ',query:{row:n}});
       }
     },
     getXM(zw,yw){

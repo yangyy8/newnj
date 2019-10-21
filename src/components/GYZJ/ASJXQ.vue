@@ -100,7 +100,7 @@
              label="签证号码">
            </el-table-column>
            <el-table-column
-             prop="QZYXQ"
+             prop="QZYXQZ"
              label="签证有效期至">
            </el-table-column>
            <el-table-column
@@ -145,7 +145,7 @@
             </el-pagination>
           </div>
       </div>
-      <div class="mb-15" v-if="yjType==2||yjType==4||yjType==5">
+      <div class="mb-15" v-if="yjType==2||yjType==4||yjType==5||yjType==20">
         <div class="stru-lal">出入境信息</div>
         <el-table
              :data="tableData2"
@@ -201,7 +201,7 @@
             </el-pagination>
           </div>
       </div>
-      <div class="mb-15" v-if="yjType==1||yjType==4||yjType==5||yjType==2">
+      <div class="mb-15" v-if="yjType==1||yjType==4||yjType==5||yjType==2||yjType==20">
         <div class="stru-lal">临住信息</div>
         <el-table
              :data="tableData3"
@@ -215,14 +215,14 @@
                prop="LSDWDZ"
                label="住宿地址">
              </el-table-column>
-             <el-table-column
+             <!-- <el-table-column
                prop="NLKRQ"
                label="拟离开时间">
              </el-table-column>
              <el-table-column
                prop="ZFZL_DESC"
                label="住宿类型">
-             </el-table-column>
+             </el-table-column> -->
              <el-table-column
                prop="DJDWMC"
                label="登记单位">
@@ -276,11 +276,11 @@
                label="登记时间">
              </el-table-column>
              <el-table-column
-               prop="DJDW"
+               prop="DJDW_DESC"
                label="登记单位">
              </el-table-column>
              <el-table-column
-               prop="SFDM"
+               prop="SFDM_DESC"
                label="身份">
              </el-table-column>
              <el-table-column
@@ -929,11 +929,11 @@ export default {
       this.pd.CLJG=this.row.CLJG;
     }
       this.getList(1,10,this.url0, 0); //人员基本信息
-      if(this.yjType=="1" || this.yjType=="2" || this.yjType=="5" || this.yjType=="20"){
+      if(this.yjType=="1" || this.yjType=="2" || this.yjType=="5"){
         this.getList(this.CurrentPage1,this.pageSize1,this.url1, 1); //签证信息
       }
 
-      if(this.yjType=="1" || this.yjType=="2" || this.yjType=="4" || this.yjType=="5"){
+      if(this.yjType=="1" || this.yjType=="2" || this.yjType=="4" || this.yjType=="5"|| this.yjType=="20"){
       this.getList(this.CurrentPage2,this.pageSize2,this.url2, 2); //出入境信息
       this.getList(1,10,this.url61, 61); //交通信息
       this.getList(1,10,this.url62, 62); //交通信息

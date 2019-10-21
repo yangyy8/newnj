@@ -198,14 +198,14 @@
               prop="LSDWDZ"
               label="住宿地址">
             </el-table-column>
-            <el-table-column
+            <!-- <el-table-column
               prop="NLKRQ"
               label="拟离开时间">
             </el-table-column>
             <el-table-column
               prop="ZFZL_DESC"
               label="住宿类型">
-            </el-table-column>
+            </el-table-column> -->
             <el-table-column
               prop="DJDWMC"
               label="登记单位">
@@ -1176,7 +1176,7 @@ export default {
             this.getZJXX(this.CurrentPage4,this.pageSize4);
             this.getQZXX(this.CurrentPage5,this.pageSize5);
             this.getTBRY(this.pm);
-          }else if(this.row.MXLX=="ASJ_SKGJRY") { //涉恐国家人员预警
+          }else if(this.row.MXLX=="ASJ_SKGJRY"||this.row.MXLX=="LXS_SKYJ") { //涉恐国家人员预警
             this.crjshow=true;
             this.getCrjxx(this.CurrentPage1,this.pageSize1);
           }
@@ -1468,7 +1468,7 @@ export default {
         "currentPage": currentPage,
         "showCount": showCount,
         "pd":px,
-        "orderBy":{value:"CJSJ",dataType:"date"},
+        "orderBy":{value:"RQRB",dataType:"date"},
         "orderType":"DESC"
       };
       this.$api.post(this.Global.aport4+'/eS_KZ_CZWGMTJZController/getResultListByParams', p,

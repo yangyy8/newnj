@@ -28,19 +28,6 @@
                    <span class="input-text">证件号码：</span>
                    <el-input placeholder="请输入内容" size="small" v-model="pd.ZJHM" class="input-input"></el-input>
                 </el-col>
-                <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
-                  <span class="input-text">核查状态：</span>
-                  <el-select v-model="pd.CLZT" placeholder="请选择"  filterable clearable default-first-option size="small" class="input-input">
-                    <el-option label="已核查" value="0"></el-option>
-                    <el-option label="未核查" value="1"></el-option>
-                    <!-- <el-option
-                      v-for="item in $store.state.clzt"
-                      :key="item.dm"
-                      :label="item.dm+' - '+item.mc"
-                      :value="item.dm">
-                    </el-option> -->
-                  </el-select>
-                </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                     <span class="input-text">签证种类：</span>
                     <el-select v-model="pd.QZZL" filterable clearable multiple collapse-tags default-first-option placeholder="请选择"  size="small" class="input-input">
@@ -135,6 +122,20 @@
                    <span class="input-text">居住地址：</span>
                    <el-input placeholder="请输入内容" size="small" v-model="pd.JZDZ" class="input-input"></el-input>
                 </el-col>
+                <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
+                  <span class="input-text">核查状态：</span>
+                  <el-select v-model="pd.HCZT" placeholder="请选择"  filterable clearable default-first-option size="small" class="input-input">
+                    <el-option label="核查通过" value="0"></el-option>
+                    <el-option label="核查不通过" value="1"></el-option>
+                  </el-select>
+                </el-col>
+                <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
+                  <span class="input-text">处理状态：</span>
+                  <el-select v-model="pd.CLZT" placeholder="请选择"  filterable clearable default-first-option size="small" class="input-input">
+                    <el-option label="已处理" value="0"></el-option>
+                    <el-option label="未处理" value="1"></el-option>
+                  </el-select>
+                </el-col>
           </el-row>
          </el-col>
         <el-col :span="2" class="down-btn-area">
@@ -182,8 +183,18 @@
              label="核查时间">
            </el-table-column>
            <el-table-column
-             prop="CLZT_DESC"
+             prop="HCZT"
              label="核查状态">
+            <template slot-scope="scope">
+              {{scope.row.HCZT=='0'?'核查通过':scope.row.HCZT=='1'?'核查不通过':''}}
+            </template>
+           </el-table-column>
+           <el-table-column
+             prop="CLZT_DESC"
+             label="处理状态">
+             <!-- <template slot-scope="scope">
+               {{scope.row.CLZT=='0'?'已处理':'未处理'}}
+             </template> -->
            </el-table-column>
            <el-table-column
              label="操作" width="120">
@@ -295,7 +306,7 @@ export default {
       if(this.selectionAll.length==0){//全部导出
          p={
           "pd":this.pd,
-          "orderBy":'SBSJ',
+          "orderBy":'BJSJ',
           "orderType":'DESC'
         }
       }else{//导出选中
@@ -306,7 +317,7 @@ export default {
         this.pd.YJID=this.yuid;
          p={
           "pd":this.pd,
-          "orderBy":'SBSJ',
+          "orderBy":'BJSJ',
           "orderType":'DESC',
         }
       }
@@ -345,7 +356,7 @@ export default {
         "currentPage": currentPage,
         "showCount": showCount,
         "pd": pd,
-        "orderBy":'SBSJ',
+        "orderBy":'BJSJ',
         "orderType":'DESC',
       };
       this.$api.post(this.Global.aport4+'/SWDWWarningInfoController/getInfoListByHCMX', p,
