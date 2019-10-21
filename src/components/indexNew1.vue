@@ -34,6 +34,7 @@
     </div>
     <div class="" @mouseover="navShow=false">
       <div class="banner">
+        <img src="../assets/img/sg/tc_nor.png" alt="链至大屏" class="toScreen" @click="$router.push({name:'Screen',query:{mtype:mapList.type,year:lzyear,month:lzmonth,day:lzdate}})">
         <div class="common-report hand" @click="shortMenu">
           常用报表
         </div>

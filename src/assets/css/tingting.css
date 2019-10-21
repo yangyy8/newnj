@@ -76,7 +76,12 @@
     background-size: 100%;
     position: relative;
   }
-
+  .toScreen{
+    position: absolute;
+    top: 30px;
+    left: 45px;
+    width: 50px;
+  }
   .common-report{
     display: inline-block;
     width: 80px;
@@ -497,6 +502,12 @@
     background: url('../../assets/img/sg/logo.png') no-repeat;
     background-size: 100%;
     position: relative;
+  }
+  .toScreen{
+    position: absolute;
+    top: 30px;
+    left: 45px;
+    width: 50px;
   }
   .common-report{
     display: inline-block;
@@ -923,6 +934,12 @@
   .t-screen .time{text-align: center;color: #FFFFFF;margin-top: -20px;font-size: 16px;}
   .huan-font{
     font-size: 12px;
+  }
+  .toScreen{
+    position: absolute;
+    top: 30px;
+    left: 40px;
+    width: 50px;
   }
   .common-report{
     display: inline-block;
