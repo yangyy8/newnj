@@ -148,6 +148,9 @@
                 :total="TotalResult">
               </el-pagination>
             </div>
+            <div class="totalClass">
+              总数量：<span>{{totalAllResult}}</span>
+            </div>
         </div>
         <div v-else>
           <el-table
@@ -388,6 +391,8 @@
           selectionAll:[],
           yuid:[],
           selectionReal:[],
+
+          totalAllResult:0,
         }
       },
       mounted() {
@@ -525,7 +530,8 @@
               if(r.data.isFenLei=="true"){//统计列表
                 this.falg=true;
                 this.tableData = r.data.resultList;
-                this.TotalResult = r.data.totalAllResult;
+                this.TotalResult = r.data.totalResult;
+                this.totalAllResult = r.data.totalAllResult;
                 this.configHeader=[];
                 let _this = this;
                 for(var i=0;i<_this.checkItemReal.length;i++){
