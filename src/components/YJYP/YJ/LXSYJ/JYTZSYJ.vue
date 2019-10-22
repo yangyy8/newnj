@@ -149,7 +149,7 @@
              label="预警时间">
            </el-table-column>
            <el-table-column
-             prop="FJ_DESC"
+             prop="SSFJ_DESC"
              label="所属分局">
            </el-table-column>
            <el-table-column
