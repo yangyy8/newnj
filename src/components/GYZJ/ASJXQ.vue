@@ -636,7 +636,7 @@
 
    <div class="stu-footer" v-if="jb=='1'">
      <div class="stu-title">分局调查意见：{{pd.FJYJ}}</div>
-     <div class="stu-title">处理意见：</div>
+     <div class="stu-title">处理意见</div>
      <el-row type="flex" class="mb-15">
       <el-col :span="20">
         <el-input
@@ -1170,7 +1170,7 @@ export default {
           }
          this.pcl.CLJG=this.pd.FJYJ;
          this.pcl.CLZT="2";
-        }else if(this.jb=="4"){
+       }else if(this.jb=="1"){
           if(this.pd.ZDYJ=="" || this.pd.ZDYJ==undefined)
           {
             this.$alert('支队处理意见不能为空！', '提示', {
@@ -1183,7 +1183,7 @@ export default {
         }else {
           if(this.pd.CLJG=="" || this.pd.CLJG==undefined)
           {
-            this.$alert('甄别结果不能为空！', '提示', {
+            this.$alert('处理意见不能为空！', '提示', {
               confirmButtonText: '确定',
             });
             return;
@@ -1191,6 +1191,7 @@ export default {
          this.pcl.CLJG=this.pd.CLJG;
          this.pcl.CLZT="1";
       }
+
       this.pcl.YJID=this.row.YJID;
       this.pcl.CLDW=this.$store.state.orgid;
       this.pcl.CLR=this.withname;
