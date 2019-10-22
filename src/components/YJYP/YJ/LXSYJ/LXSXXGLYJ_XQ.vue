@@ -1711,7 +1711,7 @@ export default {
     }
    this.pcl.CLJG=this.pc.CHANGE_RESON;
    this.pcl.SHZT="1";
-     this.pcl.CLZT="1";
+   this.pcl.CLZT="1";
   }
 
     this.pcl.YJID=this.row.YJID;
