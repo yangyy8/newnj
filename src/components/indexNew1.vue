@@ -1662,6 +1662,7 @@ export default {
         if(val==3){return '#46FF7F'};
       },
       aaa(lzdata,czdata,lrdw,lrdwmc){
+        console.log('lzdata',lzdata,czdata);
         this.mapCharts = echarts.init(document.getElementById('mapecharts'));
         let _this = this;
         _this.mapCharts.setOption({

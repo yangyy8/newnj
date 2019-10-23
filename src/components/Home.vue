@@ -141,7 +141,7 @@ export default {
     }
   },
   mounted() {
-
+    console.log('this.$route.name',this.$route.name);
     if(this.$route.name!="Home"){
       if(this.$route.meta.father){
         this.$router.push({name:this.$route.meta.father})
@@ -157,6 +157,7 @@ export default {
     this.getTOP();
     this.getmemu("",this.isA);
   },
+
   methods: {
     handleOpen(key, keyPath) {
     console.log(key, keyPath);
@@ -181,6 +182,7 @@ export default {
        });
     },
     getmemu(dm,mc){
+      console.log('-----------mc',mc);
       if(mc==""){
         if(this.$route.meta.title==undefined){
            this.$router.push({name:"Index"});

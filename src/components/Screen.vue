@@ -61,7 +61,20 @@
         <div class="content">
 
           <img src="../assets/img/sg/map2.png" />
-          <div id="home_map" style="width: 377px; height: 685px; position: absolute; top: 10%;left:39%;"></div>
+          <div id="home_map" class="mapy"></div>
+          <div id="home_line" class="mapy"></div>
+          <div id="home_map1" class="mapdw"></div>
+          <div id="home_map2" class="mapdw"></div>
+          <div id="home_map3" class="mapdw"></div>
+          <div id="home_map4" class="mapdw"></div>
+          <div id="home_map5" class="mapdw"></div>
+          <div id="home_map6" class="mapdw"></div>
+          <div id="home_map7" class="mapdw"></div>
+          <div id="home_map8" class="mapdw"></div>
+          <div id="home_map9" class="mapdw"></div>
+          <div id="home_map10" class="mapdw"></div>
+          <div id="home_map11" class="mapdw"></div>
+          <div id="home_map12" class="mapdw"></div>
 
         </div>
         <div class="lineup">
@@ -113,7 +126,10 @@
       </el-col>
     </el-row>
     <el-row>
-     <el-col class="footer">Auto</el-col>
+     <el-col class="footer">
+        <img src="../assets/img/sg/auto.png" width="55" height="26">
+        <img src="../assets/img/sg/tc_nor.png"  width="55" height="26" @click="$router.push('Index')" style="cursor:pointer">
+     </el-col>
    </el-row>
     </div>
 
@@ -142,10 +158,10 @@ export default {
         maptype:'L',
         seriesData:[
           [[13, 27, '六合区', 12, 40]],
-          [[11, 13, '江宁区', 10, 40]],
-          [[3, 18, '浦口区', 10, 40]],
+          [[11, 12, '江宁区', 10, 40]],
+          [[3, 17, '浦口区', 10, 40]],
           [[18, 7, '溧水区', 10, 40]],
-          [[15, 1, '高淳区', 10, 40]],
+          [[12, 1, '高淳区', 10, 40]],
           [[11, 22, '栖霞区', 10, 30]],
           [[7, 16, '雨花台区', 10, 20]],
           [[10, 20, '鼓楼区', 10, 20]],
@@ -153,7 +169,7 @@ export default {
           [[8.5, 18, '建邺区', 10, 20]],
           [[11.5, 19, '秦淮区', 10, 20]],
           [[9, 23, '江北新区', 10, 20]]
-        ],
+         ],
 
     }
   },
@@ -266,6 +282,7 @@ export default {
         // this.animate=true;
         this.timer=setInterval(this.scrollYj,2000);
       },
+
       mapFun(val){
         let p={
           year:this.lzyear,
@@ -276,30 +293,54 @@ export default {
         this.$api.post(this.Global.aport+'/home/getCenterData',p,
          r =>{
            if(r.success){
-             this.drawLine(r.data.series,r.data.legend,r.data.name)
+            this.drawLine1(r.data.series,r.data.legend,r.data.name)
+             var arr=r.data.series;
+                for (var i = 0; i < arr.length; i++) {
+                  var gg=this.getGrid(i);
+
+                  this.drawLine(arr[i],gg,'home_map'+(i+1));
+                }
+                this.drawLineline();
+
            }
          })
       },
-
-      drawLine(data,legend,name){
-        console.log(data,legend,name);
+      drawLineline(){
+        this.mapLine= echarts.init(document.getElementById('home_line'));
+        let _this = this
+        _this.mapLine.setOption({
+                xAxis: {
+                  splitLine:{
+  　　　                 　show:false
+  　　              },
+                  axisLabel: {
+                          show: false
+                    },
+                  show: false
+              },
+                yAxis: {
+                  splitLine:{
+  　　　                 　show:false
+  　　              },
+                  axisLabel: {
+                          show: false
+                    },
+                  show: false
+                },
+                series: [{
+                    data: [[120, 120], [60, 80]],
+                    type: 'line'
+                },
+                {
+                    data: [[20, 120], [40, 50]],
+                    type: 'line'
+                }]
+          },true)
+      },
+      drawLine1(data,legend,name){
         this.mapCenter = echarts.init(document.getElementById('home_map'));
         var shadowColor='';
-        //x, y, 名称， 数值， symbolSize
-        // var seriesData = [
-        //     [13, 27, '六合区', 12, 40],
-        //     [11, 13, '江宁区', 10, 40],
-        //     [3, 18, '浦口区', 10, 40],
-        //     [18, 7, '溧水区', 10, 40],
-        //     [15, 1, '高淳区', 10, 40],
-        //     [11, 22, '栖霞区', 10, 30],
-        //     [7, 16, '雨花台区', 10, 20],
-        //     [10, 20, '鼓楼区', 10, 20],
-        //     [13, 21, '玄武区', 10, 25],
-        //     [8.5, 18, '建邺区', 10, 20],
-        //     [11.5, 19, '秦淮区', 10, 20],
-        //     [9, 23, '江北新区', 10, 20]
-        // ];
+
         //玄武区、秦淮区、鼓楼区、建邺区、栖霞区、雨花台区、浦口区、江宁区、六合区、溧水区、高淳区
         for (var i =0; i < this.seriesData.length; i++) {
           for(var h=0;h<this.seriesData[i].length;h++){
@@ -344,15 +385,6 @@ export default {
               data: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22],
               show: false
           },
-          legend:{
-            data:legend,
-            textStyle:{
-              color:'#fff'
-            },
-            y:_this.yjl,
-            x:'10px',
-            orient: 'vertical', // 'vertical'
-          },
           yAxis: {
               type: 'category',
               data: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,35,26,27,28,29,30,31,32],
@@ -385,15 +417,10 @@ export default {
               itemStyle: {
                 normal: {
                     color:function(params){
-            					//颜色渐变，右/下/左/上，从下往上渐变
-                      // console.log('===',params);
-            					return new echarts.graphic.LinearGradient(0,0,1,1,[
-            						{offset: 0,color: params.value[10]},
-            						{offset: 1,color: params.value[11]},
-            					])
+
+                      return "#0D1D44";
                     },
-                    shadowBlur: 18,
-                    shadowColor: _this.seriesData[0][0][11],
+
                 },
               },
               label: {
@@ -428,15 +455,10 @@ export default {
                 itemStyle: {
                   normal: {
                       color:function(params){
-              					//颜色渐变，右/下/左/上，从下往上渐变
-                        shadowColor = params.value[10]
-              					return new echarts.graphic.LinearGradient(0,0,1,1,[
-              						{offset: 0,color: params.value[10]},
-              						{offset: 1,color: params.value[11]},
-              					])
+                        //颜色渐变，右/下/左/上，从下往上渐变
+                        return "#0D1D44";
                       },
-                      shadowBlur: 18,
-                      shadowColor: _this.seriesData[1][0][11]
+
                   },
                 },
                 label: {
@@ -446,7 +468,7 @@ export default {
                         formatter: function(v) {
                             return v.value[2];
                         },
-                        fontSize: 10,
+                        fontSize: 11,
                         fontWeight:'bold',
                         rich: {
                             name: {
@@ -471,14 +493,9 @@ export default {
                   itemStyle: {
                     normal: {
                         color:function(params){
-                          //颜色渐变，右/下/左/上，从下往上渐变
-                          return new echarts.graphic.LinearGradient(0,0,1,1,[
-                            {offset: 0,color: params.value[10]},
-                            {offset: 1,color: params.value[11]},
-                          ])
+                          return "#0D1D44";
                         },
-                        shadowBlur: 18,
-                        shadowColor: _this.seriesData[2][0][11]
+
                     },
                   },
                   label: {
@@ -488,7 +505,7 @@ export default {
                           formatter: function(v) {
                               return v.value[2];
                           },
-                          fontSize: 10,
+                          fontSize: 11,
                           fontWeight:'bold',
                           rich: {
                               name: {
@@ -513,14 +530,9 @@ export default {
                     itemStyle: {
                       normal: {
                           color:function(params){
-                            //颜色渐变，右/下/左/上，从下往上渐变
-                            return new echarts.graphic.LinearGradient(0,0,1,1,[
-                              {offset: 0,color: params.value[10]},
-                              {offset: 1,color: params.value[11]},
-                            ])
+                          return "#0D1D44";
                           },
-                          shadowBlur: 18,
-                          shadowColor: _this.seriesData[3][0][11]
+
                       },
                     },
                     label: {
@@ -531,7 +543,7 @@ export default {
                             formatter: function(v) {
                                 return v.value[2];
                             },
-                            fontSize: 10,
+                            fontSize: 11,
                             rich: {
                                 name: {
                                     textBorderColor: '#fff'
@@ -555,14 +567,9 @@ export default {
               itemStyle: {
                 normal: {
                     color:function(params){
-                      //颜色渐变，右/下/左/上，从下往上渐变
-                      return new echarts.graphic.LinearGradient(0,0,1,1,[
-                        {offset: 0,color: params.value[10]},
-                        {offset: 1,color: params.value[11]},
-                      ])
+                      return "#0D1D44";
                     },
-                    shadowBlur: 18,
-                    shadowColor: _this.seriesData[4][0][11]
+
                 },
               },
               label: {
@@ -573,7 +580,7 @@ export default {
                       formatter: function(v) {
                           return v.value[2];
                       },
-                      fontSize: 10,
+                      fontSize: 11,
                       rich: {
                           name: {
                               textBorderColor: '#fff'
@@ -597,14 +604,8 @@ export default {
                 itemStyle: {
                   normal: {
                       color:function(params){
-                        //颜色渐变，右/下/左/上，从下往上渐变
-                        return new echarts.graphic.LinearGradient(0,0,1,1,[
-                          {offset: 0,color: params.value[10]},
-                          {offset: 1,color: params.value[11]},
-                        ])
+                        return "#0D1D44";
                       },
-                      shadowBlur: 10,
-                      shadowColor: _this.seriesData[5][0][11]
                   },
                 },
                 label: {
@@ -615,7 +616,7 @@ export default {
                         formatter: function(v) {
                             return v.value[2];
                         },
-                        fontSize: 10,
+                        fontSize: 11,
                         rich: {
                             name: {
                                 textBorderColor: '#fff'
@@ -639,14 +640,9 @@ export default {
                 itemStyle: {
                   normal: {
                       color:function(params){
-              					//颜色渐变，右/下/左/上，从下往上渐变
-              					return new echarts.graphic.LinearGradient(0,0,1,1,[
-              						{offset: 0,color: params.value[10]},
-              						{offset: 1,color: params.value[11]},
-              					])
+                        return "#0D1D44";
                       },
-                      shadowBlur: 10,
-                      shadowColor: _this.seriesData[6][0][11]
+
                   },
                 },
                 label: {
@@ -657,7 +653,7 @@ export default {
                         formatter: function(v) {
                             return v.value[2];
                         },
-                        fontSize: 10,
+                        fontSize: 11,
                         rich: {
                             name: {
                                 textBorderColor: '#fff'
@@ -681,14 +677,9 @@ export default {
                 itemStyle: {
                   normal: {
                       color:function(params){
-              					//颜色渐变，右/下/左/上，从下往上渐变
-              					return new echarts.graphic.LinearGradient(0,0,1,1,[
-              						{offset: 0,color: params.value[10]},
-              						{offset: 1,color: params.value[11]},
-              					])
+                         return "#0D1D44";
                       },
-                      shadowBlur: 10,
-                      shadowColor: _this.seriesData[7][0][11]
+
                   },
                 },
                 label: {
@@ -699,7 +690,7 @@ export default {
                         formatter: function(v) {
                             return v.value[2];
                         },
-                        fontSize: 10,
+                        fontSize: 11,
                         rich: {
                             name: {
                                 textBorderColor: '#fff'
@@ -723,14 +714,9 @@ export default {
                 itemStyle: {
                   normal: {
                       color:function(params){
-                        //颜色渐变，右/下/左/上，从下往上渐变
-                        return new echarts.graphic.LinearGradient(0,0,1,1,[
-                          {offset: 0,color: params.value[10]},
-                          {offset: 1,color: params.value[11]},
-                        ])
+                         return "#0D1D44";
                       },
-                      shadowBlur: 10,
-                      shadowColor: _this.seriesData[8][0][11]
+
                   },
                 },
                 label: {
@@ -740,7 +726,7 @@ export default {
                         formatter: function(v) {
                             return v.value[2];
                         },
-                        fontSize: 10,
+                        fontSize: 11,
                         fontWeight:'bold',
                         rich: {
                             name: {
@@ -765,14 +751,9 @@ export default {
                 itemStyle: {
                   normal: {
                       color:function(params){
-              					//颜色渐变，右/下/左/上，从下往上渐变
-              					return new echarts.graphic.LinearGradient(0,0,1,1,[
-              						{offset: 0,color: params.value[10]},
-              						{offset: 1,color: params.value[11]},
-              					])
+                         return "#0D1D44";
                       },
-                      shadowBlur: 10,
-                      shadowColor: _this.seriesData[9][0][11]
+
                   },
                 },
                 label: {
@@ -783,7 +764,7 @@ export default {
                         formatter: function(v) {
                             return v.value[2];
                         },
-                        fontSize: 10,
+                        fontSize: 11,
                         rich: {
                             name: {
                                 textBorderColor: '#fff'
@@ -808,14 +789,9 @@ export default {
                 itemStyle: {
                   normal: {
                       color:function(params){
-                        //颜色渐变，右/下/左/上，从下往上渐变
-                        return new echarts.graphic.LinearGradient(0,0,1,1,[
-                          {offset: 0,color: params.value[10]},
-                          {offset: 1,color: params.value[11]},
-                        ])
+                        return "#0D1D44";
                       },
-                      shadowBlur: 10,
-                      shadowColor: _this.seriesData[10][0][11]
+
                   },
                 },
                 label: {
@@ -826,7 +802,7 @@ export default {
                         formatter: function(v) {
                             return v.value[2];
                         },
-                        fontSize: 10,
+                        fontSize: 11,
                         rich: {
                             name: {
                                 textBorderColor: '#fff'
@@ -850,14 +826,9 @@ export default {
                 itemStyle: {
                   normal: {
                       color:function(params){
-                        //颜色渐变，右/下/左/上，从下往上渐变
-                        return new echarts.graphic.LinearGradient(0,0,1,1,[
-                          {offset: 0,color: params.value[10]},
-                          {offset: 1,color: params.value[11]},
-                        ])
+                        return "#0D1D44";
                       },
-                      shadowBlur: 15,
-                      shadowColor: _this.seriesData[11][0][11]
+
                   },
                 },
                 label: {
@@ -868,7 +839,7 @@ export default {
                         formatter: function(v) {
                             return v.value[2];
                         },
-                        fontSize: 10,
+                        fontSize: 11,
                         rich: {
                             name: {
                                 textBorderColor: '#fff'
@@ -883,20 +854,255 @@ export default {
           _this.mapCenter.resize();
         });
 
-        //
-        // _this.mapCenter.on('mouseover',function(params){
-        //   _this.claname = params.value[6];
-        //   _this.isShow=true;
-        //   _this.aaa(params.value[3],params.value[8],params.value[5],params.value[2]);
-        // })
-        // var mapCan = document.getElementById('mapall');
-        //  mapCan.onmouseleave = function (e) {
-        //    // console.log(e.target.lastChild.id,e.target.firstChild.id)
-        //    if(e.target.lastChild.id=='tt'||e.target.firstChild.id=='home_map'){
-        //      // console.log('鼠标离开',e);
-        //     _this.isShow=false;
-        //    }
-        //  }
+      },
+      getGrid(i){
+        console.log(i);
+        var gg=
+        {
+          left: '48%',
+          right: '41%',
+          bottom: '82%',
+          top:'10%',
+          containLabel: true
+        }//六合区
+        switch (i) {
+          case 1://江北新区
+          gg=
+          {
+            left: '9%',
+            right: '80%',
+            bottom: '78%',
+            top:'14%',
+            containLabel: true
+          }
+          break;
+          case 2://栖霞区
+          gg=
+          {
+            left: '80%',
+            right: '9%',
+            bottom: '80%',
+            top:'12%',
+            containLabel: true
+          }
+          break;
+          case 3://玄武区
+          gg=
+          {
+            left: '80%',
+            right: '9%',
+            bottom: '68%',
+            top:'24%',
+            containLabel: true
+          }
+          break;
+          case 4://秦淮区
+          gg=
+          {
+            left: '80%',
+            right: '9%',
+            bottom: '55%',
+            top:'37%',
+            containLabel: true
+          }
+          break;
+          case 5://鼓楼区
+          gg=
+          {
+            left: '9%',
+            right: '80%',
+            bottom: '64%',
+            top:'28%',
+            containLabel: true
+          }
+          break;
+          case 6://浦口区
+          gg=
+          {
+            left: '22%',
+            right: '67%',
+            bottom: '53%',
+            top:'39%',
+            containLabel: true
+          }
+          break;
+          case 7://建邺区
+          gg=
+          {
+            left: '80%',
+            right: '9%',
+            bottom: '42%',
+            top:'50%',
+            containLabel: true
+          }
+          break;
+          case 8://雨花台区
+          gg=
+          {
+            left: '9%',
+            right: '80%',
+            bottom: '20%',
+            top:'72%',
+            containLabel: true
+          }
+          break;
+          case 9://江宁区
+          gg=
+          {
+            left: '44%',
+            right: '45%',
+            bottom: '39%',
+            top:'53%',
+            containLabel: true
+          }
+          break;
+          case 10://溧水区
+          gg=
+          {
+            left: '63%',
+            right: '26%',
+            bottom: '25%',
+            top:'67%',
+            containLabel: true
+          }
+          break;
+          case 11://高淳区
+          gg=
+          {
+            left: '60%',
+            right: '29%',
+            bottom: '3%',
+            top:'89%',
+            containLabel: true
+          }
+          break;
+          default:
+
+        }
+
+        return gg;
+      },
+
+      drawLine(data,grid,name){
+        console.log(grid);
+        this.mapCenter = echarts.init(document.getElementById(name));
+        var shadowColor='';
+        let _this = this;
+        _this.mapCenter.setOption({
+          xAxis: {
+               type: 'category',
+               data: ['临住','常住'],
+               axisLine:{
+                   lineStyle:{
+                       color:'#01DEEC',
+                       fontSize:9
+                   }
+               },
+               splitLine: { //网格线
+                 show: false
+               },
+               axisTick:{//去掉坐标刻度线
+                 show:false,
+               },
+               triggerEvent:true
+           },
+           grid:grid,
+           yAxis: {
+               type: 'value',
+               axisLine:{
+                   lineStyle:{
+                       color:'#fff',
+                       width:0,
+                   },
+               },
+               axisTick:{//去掉坐标刻度线
+                 show:false,
+               },
+               axisLabel: {
+                 show: false //这行代码控制着坐标轴x轴的文字是否显示
+               },
+               splitLine:{
+                 show:false
+               }
+           }
+         ,
+           series: [
+             {
+
+              type: 'bar',
+              barWidth:10,
+              // barGap:'1%',/*多个并排柱子设置柱子之间的间距*/
+              barCategoryGap:-1,/*多个并排柱子设置柱子之间的间距*/
+              data: [
+                {
+                    name:'临住',
+                    type:'bar',
+                    itemStyle:{
+                      normal:{
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                           offset: 0,
+                           color: '#C95062'
+                         }, {
+                           offset: 1,
+                           color: '#D4BE65'
+                         }])
+                      },
+                      emphasis:{
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                           offset: 0,
+                           color: '#D5C95D'
+                         }, {
+                           offset: 1,
+                           color: '#C39E69'
+                         }])
+                      },
+                    },
+                    label:{
+                      show:true,
+                      color:'#fff',
+                      position: 'top', //在上方显示
+                      fontSize:12,
+                    },
+                    value:25,
+                },
+                {
+                    name:'常住',
+                    type:'bar',
+                    // barGap:'1%',/*多个并排柱子设置柱子之间的间距*/
+                    // barCategoryGap:'1%',/*多个并排柱子设置柱子之间的间距*/
+                    itemStyle:{
+                      normal:{
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                           offset: 0,
+                           color: '#1CC9A1'
+                         }, {
+                           offset: 1,
+                           color: '#4371CE'
+                         }])
+                      },
+                      emphasis:{
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                           offset: 0,
+                           color: '#D5C95D'
+                         }, {
+                           offset: 1,
+                           color: '#C39E69'
+                         }])
+                      },
+                    },
+                    label:{
+                      show:true,
+                      color:'#fff',
+                      position: 'top', //在上方显示
+                      fontSize:12
+                    },
+                    value:35
+                },
+              ],
+           },
+         ]
+        },true)
+
 
       },
 
