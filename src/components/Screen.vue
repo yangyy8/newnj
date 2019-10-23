@@ -62,7 +62,7 @@
 
           <img src="../assets/img/sg/map2.png" />
           <div id="home_map" class="mapy"></div>
-          <div id="home_line" class="mapy"></div>
+          <div id="home_line" class="mapline"></div>
           <div id="home_map1" class="mapdw"></div>
           <div id="home_map2" class="mapdw"></div>
           <div id="home_map3" class="mapdw"></div>
@@ -156,6 +156,9 @@ export default {
         sgdata:[],
         realTime:'',
         maptype:'L',
+        year:'',
+        month:'',
+        day:'',
         seriesData:[
           [[13, 27, '六合区', 12, 40]],
           [[11, 12, '江宁区', 10, 40]],
@@ -183,6 +186,9 @@ export default {
     if(this.maptype==undefined){
       this.maptype="L";
     }
+    this.year=this.$route.query.year;
+    this.month=this.$route.query.month;
+    this.day=this.$route.query.day;
     this.allEcharts();
 
 
@@ -285,9 +291,9 @@ export default {
 
       mapFun(val){
         let p={
-          year:this.lzyear,
-          month:this.lzmonth,
-          day:this.lzdate,
+          year:this.year,
+          month:this.month,
+          day:this.date,
           type:val
         }
         this.$api.post(this.Global.aport+'/home/getCenterData',p,
@@ -298,7 +304,7 @@ export default {
                 for (var i = 0; i < arr.length; i++) {
                   var gg=this.getGrid(i);
 
-                  this.drawLine(arr[i],gg,'home_map'+(i+1));
+                  this.drawLine(arr[i],gg,'home_map'+(i+1),r.data.series[i]['lzvalue'],r.data.series[i]['czvalue']);
                 }
                 this.drawLineline();
 
@@ -327,14 +333,77 @@ export default {
                     },
                   show: false
                 },
-                series: [{
-                    data: [[120, 120], [60, 80]],
-                    type: 'line'
+                series: [{ //江北新区
+                    data: [[15,89], [5,106], [0, 106]],
+                    type: 'line',
+                    itemStyle:{
+            						normal:{
+            							show:true,
+            							color:'#05DDF2'
+            						}
+					           },
                 },
-                {
-                    data: [[20, 120], [40, 50]],
-                    type: 'line'
-                }]
+                {//栖霞区
+                    data: [[21, 85], [35, 110], [40, 110]],
+                    type: 'line',
+                    itemStyle:{
+            						normal:{
+            							show:true,
+            							color:'#05DDF2'
+            						}
+					           },
+                },
+                {//鼓楼区
+                    data: [[17, 76], [5, 85],[0, 85]],
+                    type: 'line',
+                    itemStyle:{
+                        normal:{
+                          show:true,
+                          color:'#05DDF2'
+                        }
+                     },
+                },
+                {//玄武区
+                    data: [[23, 80], [35, 90], [40, 90]],
+                    type: 'line',
+                    itemStyle:{
+                        normal:{
+                          show:true,
+                          color:'#05DDF2'
+                        }
+                     },
+                },
+                {//秦淮区
+                    data: [[23,70], [35, 73],[40, 73]],
+                    type: 'line',
+                    itemStyle:{
+                        normal:{
+                          show:true,
+                          color:'#05DDF2'
+                        }
+                     },
+                },
+                {//建邺区
+                    data: [[16, 65], [35, 55],[40, 55]],
+                    type: 'line',
+                    itemStyle:{
+                        normal:{
+                          show:true,
+                          color:'#05DDF2'
+                        }
+                     },
+                },
+                {//雨花台区
+                    data: [[11, 56], [5, 23],[0, 23]],
+                    type: 'line',
+                    itemStyle:{
+                        normal:{
+                          show:true,
+                          color:'#05DDF2'
+                        }
+                     },
+                }
+              ]
           },true)
       },
       drawLine1(data,legend,name){
@@ -983,7 +1052,7 @@ export default {
         return gg;
       },
 
-      drawLine(data,grid,name){
+      drawLine(data,grid,name,lzdata,czdata){
         console.log(grid);
         this.mapCenter = echarts.init(document.getElementById(name));
         var shadowColor='';
@@ -1063,7 +1132,7 @@ export default {
                       position: 'top', //在上方显示
                       fontSize:12,
                     },
-                    value:25,
+                    value:lzdata,
                 },
                 {
                     name:'常住',
@@ -1096,7 +1165,7 @@ export default {
                       position: 'top', //在上方显示
                       fontSize:12
                     },
-                    value:35
+                    value:czdata
                 },
               ],
            },

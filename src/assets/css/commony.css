@@ -280,4 +280,5 @@ background-size: 100%  100%;}
  .screen .footer{text-align: right; padding-top: 20px;padding-right: 10px;}
 .screen .mapdw{width: 600px; height: 685px; position: absolute; top: 10%;left:34%;}
 .screen .mapy{width: 377px; height: 685px; position: absolute; top: 10%;left:39%;}
+.screen .mapline{width: 450px; height: 685px; position: absolute; top: 10%;left:38%;}
 /* end */
