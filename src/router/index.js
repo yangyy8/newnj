@@ -255,7 +255,7 @@ export default new Router({
         {
           path: 'NMXQPHZYJ',
           name: 'NMXQPHZYJ',
-          meta:{title:['日常管理','常住信息','难民和需求庇护者提醒']},
+          meta:{title:['预警研判','预警信息','难民和需求庇护者提醒']},
           component: resolve => require(['@/components/YJYP/YJ/CZYJ/NMXQPHZYJ'], resolve),
         },
         // {

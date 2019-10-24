@@ -1642,8 +1642,11 @@ export default {
           _this.mapCenter.resize();
         });
         _this.mapCenter.on('mouseover',function(params){
+
           _this.claname = params.value[6];
           _this.isShow=true;
+
+            console.log('params',params.value[3],params.value[8],params.value[5],params.value[2]);
           _this.aaa(params.value[3],params.value[8],params.value[5],params.value[2]);
         })
         var mapCan = document.getElementById('mapall');
@@ -1662,6 +1665,7 @@ export default {
         if(val==3){return '#46FF7F'};
       },
       aaa(lzdata,czdata,lrdw,lrdwmc){
+        console.log('lzdata',lzdata,czdata);
         this.mapCharts = echarts.init(document.getElementById('mapecharts'));
         let _this = this;
         _this.mapCharts.setOption({
