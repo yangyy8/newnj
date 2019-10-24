@@ -533,6 +533,18 @@ export default new Router({
           component: resolve => require(['@/components/YJYP/YP/LXSYP/JYTRYXX'], resolve),
         },
         {
+          path: 'LXSZHFX',
+          name: 'LXSZHFX',
+          meta:{title:['数据分析','留学生分析','留学生综合分析']},
+          component: resolve => require(['@/components/YJYP/YP/LXSYP/LXSZHFX'], resolve),
+        },
+        {
+          path: 'LXSRYXX',
+          name: 'LXSRYXX',
+          meta:{title:['数据分析','留学生分析','留学生综合分析'],father:'LXSZHFX'},
+          component: resolve => require(['@/components/YJYP/YP/LXSYP/LXSRYXX'], resolve),
+        },
+        {
           path: 'LZXXZHFX',
           name: 'LZXXZHFX',
           meta:{title:['数据分析','临住分析','临住信息综合分析']},
