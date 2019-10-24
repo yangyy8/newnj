@@ -334,7 +334,7 @@ export default {
                   show: false
                 },
                 series: [{ //江北新区
-                    data: [[15,89], [5,106], [0, 106]],
+                    data: [[15,89], [5,107], [0, 107]],
                     type: 'line',
                     itemStyle:{
             						normal:{
@@ -344,7 +344,7 @@ export default {
 					           },
                 },
                 {//栖霞区
-                    data: [[21, 85], [35, 110], [40, 110]],
+                    data: [[21, 85], [35, 115], [40, 115]],
                     type: 'line',
                     itemStyle:{
             						normal:{
@@ -354,7 +354,7 @@ export default {
 					           },
                 },
                 {//鼓楼区
-                    data: [[17, 76], [5, 85],[0, 85]],
+                    data: [[17, 76], [5, 87],[0, 87]],
                     type: 'line',
                     itemStyle:{
                         normal:{
@@ -364,7 +364,7 @@ export default {
                      },
                 },
                 {//玄武区
-                    data: [[23, 80], [35, 90], [40, 90]],
+                    data: [[23, 80], [35, 95], [40, 95]],
                     type: 'line',
                     itemStyle:{
                         normal:{
@@ -374,7 +374,7 @@ export default {
                      },
                 },
                 {//秦淮区
-                    data: [[23,70], [35, 73],[40, 73]],
+                    data: [[24,70], [35, 75],[40, 75]],
                     type: 'line',
                     itemStyle:{
                         normal:{
@@ -384,7 +384,7 @@ export default {
                      },
                 },
                 {//建邺区
-                    data: [[16, 65], [35, 55],[40, 55]],
+                    data: [[16, 65], [35, 52],[40, 52]],
                     type: 'line',
                     itemStyle:{
                         normal:{
@@ -950,8 +950,8 @@ export default {
           {
             left: '80%',
             right: '9%',
-            bottom: '80%',
-            top:'12%',
+            bottom: '83%',
+            top:'9%',
             containLabel: true
           }
           break;
@@ -960,8 +960,8 @@ export default {
           {
             left: '80%',
             right: '9%',
-            bottom: '68%',
-            top:'24%',
+            bottom: '70%',
+            top:'22%',
             containLabel: true
           }
           break;
@@ -1000,8 +1000,8 @@ export default {
           {
             left: '80%',
             right: '9%',
-            bottom: '42%',
-            top:'50%',
+            bottom: '40%',
+            top:'52%',
             containLabel: true
           }
           break;
@@ -1115,7 +1115,9 @@ export default {
                            offset: 1,
                            color: '#D4BE65'
                          }])
+
                       },
+              
                       emphasis:{
                         color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
                            offset: 0,
