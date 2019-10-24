@@ -129,6 +129,15 @@
                       </el-option>
                     </el-select>
                 </el-col>
+                <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                  <span class="input-text">快速预览：</span>
+                  <div class="">
+                    <el-button type="primary" size="mini" @click="pd.TYPE='YN';page=0;tableData=[];CurrentPage=1;TotalResult=0;getList()">年</el-button>
+                    <el-button type="primary" size="mini" @click="pd.TYPE='BN';page=0;tableData=[];CurrentPage=1;TotalResult=0;getList()">半年</el-button>
+                    <el-button type="primary" size="mini" @click="pd.TYPE='JD';page=0;tableData=[];CurrentPage=1;TotalResult=0;getList()">季度</el-button>
+                    <el-button type="primary" size="mini" @click="pd.TYPE='YF';page=0;tableData=[];CurrentPage=1;TotalResult=0;getList()">月</el-button>
+                  </div>
+                </el-col>
           </el-row>
          </el-col>
         <el-col :span="2" class="down-btn-area">
@@ -148,7 +157,10 @@
       </div>
       <div class="ak-tab-pane">
         <div class="">
-          <span class="t-fr"><i class="iconbtn hand" :class="{'el-icon-s-grid':pageC==true,'el-icon-s-data':pageC==false}" :title="pageC==true?'转为列表':'转为图表'" @click="changeTu()" v-show="page==0"></i></span>
+          <span class="t-fr">
+            <i class="iconbtn hand" :class="{'el-icon-open':numChange==true,'el-icon-turn-off':numChange==false}" :title="numChange==true?'展示数字':'关闭数字'" @click="numChange=!numChange;getList()" v-show="page==0&&pageC==true"></i>
+            <i class="iconbtn hand" :class="{'el-icon-s-grid':pageC==true,'el-icon-s-data':pageC==false}" :title="pageC==true?'转为列表':'转为图表'" @click="changeTu()" v-show="page==0"></i>
+          </span>
           <el-button type="primary" size="small"  @click="downloadC()" v-show="pageC==false&&page==0">导出</el-button>
           <div style="clear:both"></div>
         </div>
@@ -286,6 +298,7 @@ import LZXX from '../../../common/lzxx_xq'
    components:{LZXX},
   data() {
     return {
+      numChange:true,
       pageC:true,
       tableDataC:[],
       tableHeader:[],
@@ -299,7 +312,7 @@ import LZXX from '../../../common/lzxx_xq'
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
-      pd:{LRRQ_DateRange:{},LRDW_BH_Like:'1',LRDW_BH:'1',DJDWXZQH:'3201',LB_SFBG:'2',ZSLX:'0'},
+      pd:{LRRQ_DateRange:{},LRDW_BH_Like:'1',LRDW_BH:'1',DJDWXZQH:'3201',LB_SFBG:'2',ZSLX:'0',TYPE:'YF'},
       pdTu:{},
       pd0:{
         begin:'',
@@ -460,17 +473,17 @@ import LZXX from '../../../common/lzxx_xq'
       window.onresize = echarts.init(document.getElementById('echarts')).resize;
       let label={
           normal: {
-              show: true,
+              show: this.numChange,
               position: 'top'
           }
        }
        for(var i=0;i<series.length;i++){
          let s=0;
          for(var j=0;j<series[i].data.length;j++){
-           s+=series[i].data[j];
-           if(s!=0){
+           // s+=series[i].data[j];
+           // if(s!=0){
              series[i].label=label;
-           }
+           // }
          }
        }
       let that = this;

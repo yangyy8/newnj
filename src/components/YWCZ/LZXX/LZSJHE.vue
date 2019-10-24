@@ -1040,12 +1040,14 @@ export default {
       this.$api.post(url, p,
         r => {
           if (r.success) {
-            this.imgshow1 = true;
-            this.imgshow2 = false;
             this.imagess = r.data;
-          } else {
-            this.imgshow1 = false;
-            this.imgshow2 = true;
+            if(this.imagess.length!=0){
+              this.imgshow1 = true;
+              this.imgshow2 = false;
+            }else{
+              this.imgshow1 = false;
+              this.imgshow2 = true;
+            }
           }
           if (this.hcl_gnw == "0") {
             this.hcl1 = hcl;

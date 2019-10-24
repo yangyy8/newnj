@@ -39,8 +39,6 @@
             <el-table-column prop="gjdq" label="国别" >
             </el-table-column>
             <el-table-column prop="chzs" label="查获总数（人）" width="120px">
-              <el-table-column width="100px">
-              </el-table-column>
             </el-table-column>
             <el-table-column label="违法种类（人次）嫌疑人">
               <el-table-column

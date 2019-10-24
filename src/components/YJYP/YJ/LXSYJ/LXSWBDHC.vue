@@ -469,7 +469,7 @@
               </el-col>
               <el-col :span="8" class="input-item">
                 <span class="input-text">操作类型：</span>
-                <span class="input-input detailinput">  {{lzinfo.opType}}</span>
+                <span class="input-input detailinput">  {{lzinfo.opType_desc}}</span>
               </el-col>
               <el-col :span="8" class="input-item">
                 <span class="input-text">省份：</span>
