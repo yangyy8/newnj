@@ -1023,6 +1023,7 @@ export default {
        },e=>{},{},'blob')
     },
     downloadMFiles (data,name,type) {
+      console.log('-------------------',data,name,type);
         if (!data) {
             return
         }
