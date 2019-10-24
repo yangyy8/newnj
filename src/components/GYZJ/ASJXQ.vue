@@ -284,7 +284,7 @@
                label="身份">
              </el-table-column>
              <el-table-column
-               prop="TLSY"
+               prop="TLSY_DESC"
                label="停留事由">
              </el-table-column>
              <el-table-column

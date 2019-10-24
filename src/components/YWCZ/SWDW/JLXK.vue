@@ -27,11 +27,19 @@
 
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                   <span class="input-text">签证有效期：</span>
-                  <el-date-picker
-                     v-model="pd.QZYXQ" format="yyyy-MM-dd"
-                     type="date" size="small" value-format="yyyy/MM/dd"
-                     placeholder="开始时间" class="input-input">
-                  </el-date-picker>
+                  <div class="input-input t-flex t-date">
+                    <el-date-picker
+                       v-model="pd0.beginqz" format="yyyy-MM-dd"
+                       type="date" size="small" value-format="yyyyMMdd"
+                       placeholder="开始时间" >
+                    </el-date-picker>
+                    <span class="septum">-</span>
+                    <el-date-picker
+                        v-model="pd0.endqz" format="yyyy-MM-dd"
+                        type="date" size="small" value-format="yyyyMMdd"
+                        placeholder="结束时间" >
+                    </el-date-picker>
+                 </div>
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
                    <span class="input-text">申请作废原因：</span>
@@ -39,11 +47,19 @@
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                   <span class="input-text">申请时间：</span>
-                  <el-date-picker
-                     v-model="pd.SQSJ" format="yyyy-MM-dd"
-                     type="date" size="small" value-format="yyyy/MM/dd"
-                     placeholder="开始时间" class="input-input">
-                  </el-date-picker>
+                  <div class="input-input t-flex t-date">
+                    <el-date-picker
+                       v-model="pd0.beginsq" format="yyyy-MM-dd"
+                       type="date" size="small" value-format="yyyyMMdd"
+                       placeholder="开始时间" >
+                    </el-date-picker>
+                    <span class="septum">-</span>
+                    <el-date-picker
+                        v-model="pd0.endsq" format="yyyy-MM-dd"
+                        type="date" size="small" value-format="yyyyMMdd"
+                        placeholder="结束时间" >
+                    </el-date-picker>
+                 </div>
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
                   <span class="input-text">核查状态：</span>
@@ -189,7 +205,8 @@ export default {
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
-      pd: {SSPCS:this.$store.state.orgid},
+      pd: {SSPCS:this.$store.state.orgid,QZYXQ_DateRange:{},SQSJ_DateRange:{}},
+      pd0:{},
       options: this.pl.ps,
       tableData: [],
       userCode:'',
@@ -317,6 +334,11 @@ export default {
       if(pd.hasOwnProperty('YJID')){
         delete pd['YJID']
       }
+      this.pd.QZYXQ_DateRange.begin=this.pd0.beginqz;
+      this.pd.QZYXQ_DateRange.end=this.pd0.endqz;
+      this.pd.SQSJ_DateRange.begin=this.pd0.beginsq;
+      this.pd.SQSJ_DateRange.end=this.pd0.endsq;
+
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
