@@ -664,12 +664,12 @@
                    </div>
                  </div>
 
-   <div class="stu-footer" v-if="jb=='2' && qdshow">
-     <div class="stu-title">分局调查意见</div>
-     <el-row v-if="this.$route.query.sh_special">
+   <div class="stu-footer" v-if="this.$route.query.sh_special">
+     <div class="stu-title">处理意见</div>
+     <el-row>
        <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
          <span class="input-text" style="width:13%!important">审核状态：</span>
-         <el-select v-model="pc.SHZT" placeholder="请选择"  filterable clearable default-first-option size="small" class="input-input">
+         <el-select v-model="pc.SHZT" placeholder="请选择"  filterable clearable default-first-option size="small" class="input-input" :disabled="!qdshow">
            <el-option
              v-for="item in $store.state.shzt"
              :key="item.dm"
@@ -690,7 +690,7 @@
         </el-input>
       </el-col>
       <el-col :span="4"  class="down-btn-area">
-        <el-button type="primary" v-if="qdshow"  size="small" class="mb-5" @click="addSaves()">确定</el-button>
+        <el-button type="primary" v-if="qdshow"  size="small" class="mb-5" @click="addJytSave()">确定</el-button>
         <!-- <el-button type="warning" size="small" class="m0" @click="getback()">返回</el-button> -->
       </el-col>
     </el-row>
@@ -698,88 +698,76 @@
       <el-col :span="24" class="czfont">处理人：{{withname}}</el-col>
     </el-row>
    </div>
-   <div class="stu-footer" v-if="jb=='2' && !qdshow">
-     <div class="stu-title">分局调查意见：{{pc.FJYJ}}</div>
 
+   <div class="stu-footer" v-else>
+     <!-- 分局级别是2并且是未处理状态   展示派出所详情和分局意见输入框-->
+     <div v-if="jb=='2' && showFJ">
+       <div class="stu-title">处理结果：{{pc.CLJG}}</div>
+       <div class="stu-title">分局调查意见</div>
+       <el-row type="flex" class="mb-15">
+        <el-col :span="20">
+          <el-input
+            type="textarea"
+            :autosize="{ minRows: 3, maxRows: 3}"
+            placeholder="分局调查意见必须填写原因(不超过100个字符)"
+            v-model="pc.FJYJ">
+          </el-input>
+        </el-col>
+        <el-col :span="4"  class="down-btn-area">
+          <el-button type="primary" class="mb-5" size="small" @click="addSaves()">确定</el-button>
+        </el-col>
+      </el-row>
+     </div>
+     <div v-if="jb=='2' && !showFJ">
+       <div class="stu-title">处理结果：{{pc.CLJG}}</div>
+       <div class="stu-title">分局调查意见：{{pc.FJYJ}}</div>
+     </div>
+     <div v-if="(org=='320100060000'||jb=='1') && showZD">
+       <div class="stu-title">分局调查意见：{{pc.FJYJ}}</div>
+       <div class="stu-title">处理结果：{{pc.CLJG}}</div>
+       <div class="stu-title">支队处理意见</div>
+       <el-row type="flex" class="mb-15">
+        <el-col :span="20">
+          <el-input
+            type="textarea"
+            :autosize="{ minRows: 3, maxRows: 3}"
+            placeholder="支队处理意见必须填写原因(不超过100个字符)"
+            v-model="pc.ZDYJ">
+          </el-input>
+        </el-col>
+        <el-col :span="4"  class="down-btn-area">
+          <el-button type="primary" class="mb-5" size="small" @click="addSaves()">确定</el-button>
+        </el-col>
+      </el-row>
+     </div>
+     <div v-if="(org=='320100060000'||jb=='1') && !showZD">
+       <div class="stu-title">支队处理意见：{{pc.ZDYJ}}</div>
+       <div class="stu-title">分局调查意见：{{pc.FJYJ}}</div>
+       <div class="stu-title">处理结果：{{pc.CLJG}}</div>
+     </div>
+     <div v-if="jb=='3' && showPCS">
+       <div class="stu-title">处理结果</div>
+       <el-row type="flex" class="mb-15">
+        <el-col :span="20">
+          <el-input
+            type="textarea"
+            :autosize="{ minRows: 3, maxRows: 3}"
+            placeholder="处理必须填写原因(不超过100个字符)"
+            v-model="pc.CLJG">
+          </el-input>
+        </el-col>
+        <el-col :span="4"  class="down-btn-area">
+          <el-button type="primary" class="mb-5" size="small" @click="addSaves()">确定</el-button>
+        </el-col>
+      </el-row>
+     </div>
+     <div v-if="jb=='3' && !showPCS">
+       <div class="stu-title">处理结果：{{pc.CLJG}}</div>
+     </div>
+     <div class="czfont">
+       处理人: {{$store.state.uname}}
+     </div>
    </div>
-   <div class="stu-footer" v-if="org=='320100060000' && qdshow">
-     <div class="stu-title">分局调查意见：{{pc.FJYJ}}</div>
-     <div class="stu-title">支队处理意见</div>
-     <el-row v-if="this.$route.query.sh_special">
-       <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
-         <span class="input-text" style="width:13%!important">审核状态：</span>
-         <el-select v-model="pc.SHZT" placeholder="请选择"  filterable clearable default-first-option size="small" class="input-input">
-           <el-option
-             v-for="item in $store.state.shzt"
-             :key="item.dm"
-             :label="item.dm+' - '+item.mc"
-             :value="item.dm">
-           </el-option>
-         </el-select>
-       </el-col>
-     </el-row>
-     <el-row type="flex" class="mb-15">
-      <el-col :span="20">
-        <el-input
-          type="textarea"
-          :autosize="{ minRows: 3, maxRows: 3}"
-          placeholder="预警处理必须填写原因(不超过100个字符)"
-          v-model="pc.CHANGE_RESON"
-          :disabled="!qdshow">
-        </el-input>
-      </el-col>
-      <el-col :span="4"  class="down-btn-area">
-        <el-button type="primary" v-if="qdshow"  size="small" class="mb-5" @click="addSaves()">确定</el-button>
-        <!-- <el-button type="warning" size="small" class="m0" @click="getback()">返回</el-button> -->
-      </el-col>
-    </el-row>
-    <div class="czfont">
-      处理人: {{$store.state.uname}}
-    </div>
-   </div>
-   <div class="stu-footer" v-if="jb=='4' && !qdshow">
-     <div class="stu-title">分局调查意见：{{pc.FJYJ}}</div>
-      <div class="stu-title">支队处理意见：{{pc.ZDYJ}}</div>
-   </div>
-
-   <div class="stu-footer" v-if="jb=='1'">
-     <div class="stu-title">分局调查意见：{{pc.FJYJ}}</div>
-     <div class="stu-title">处理意见</div>
-     <el-row v-if="this.$route.query.sh_special">
-       <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
-         <span class="input-text" style="width:13%!important">审核状态：</span>
-         <el-select v-model="pc.SHZT" placeholder="请选择"  filterable clearable default-first-option size="small" class="input-input">
-           <el-option
-             v-for="item in $store.state.shzt"
-             :key="item.dm"
-             :label="item.dm+' - '+item.mc"
-             :value="item.dm">
-           </el-option>
-         </el-select>
-       </el-col>
-     </el-row>
-     <el-row type="flex" class="mb-15">
-      <el-col :span="20">
-        <el-input
-          type="textarea"
-          :autosize="{ minRows: 3, maxRows: 3}"
-          placeholder="预警处理必须填写原因(不超过100个字符)"
-          v-model="pc.CHANGE_RESON"
-          :disabled="!qdshow">
-        </el-input>
-      </el-col>
-      <el-col :span="4"  class="down-btn-area">
-        <el-button type="primary" v-if="qdshow"  size="small" class="mb-5" @click="addSaves()">确定</el-button>
-        <!-- <el-button type="warning" size="small" class="m0" @click="getback()">返回</el-button> -->
-      </el-col>
-    </el-row>
-    <div class="czfont">
-      处理人: {{$store.state.uname}}
-    </div>
-   </div>
-
-
-
 
    <el-dialog
        title="签证信息详情" :visible.sync="QZDialogVisible" width="900px">
@@ -1151,7 +1139,10 @@ export default {
       pm:{},
       pcl:{},
       pc:{
-        CHANGE_RESON:''
+        CHANGE_RESON:'',
+        CLJG:'',
+        FJYJ:'',
+        ZDYJ:'',
       },
       pxcrj:{},
       pxlz:{},
@@ -1177,7 +1168,9 @@ export default {
       withname:this.$store.state.uname,
       jb:1,
       org:this.$store.state.orgid,
-
+      showZD:true,
+      showFJ:true,
+      showPCS:true,
     }
   },
   activated(){
@@ -1195,12 +1188,33 @@ export default {
     this.lzxxDialogVisible=false;
     this.crjDialogVisible=false;
     this.row=this.$route.query.row;
-    this.pc={CHANGE_RESON:''};
+    this.pc={CHANGE_RESON:'',CLJG:'',FJYJ:'',ZDYJ:''};
     this.qdshow=true;
+    this.showZD=true;
     console.log(this.row.RYBH);
-    if(this.row!=undefined && (this.row.CLZT=='0'||this.row.CLZT=='CLZT_0')){
-      this.qdshow=false;
-      this.pc.CHANGE_RESON=this.row.CLJG;
+    if(this.row!=undefined && (this.row.CLZT=='0')){
+      if(this.$route.query.sh_special){
+        this.qdshow=false;
+        this.pc.CHANGE_RESON=this.row.CLJG;
+      }else{
+        this.showZD=false;//已处理
+        this.pc.ZDYJ=this.row.ZDYJ;
+        this.pc.FJYJ=this.row.FJYJ;
+        this.pc.CLJG=this.row.CLJG;
+      }
+     }
+     //分局  详情展示分局和派出所意见
+     this.showFJ=true;
+     if(this.row!=undefined && (this.row.CLZT=='0'||this.row.CLZT=='2')){
+       this.showFJ=false;//已处理
+       this.$set(this.pc,'FJYJ',this.row.FJYJ);
+       this.$set(this.pc,'CLJG',this.row.CLJG);
+     }
+     //派出所
+     this.showPCS=true;
+     if(this.row!=undefined && (this.row.CLZT=='0'||this.row.CLZT=='2'||this.row.CLZT=='3')){
+       this.showPCS=false;//已处理
+       this.pc.CLJG=this.row.CLJG;
      }
      if(this.row.RYBH!=undefined){
         this.pd.YJID=this.row.YJID;
@@ -1444,7 +1458,9 @@ export default {
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
-        "pd": this.pd
+        "pd": this.pd,
+        "orderBy":'QZYXQZ',
+        "orderType": 'DESC'
       };
       this.$api.post(this.Global.aport4+'/eS_FNVISASController/getResultListByParams', p,
         r => {
@@ -1676,57 +1692,69 @@ export default {
      // this.getMX(this.row.MXLX);
 
    },
+   addJytSave(){
+     if(this.pc.CHANGE_RESON=="" || this.pc.CHANGE_RESON==undefined){
+       this.$alert('处理意见不能为空！', '提示', {
+         confirmButtonText: '确定',
+       });
+       return;
+     }
+     this.pcl.CLJG=this.pc.CHANGE_RESON;
+     this.pcl.YJID=this.row.YJID;
+     this.pcl.SHZT=this.pc.SHZT;
+     this.pcl.CLDW=this.$store.state.orgname;
+     this.pcl.CLR=this.withname;
+     let p = {
+       "pd":this.pcl
+     };
+     this.$api.post(this.Global.aport4+"/warningInfoController/saveLXS_ZSYJCLJG", p,
+       r => {
+          if(r.success){
+            this.$message({
+              message: '保存成功',
+              type: 'success'
+            });
+            this.$router.go(-1);
+          }
+
+       })
+   },
   addSaves(){
     if(this.jb=="2"){
-
-    if(this.pc.CHANGE_RESON=="" || this.pc.CHANGE_RESON==undefined)
-    {
+    if(this.pc.FJYJ=="" || this.pc.FJYJ==undefined){
       this.$alert('分局调查意见不能为空！', '提示', {
         confirmButtonText: '确定',
       });
       return;
     }
-   this.pcl.CLJG=this.pc.FJYJ;
-   this.pcl.SHZT="2";
-      this.pcl.CLZT="2";
- }else if(this.jb=="1"){
-
-    if(this.pc.CHANGE_RESON=="" || this.pc.CHANGE_RESON==undefined)
-    {
+   this.pcl.FJYJ=this.pc.FJYJ;
+   this.pcl.CLZT="2";
+ }else if(this.jb=="1"||this.org=='320100060000'){
+    if(this.pc.ZDYJ=="" || this.pc.ZDYJ==undefined){
       this.$alert('支队处理意见不能为空！', '提示', {
         confirmButtonText: '确定',
       });
       return;
     }
-    this.pcl.CLJG=this.pc.ZDYJ;
-    this.pcl.SHZT="0";
+    this.pcl.ZDYJ=this.pc.ZDYJ;
     this.pcl.CLZT="0";
   }else{
-    if(this.pc.CHANGE_RESON=="" || this.pc.CHANGE_RESON==undefined)
-    {
+    if(this.pc.CLJG=="" || this.pc.CLJG==undefined){
       this.$alert('处理意见不能为空！', '提示', {
         confirmButtonText: '确定',
       });
       return;
     }
-   this.pcl.CLJG=this.pc.CHANGE_RESON;
-   this.pcl.SHZT="1";
-   this.pcl.CLZT="1";
+   this.pcl.CLJG=this.pc.CLJG;
+   this.pcl.CLZT="3";
   }
-
     this.pcl.YJID=this.row.YJID;
-
-    // this.pcl.SHZT=this.pc.SHZT;
     this.pcl.CLDW=this.$store.state.orgname;
     this.pcl.CLR=this.withname;
-
     let p = {
       "pd":this.pcl
     };
     let url='/warningInfoController/saveCLJG';
-    if(this.$route.query.sh_special){//教育厅
-      url="/warningInfoController/saveLXS_ZSYJCLJG"
-    }
     this.$api.post(this.Global.aport4+url, p,
       r => {
          if(r.success){
@@ -1734,11 +1762,8 @@ export default {
              message: '保存成功',
              type: 'success'
            });
-
-    // this.getMX(this.row.MXLX);
            this.$router.go(-1);
          }
-
       })
   },
 },

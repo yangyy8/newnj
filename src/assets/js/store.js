@@ -74,6 +74,7 @@ var store = new Vuex.Store({
     currentKey:null,
     pcsToju:'',
     sqlb:'',
+    swdwclzt:[],
   },
   mutations: {
     getOne(state,data){
@@ -279,7 +280,10 @@ var store = new Vuex.Store({
     },
     getSqlb(state,data){
       state.sqlb=data;
-    }
+    },
+    getSwcl(state,data){
+      state.swdwclzt=data;
+    },
   },
   actions: {
     getZjxy(context){
@@ -556,6 +560,12 @@ var store = new Vuex.Store({
           context.commit('getSqlb', ToArray(r.data))
         })
     },
+    getSwcl(context){
+      api.get(global_.aport1 + global_.swdwclzt,null,
+        r =>{
+          context.commit('getSwcl',ToArray(r.data))
+        })
+    }
   }
 });
 export default store;

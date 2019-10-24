@@ -475,7 +475,7 @@ export default new Router({
         {
           path: 'RYHX_NX',
           name: 'RYHX_NX',
-          meta:{title:['数据分析','人员画像','人员画像详情']},
+          meta:{title:['数据分析','人员画像','人员档案详情']},
           component: resolve => require(['@/components/YJYP/YP/LXSYP/RYHX_XQ'], resolve),
         },
         {
@@ -499,7 +499,7 @@ export default new Router({
         {
           path: 'RYHX_XQ',
           name: 'RYHX_XQ',
-          meta:{title:['数据分析','人员画像','人员画像详情']},
+          meta:{title:['数据分析','人员画像','人员档案详情']},
           component: resolve => require(['@/components/YJYP/YP/LXSYP/RYHX_XQ'], resolve),
         },
         {
@@ -802,13 +802,13 @@ export default new Router({
         {
           path: 'RYSH',
           name: 'RYSH',
-          meta:{title:['日常管理','涉外单位','涉外单位人员审核']},
+          meta:{title:['日常管理','涉外单位','涉外单位用户审核']},
           component: resolve => require(['@/components/YWCZ/SWDW/RYSH'], resolve),
         },
         {
           path: 'RYSH_XQ',
           name: 'RYSH_XQ',
-          meta:{title:['日常管理','涉外单位','涉外单位人员审核详情']},
+          meta:{title:['日常管理','涉外单位','涉外单位用户审核详情']},
           component: resolve => require(['@/components/YWCZ/SWDW/RCSW'], resolve),
         },
         {

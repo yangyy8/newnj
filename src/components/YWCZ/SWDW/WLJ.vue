@@ -38,9 +38,24 @@
                 <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
                   <span class="input-text">处理状态：</span>
                   <el-select v-model="pd.CLZT" placeholder="请选择"  filterable clearable default-first-option size="small" class="input-input">
-                    <el-option label="已处理" value="0"></el-option>
-                    <el-option label="未处理" value="1"></el-option>
+                    <el-option
+                      v-for="item in $store.state.swdwclzt"
+                      :key="item.dm"
+                      :label="item.dm+' - '+item.mc"
+                      :value="item.dm">
+                    </el-option>
                   </el-select>
+                </el-col>
+                <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
+                   <span class="input-text">上报单位：</span>
+                   <el-select v-model="pd.SBDWBH" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input" :filter-method="userFilter">
+                     <el-option
+                       v-for="(item,index) in dwdata"
+                       :key="index"
+                       :label="item.ZZJGDM+' - '+item.DWZWMC"
+                       :value="item.ZZJGDM">
+                     </el-option>
+                   </el-select>
                 </el-col>
           </el-row>
          </el-col>
@@ -164,6 +179,8 @@ export default {
       selectionAll:[],
       yuid:[],
       selectionReal:[],
+      dwdata:[],
+      dwList:{},
     }
   },
 
@@ -181,12 +198,35 @@ export default {
     this.$store.dispatch('getRjqzzl');
     this.$store.dispatch('getLgyj');
     this.$store.dispatch('getGljb');
+    this.$store.dispatch('getSwcl');
     this.userCode=this.$store.state.uname;
     this.userName=this.$store.state.uid;
     this.orgCode=this.$store.state.orgname;
-    this.orgName=this.$store.state.orgid
+    this.orgName=this.$store.state.orgid;
+    this.getDw();
   },
   methods: {
+    getDw(){
+      this.$api.post(this.Global.aport4+'/SWDW_SJSBController/getAllDW',{},
+        r =>{
+          if(r.success){
+            this.dwList = r.data.resultList;
+            this.userFilter();
+          }
+        })
+    },
+    userFilter(query = '') {
+         let arr = this.dwList.filter((item) => {
+          if(item.DWZWMC!=undefined){
+              return item.DWZWMC.includes(query)
+           }
+         })
+         if (arr.length > 50) {
+           this.dwdata = arr.slice(0, 50)
+         } else {
+           this.dwdata= arr
+         }
+       },
     selectfn(a,b){
       this.multipleSelection = a;
       this.dataSelection()
