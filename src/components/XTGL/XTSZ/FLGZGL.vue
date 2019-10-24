@@ -34,12 +34,14 @@
         <el-col :span="2" class="down-btn-area">
           <el-button type="success" size="small"  @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
         </el-col>
-         <el-col :span="2" class="down-btn-area">
-          <el-button type="success" size="small" @click="adds(0,'');form={};">新增</el-button>
-        </el-col>
+
       </el-row>
     </div>
     <div class="yycontent">
+    
+     <el-row class="mb-15">
+       <el-button type="primary"  size="small" @click="from={};adds(0,'');">新增</el-button>
+       </el-row>
       <el-table
            :data="tableData"
            border
@@ -81,7 +83,8 @@
                 <div>
                   <el-button type="text"  class="a-btn"  title="详情"  icon="el-icon-document" @click="details(scope.row)"></el-button>
                   <el-button type="text"  class="a-btn"  title="编辑"  icon="el-icon-edit-outline" @click="adds(1,scope.row)"></el-button>
-                  <el-button type="text" class="a-btn"  title="设置" @click="reset(scope.row)">{{scope.row.SFYX=='1'?'设为无效':'设为有效'}}</el-button>
+                  <el-button type="text" class="a-btn"  title="设为无效" icon="el-icon-s-tools" v-if="scope.row.SFYX=='1'" @click="reset(scope.row)"></el-button>
+                  <el-button type="text" class="a-btn"  title="设为有效" icon="el-icon-setting" v-if="scope.row.SFYX=='0'" @click="reset(scope.row)"></el-button>
                 </div>
              </template>
            </el-table-column>
@@ -145,9 +148,10 @@
     <el-dialog :title="dialogText" :visible.sync="addsDialogVisible" width="600px" >
       <el-form :model="form" ref="addForm">
         <el-row :gutter="1"  class="mb-6">
-            <el-col :span="24" class="input-item" data-scope="demo" data-name="MXLX" data-type="input" v-validate-easy="[['required']]">
-              <span class="input-text">模型类型：</span>
-              <el-input placeholder="请输入内容" size="small" v-model="form.MXLX" class="bjinput"></el-input>
+            <el-col :span="24"  class="yzform" data-scope="demo" data-name="MXLX" data-type="input"
+             v-validate-easy="[['required']]">
+              <span class="yy-input-text">模型类型：</span>
+              <el-input placeholder="请输入内容" size="small" v-model="form.MXLX" class="yy-input-input"></el-input>
               <!-- <el-select v-model="form.MXLX" filterable clearable  default-first-option  placeholder="请选择"  size="small" class="bjinput" @visible-change="MXType" @change="mxtypechange">
                 <el-option
                   v-for="item in mxlx"
@@ -157,17 +161,22 @@
                 </el-option>
               </el-select> -->
             </el-col>
-            <el-col :span="24" class="input-item" data-scope="demo" data-name="MXLX_NAME" data-type="input" v-validate-easy="[['required']]">
-              <span class="input-text">导航类型名称：</span>
-              <el-input placeholder="请输入内容" size="small" v-model="form.MXLX_NAME"  id="mxmc"  class="bjinput"></el-input>
+            <el-col :span="24"  class="yzform" data-scope="demo" data-name="MXLX_NAME" data-type="input"
+             v-validate-easy="[['required']]">
+              <span class="yy-input-text">导航类型名称：</span>
+              <el-input placeholder="请输入内容" size="small" v-model="form.MXLX_NAME"  id="mxmc"  class="yy-input-input"></el-input>
             </el-col>
-            <el-col :span="24" class="input-item" data-scope="demo" data-name="RULE_NAME" data-type="input" v-validate-easy="[['required']]">
-              <span class="input-text">标签名称：</span>
-              <el-input placeholder="请输入内容" size="small" v-model="form.RULE_NAME"  class="bjinput"></el-input>
+            <el-col :span="24" class="yzform" data-scope="demo" data-name="RULE_NAME" data-type="input"
+             v-validate-easy="[['required']]">
+              <span class="yy-input-text">标签名称：</span>
+              <el-input placeholder="请输入内容" size="small" v-model="form.RULE_NAME"  class="yy-input-input"></el-input>
             </el-col>
-            <el-col :span="24" class="input-item" data-scope="demo" data-name="RULE" data-type="input" v-validate-easy="[['required']]">
-              <span class="input-text">标签规则：</span>
-              <el-input placeholder="请输入内容" size="small" v-model="form.RULE"  class="bjinput"></el-input>
+            <el-col :span="24" class="yzform" data-scope="demo" data-name="RULE" data-type="input"
+             v-validate-easy="[['required']]">
+              <span class="yy-input-text">
+
+                标签规则：</span>
+              <el-input placeholder="请输入内容" size="small" v-model="form.RULE"  class="yy-input-input"></el-input>
               <el-popover
                 placement="top-start"
                 title="示例"
@@ -320,5 +329,6 @@ export default {
 }
 </script>
 <style scoped>
-
+.yy-input-text{width: 25%!important;}
+.yy-input-input{width: 65%!important;}
 </style>

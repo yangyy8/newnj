@@ -36,6 +36,7 @@
            :data="tableData"
            border
            style="width: 100%"
+            :default-sort = "{prop: 'cjsj', order: 'descending'}"
            @selection-change="handleSelectionChange">
            <el-table-column
              type="selection"
@@ -364,7 +365,8 @@ export default {
     dataSelection(){
       // console.log('this.multipleSelection',this.multipleSelection)
       this.selectionReal.splice(this.CurrentPage1-1,1,this.multipleSelection);
-      // console.log('this.selectionReal',this.selectionReal);
+
+      console.log('this.selectionReal',this.selectionReal);
       this.selectionAll=[];
       for(var i=0;i<this.selectionReal.length;i++){
         if(this.selectionReal[i]){
@@ -445,33 +447,37 @@ export default {
            this.$nextTick(()=>{
              this.multipleSelection=[]
              for(var i=0;i<this.tableData1.length;i++){
-               for(var j=0;j<this.selectionAll.length;j++){
-                 if(this.tableData1[i].id==this.selectionAll[j].id){
-                   this.$refs.multipleTable1.toggleRowSelection(this.tableData1[i],true);
-                 }
-               }
+               // for(var j=0;j<this.selectionAll.length;j++){
+               //   if(this.tableData1[i].id==this.selectionAll[j].id){
+                   // console.log(this.tableData1[i]);
+                   this.$refs.multipleTable1.toggleRowSelection(this.tableData1[i],this.tableData1[i].checked);
+               //   }
+               // }
              }
            })
            // _this.$refs.multipleTable1.$nextTick(() => {
            //     _this.tableData1.forEach(obj => {
+           //       console.log('obj.checked',obj.checked);
            //       _this.$refs.multipleTable1.toggleRowSelection(obj, obj.checked)
            //     })
            // })
          });
     },
     adds(n,i){
+        // this.V.$reset("demo");
         this.addsDialogVisible=true;
+
         if (n != 0) {
-          this.from=i;
+          this.from=Object.assign({}, i);
           this.from.ssdwdm=i.ssdw.dm;
           this.from.ssdwmc=i.ssdw.mc;
-        this.dialogText="编辑";
-        this.tp = 1;
+          this.dialogText="编辑";
+          this.tp = 1;
         }else {
         this.dialogText="新增";
         this.tp = 0;
         }
-        this.V.$reset("demo");
+
     },
     addItem(addForm)
     {
@@ -482,7 +488,7 @@ export default {
            formData.append("mc", this.from.mc);
            formData.append("ssdw.dm", this.from.ssdwdm);
            formData.append("ssdw.mc", this.from.ssdwmc);
-
+           formData.append("sfyx", this.from.sfyx);
          var url=this.Global.aport1+'/role/insertRole';
          if (this.tp == 1) {
            formData.append("id", this.from.id);

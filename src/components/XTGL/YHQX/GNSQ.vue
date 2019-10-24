@@ -3,7 +3,7 @@
   <div class="yymain">
     <div class="yycontent">
         <el-row type="flex">
-          <el-col :span="8" >
+          <el-col :span="12" >
                 <el-row type="flex">
                   <el-col :span="21" class=" pr-20">
                     <el-row align="center"   :gutter="2">
@@ -97,7 +97,7 @@
               :props="defaultProps">
             </el-tree>
           </el-col>
-          <el-col :span="4" class="down-btn-area">
+          <el-col :span="2" class="down-btn-area">
               <el-button type="primary" @click="save" size="small">保存功能授权</el-button>
           </el-col>
         </el-row>
