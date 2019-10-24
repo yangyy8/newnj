@@ -241,7 +241,7 @@
                 <el-row align="center"   :gutter="2">
                   <el-col  :sm="24" :md="12" :lg="12"  class="input-item">
                     <span class="input-text">所属单位：</span>
-                    <el-select v-model="pd1.org"  filterable clearable default-first-option  class="input-input" placeholder="请选择"  size="small">
+                    <el-select v-model="pd1.org"  filterable clearable  @change="getorgchange()"  class="input-input" placeholder="请选择"  size="small">
                       <el-option
                        v-for="item in this.ssdw"
                        :key="item.dm"
@@ -481,7 +481,7 @@ export default {
     },
     adds(n, i) {
 
-      this.V.$reset("demo");
+      // this.V.$reset("demo");
 
       if (n != 0) {
         //this.from.ssdwdm=ToData(i.ssdw.dm);
@@ -553,7 +553,12 @@ export default {
     //详情
     details(i) {
       this.mapForm = i;
-      this.mapForm.ssdwmc = i.ssdw.mc;
+      var array=i.ssdw;
+      var srr="";
+      for (var i = 0; i < array.length; i++) {
+          srr += array[i].mc+',';
+      }
+      this.mapForm.ssdwmc = srr.substring(0,srr.length-1);
       this.detailsDialogVisible = true;
     },
     //删除
@@ -780,12 +785,18 @@ export default {
       let pp = ffs;
       this.$api.post(this.Global.aport1 + '/user/getSsdwByUserId', pp,
         rr => {
+        this.ssdw = rr.data;
+        this.pd1 = {};
 
-          this.ssdw = rr.data;
+
+        this.$set(this.pd1,'org', this.ssdw[0].dm)
+        this.tableData1 = [];
+
+        this.getList1(this.CurrentPage1,this.pageSize1,this.pd1);
+        this.jsDialogVisible = true;
         });
-      this.pd1 = {};
-      this.tableData1 = [];
-      this.jsDialogVisible = true;
+
+
       // var formData = new FormData();
       //   formData.append("currentPage", this.CurrentPage1);
       //   formData.append("showCount", this.pageSize1);
@@ -799,6 +810,10 @@ export default {
       //      this.tableData1 = r.data.resultList;
       //      this.TotalResult1 = r.data.totalCount;
       //    });
+    },
+    getorgchange(){
+      // this.pd1.org=this.pd1.org;
+      console.log(this.pd1.org);
     },
     //保存关联到角色
     jsItem() {

@@ -180,7 +180,7 @@ export default {
                     this.getJuState();
                   }
               }else {
-                  this.$message.error("用户名或者密码输入错误！");return;
+                  this.$message.error(r.message);return;
               }
           })
       // });

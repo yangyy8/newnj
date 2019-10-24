@@ -27,8 +27,9 @@
         </el-form>
           <div slot="footer" class="dialog-footer" style="text-align:center;">
             <el-button type="primary" @click="addItem('addForm')" size="small">确 定</el-button>
-            <el-button @click="form={}" size="small">重 置</el-button>
+            <el-button @click="reset()" size="small">重 置</el-button>
           </div>
+          <div style="line-height:60px; font-size:23px;font-weight:bold;text-align:center;color:red" v-if='msg'>修改成功！</div>
         </div>
     </div>
   </div>
@@ -37,10 +38,14 @@
 export default {
   data() {
     return {
-      form:{}
+      form:{},
+      msg:false,
     }
   },
     methods: {
+      reset(){
+        this.form={};this.msg=false;
+      },
        addItem(i)
        {
          if(this.form.oldPassword==undefined || this.form.oldPassword.trim()==''){
@@ -64,13 +69,16 @@ export default {
          this.$api.post(this.Global.aport1+'/user/changePassword', p,
            r => {
                 if(r.success){
-                  this.$message({
-                    message: '修改成功！',
-                    type: 'success'
-                  });
-
+                  // this.$message({
+                  //   message: '修改成功！',
+                  //   type: 'success'
+                  // });
+                    this.msg=true;
+                }else {
+                  this.msg=false;
+                  this.$message.error(r.message);
                 }
-              this.form={};
+
            })
 
        }
