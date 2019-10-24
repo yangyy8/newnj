@@ -169,10 +169,19 @@
                     <span class="yy-input-text" title="停留有效期至">停留有效期至：</span>
                       <el-input placeholder="" size="small" v-model="form.tlyxqz"  class="yy-input-input" :disabled='true'></el-input>
                   </el-col>
+                  <el-col :span="12">
+                    <span class="yy-input-text" title="签证签发日期">签证签发日期：</span>
+                        <el-input placeholder="" size="small" v-model="form.qfrq"  class="yy-input-input" :disabled='true'></el-input>
+                  </el-col>
+
+                  <el-col :span="12">
+                    <span class="yy-input-text">入境日期：</span>
+                    <el-input placeholder="" size="small" v-model="form.rjrq"  class="yy-input-input" :disabled='true'></el-input>
+                  </el-col>
                 </el-row>
               </el-col>
               <el-col :span="8">
-                <el-carousel height="250px" class="photoCar">
+                <el-carousel height="300px" class="photoCar">
                   <el-carousel-item v-for="(item,ind) in imagess" :key="ind" v-if="imgshow1" style="text-align:center">
                     <img  :src="item.tp" @click="opentp(item.tp)">
                   </el-carousel-item>
@@ -184,15 +193,6 @@
             </el-row>
 
             <el-row  :gutter="3">
-              <el-col :span="8">
-                <span class="yy-input-text" title="签证签发日期">签证签发日期：</span>
-                    <el-input placeholder="" size="small" v-model="form.qfrq"  class="yy-input-input" :disabled='true'></el-input>
-              </el-col>
-
-              <el-col :span="8">
-                <span class="yy-input-text">入境日期：</span>
-                <el-input placeholder="" size="small" v-model="form.rjrq"  class="yy-input-input" :disabled='true'></el-input>
-              </el-col>
               <el-col :span="8">
                 <span class="yy-input-text">入境口岸：</span>
                 <el-input placeholder="" size="small" v-model="form.rjka"  class="yy-input-input" :disabled='true'></el-input>

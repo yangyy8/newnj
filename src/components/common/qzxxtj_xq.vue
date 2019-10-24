@@ -116,8 +116,8 @@
             <span class="input-input detailinput">  {{qzinfo.XCQZHM}}</span>
           </el-col>
           <el-col :span="8" class="input-item">
-            <span class="input-text">所持居留许可证事由：</span>
-            <span class="input-input detailinput">  {{qzinfo.XCJLXKSY}}</span>
+            <span class="input-text">所持居留许可事由：</span>
+            <span class="input-input detailinput">  {{qzinfo.XCJLXKSY_DESC}}</span>
           </el-col>
           <el-col :span="8" class="input-item">
             <span class="input-text">所持签证签发机关：</span>

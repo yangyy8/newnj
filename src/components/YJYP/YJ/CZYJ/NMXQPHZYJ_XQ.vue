@@ -79,7 +79,7 @@
                   {{baseData.HZHM}}
              </el-col>
              <el-col :span="8" class="stu-col-row2">
-               <span>入境签证类型：</span>
+               <span>签证类型：</span>
                   {{baseData.RJQZLXMC}}
              </el-col>
              <el-col :span="8" class="stu-col-row2">

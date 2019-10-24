@@ -289,28 +289,6 @@
               <div class="t-el-content del-pb"><div class="t-el-text">联系方式：</div><div class="t-el-sub fw600">{{ryshinfo.LXFS}}</div></div>
             </div>
           </div>
-
-          <div class="t-bjxq t-mt10" v-if="$route.query.hiType=='gzc'">
-            <div class="del-title">
-              <span>文件列表</span>
-            </div>
-            <el-table
-               :data="tableDatagzc"
-               border
-               style="width: 100%" class="stu-table">
-               <el-table-column
-                 prop="FILENAME"
-                 label="附件名">
-               </el-table-column>
-               <el-table-column
-                 label="操作">
-                 <template slot-scope="scope">
-                   <el-button type="text" class="a-btn"  title="预览"  icon="el-icon-view" @click="view(scope.row.NR_DESC,scope.row.SJLX)"></el-button>
-                   <el-button type="text"  class="a-btn"  title="下载" icon="el-icon-download" @click="downloadI(scope.row.NR_DESC,scope.row.FILENAME,scope.row.SJLX)"></el-button>
-                 </template>
-               </el-table-column>
-             </el-table>
-          </div>
         </el-col>
         <el-col :span="18">
           <div class="t-bjrt">
@@ -698,6 +676,23 @@
                   </el-table-column>
                 </el-table>
              </div> -->
+             <div v-if="$route.query.hiType=='jlxk'" class="t-mb16">
+               <el-table
+                  :data="tableDatajlxklb"
+                  border
+                  style="width: 100%" class="stu-table sw-table">
+                  <el-table-column
+                    prop="FILENAME"
+                    label="文件名">
+                  </el-table-column>
+                  <el-table-column
+                    label="操作">
+                    <template slot-scope="scope">
+                      <el-button type="text"  class="a-btn"  title="下载" icon="el-icon-download" @click="downloadJlxklb(scope.row.state)"></el-button>
+                    </template>
+                  </el-table-column>
+                </el-table>
+             </div>
             <div v-if="$route.query.hiType=='rysh'">
               <div>
                 <img src="../../../assets/img/author-img.png" style="vertical-align: -5px;">
@@ -938,6 +933,17 @@ export default {
       tableDataslry:[],
       imageslry:[],
       imgshowslry:false,
+
+      tableDatajlxklb:[
+        {
+          FILENAME:'宣布作废审批表',
+          state:'1',
+        },
+        {
+          FILENAME:'居留许可宣布作废公示',
+          state:'2',
+        }
+      ],
     }
   },
   mounted(){
@@ -1017,7 +1023,6 @@ export default {
        },e=>{},{},'blob')
     },
     downloadMFiles (data,name,type) {
-      console.log('-------------------',data,name,type);
         if (!data) {
             return
         }
@@ -1040,6 +1045,28 @@ export default {
         link.setAttribute('download', name+this.format(new Date(),'yyyyMMddhhmmss')+'.xls')
         document.body.appendChild(link)
         link.click()
+    },
+    downloadJlxklb(val){
+      if(val=='1'){
+        this.$api.post(this.Global.aport4+'/JLXKXBZFWarningInfoController/exportZFSPBByDTID',{pd:{DTID:this.row.DTID}},
+         r =>{
+           this.downloadM(r,'宣布作废审批表')
+         },e=>{},{},'blob')
+      }else if(val=='2'){
+        this.$api.post(this.Global.aport4+'/JLXKXBZFWarningInfoController/exportZFGSByDTIDs',{pd:{DTIDs:[this.row.DTID]}},
+         r =>{
+           if (!r) {
+               return
+           }
+           let url = window.URL.createObjectURL(new Blob([r],{type:"application/doc"}))
+           let link = document.createElement('a')
+           link.style.display = 'none'
+           link.href = url
+           link.setAttribute('download', '作废公示表'+this.format(new Date(),'yyyyMMddhhmmss')+'.doc')
+           document.body.appendChild(link)
+           link.click()
+         },e=>{},{},'blob')
+      }
     },
     getData(){
       if(this.$route.query.hiType=='gzc'){
