@@ -50,8 +50,12 @@
                 <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
                   <span class="input-text">处理状态：</span>
                   <el-select v-model="pd.CLZT" placeholder="请选择"  filterable clearable default-first-option size="small" class="input-input">
-                    <el-option label="已处理" value="0"></el-option>
-                    <el-option label="未处理" value="1"></el-option>
+                    <el-option
+                      v-for="item in $store.state.swdwclzt"
+                      :key="item.dm"
+                      :label="item.dm+' - '+item.mc"
+                      :value="item.dm">
+                    </el-option>
                   </el-select>
                 </el-col>
           </el-row>
@@ -193,6 +197,7 @@ export default {
     this.$store.dispatch('getRjqzzl');
     this.$store.dispatch('getLgyj');
     this.$store.dispatch('getGljb');
+    this.$store.dispatch('getSwcl');
     this.userCode=this.$store.state.uname;
     this.userName=this.$store.state.uid;
     this.orgCode=this.$store.state.orgname;

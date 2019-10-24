@@ -78,6 +78,7 @@ const sqqzzl="/service/getRedisDataByDm?tablename=HX_SQQZZL"//申请签证种类
 const hyzt="/service/getRedisDataByDm?tablename=DM_HYZT"//婚姻状态
 const zjxy="/service/getRedisDataByDm?tablename=DM_ZJXY"//宗教信仰
 const sqlb="/service/getRedisDataByDm?tablename=HX_SQLB"//申请类别
+const swdwclzt="/service/getRedisDataByDm?tablename=DM_CLZT_SWDW"//涉外单位处理状态
 const tablists=[];
 export default
 {
@@ -100,5 +101,5 @@ export default
   xyaddress,
   gjdq,zjzl,qzzl,rjkn,rjsy,qfjg,pcs,jzlx,zsxz,jzzt,xzqh,jtgx,sflx,xb,rjqzzl,dmall,ssdw,
   dwlb,dwxz,zsbg,tlyxq,sf,tablists,clzt,sjly,rzfs,zflx,jzztlx,xxdm,erxxdm,shzt,tbry,lgyj,gljb,ymzt,ymzl,sldw,ymsqzt,ymqzzl,
-  bzlb,sqsy,rydylb,sqqzzl,jzztcz,hyzt,zjxy,sqlb
+  bzlb,sqsy,rydylb,sqqzzl,jzztcz,hyzt,zjxy,sqlb,swdwclzt
 }
