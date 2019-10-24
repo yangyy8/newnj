@@ -41,11 +41,19 @@
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                   <span class="input-text">停留有效期：</span>
-                  <el-date-picker
-                     v-model="pd.TLYXQ" format="yyyy-MM-dd"
-                     type="date" size="small" value-format="yyyy/MM/dd"
-                     placeholder="开始时间" class="input-input">
-                  </el-date-picker>
+                  <div class="input-input t-flex t-date">
+                    <el-date-picker
+                       v-model="pd0.begin" format="yyyy-MM-dd"
+                       type="date" size="small" value-format="yyyyMMdd"
+                       placeholder="开始时间" >
+                    </el-date-picker>
+                    <span class="septum">-</span>
+                    <el-date-picker
+                        v-model="pd0.end" format="yyyy-MM-dd"
+                        type="date" size="small" value-format="yyyyMMdd"
+                        placeholder="结束时间" >
+                    </el-date-picker>
+                 </div>
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                     <span class="input-text">婚姻状态：</span>
@@ -71,36 +79,39 @@
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                     <span class="input-text">学历：</span>
-                    <el-select v-model="pd.XL" filterable clearable multiple collapse-tags default-first-option placeholder="请选择"  size="small" class="input-input">
+                     <el-input placeholder="请输入内容" size="small" v-model="pd.XL" class="input-input"></el-input>
+                    <!-- <el-select v-model="pd.XL" filterable clearable multiple collapse-tags default-first-option placeholder="请选择"  size="small" class="input-input">
                       <el-option
                         v-for="item in $store.state.rjqzzl"
                         :key="item.dm"
                         :label="item.dm+' - '+item.mc"
                         :value="item.dm">
                       </el-option>
-                    </el-select>
+                    </el-select> -->
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                     <span class="input-text">职业资格：</span>
-                    <el-select v-model="pd.ZYZG" filterable clearable multiple collapse-tags default-first-option placeholder="请选择"  size="small" class="input-input">
+                    <el-input placeholder="请输入内容" size="small" v-model="pd.ZYZG" class="input-input"></el-input>
+                    <!-- <el-select v-model="pd.ZYZG" filterable clearable multiple collapse-tags default-first-option placeholder="请选择"  size="small" class="input-input">
                       <el-option
                         v-for="item in $store.state.rjqzzl"
                         :key="item.dm"
                         :label="item.dm+' - '+item.mc"
                         :value="item.dm">
                       </el-option>
-                    </el-select>
+                    </el-select> -->
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                     <span class="input-text">授课课程：</span>
-                    <el-select v-model="pd.SKKC" filterable clearable multiple collapse-tags default-first-option placeholder="请选择"  size="small" class="input-input">
+                    <el-input placeholder="请输入内容" size="small" v-model="pd.SKKC" class="input-input"></el-input>
+                    <!-- <el-select v-model="pd.SKKC" filterable clearable multiple collapse-tags default-first-option placeholder="请选择"  size="small" class="input-input">
                       <el-option
                         v-for="item in $store.state.rjqzzl"
                         :key="item.dm"
                         :label="item.dm+' - '+item.mc"
                         :value="item.dm">
                       </el-option>
-                    </el-select>
+                    </el-select> -->
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
                    <span class="input-text">手机号码：</span>
@@ -262,7 +273,7 @@ export default {
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
-      pd: {HCMX:'CYRY',SSPCS:this.$store.state.orgid},
+      pd: {HCMX:'CYRY',SSPCS:this.$store.state.orgid,TLYXQ_DateRange:{}},
       options: this.pl.ps,
       tableData: [],
       userCode:'',
@@ -275,6 +286,7 @@ export default {
       selectionReal:[],
       dwdata:[],
       dwList:{},
+      pd0:{}
     }
   },
 
@@ -389,9 +401,12 @@ export default {
       console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
+      this.pd.TLYXQ_DateRange.begin=this.pd0.begin;
+      this.pd.TLYXQ_DateRange.end=this.pd0.end;
       if(pd.hasOwnProperty('YJID')){
         delete pd['YJID']
       }
+
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,

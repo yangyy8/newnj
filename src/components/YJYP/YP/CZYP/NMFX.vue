@@ -277,7 +277,7 @@ export default {
         label:'性别'
       },
       {
-        code:'RS_Nokeyword',
+        code:'RS',
         label:'户室人数'
       },
       {

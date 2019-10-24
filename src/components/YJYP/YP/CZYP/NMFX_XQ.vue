@@ -39,7 +39,7 @@
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="6"   class="input-item">
                    <span class="input-text">性别：</span>
-                    {{basedata.XB_DESC}}
+                    {{basedata.XBDM_DESC}}
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="6"   class="input-item">
                    <span class="input-text">出生日期：</span>

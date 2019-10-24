@@ -180,7 +180,7 @@
         </el-col>
         <el-col :span="8" >
           <span class="yy-input-text">修改单位：</span>
-              <el-input placeholder="" size="small" v-model="form.GXDW"  class="yy-input-input"></el-input>
+              <el-input placeholder="" size="small" v-model="form.GXDW_DESC"  class="yy-input-input"></el-input>
         </el-col>
         <el-col :span="8" >
           <span class="yy-input-text">修改日期：</span>

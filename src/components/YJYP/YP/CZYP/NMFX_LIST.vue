@@ -62,7 +62,7 @@
             label="姓名">
           </el-table-column>
           <el-table-column
-            prop="XB_DESC"
+            prop="XBDM_DESC"
             label="性别">
           </el-table-column>
           <el-table-column
