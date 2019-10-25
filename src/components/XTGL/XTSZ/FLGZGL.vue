@@ -18,7 +18,7 @@
                     </el-select> -->
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
-                   <span class="input-text">规则名称：</span>
+                   <span class="input-text">标签名称：</span>
                    <el-input placeholder="请输入内容" size="small" v-model="pd.RULE_NAME" class="input-input"></el-input>
                 </el-col>
 
@@ -38,7 +38,7 @@
       </el-row>
     </div>
     <div class="yycontent">
-    
+
      <el-row class="mb-15">
        <el-button type="primary"  size="small" @click="from={};adds(0,'');">新增</el-button>
        </el-row>

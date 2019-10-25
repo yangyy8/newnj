@@ -231,6 +231,7 @@
                 :total="TotalResult">
               </el-pagination>
             </div>
+            <div style="color:blue">统计总数量：{{ALLResult}}</div>
   </div>
 
   </div>
@@ -244,6 +245,7 @@ export default {
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
+      ALLResult:0,
       pd: {CSRQ_DateRange:{},ZCRQ_DateRange:{}},
       pd0: {},
       pm:{},
@@ -423,20 +425,23 @@ export default {
    // }else {
    //    this.disa=false;
    // }
-      if(this.pd0.beginCS!=undefined && this.pd0.endCS!=undefined){
+      if(this.pd0.beginCS!=undefined && this.pd0.endCS!=undefined && this.pd0.beginCS!=null && this.pd0.endCS!=null){
         this.pd.CSRQ_DateRange.begin=this.pd0.beginCS;
         this.pd.CSRQ_DateRange.end=this.pd0.endCS;
-      }else if(this.pd0.beginCS==undefined && this.pd0.endCS==undefined){
+      }else if(this.pd0.beginCS==null && this.pd0.endCS==null){
+          this.pd.ZCRQ_DateRange={};
        }else{
           this.open("出生日期开始时间和结束时间都不能为空！");return ;
       }
-      if(this.pd0.beginZC!=undefined && this.pd0.endZC!=undefined){
+      if(this.pd0.beginZC!=undefined && this.pd0.endZC!=undefined && this.pd0.beginZC!=null && this.pd0.endZC!=null){
         this.pd.ZCRQ_DateRange.begin=this.pd0.beginZC;
         this.pd.ZCRQ_DateRange.end=this.pd0.endZC;
-      }else if(this.pd0.beginZC==undefined && this.pd0.endZC==undefined){
+      }else if(this.pd0.beginZC==null && this.pd0.endZC==null){
+        this.pd.ZCRQ_DateRange={};
      }else{
           this.open("注册日期的开始时间和结束时间都不能为空！");return ;
       }
+      console.log('this.pd.ZCRQ_DateRange',this.pd.ZCRQ_DateRange,this.pd0.endZC);
       if(this.rs!=0)
       {
         this.pd.RS=this.rs;
@@ -471,6 +476,7 @@ export default {
             this.falg=true;
             this.tableData = r.data.resultList;
             this.TotalResult = r.data.totalResult;
+            this.ALLResult=r.data.totalAllResult;
             this.configHeader=[];
             let _this = this;
             for(var i=0;i<_this.checkItemReal.length;i++){
@@ -505,7 +511,8 @@ export default {
               r => {
                 if (r.success) {
                    this.tableData = r.data.resultList;
-                   this.TotalResult = r.data.totalAllResult;
+                   this.TotalResult = r.data.totalResult;
+                   this.ALLResult=r.data.totalAllResult;
                    if(this.selectionReal.length==0){//声明一个数组对象
                      this.selectionReal=new Array(Math.ceil(this.TotalResult/showCount))
                    }

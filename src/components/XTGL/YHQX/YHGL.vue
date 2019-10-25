@@ -443,7 +443,6 @@ export default {
         });
     },
     getList1(currentPage, showCount, pd) {
-
       let _this = this;
       if (this.pd1.org == '' || this.pd1.org == undefined) {
         this.$message.error('所属单位不能为空！');
@@ -470,9 +469,7 @@ export default {
 
         });
     },
-
     getDM(n) {
-
       var sum = '';
       for (var i = 0; i < n.length; i++) {
         sum = sum + ',' + n[i].mc;
@@ -480,9 +477,7 @@ export default {
       return sum.substring(1, sum.length);;
     },
     adds(n, i) {
-
       // this.V.$reset("demo");
-
       if (n != 0) {
         //this.from.ssdwdm=ToData(i.ssdw.dm);
         var formData = new FormData();
@@ -505,7 +500,6 @@ export default {
         this.tp = 0;
       }
       this.addsDialogVisible = true;
-
     },
     //添加和编辑
     addItem(addForm) {
@@ -544,12 +538,10 @@ export default {
           }, e => {
             this.$message.error('失败了');
           }
-
         );
         this.getList(this.CurrentPage, this.pageSize, this.pd);
       });
     },
-
     //详情
     details(i) {
       this.mapForm = i;
@@ -666,21 +658,17 @@ export default {
       ff.append("org", this.pd2.org);
       ff.append("userid", this.userid);
       let p = ff;
-
       this.$api.post(this.Global.aport1 + '/user/getSsdwByUserId', p,
         rr => {
           this.ssdw = rr.data;
         });
-
     },
-
     getMnus(v) {
       var ff = new FormData();
       ff.append("token", this.$store.state.token);
       ff.append("org", v);
       ff.append("userid", this.userid);
       let p = ff;
-
       //var lists = new Array();
       // var url1 = this.Global.aport1 + '/fun/getByUserID';
       // this.$api.post(url1, p,
@@ -712,9 +700,7 @@ export default {
       }
     },
     selectChildSame(arr){
-
       for (var i = 0; i < arr.length; i++) {
-
             if(arr[i].children!=null){
                 this.selectChildSame(arr[i].children);
             }else {
@@ -724,7 +710,6 @@ export default {
             }
       }
     },
-
     open(content) {
       this.$alert(content, '提示', {
         confirmButtonText: '确定',
@@ -773,7 +758,6 @@ export default {
           }
         })
       this.menuDialogVisible = false;
-
     },
     //关联到角色
     relationjs(i) {
@@ -787,16 +771,11 @@ export default {
         rr => {
         this.ssdw = rr.data;
         this.pd1 = {};
-
-
         this.$set(this.pd1,'org', this.ssdw[0].dm)
         this.tableData1 = [];
-
         this.getList1(this.CurrentPage1,this.pageSize1,this.pd1);
         this.jsDialogVisible = true;
         });
-
-
       // var formData = new FormData();
       //   formData.append("currentPage", this.CurrentPage1);
       //   formData.append("showCount", this.pageSize1);
@@ -817,7 +796,6 @@ export default {
     },
     //保存关联到角色
     jsItem() {
-
       var formData = new FormData();
       if (this.multipleSelection1.length == 0) {
         this.$message.error('请选择角色列表内容！');
@@ -831,7 +809,6 @@ export default {
         var gg = true;
         checkeds.push(gg);
       }
-
       formData.append("userid", this.userid);
       formData.append("roleids", roleids);
       formData.append("checkeds", checkeds);
@@ -854,12 +831,9 @@ export default {
     },
   },
   filters: {
-
     fifterstatus(val) {
       if (val == '0') {
-
         return "无效"
-
       } else if (val == '1') {
         return "有效"
       }
@@ -867,12 +841,10 @@ export default {
   }
 }
 </script>
-
 <style scoped>
 .yy-input-text {
   width: 20% !important;
 }
-
 .yy-input-input {
   width: 75% !important;
 }
