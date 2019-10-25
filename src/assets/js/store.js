@@ -75,6 +75,7 @@ var store = new Vuex.Store({
     pcsToju:'',
     sqlb:'',
     swdwclzt:[],
+    xslb:[],
   },
   mutations: {
     getOne(state,data){
@@ -284,6 +285,9 @@ var store = new Vuex.Store({
     getSwcl(state,data){
       state.swdwclzt=data;
     },
+    getXslb(state,data){
+      state.xslb=data;
+    }
   },
   actions: {
     getZjxy(context){
@@ -564,6 +568,12 @@ var store = new Vuex.Store({
       api.get(global_.aport1 + global_.swdwclzt,null,
         r =>{
           context.commit('getSwcl',ToArray(r.data))
+        })
+    },
+    getXslb(context){
+      api.get(global_.aport1 + global_.xslb,null,
+        r =>{
+          context.commit('getXslb',ToArray(r.data))
         })
     }
   }
