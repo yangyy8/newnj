@@ -307,6 +307,10 @@
                  label="签证号码">
                </el-table-column>
                <el-table-column
+                 prop="LSDWDZ"
+                 label="留宿单位地址">
+               </el-table-column>
+               <el-table-column
                  label="操作" width="70">
                  <template slot-scope="scope">
                  <el-button type="text"  class="a-btn"  title="详情"  icon="el-icon-document" @click="details(scope.row)"></el-button>
