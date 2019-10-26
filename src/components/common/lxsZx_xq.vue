@@ -31,7 +31,7 @@
         </el-col>
         <el-col :span="8" class="input-item">
           <span class="input-text">性别：</span>
-          <span class="input-input detailinput">  {{lxsinfo.SEX}}</span>
+          <span class="input-input detailinput">  {{lxsinfo.SEX_DESC}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
           <span class="input-text">国籍：</span>
@@ -47,7 +47,7 @@
         </el-col>
         <el-col :span="8" class="input-item">
           <span class="input-text">出生国家：</span>
-          <span class="input-input detailinput">  {{lxsinfo.BORNEDCOUNTRYID}}</span>
+          <span class="input-input detailinput">  {{lxsinfo.BORNEDCOUNTRYID_DESC}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
           <span class="input-text">出生地点：</span>
@@ -738,7 +738,7 @@ export default {
   methods:{
     initData(){
       switch (this.type) {
-        case 2://人员画像&在校学生突发增量预警
+        case 2://人员画像&在校学生突发增量预警&留学生综合分析
             this.getData2();
             break;
         default:

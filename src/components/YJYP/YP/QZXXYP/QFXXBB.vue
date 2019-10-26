@@ -52,7 +52,7 @@
                   <span class="input-text">受理单位：</span>
                   <el-select v-model="pd.SLDW"  multiple collapse-tags filterable clearable default-first-option  placeholder="请选择"  size="small" class="input-input">
                     <el-option
-                      v-for="item in $store.state.sldw"
+                      v-for="item in $store.state.pcs"
                       :key="item.dm"
                       :label="item.dm+' - '+item.mc"
                       :value="item.dm">
@@ -61,7 +61,7 @@
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                     <span class="input-text" title="申请证件种类">申请证件种类：</span>
-                    <el-select v-model="pd.BZLX" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
+                    <el-select v-model="pd.XCZJZL" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
                       <el-option
                         v-for="item in $store.state.zjzl"
                         :key="item.dm"
@@ -366,7 +366,7 @@
          this.$store.dispatch("getRjsy");
          this.$store.dispatch("getZsxz");
          this.$store.dispatch("getSjly");
-         this.$store.dispatch("getSldw");
+         this.$store.dispatch("getPcs");
       },
       watch:{
         falg:function(newVal,oldVal){

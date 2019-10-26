@@ -208,7 +208,7 @@
                <el-table-column
                  label="操作" width="100">
                  <template slot-scope="scope">
-                 <el-button type="text"  class="a-btn"  title="详情"  icon="el-icon-document" @click="$router.push({name:'JYTRYXX',query:{row:scope.row,queryPd:pd}})"></el-button>
+                 <el-button type="text"  class="a-btn"  title="详情"  icon="el-icon-document" @click="$router.push({name:'LXSRYXX',query:{row:scope.row,queryPd:pd}})"></el-button>
                  </template>
                </el-table-column>
             </el-table>
@@ -320,8 +320,8 @@
         </div>
      <div class="bj">
        <!-- 留学生信息详情 -->
-       <el-dialog title="留学生申请信息详情" :visible.sync="lxsDialogVisible"  custom-class="big_dialog" :append-to-body="false" :modal="false">
-           <LXSXX :type="type" :xid="xid" :random="random"></LXSXX>
+       <el-dialog title="留学生在校信息详情" :visible.sync="lxsDialogVisible"  custom-class="big_dialog" :append-to-body="false" :modal="false">
+           <LXSXXZX :type="type" :xid="xid" :random="random"></LXSXXZX>
            <div slot="footer" class="dialog-footer">
              <el-button @click="lxsDialogVisible = false" size="small">取 消</el-button>
            </div>
@@ -332,9 +332,9 @@
 
     </template>
     <script>
-    import LXSXX from '../../../common/lxsxx_xq'
+    import LXSXXZX from '../../../common/lxsZx_xq'
     export default {
-      components:{LXSXX},
+      components:{LXSXXZX},
       data() {
         return {
           radio1:'0',
@@ -355,7 +355,7 @@
           imgshow2:true,
           shm:false,
           lg:false,
-          type:3,
+          type:2,
           xid:'',
           random:'',
           lxsDialogVisible:false,
@@ -512,9 +512,9 @@
           this.dataSelection()
         },
         dataSelection(){
-          console.log('this.multipleSelection',this.multipleSelection)
+          // console.log('this.multipleSelection',this.multipleSelection)
           this.selectionReal.splice(this.CurrentPage-1,1,this.multipleSelection);
-          console.log('this.selectionReal',this.selectionReal);
+          // console.log('this.selectionReal',this.selectionReal);
           this.selectionAll=[];
           for(var i=0;i<this.selectionReal.length;i++){
             if(this.selectionReal[i]){
@@ -523,7 +523,7 @@
               }
             }
           }
-          console.log('this.selectionAll',this.selectionAll);
+          // console.log('this.selectionAll',this.selectionAll);
         },
         download(){
           let p={};
@@ -555,7 +555,7 @@
               }
             }
           }
-          this.$api.post(this.Global.aport5+'/jiaoYuTing202Controller/export',p,
+          this.$api.post(this.Global.aport5+'/esLxsController/exportLxs',p,
             r =>{
               this.downloadM(r)
             },e=>{},{},'blob')
@@ -568,7 +568,7 @@
             let link = document.createElement('a')
             link.style.display = 'none'
             link.href = url
-            link.setAttribute('download', '教育厅综合分析列表'+this.format(new Date(),'yyyyMMddhhmmss')+'.xls')
+            link.setAttribute('download', '留学生综合分析列表'+this.format(new Date(),'yyyyMMddhhmmss')+'.xls')
             document.body.appendChild(link)
             link.click()
         },
@@ -581,12 +581,10 @@
         pageSizeChange(val) {
           this.pageSize=val;
           this.getList(this.CurrentPage, val, this.pd);
-          console.log(`每页 ${val} 条`);
         },
         handleCurrentChange(val) {
           this.CurrentPage=val;
           this.getList(val, this.pageSize, this.pd);
-          console.log(`当前页: ${val}`);
         },
         open(content) {
           this.$alert(content, '提示', {
@@ -625,10 +623,6 @@
                 for(var i=0;i<_this.checkItemReal.length;i++){
                   var obj={};
                   for(var j=0;j<_this.tableHead.length;j++){
-                    if(_this.checkItemReal[i].code=='SHIGUO'||_this.checkItemReal[i].code=='SANSHIYIGUO'){
-                      obj.code='GJDQ_DESC';
-                      obj.label='国家地区';
-                    }
                     if(_this.tableHead[j].label==_this.checkItemReal[i].label){
                       obj.code=_this.tableHead[j].code;
                       obj.label=_this.tableHead[j].label;
@@ -636,15 +630,15 @@
                   }
                   _this.configHeader.push(obj);
                 }
-                var arrAfter=[];
-                var arrReal=[];
-                for(var h=0;h<this.configHeader.length;h++){
-                  if(arrAfter.indexOf(this.configHeader[h].code)==-1){
-                    arrAfter.push(this.configHeader[h].code);
-                    arrReal.push(this.configHeader[h]);
-                  }
-                }
-                this.configHeader=arrReal;
+                // var arrAfter=[];
+                // var arrReal=[];
+                // for(var h=0;h<this.configHeader.length;h++){
+                //   if(arrAfter.indexOf(this.configHeader[h].code)==-1){
+                //     arrAfter.push(this.configHeader[h].code);
+                //     arrReal.push(this.configHeader[h]);
+                //   }
+                // }
+                // this.configHeader=arrReal;
                 if(this.selectionReal.length==0){//声明一个数组对象
                   this.selectionReal=new Array(Math.ceil(this.TotalResult/showCount))
                 }
@@ -689,7 +683,7 @@
         },
         details(i) {
           this.random=new Date().getTime();
-          this.xid=i.RGUID;
+          this.xid=i;
           this.lxsDialogVisible = true;
         },
       }

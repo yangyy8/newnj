@@ -280,7 +280,7 @@
     },
     changeTime(time,timeReal){
       time.begin==''?timeReal.begin='':time.begin==null?timeReal.begin=null:timeReal.begin=time.begin+' 00:00:00';
-      // time.end==''?timeReal.end='':time.end==null?timeReal.end=null:timeReal.end=time.end+' 00:00:00';
+      time.end==''?timeReal.end='':time.end==null?timeReal.end=null:timeReal.end=time.end+' 00:00:00';
     },
     getPd(pd,pd1){
         this.changeTime(this.pd1.SJXFSJ_DateRange,this.pd.SJXFSJ_DateRange);

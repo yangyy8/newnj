@@ -48,7 +48,7 @@
                   <span class="input-text" title="所持签证种类">所持签证种类：</span>
                   <el-select v-model="pd.XCQZZL" filterable clearable default-first-option  placeholder="请选择"  size="small" class="input-input">
                     <el-option
-                      v-for="item in $store.state.qzzl"
+                      v-for="item in $store.state.rjqzzl"
                       :key="item.dm"
                       :label="item.dm+' - '+item.mc"
                       :value="item.dm">
@@ -59,7 +59,7 @@
                     <span class="input-text" title="申请签证种类">申请签证种类：</span>
                     <el-select v-model="pd.SQQZZL" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
                       <el-option
-                        v-for="item in $store.state.sqqzzl"
+                        v-for="item in $store.state.rjqzzl"
                         :key="item.dm"
                         :label="item.dm+' - '+item.mc"
                         :value="item.dm">
@@ -77,7 +77,7 @@
                       </el-option>
                     </el-select>
                 </el-col>
-                <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                <!-- <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                     <span class="input-text" title="签证办理状态">签证办理状态：</span>
                     <el-select v-model="pd.CURRENTSTATE" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
                       <el-option
@@ -87,12 +87,12 @@
                         :value="item.dm">
                       </el-option>
                     </el-select>
-                </el-col>
+                </el-col> -->
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                     <span class="input-text">申请事由：</span>
                     <el-select v-model="pd.SQSY" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
                       <el-option
-                        v-for="item in $store.state.sqsy"
+                        v-for="item in $store.state.rjsy"
                         :key="item.dm"
                         :label="item.dm+' - '+item.mc"
                         :value="item.dm">
@@ -355,10 +355,10 @@
               code:'SQQZZL',
               label:'申请签证种类'
             },
-            {
-              code:'CURRENTSTATE',
-              label:'签证办理状态'
-            },
+            // {
+            //   code:'CURRENTSTATE',
+            //   label:'签证办理状态'
+            // },
             {
               code:'SQSY',
               label:'申请事由'
@@ -391,10 +391,10 @@
               code:'SQQZZL_DESC',
               label:'申请签证种类'
             },
-            {
-              code:'CURRENTSTATE_DESC',
-              label:'签证办理状态'
-            },
+            // {
+            //   code:'CURRENTSTATE_DESC',
+            //   label:'签证办理状态'
+            // },
             {
               code:'SQSY_DESC',
               label:'申请事由'

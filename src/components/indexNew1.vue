@@ -1552,7 +1552,7 @@ export default {
                 },
             },
             {//秦淮
-                name:name['qihuai'],
+                name:name['qinhuai'],
                 data: _this.seriesData[10],
                 hoverAnimation:true,
                 hoverAnimation:true,
@@ -1672,6 +1672,7 @@ export default {
           xAxis: {
                type: 'category',
                data: ['临住', '常住'],
+               // data: ['临住'],
                axisLine:{
                    lineStyle:{
                        color:'#01DEEC',
@@ -1777,7 +1778,8 @@ export default {
                       fontSize:12
                     },
                     value:czdata
-                }],
+                }
+              ],
            }]
         },true)
         _this.mapCharts.off('click');
