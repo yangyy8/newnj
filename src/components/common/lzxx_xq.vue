@@ -57,8 +57,8 @@
               <el-input placeholder="" size="small" v-model="form.QFD_DESC"  class="yy-input-input"></el-input>
             </el-col>
             <el-col :span="12" >
-              <span class="yy-input-text" title="签证(注)有效期至">停留有效期至：</span>
-                <el-input placeholder="" size="small" v-model="form.TLYXQ_DESC"  class="yy-input-input"></el-input>
+              <span class="yy-input-text" title="停留有效期至">停留有效期至：</span>
+                <el-input placeholder="" size="small" v-model="form.TLYXQZ"  class="yy-input-input"></el-input>
             </el-col>
           </el-row>
         </el-col>
