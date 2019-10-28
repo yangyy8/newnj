@@ -75,13 +75,13 @@
                   <div class="input-input t-flex t-date">
                     <el-date-picker
                        v-model="pd0.beginZC" format="yyyy-MM-dd"
-                       type="date" size="small" value-format="yyyy/MM/dd"
+                       type="date" size="small" value-format="yyyy-MM-dd"
                        placeholder="开始时间" >
                     </el-date-picker>
                     <span class="septum">-</span>
                     <el-date-picker
                         v-model="pd0.endZC" format="yyyy-MM-dd"
-                        type="date" size="small" value-format="yyyy/MM/dd"
+                        type="date" size="small" value-format="yyyy-MM-dd"
                         placeholder="结束时间" >
                     </el-date-picker>
                  </div>
