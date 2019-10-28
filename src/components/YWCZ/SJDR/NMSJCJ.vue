@@ -849,6 +849,7 @@ export default {
       this.uploadDialogVisible = true;
       this.typemd = "";
       this.actions = window.IPConfig.IP+this.Global.aport3;
+      // this.actions="http://10.0.30.63:9439/"
       console.log(this.$refs.upload)
       if (this.$refs.upload) {
         this.$refs.upload.clearFiles();

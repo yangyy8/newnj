@@ -30,13 +30,13 @@
                   <div class="input-input t-flex t-date">
                     <el-date-picker
                        v-model="pd0.beginqz" format="yyyy-MM-dd"
-                       type="date" size="small" value-format="yyyyMMdd"
+                       type="date" size="small" value-format="yyyy-MM-dd"
                        placeholder="开始时间" >
                     </el-date-picker>
                     <span class="septum">-</span>
                     <el-date-picker
                         v-model="pd0.endqz" format="yyyy-MM-dd"
-                        type="date" size="small" value-format="yyyyMMdd"
+                        type="date" size="small" value-format="yyyy-MM-dd"
                         placeholder="结束时间" >
                     </el-date-picker>
                  </div>
@@ -50,13 +50,13 @@
                   <div class="input-input t-flex t-date">
                     <el-date-picker
                        v-model="pd0.beginsq" format="yyyy-MM-dd"
-                       type="date" size="small" value-format="yyyyMMdd"
+                       type="date" size="small" value-format="yyyy-MM-dd"
                        placeholder="开始时间" >
                     </el-date-picker>
                     <span class="septum">-</span>
                     <el-date-picker
                         v-model="pd0.endsq" format="yyyy-MM-dd"
-                        type="date" size="small" value-format="yyyyMMdd"
+                        type="date" size="small" value-format="yyyy-MM-dd"
                         placeholder="结束时间" >
                     </el-date-picker>
                  </div>
