@@ -131,7 +131,7 @@
           </el-col>
           <el-col :span="8" class="input-item">
             <span class="input-text">停留事由：</span>
-            <span class="input-input detailinput">  {{czinfo.TLSY}}</span>
+            <span class="input-input detailinput">  {{czinfo.TLSY_DESC}}</span>
           </el-col>
           <el-col :span="8" class="input-item">
             <span class="input-text">停留有效期：</span>

@@ -129,9 +129,9 @@
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                   <span class="input-text">住房类型：</span>
-                  <el-select v-model="pd.FWXZ"  filterable clearable default-first-option  placeholder="请选择"  size="small" class="input-input">
+                  <el-select v-model="pd.ZFLX"  filterable clearable default-first-option  placeholder="请选择"  size="small" class="input-input">
                     <el-option
-                      v-for="item in $store.state.zsxz"
+                      v-for="item in $store.state.zflx"
                       :key="item.dm"
                       :label="item.dm+' - '+item.mc"
                       :value="item.dm">
@@ -617,6 +617,7 @@
          this.$store.dispatch("getRzfs");
          this.$store.dispatch("getJzztlx");
          this.$store.dispatch("getSf");
+         this.$store.dispatch("getZflx");
          this.getSsfj();
       },
       watch:{

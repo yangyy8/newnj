@@ -223,6 +223,7 @@ export default {
             // this.$store.state.token=r.data.token;
             this.Global.hasEnter="1";
             this.$router.push({name: 'Index',params:{ id:'1'}});
+            this.getJuState();
           }else {
               this.$message.error("用户名或者密码输入错误！");return;
           }

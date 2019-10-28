@@ -180,7 +180,7 @@
                label="出生日期">
              </el-table-column>
              <el-table-column
-               prop="ZJZL_DESC"
+               prop="XCZJZL_DESC"
                label="证件种类">
              </el-table-column>
              <el-table-column
@@ -188,7 +188,7 @@
                label="证件号码">
              </el-table-column>
              <el-table-column
-               prop="QZZL_DESC"
+               prop="XCQZZL_DESC"
                label="签证种类">
              </el-table-column>
              <el-table-column

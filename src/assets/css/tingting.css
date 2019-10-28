@@ -1,4 +1,5 @@
 @media screen and (min-width:1550px) and (max-width:1700px){
+  .topbg{font-size: 19px;width: 107px;height: 74px;line-height: 90px; text-align: center;cursor: pointer; color: #eeeeee}
   /* 常用报表 */
   .arrow_content {
       width: 780px; height: 400px;border:1px solid #2e9de7; border-radius: 2px; position: absolute;
@@ -119,6 +120,7 @@
     max-height: 35px;
     overflow: hidden;
     margin-left: -30px;
+    width:82%;
     /* list-style:disc!important; */
   }
   .content-head .show-yj li{
@@ -199,7 +201,7 @@
      }
      .qixia{
        top: 16.5%;
-       right: 42.5%;
+       right: 27.5%;
      }
      .xuanwu{
        top: 28.5%;
@@ -428,6 +430,7 @@
   }
 }
 @media only screen and (min-width: 1700px){
+  .topbg{font-size: 19px;width: 107px;height: 74px;line-height: 90px; text-align: center;cursor: pointer; color: #eeeeee}
   /* 非首页 */
   .ts-judge{
     width: 16%!important;
@@ -561,6 +564,7 @@
     max-height: 35px;
     overflow: hidden;
     margin-left: -30px;
+    width:82%;
   }
   .center-map .show-yj li{
     float:left;
@@ -699,7 +703,7 @@
    }
    .qixia{
      top: 16.5%;
-     right: 42.5%;
+     right: 27.5%;
    }
    .xuanwu{
      top: 28.5%;
@@ -861,6 +865,7 @@
   }
 }
 @media only screen and (max-width: 1550px){
+  .topbg{font-size: 18px;width: 90px;height: 74px;line-height: 90px; text-align: center;cursor: pointer; color: #eeeeee}
   /* 非首页 */
   .ts-judge{
     width: 18%!important;
@@ -987,6 +992,7 @@
     max-height: 33px;
     overflow: hidden;
     margin-left: -30px;
+    width:82%;
   }
     .tabLeft{
       text-align: center;
@@ -1131,8 +1137,8 @@
        right: 57%;
      }
      .qixia{
-       top:16%;
-       right: 26%;
+       top:24%;
+       right: 20%;
      }
      .xuanwu{
        top:27%;
