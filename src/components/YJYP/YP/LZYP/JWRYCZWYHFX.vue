@@ -663,6 +663,7 @@ export default {
         "zrq": this.pd.zrq,
         "rzsjStart": this.pd.beginTime,
         "rzsjEnd": this.pd.endTime,
+        "postType":'czw',
       };
       var url = this.Global.aport + "/zxdt/getLSZSDJXXRYList";
       this.$api.post(url, p,
