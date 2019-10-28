@@ -394,16 +394,21 @@ export default {
     //得到标准化地址
     getBZHDZ(callback){
       var searchResult = [];
+
+      var ssfj="";
+      if(this.pd.ssfj!=undefined || this.pd.ssfj!=""){
+        ssfj=this.pd.ssfj.substr(0,6);
+      }
         let p={
           "zjzl":this.pd.zjzl,
           "qzzl":this.pd.qzzl,
           "gjdq":this.pd.gjdq,
           "tlsy":this.pd.tlsy,
-          "rzsjStart":formatDate(this.pd.beginTime,"yyyy/MM/dd"),
-          "rzsjEnd":formatDate(this.pd.endTime,"yyyy/MM/dd"),
+          "rzsjStart":formatDate(new Date(this.pd.beginTime),"yyyy/MM/dd"),
+          "rzsjEnd":formatDate(new Date(this.pd.endTime),"yyyy/MM/dd"),
           "zsbg":this.pd.zsbg,
           "likeBzhdzMc":this.pd.bzhdz,
-          "ssfj":this.pd.ssfj.substr(0,6),
+          "ssfj":ssfj,
           "tsy":this.pd.tsj
         };
         var url=this.Global.aport+"/zxdt/getLSZSDJXXBZHDZList";
@@ -435,7 +440,10 @@ export default {
       }
 
        this.diatext=this.mc;
-
+       var ssfj="";
+       if(this.pd.ssfj!=undefined || this.pd.ssfj!=""){
+         ssfj=this.pd.ssfj.substr(0,6);
+       }
        let p={
          "currentPage":currentPage,
          "showCount":showCount,
@@ -444,10 +452,10 @@ export default {
          "qzzl":this.pd.qzzl,
          "gjdq":this.pd.gjdq,
          "tlsy":this.pd.tlsy,
-         "rzsjStart":formatDate(this.pd.beginTime,"yyyy/MM/dd"),
-         "rzsjEnd":formatDate(this.pd.endTime,"yyyy/MM/dd"),
+         "rzsjStart":formatDate(new Date(this.pd.beginTime),"yyyy/MM/dd"),
+         "rzsjEnd":formatDate(new Date(this.pd.endTime),"yyyy/MM/dd"),
          "zsbg":this.pd.zsbg,
-         "ssfj":this.pd.ssfj.substr(0,6),
+         "ssfj":ssfj,
          "tsy":this.pd.tsj
 
        };
