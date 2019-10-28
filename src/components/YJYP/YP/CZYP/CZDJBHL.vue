@@ -229,10 +229,17 @@
           </div>
         </div>
         <div v-show="page==1">
+          <el-button type="primary" size="small" class="mb-5" @click="exportexcel">导出</el-button>
           <el-table
              :data="tableData"
              border
-             style="width: 100%">
+             style="width: 100%"
+             @select="selectfn"
+             ref="multipleTable">
+             <el-table-column
+               type="selection"
+               width="55">
+             </el-table-column>
              <el-table-column
                prop="CSRQ"
                label="出生日期">
@@ -364,6 +371,11 @@ import CZXX from '../../../common/czxx_xq'
       page:0,
       pdTu:{},
       allData:{},
+
+      multipleSelection:[],
+      selectionAll:[],
+      yuid:[],
+      selectionReal:[],
     }
   },
   mounted(){
@@ -380,6 +392,44 @@ import CZXX from '../../../common/czxx_xq'
     this.getListTu(this.pd0,this.pd);
   },
   methods:{
+    selectfn(a,b){
+      this.multipleSelection = a;
+      this.dataSelection()
+    },
+    dataSelection(){
+      // console.log('this.multipleSelection',this.multipleSelection)
+      this.selectionReal.splice(this.CurrentPage-1,1,this.multipleSelection);
+      // console.log('this.selectionReal',this.selectionReal);
+      this.selectionAll=[];
+      for(var i=0;i<this.selectionReal.length;i++){
+        if(this.selectionReal[i]){
+          for(var j=0;j<this.selectionReal[i].length;j++){
+            this.selectionAll.push(this.selectionReal[i][j])
+          }
+        }
+      }
+      // console.log('this.selectionAll',this.selectionAll);
+    },
+    exportexcel(){
+      let p={};
+      if(this.selectionAll.length==0){//全部导出
+         p={
+          "pd":this.pdTu,
+        }
+      }else{//导出选中
+        this.yuid=[];
+        for(var i in this.selectionAll){
+          this.yuid.push(this.selectionAll[i].RGUID)
+        };
+         p={
+          "pd":{RGUID:this.yuid},
+        }
+      }
+      this.$api.post(this.Global.aport5+'/djbhl/exportdjbhl',p,
+        r =>{
+          this.downloadM(r)
+        },e=>{},{},'blob')
+    },
     changeTu(){
       this.pageC=!this.pageC;
       if(this.pageC==true){
@@ -389,11 +439,11 @@ import CZXX from '../../../common/czxx_xq'
       }
     },
     pageSizeChange(val) {
-      // this.pageSize=10;
+      this.pageSize=val;
       this.getList(this.CurrentPage,val,this.pdTu);
     },
     handleCurrentChange(val) {
-      // this.CurrentPage=1;
+      this.CurrentPage=val;
       this.getList(val,this.pageSize,this.pdTu);
     },
     changeTime(time,timeReal){
@@ -455,6 +505,7 @@ import CZXX from '../../../common/czxx_xq'
         document.body.appendChild(link)
         link.click()
     },
+
     getList(currentPage,pageSize,pd){
       let p={
         'currentPage':currentPage,
@@ -466,6 +517,19 @@ import CZXX from '../../../common/czxx_xq'
          if(r.success){
            this.tableData=r.data.resultList;
            this.TotalResult=r.data.totalResult;
+           if(this.selectionReal.length==0){//声明一个数组对象
+             this.selectionReal=new Array(Math.ceil(this.TotalResult/showCount))
+           }
+           this.$nextTick(()=>{
+             this.multipleSelection=[]
+             for(var i=0;i<this.tableData.length;i++){
+               for(var j=0;j<this.selectionAll.length;j++){
+                 if(this.tableData[i].RGUID==this.selectionAll[j].RGUID){
+                   this.$refs.multipleTable.toggleRowSelection(this.tableData[i],true);
+                 }
+               }
+             }
+           })
          }
        })
     },

@@ -73,7 +73,7 @@ var store = new Vuex.Store({
     tabList:[],
     currentKey:null,
     pcsToju:'',
-    sqlb:'',
+    sqlb:[],
     swdwclzt:[],
     xslb:[],
   },

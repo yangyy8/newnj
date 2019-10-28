@@ -394,9 +394,8 @@ export default {
     //得到标准化地址
     getBZHDZ(callback){
       var searchResult = [];
-
       var ssfj="";
-      if(this.pd.ssfj!=undefined || this.pd.ssfj!=""){
+      if(this.pd.ssfj!=undefined && this.pd.ssfj!=""){
         ssfj=this.pd.ssfj.substr(0,6);
       }
         let p={
@@ -441,7 +440,7 @@ export default {
 
        this.diatext=this.mc;
        var ssfj="";
-       if(this.pd.ssfj!=undefined || this.pd.ssfj!=""){
+       if(this.pd.ssfj!=undefined && this.pd.ssfj!=""){
          ssfj=this.pd.ssfj.substr(0,6);
        }
        let p={

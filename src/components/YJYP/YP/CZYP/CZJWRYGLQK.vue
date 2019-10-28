@@ -154,14 +154,14 @@
              </el-table-column>
              <el-table-column
                prop="abxxqlList"
-               label="无安保状况登记数">
+               label="安保状况缺项">
                <template slot-scope="scope">
                   <span v-html="sjzh(scope.row.abxxqlList)"></span>
                 </template>
              </el-table-column>
              <el-table-column
                prop="zfxxqlList"
-               label="无安全走访登记数">
+               label="安全走访缺项">
                <template slot-scope="scope">
                   <span v-html="sjzh(scope.row.zfxxqlList)"></span>
                 </template>

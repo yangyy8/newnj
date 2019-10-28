@@ -89,10 +89,10 @@
                     </el-select>
                 </el-col> -->
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-                    <span class="input-text">申请事由：</span>
-                    <el-select v-model="pd.SQSY" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
+                    <span class="input-text">申请类别：</span>
+                    <el-select v-model="pd.SQLB" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
                       <el-option
-                        v-for="item in $store.state.rjsy"
+                        v-for="item in $store.state.sqlb"
                         :key="item.dm"
                         :label="item.dm+' - '+item.mc"
                         :value="item.dm">
@@ -360,8 +360,8 @@
             //   label:'签证办理状态'
             // },
             {
-              code:'SQSY',
-              label:'申请事由'
+              code:'SQLB',
+              label:'申请证件种类'
             },
             {
               code:'BZLX',
@@ -396,8 +396,8 @@
             //   label:'签证办理状态'
             // },
             {
-              code:'SQSY_DESC',
-              label:'申请事由'
+              code:'SQLB_DESC',
+              label:'申请证件种类'
             },
             {
               code:'BZLX_DESC',
@@ -433,6 +433,7 @@
          this.$store.dispatch("getSqsy");
          this.$store.dispatch("getRydylb");
          this.$store.dispatch("getSqqzzl");
+         this.$store.dispatch("getSqlb");
       },
       watch:{
         falg:function(newVal,oldVal){

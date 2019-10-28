@@ -255,7 +255,7 @@
           border
           style="width: 100%">
           <el-table-column
-            prop="JZD_PCSMC"
+            prop="JZD_PCS_DESC"
             label="居住地所属派出所">
           </el-table-column>
           <el-table-column
@@ -316,12 +316,12 @@
           </el-col>
           <el-col :span="8" class="input-item">
             <span class="input-text" title="居住地所属派出所">居住地所属派出所：</span>
-            <span class="input-input detailinput">  {{jzinfo.JZD_PCS}}</span>
+            <span class="input-input detailinput">  {{jzinfo.JZD_PCS_DESC}}</span>
           </el-col>
-          <el-col :span="8" class="input-item">
+          <!-- <el-col :span="8" class="input-item">
             <span class="input-text">派出所中文名称：</span>
             <span class="input-input detailinput"> {{jzinfo.JZD_PCSMC}}</span>
-          </el-col>
+          </el-col> -->
           <el-col :span="8" class="input-item">
             <span class="input-text">详细地址：</span>
             <span class="input-input detailinput">  {{jzinfo.XXDZ}}</span>

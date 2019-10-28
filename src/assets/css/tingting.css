@@ -200,8 +200,8 @@
        right: 48%;
      }
      .qixia{
-       top: 16.5%;
-       right: 27.5%;
+       top: 25.5%;
+       right: 23.5%;
      }
      .xuanwu{
        top: 28.5%;
@@ -238,6 +238,10 @@
      .gaochun{
        top: 75%;
        right:34%;
+     }
+     .kaifaqu{
+       top: 16.5%;
+       right: 27.5%;
      }
      .map .lzrq{
        text-align: left;
@@ -702,8 +706,8 @@
      right: 48%;
    }
    .qixia{
-     top: 16.5%;
-     right: 27.5%;
+     top: 25.5%;
+     right: 23.5%;
    }
    .xuanwu{
      top: 28.5%;
@@ -740,6 +744,10 @@
    .gaochun{
      top: 75%;
      right:34%;
+   }
+   .kaifaqu{
+     top: 16.5%;
+     right: 27.5%;
    }
    /* 导航 */
    .index_nav_1{
@@ -1175,6 +1183,10 @@
      .gaochun{
        top: 70%;
        right:37%;
+     }
+     .kaifaqu{
+       top: 14.5%;
+       right: 22.5%;
      }
      /* 导航 */
      .index_nav_1{

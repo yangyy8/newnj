@@ -82,7 +82,7 @@
       <el-row :gutter="3">
         <el-col :span="6"  style="">
              <div class="bgline1 tu4">
-                <img src="../assets/img/sg/frame_1.png" class="img1" ref="ajC">
+                <img src="../assets/img/sg/frame_1.png" class="img1" ref="ajC"/>
                 <div class="title gradient-text-one">
                   案件6个月变化量
                 </div>
@@ -227,7 +227,7 @@
         </el-col>
         <el-col :span="6">
           <div class="bgline2 tu4">
-             <img src="../assets/img/sg/frame_2.png" class="img4" ref="lzC">
+             <img src="../assets/img/sg/frame_2.png" class="img4" ref="lzC"/>
              <div class="title gradient-text-one">
                临住6个月变化量
              </div>
@@ -236,7 +236,7 @@
              </div>
           </div>
           <div class="bgline2 tu4 tu-mt">
-             <img src="../assets/img/sg/frame_2.png" class="img4" ref='zgC'>
+             <img src="../assets/img/sg/frame_2.png" class="img4" ref='zgC'/>
              <div class="title gradient-text-one">
                中管6个月办理量
              </div>
@@ -245,7 +245,7 @@
              </div>
           </div>
           <div class="bgline21 tu3 tu-mt">
-             <img src="../assets/img/sg/frame_21.png" class="img4" ref='jtC'>
+             <img src="../assets/img/sg/frame_21.png" class="img4" ref='jtC'/>
              <div class="title gradient-text-one">
                居留、停留6个月签发量
              </div>
@@ -406,10 +406,14 @@ export default {
       mapList:{},
       screenWidth: document.body.clientWidth,
       fullHeight: document.documentElement.clientHeight,
-      imgHeightOne:this.$store.state.imgHeightOne,
-      imgHeightTwo:this.$store.state.imgHeightTwo,
-      imgHeightThr:this.$store.state.imgHeightThr,
-      imgHeightFor:this.$store.state.imgHeightFor,
+      // imgHeightOne:this.$store.state.imgHeightOne,
+      // imgHeightTwo:this.$store.state.imgHeightTwo,
+      // imgHeightThr:this.$store.state.imgHeightThr,
+      // imgHeightFor:this.$store.state.imgHeightFor,
+      imgHeightOne:0,
+      imgHeightTwo:0,
+      imgHeightThr:0,
+      imgHeightFor:0,
       data:[
         {
           gj:'阿尔及利亚',
@@ -533,14 +537,8 @@ export default {
             window.fullHeight = document.documentElement.clientHeight
             that.fullHeight = window.fullHeight;
             that.imgHeightOne=that.$refs.ajC.offsetHeight;
-            that.imgHeightTwo=that.$refs.lzC.offsetHeight;
-            that.imgHeightThr=that.$refs.zgC.offsetHeight;
-            that.imgHeightFor=that.$refs.jtC.offsetHeight;
             that.$store.commit('getOne',that.imgHeightOne);
-            that.$store.commit('getTwo',that.imgHeightTwo);
-            that.$store.commit('getThr',that.imgHeightThr);
-            that.$store.commit('getFor',that.imgHeightFor);
-            console.log('mounted',that.imgHeightOne,that.imgHeightTwo,that.imgHeightThr,that.imgHeightFor);
+            console.log('mounted',that.imgHeightOne);
         })()
      }
      if(this.fullHeight>=657&&this.fullHeight<=768){
@@ -553,20 +551,21 @@ export default {
        console.log('this.fullHeight',this.fullHeight)
        this.$refs.fullS.style.height = this.fullHeight +'px';
      }
-    if(this.screenWidth<1550){
+    if(this.screenWidth<1600){
       this.seriesData=[
                         [[13, 27, '六合区', 12, 28]],
                         [[11, 13, '江宁区', 10, 28]],
                         [[3, 18, '浦口区', 10, 28]],
                         [[18, 7, '溧水区', 10, 28]],
                         [[15, 1, '高淳区', 10, 28]],
-                        [[15, 22, '栖霞区', 10, 20]],
+                        [[15.2, 21.5, '栖霞区', 10, 13]],
                         [[7, 16, '雨花台区', 10, 15]],
                         [[10, 20, '鼓楼区', 10, 13]],
                         [[13, 21, '玄武区', 10, 13]],
                         [[8.5, 18, '建邺区', 10, 13]],
                         [[11.5, 19, '秦淮区', 10, 13]],
-                        [[9, 23, '江北新区', 10, 25]]
+                        [[8.4, 23.5, '江北新区', 10, 20]],
+                        [[12.5, 22.5, '经济技术开发区', 10, 8]],
                     ];
       this.yjl='370px';
       this.ajyjl="155px";
@@ -577,52 +576,26 @@ export default {
                         [[3, 18, '浦口区', 10, 40]],
                         [[18, 7, '溧水区', 10, 40]],
                         [[15, 1, '高淳区', 10, 40]],
-                        [[15, 22, '栖霞区', 10, 30]],
+                        [[15.2, 21.5, '栖霞区', 10, 20]],
                         [[7, 16, '雨花台区', 10, 20]],
                         [[10, 20, '鼓楼区', 10, 20]],
-                        [[13, 21, '玄武区', 10, 25]],
+                        [[13, 21, '玄武区', 10, 20]],
                         [[8.5, 18, '建邺区', 10, 20]],
                         [[11.5, 19, '秦淮区', 10, 20]],
-                        [[9, 23, '江北新区', 10, 20]]
+                        [[8.5, 23.3, '江北新区', 10, 25]],
+                        [[13, 22.5, '经济技术开发区', 10, 15]],
                     ];
       this.yjl='500px';
       this.ajyjl="240px";
     }
-    // this.mapdata=[
-    //   {dm:1,mc:'六合区',value:50000,cla:'liuhe'},
-    //   {dm:2,mc:'江北新区',value:30000,cla:'jiangbei'},
-    //   {dm:3,mc:'栖霞区',value:5000,cla:'qixia'},
-    //   {dm:4,mc:'玄武区',value:100,cla:'xuanwu'},
-    //   {dm:5,mc:'鼓楼区',value:123,cla:'gulou'},
-    //   {dm:6,mc:'秦淮区',value:123,cla:'qinhuai'},
-    //   {dm:7,mc:'建邺区',value:123,cla:'jianye'},
-    //   {dm:8,mc:'雨花台区',value:123,cla:'yuhua'},
-    //   {dm:9,mc:'浦口区',value:123,cla:'pukou'},
-    //   {dm:10,mc:'溧水区',value:123,cla:'lishui'},
-    //   {dm:11,mc:'江宁区',value:123,cla:'jiangning'},
-    //   {dm:12,mc:'高淳区',value:123,cla:'gaochun'},
-    // ];
-    // this.$nextTick(()=>{
-    //   this.imgHeightOne=this.$refs.ajC.offsetHeight;
-    //   this.imgHeightTwo=this.$refs.lzC.offsetHeight;
-    //   this.imgHeightThr=this.$refs.zgC.offsetHeight;
-    //   this.imgHeightFor=this.$refs.jtC.offsetHeight;
-    //   console.log('mounted==',this.imgHeightOne,this.imgHeightTwo,this.imgHeightThr,this.imgHeightFor);
-    // })
 
     this.allEcharts();
     this.yearFun();
     this.aaa();
     this.pdjhFun();
-    console.log('==',this.one,this.two,this.thr,this.fou);
+
   },
   activated(){},
-  computed:{
-    one(){return this.$refs.ajC.offsetHeight},
-    two(){return this.$refs.lzC.offsetHeight},
-    thr(){return this.$refs.zgC.offsetHeight},
-    fou(){return this.$refs.jtC.offsetHeight},
-  },
   watch: {
     fullHeight (val) {
        // if(!this.timer) {
@@ -648,20 +621,21 @@ export default {
      },
       screenWidth (val) {
           this.screenWidth = val;
-          if(this.screenWidth<1550){
+          if(this.screenWidth<1600){
             this.seriesData=[
                               [[13, 27, '六合区', 12, 28]],
                               [[11, 13, '江宁区', 10, 28]],
                               [[3, 18, '浦口区', 10, 28]],
                               [[18, 7, '溧水区', 10, 28]],
                               [[15, 1, '高淳区', 10, 28]],
-                              [[15, 22, '栖霞区', 10, 20]],
+                              [[15.2, 21.5, '栖霞区', 10, 13]],
                               [[7, 16, '雨花台区', 10, 15]],
                               [[10, 20, '鼓楼区', 10, 13]],
                               [[13, 21, '玄武区', 10, 13]],
                               [[8.5, 18, '建邺区', 10, 13]],
                               [[11.5, 19, '秦淮区', 10, 13]],
-                              [[9, 23, '江北新区', 10, 25]]
+                              [[8.4, 23.5, '江北新区', 10, 20]],
+                              [[12.5, 22.5, '经济技术开发区', 10, 8]],
                           ];
             this.yjl='370px';
             this.ajyjl="155px";
@@ -672,13 +646,14 @@ export default {
                             [[3, 18, '浦口区', 10, 40]],
                             [[18, 7, '溧水区', 10, 40]],
                             [[15, 1, '高淳区', 10, 40]],
-                            [[15, 22, '栖霞区', 10, 30]],
+                            [[15.2, 21.5, '栖霞区', 10, 20]],
                             [[7, 16, '雨花台区', 10, 20]],
                             [[10, 20, '鼓楼区', 10, 20]],
-                            [[13, 21, '玄武区', 10, 25]],
+                            [[13, 21, '玄武区', 10, 20]],
                             [[8.5, 18, '建邺区', 10, 20]],
                             [[11.5, 19, '秦淮区', 10, 20]],
-                            [[9, 23, '江北新区', 10, 20]]
+                            [[8.5, 23.3, '江北新区', 10, 25]],
+                            [[13, 22.5, '经济技术开发区', 10, 15]],
                           ];
             this.yjl='500px';
             this.ajyjl="240px";
@@ -689,31 +664,34 @@ export default {
       imgHeightOne(val){
         this.$nextTick(()=>{
           console.log('one==',val);
+          this.$store.commit('getOne',val);
           document.getElementById("ajecharts").style.height=(val-20)+'px';
-        })
-
-      },
-      imgHeightTwo(val){
-        this.$nextTick(()=>{
-          console.log('two==',val);
           document.getElementById("lzecharts").style.height=(val-20)+'px';
-        })
-
-      },
-      imgHeightThr(val){
-        this.$nextTick(()=>{
-          console.log('thr==',val);
           document.getElementById("zgecharts").style.height=(val-20)+'px';
+          document.getElementById("jtecharts").style.height=(val-50)+'px';
         })
 
       },
-      imgHeightFor(val){
-        this.$nextTick(()=>{
-          console.log('for==',val);
-          document.getElementById("jtecharts").style.height=(val)+'px';
-        })
-
-      },
+      // imgHeightTwo(val){
+      //   this.$nextTick(()=>{
+      //     console.log('two==',val);
+      //     document.getElementById("lzecharts").style.height=(val-20)+'px';
+      //   })
+      //
+      // },
+      // imgHeightThr(val){
+      //   this.$nextTick(()=>{
+      //     console.log('thr==',val);
+      //     document.getElementById("zgecharts").style.height=(val-20)+'px';
+      //   })
+      //
+      // },
+      // imgHeightFor(val){
+      //   this.$nextTick(()=>{
+      //     console.log('for==',val);
+      //     document.getElementById("jtecharts").style.height=(val)+'px';
+      //   })
+      // },
   },
   created(){
       setInterval(this.scroll,2000);
@@ -1348,6 +1326,48 @@ export default {
                   }
               },
             },
+            {//经济技术开发区
+                name:name['kaifaqu'],
+                data: _this.seriesData[12],
+                hoverAnimation:true,
+                symbolSize: function (v) {
+                    return v[4];
+                },
+                type: 'effectScatter',
+                rippleEffect: {
+                    brushType: 'stroke', //stroke(涟漪)和fill(扩散)，两种效果:3
+                    scale:1.7
+                },
+                itemStyle: {
+                  normal: {
+                      color:function(params){
+                        //颜色渐变，右/下/左/上，从下往上渐变
+                        return new echarts.graphic.LinearGradient(0,0,1,1,[
+                          {offset: 0,color: params.value[10]},
+                          {offset: 1,color: params.value[11]},
+                        ])
+                      },
+                      shadowBlur: 10,
+                      shadowColor: _this.seriesData[12][0][11]
+                  },
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        color:'#fff',
+                        fontWeight:'bold',
+                        formatter: function(v) {
+                            return v.value[2];
+                        },
+                        fontSize: 10,
+                        rich: {
+                            name: {
+                                textBorderColor: '#fff'
+                            }
+                        }
+                    }
+                },
+            },
             {//栖霞
                 name:name['qixia'],
                 data: _this.seriesData[5],
@@ -1661,7 +1681,7 @@ export default {
            // console.log(e.target.lastChild.id,e.target.firstChild.id)
            if(e.target.lastChild.id=='tt'||e.target.firstChild.id=='home_map'){
              // console.log('鼠标离开',e);
-            _this.isShow=false;
+            // _this.isShow=false;
            }
          }
       },
@@ -1819,7 +1839,6 @@ export default {
         this.$api.post(this.Global.aport+'/home/getaj12data',{},
          r =>{
            if(r.success){
-             console.log(r.data.series['非法就业'])
              this.drawAjchart(r.data.legend,r.data.yAxis,r.data.series);
            }
          })
@@ -2343,6 +2362,40 @@ export default {
                   barWidth:15,
                   data:series['居留']
               },
+              {
+                  name:'停留',
+                  type:'bar',
+                  itemStyle:{
+                    normal:{
+                      label: {
+      									show: true, //开启显示
+      									position: 'top', //在上方显示
+      									textStyle: { //数值样式
+      										color: '#fff',
+      										fontSize: 12
+  									    }
+      								},
+                      color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                         offset: 0,
+                         color: '#895EDB'
+                       }, {
+                         offset: 1,
+                         color: '#5568D4'
+                       }])
+                    },
+                    emphasis:{
+                      color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                         offset: 0,
+                         color: '#D5C95D'
+                       }, {
+                         offset: 1,
+                         color: '#C39E69'
+                       }])
+                    },
+                  },
+                  barWidth:15,
+                  data:series['停留']
+              },
           ]
         })
       },
@@ -2356,45 +2409,22 @@ export default {
         this.jtFun();
         this.mapFun();
         this.$nextTick(()=>{
-          if(this.imgHeightTwo==0){
-            this.imgHeightOne=this.$refs.ajC.offsetHeight;
-            this.imgHeightTwo=this.$refs.lzC.offsetHeight;
-            this.imgHeightThr=this.$refs.zgC.offsetHeight;
-            this.imgHeightFor=this.$refs.jtC.offsetHeight;
-          }
-          document.getElementById("lzecharts").style.height=(this.imgHeightTwo-20)+'px';
-          document.getElementById("zgecharts").style.height=(this.imgHeightThr-20)+'px';
+          this.imgHeightOne=this.$refs.ajC.offsetHeight;//只以案件为准
+          if(this.imgHeightOne!=0){this.$store.commit('getOne',this.imgHeightOne)}//不等于0时存入
+          if(this.imgHeightOne==0){this.imgHeightOne = this.$store.state.imgHeightOne}//等于0时拿到缓存
+          //赋值
+          document.getElementById("lzecharts").style.height=(this.imgHeightOne-20)+'px';
+          document.getElementById("zgecharts").style.height=(this.imgHeightOne-20)+'px';
           document.getElementById("ajecharts").style.height=(this.imgHeightOne-20)+'px';
-          document.getElementById("jtecharts").style.height=(this.imgHeightFor)+'px';
-          this.$store.commit('getOne',this.imgHeightOne);
-          this.$store.commit('getTwo',this.imgHeightTwo);
-          this.$store.commit('getThr',this.imgHeightThr);
-          this.$store.commit('getFor',this.imgHeightFor);
-          // console.log(document.getElementById("lzecharts"),document.getElementById("zgecharts"),document.getElementById("ajecharts"),document.getElementById("jtecharts"))
-          console.log(this.imgHeightTwo-20,this.imgHeightThr-20,this.imgHeightOne-20,this.imgHeightFor);
+          document.getElementById("jtecharts").style.height=(this.imgHeightOne-50)+'px';
+          console.log(this.imgHeightOne);
         })
-
-        // this.drawAjchart();
-        // this.drawLzchart();
-        // this.drawZgchart();
-        // this.drawJtchart();
-        // this.drawLine(this.mapdata,null);
         window.addEventListener("resize", () => {
           this.ajCharts.resize();
           this.lzCharts.resize();
           this.zgCharts.resize();
           this.jtCharts.resize();
           this.mapCenter.resize();
-          this.$nextTick(()=>{
-            this.imgHeightOne=this.$refs.ajC.offsetHeight;
-            this.imgHeightTwo=this.$refs.lzC.offsetHeight;
-            this.imgHeightThr=this.$refs.zgC.offsetHeight;
-            this.imgHeightFor=this.$refs.jtC.offsetHeight;
-            document.getElementById("lzecharts").style.height=(this.imgHeightTwo-20)+'px';
-            document.getElementById("zgecharts").style.height=(this.imgHeightThr-20)+'px';
-            document.getElementById("ajecharts").style.height=(this.imgHeightOne-20)+'px';
-            document.getElementById("jtecharts").style.height=(this.imgHeightFor)+'px';
-          })
         });
       },
   },

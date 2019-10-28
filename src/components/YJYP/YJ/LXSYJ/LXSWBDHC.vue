@@ -73,6 +73,17 @@
                       <el-option value="1" label="是"></el-option>
                     </el-select>
                 </el-col>
+                <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
+                   <span class="input-text">上报单位：</span>
+                   <el-select v-model="pd.CZDWID" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input" :filter-method="userFilter" @visible-change="getDw();">
+                     <el-option
+                       v-for="(item,index) in dwdata"
+                       :key="index"
+                       :label="item.ZZJGDM+' - '+item.DWZWMC"
+                       :value="item.ZZJGDM">
+                     </el-option>
+                   </el-select>
+                </el-col>
           </el-row>
          </el-col>
         <el-col :span="2" class="down-btn-area">
@@ -107,6 +118,10 @@
            <el-table-column
              prop="CSRQ"
              label="出生日期">
+           </el-table-column>
+           <el-table-column
+             prop="DWZWMC"
+             label="上报单位">
            </el-table-column>
            <el-table-column
              prop="SFRJ_DESC"
@@ -770,6 +785,9 @@ export default {
       qzinfo:{},
       qzshow:false,
 
+      dwdata:[],
+      dwList:{},
+
     }
   },
   activated(){
@@ -783,9 +801,30 @@ export default {
     this.userCode=this.$store.state.uid;
     this.orgName=this.$store.state.orgname;
     this.orgCode=this.$store.state.orgid;
-
+    this.getDw();
   },
   methods: {
+    getDw(){
+      this.$api.post(this.Global.aport4+'/SWDW_SJSBController/getAllDW',{},
+        r =>{
+          if(r.success){
+            this.dwList = r.data.resultList;
+            this.userFilter();
+          }
+        })
+    },
+    userFilter(query = '') {
+             let arr = this.dwList.filter((item) => {
+              if(item.DWZWMC!=undefined){
+                  return item.DWZWMC.includes(query)
+               }
+             })
+             if (arr.length > 50) {
+               this.dwdata = arr.slice(0, 50)
+             } else {
+               this.dwdata= arr
+             }
+           },
     pageSizeChange(val) {
       this.pageSize=val;
       this.getList(this.CurrentPage, this.pageSize, this.pd);
