@@ -614,8 +614,15 @@ export default {
     this.yearFun();
     this.aaa();
     this.pdjhFun();
+    console.log('==',this.one,this.two,this.thr,this.fou);
   },
   activated(){},
+  computed:{
+    one(){return this.$refs.ajC.offsetHeight},
+    two(){return this.$refs.lzC.offsetHeight},
+    thr(){return this.$refs.zgC.offsetHeight},
+    fou(){return this.$refs.jtC.offsetHeight},
+  },
   watch: {
     fullHeight (val) {
        // if(!this.timer) {
