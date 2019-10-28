@@ -433,7 +433,7 @@ export default new Router({
         {
           path: 'CZDJBHL',
           name: 'CZDJBHL',
-          meta:{title:['数据分析','常住分析','常住登记变化量']},
+          meta:{title:['数据分析','常住分析','常住下发变化量']},
           component: resolve => require(['@/components/YJYP/YP/CZYP/CZDJBHL'], resolve),
         },
         {

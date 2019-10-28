@@ -11,10 +11,33 @@
         </div>
 
        <div class="top-nav">
+         <!-- <ul class="top-nav-ul">
+           <li class="top-nav-li hand" >
+             <img src="../assets/img/nicon.png" /> {{adminname}}  {{dwname}}
+           </li>
+           <li class="top-nav-li hand" @click="$router.push({name:'Index'})">
+             <img src="../assets/img/home.png" class="base-line"/>
+             <span>首页</span>
+           </li>
+           <li class="top-nav-li hand" @click="logOut">
+             <img src="../assets/img/close.png" class="base-line"/>
+             <span>退出</span>
+           </li>
+         </ul> -->
           <ul class="top-nav-ul">
-            <li class="top-nav-li hand" ><img src="../assets/img/nicon.png" /> {{adminname}}  {{dwname}}  <span class="modpwd" v-if="an" @click="$router.push({name:'XGMM'})">修改密码</span></li>
-            <li class="top-nav-li hand" @click="$router.push({name:'Index'})"><img src="../assets/img/home.png" /> 首页</li>
-            <li class="top-nav-li hand" @click="logOut"><img src="../assets/img/close.png" />退出</li>
+            <li class="top-nav-li hand">
+              <div><img src="../assets/img/nicon.png" class="base-line"/></div>
+              <span>{{adminname}} {{dwname}}</span>
+              <!-- <span class="modpwd" v-if="an" @click="$router.push({name:'XGMM'})">修改密码</span> -->
+            </li>
+            <li class="top-nav-li hand" @click="$router.push({name:'Index'})">
+              <div><img src="../assets/img/home.png" class="base-line"/></div>
+              <span style="width:30px">首页</span>
+            </li>
+            <li class="top-nav-li hand" @click="logOut">
+              <div><img src="../assets/img/close.png" class="base-line"/></div>
+              <span style="width:30px">退出</span>
+            </li>
           </ul>
         </div>
       </div>
@@ -416,34 +439,34 @@ export default {
 /*new*/
 .top-nav {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   font-size: 14px;
   width: 100%;
   padding-top: 20px;
+  flex-direction: column;
 }
 
 .top-nav-ul {
-  height: 50px;
+  height: 28px;
   display: flex;
   background: rgba(27, 92, 168, 0.50);
   color: #fff;
-  line-height: 50px;
+  line-height: 28px;
   border-radius: 6px 0 0 6px;
-
 }
 
 .top-nav-li {
-  text-align: center;
-  padding-left: 20px;
+  text-align: left;
+  padding-left: 10px;
+  display: flex;
 }
 
 .top-nav-li:hover,
 .topCheckLi {
   cursor: pointer;
   color:#FFCC00;
-
 }
-.topbg{font-size: 19px;width: 107px;height: 74px;line-height: 90px; text-align: center;cursor: pointer; color: #eeeeee}
-.topbg-a{background: url('../assets/img/btn_pre.png') no-repeat;width: 107px;height: 74px; font-weight: bold;}
-.topbg:hover{background: url('../assets/img/btn_pre.png') no-repeat;width: 107px;height: 74px; font-weight: bold;}
+.base-line{vertical-align: -3px;}
+.topbg-a{background: url('../assets/img/btn_pre.png') no-repeat;font-weight: bold;}
+.topbg:hover{background: url('../assets/img/btn_pre.png') no-repeat;font-weight: bold;}
 </style>

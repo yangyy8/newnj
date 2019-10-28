@@ -1010,6 +1010,11 @@ export default {
    this.getJB();
   },
   methods: {
+    goBackS(){
+      if(this.yjType==2){this.$router.push({name:'DQQZFFJYYJ'})}//持短期签证非法就业
+      if(this.yjType==1){this.$router.push({name:'WGRFFJLYJ'})}//外国人非法居留预警
+      if(this.yjType==20){this.$router.push({name:'GWHZYJ'})}//公务护照预警
+    },
     getJB(){
       console.log("this.$store.state.orgid",this.$store.state.orgid);
       let p = {
@@ -1110,14 +1115,14 @@ export default {
             "showCount": showCount,
             "pd": this.cdt,
             "orderBy": 'QZYXQZ',
-            "oorderType": 'DESC'
+            "orderType": 'DESC'
           };
           break;
         case 4:
           p={
             "currentPage": currentPage,
             "showCount": showCount,
-            "pd": this.cdt
+            "pd": this.cdt,
           };
           break;
         case 2:
@@ -1255,7 +1260,7 @@ export default {
             message: '处理成功！',
             type: 'success'
            });
-            this.$router.go(-1);
+            this.goBackS();
           }else {
             this.$message.error('处理失败了');
           }

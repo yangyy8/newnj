@@ -75,9 +75,12 @@ function apiAxios (method, url, params, success, failure,header,responseType) {
           }
           if(res.data.code=='1000001'){
             window.location.href ="#/";
-          }else if((!res.data.success)&&(res.data.success!=0)){
+          }else if((!res.data.success)){
             Message.error(res.data.message);
           }
+          // else if((!res.data.success)&&(res.data.success!=0)){
+          //   Message.error(res.data.message);
+          // }
       } else {
           if(loadingInstance1){
             loadingInstance1.close();

@@ -1174,7 +1174,6 @@ export default {
     }
   },
   activated(){
-    console.log('this.$route.query.sh_special',this.$route.query.sh_special)
     this.CurrentPage=1;
     this.CurrentPage1=1;
     this.CurrentPage2=1;
@@ -1295,6 +1294,14 @@ export default {
       this.getJB();
   },
   methods: {
+    goBackS(){
+      if(this.row.MXLX=="BKYJ"){this.$router.push({name:'ZBKYJ'})}//布控预警
+      if(this.row.MXLX=="LZ_HC"){this.$router.push({name:'LZHCYJ'})}//临住核查预警
+      if(this.row.MXLX=="LXS_SWLZYJ"){this.$router.push({name:'LXSSWLZ'})}//留学生市外临住预警
+      if(this.row.MXLX=="LXS_SKYJ"){this.$router.push({name:'LXSSKYJ'})}//留学生涉恐预警
+      if(this.row.MXLX=="LXS_CRJTX"){this.$router.push({name:'LXSCRJYJ'})}//留学生频繁出入境预警
+      if(this.row.MXLX=="QZ_HCYJ"){this.$router.push({name:'SLQFXXYJ'})}//受理签发信息核查预警
+    },
     getJB(){
 
       let p = {
@@ -1762,7 +1769,7 @@ export default {
              message: '保存成功',
              type: 'success'
            });
-           this.$router.go(-1);
+           this.goBackS();
          }
       })
   },

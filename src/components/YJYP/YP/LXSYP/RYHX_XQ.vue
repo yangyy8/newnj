@@ -737,7 +737,7 @@
 
       <!-- 留学生信息详情 -->
       <el-dialog title="留学生申请信息详情" :visible.sync="lxsDialogVisible"  custom-class="big_dialog" :append-to-body="false" :modal="false">
-                  <LXSXX :type="type" :xid="xid"></LXSXX>
+                  <LXSXX :type="type" :xid="xid" :random="new Date().getTime()"></LXSXX>
                   <div slot="footer" class="dialog-footer">
                     <el-button @click="lxsDialogVisible = false" size="small">取 消</el-button>
                   </div>
@@ -1424,7 +1424,8 @@ export default{
     },
     //留学生申请信息
     detailslxs(n){
-      this.xid=n.RGUID;
+      this.xid=n;
+      this.type=2;
       target.scrollIntoView();
       this.lxsDialogVisible=true;
     },

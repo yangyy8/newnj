@@ -82,12 +82,12 @@
            border
            ref="multipleTable"
            :highlight-current-row="true"
-           style="width: 100%"
-           >
-           <!-- <el-table-column
+           @select="selectfn"
+           style="width: 100%">
+           <el-table-column
              type="selection"
              width="55">
-           </el-table-column> -->
+           </el-table-column>
            <el-table-column
              prop="YWXM"
              label="英文姓名">
@@ -623,6 +623,11 @@ export default {
       randomasj:'',
       px:{},
       crjinfo:{},
+
+      multipleSelection:[],
+      selectionAll:[],
+      yuid:[],
+      selectionReal:[],
     }
   },
 
@@ -674,24 +679,24 @@ export default {
 
       this.CurrentPage1=val;
     },
-    // selectfn(a,b){
-    //   this.multipleSelection = a;
-    //   this.dataSelection()
-    // },
-    // dataSelection(){
-    //   // console.log('this.multipleSelection',this.multipleSelection)
-    //   this.selectionReal.splice(this.CurrentPage-1,1,this.multipleSelection);
-    //   // console.log('this.selectionReal',this.selectionReal);
-    //   this.selectionAll=[];
-    //   for(var i=0;i<this.selectionReal.length;i++){
-    //     if(this.selectionReal[i]){
-    //       for(var j=0;j<this.selectionReal[i].length;j++){
-    //         this.selectionAll.push(this.selectionReal[i][j])
-    //       }
-    //     }
-    //   }
-    //   // console.log('this.selectionAll',this.selectionAll);
-    // },
+    selectfn(a,b){
+      this.multipleSelection = a;
+      this.dataSelection()
+    },
+    dataSelection(){
+      // console.log('this.multipleSelection',this.multipleSelection)
+      this.selectionReal.splice(this.CurrentPage-1,1,this.multipleSelection);
+      // console.log('this.selectionReal',this.selectionReal);
+      this.selectionAll=[];
+      for(var i=0;i<this.selectionReal.length;i++){
+        if(this.selectionReal[i]){
+          for(var j=0;j<this.selectionReal[i].length;j++){
+            this.selectionAll.push(this.selectionReal[i][j])
+          }
+        }
+      }
+      // console.log('this.selectionAll',this.selectionAll);
+    },
     uploadFile(event){//获取上传的文件
       // const isEXL = event.target.files[0].type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
       // const isExls=event.target.files[0].type==='application/vnd.ms-excel';
@@ -750,6 +755,7 @@ export default {
       window.location.href =url;
     },
     download(){
+      let p={};
       console.log('this.tableData',this.tableData);
       if(this.tableData.length==0){
         this.$message({
@@ -758,38 +764,39 @@ export default {
         });
         return;
       }
-      var arr=this.tableData;
-      var srr=[];
-      for (var i = 0; i < arr.length; i++) {
-      srr.push(arr[i].RYBH);
-      }
-      var pes={
-        "RYBH":srr
-      };
-
-      let p={
-        "pd": pes,
-        "userCode":this.$store.state.uid,
-        "userName":this.$store.state.uname,
-      };
-      // if(this.selectionAll.length==0){//全部导出
-      //    p={
-      //     "pd":this.pd,
-      //     "orderBy":'BJSJ',
-      //     "orderType":'DESC'
-      //   }
-      // }else{//导出选中
-      //   this.yuid=[];
-      //   for(var i in this.selectionAll){
-      //     this.yuid.push(this.selectionAll[i].YJID)
-      //   };
-      //   this.pd.YJID=this.yuid;
-      //    p={
-      //     "pd":this.pd,
-      //     "orderBy":'BJSJ',
-      //     "orderType":'DESC',
-      //   }
+      // var arr=this.tableData;
+      // var srr=[];
+      // for (var i = 0; i < arr.length; i++) {
+      // srr.push(arr[i].RYBH);
       // }
+      // var pes={
+      //   "RYBH":srr
+      // };
+      //
+      // let p={
+      //   "pd": pes,
+      //   "userCode":this.$store.state.uid,
+      //   "userName":this.$store.state.uname,
+      // };
+      this.pd0.SCSJ_DateRange.begin==''?this.pd.SCSJ_DateRange.begin='':this.pd0.SCSJ_DateRange.begin==null?this.pd.SCSJ_DateRange.begin=null:this.pd.SCSJ_DateRange.begin=this.pd0.SCSJ_DateRange.begin+'000000';
+      this.pd0.SCSJ_DateRange.end==''?this.pd.SCSJ_DateRange.end='':this.pd0.SCSJ_DateRange.end==null?this.pd.SCSJ_DateRange.end=null:this.pd.SCSJ_DateRange.end=this.pd0.SCSJ_DateRange.end+'000000';
+      if(this.selectionAll.length==0){//全部导出
+        p={
+          "pd":this.pd,
+          "userCode":this.$store.state.uid,
+          "userName":this.$store.state.uname,
+        }
+      }else{//导出选中
+        this.yuid=[];
+        for(var i in this.selectionAll){
+          this.yuid.push(this.selectionAll[i].RYBH)
+        };
+        p={
+         "pd": {RYBH:this.yuid},
+         "userCode":this.$store.state.uid,
+         "userName":this.$store.state.uname,
+      }
+      }
       this.$api.post(this.Global.aport2+'/bjsc/exportdate',p,
         r =>{
           this.downloadM(r)
@@ -856,6 +863,9 @@ export default {
            }
            this.pd0.SCSJ_DateRange.begin==''?this.pd.SCSJ_DateRange.begin='':this.pd0.SCSJ_DateRange.begin==null?this.pd.SCSJ_DateRange.begin=null:this.pd.SCSJ_DateRange.begin=this.pd0.SCSJ_DateRange.begin+'000000';
            this.pd0.SCSJ_DateRange.end==''?this.pd.SCSJ_DateRange.end='':this.pd0.SCSJ_DateRange.end==null?this.pd.SCSJ_DateRange.end=null:this.pd.SCSJ_DateRange.end=this.pd0.SCSJ_DateRange.end+'000000';
+           if(pd.hasOwnProperty('RYBH')){
+             delete pd['RYBH']
+           }
            let p = {
              "currentPage": currentPage,
              "showCount": showCount,
@@ -869,6 +879,19 @@ export default {
           if(r.success){
             this.tableData = r.data.resultList;
             this.TotalResult = r.data.totalResult;
+            if(this.selectionReal.length==0){//声明一个数组对象
+              this.selectionReal=new Array(Math.ceil(this.TotalResult/showCount))
+            }
+            this.$nextTick(()=>{
+              this.multipleSelection=[]
+              for(var i=0;i<this.tableData.length;i++){
+                for(var j=0;j<this.selectionAll.length;j++){
+                  if(this.tableData[i].RYBH==this.selectionAll[j].RYBH){
+                    this.$refs.multipleTable.toggleRowSelection(this.tableData[i],true);
+                  }
+                }
+              }
+            })
           }
         })
       }

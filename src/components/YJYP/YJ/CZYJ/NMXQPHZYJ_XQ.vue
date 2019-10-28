@@ -179,10 +179,10 @@
           :data="tableData1"
           border
           style="width: 100%" class="stu-table">
-          <el-table-column
+          <!-- <el-table-column
           prop="RYBH"
           label="人员编号">
-          </el-table-column>
+          </el-table-column> -->
           <el-table-column
           prop="XXDZ"
           label="详细地址">
@@ -251,14 +251,14 @@
           prop="LSDWDZ"
           label="住宿地址">
           </el-table-column>
-          <el-table-column
+          <!-- <el-table-column
           prop="NLKRQ"
           label="拟离开时间">
           </el-table-column>
           <el-table-column
           prop="ZFZL_DESC"
           label="住宿类型">
-          </el-table-column>
+          </el-table-column> -->
           <el-table-column
           prop="DJDWMC"
           label="登记单位">
@@ -308,6 +308,18 @@
           border
           style="width: 100%" class="stu-table">
           <el-table-column
+            prop="IOSTRING"
+            label="出入境日期">
+          </el-table-column>
+          <el-table-column
+            prop="CRJBS_DESC"
+            label="出入境状态">
+          </el-table-column>
+          <el-table-column
+            prop="IOPORT_DESC"
+            label="出入境口岸">
+          </el-table-column>
+          <!-- <el-table-column
           prop="RYBH"
           label="人员编号">
           </el-table-column>
@@ -330,7 +342,7 @@
           <el-table-column
           prop="IOTIME"
           label="出入境时间">
-          </el-table-column>
+          </el-table-column> -->
           <el-table-column
           label="操作" width="80">
           <template slot-scope="scope">
@@ -564,7 +576,7 @@
     </div>
 
     <el-dialog title="临住信息详情" :visible.sync="lzxxDialogVisible" custom-class="big_dialog" :append-to-body="false" :modal="false">
-      <LZXX :type="type" :xid="xid"></LZXX>
+      <LZXX :type="type" :xid="xid" :rybh="rybh" :random="new Date().getTime()"></LZXX>
       <div slot="footer" class="dialog-footer">
         <el-button @click="lzxxDialogVisible = false" size="small">取 消</el-button>
       </div>
@@ -764,6 +776,7 @@ export default {
     details(n)
     { this.type=0;
       this.xid=n.DTID;
+      this.rybh=n.RYBH;
       this.lzxxDialogVisible=true;
     },
     getList(url,type){

@@ -126,7 +126,7 @@
            <el-col :span="24" class="yzform" data-scope="demo" data-name="ssdwdm" data-type="input"
             v-validate-easy="[['required']]">
            <span class="yy-input-text" >所属单位：</span>
-           <el-select v-model="from.ssdwdm"  filterable clearable  default-first-option class="yy-input-input" placeholder="请选择"  size="small">
+           <el-select v-model="from.ssdwdm"  filterable clearable  default-first-option class="yy-input-input" placeholder="请选择"  size="small" @change="dwChange()">
              <el-option
               v-for="item in company"
               :key="item.dm"
@@ -410,6 +410,7 @@ export default {
          this.$api.post(url, p,
          r => {
            this.company=r.data;
+           console.log('this.company',this.company);
          });
     },
     getList(currentPage, showCount, pd) {
@@ -469,8 +470,10 @@ export default {
 
         if (n != 0) {
           this.from=Object.assign({}, i);
-          this.from.ssdwdm=i.ssdw.dm;
-          this.from.ssdwmc=i.ssdw.mc;
+          this.$set(this.from,'ssdwdm',i.ssdw.dm);
+          // this.from.ssdwdm=i.ssdw.dm;
+          // this.$set(this.from,'ssdwmc',i.ssdw.mc);
+          // this.from.ssdwmc=i.ssdw.mc;
           this.dialogText="编辑";
           this.tp = 1;
         }else {
@@ -487,13 +490,13 @@ export default {
            formData.append("token", this.$store.state.token);
            formData.append("mc", this.from.mc);
            formData.append("ssdw.dm", this.from.ssdwdm);
-           formData.append("ssdw.mc", this.from.ssdwmc);
+           // formData.append("ssdw.mc", this.from.ssdwmc);
            formData.append("sfyx", this.from.sfyx);
          var url=this.Global.aport1+'/role/insertRole';
          if (this.tp == 1) {
            formData.append("id", this.from.id);
 
-            url=this.Global.aport1+'/role/UpdateRole';
+            url=this.Global.aport1+'/role/updateRole';
           }
           let p=formData;
          this.$api.post(url, p,

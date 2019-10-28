@@ -116,8 +116,8 @@
                 </el-col>
                 <el-col  :sm="24" :md="24" :lg="24"   class="input-item" v-if="rulesTotal!=0">
                    <span class="input-text" style="width: 7.3%;">分类标签：</span>
-                   <el-radio-group v-model="ruleType">
-                      <el-radio :label="item.RULE_NAME" v-for="(item,ind) in rules" :key="ind" @change="rulesKey(item.RULE_Map,item.RULE_Map_notIn)">{{item.RULE_NAME}}</el-radio>
+                   <el-radio-group v-model="ruleType" style="text-align:left">
+                      <el-radio :label="item.RULE_NAME" v-for="(item,ind) in rules" :key="ind" @change="rulesKey(item.RULE_Map,item.RULE_Map_notIn)" style="margin:5px 30px 7px 0px">{{item.RULE_NAME}}</el-radio>
                     </el-radio-group>
                 </el-col>
           </el-row>

@@ -318,7 +318,6 @@ export default {
     }
   },
   mounted(){
-      console.log("-=====this.id---"+this.xid);
       this.initData();
    },
   watch:{
@@ -368,16 +367,17 @@ export default {
      })
     },
     getData2(){
-      this.pp.RGUID=this.id;
-      let p = {
-        "pd": this.pp
-      };
-       this.$api.post(this.Global.aport3+'/ryhx/getlxjsbaseinfo', p,
-        r => {
-          if(r.data.resultList.length){
-            this.lxsinfo=r.data.resultList[0];
-          }
-      })
+      // this.pp.RGUID=this.id;
+      // let p = {
+      //   "pd": this.pp
+      // };
+      //  this.$api.post(this.Global.aport3+'/ryhx/getlxjsbaseinfo', p,
+      //   r => {
+      //     if(r.data.resultList.length){
+      //       this.lxsinfo=r.data.resultList[0];
+      //     }
+      // })
+      this.lxsinfo=this.id;
     },
     getData3(){
       this.pp.RGUID=this.id;
