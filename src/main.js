@@ -122,11 +122,14 @@ Vue.mixin({
     console.log(this.$vnode)
     // debugger;
     let flag = true
+    // console.log('store.state.tabList',store.state.tabList)
     store.state.tabList.forEach(e => {    // options存储打开的tabs的组件路由
+      // console.log('to==',to,'间隔from',from,'间隔e',e)
       if(from.path == e.fullPath) {
         // debugger;
         flag = false;
       }
+      // console.log('flag==',flag)
     })
 
     if(flag && this.$vnode.parent && this.$vnode.parent.componentInstance.cache) {

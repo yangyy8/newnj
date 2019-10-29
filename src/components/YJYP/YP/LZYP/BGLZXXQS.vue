@@ -6,18 +6,34 @@
         <el-col :span="22" class="br pr-20">
           <el-row align="center"   :gutter="2">
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-                  <span class="input-text">时间范围：</span>
+                  <span class="input-text">录入日期：</span>
                   <div class="input-input t-flex t-date">
                     <el-date-picker
-                        v-model="pd0.begin" format="yyyy-MM-dd"
+                        v-model="pd.LRRQ_DateRange.begin" format="yyyy-MM-dd"
                        type="date" size="small" value-format="yyyyMMdd"
                        placeholder="开始时间" >
                     </el-date-picker>
                     <span class="septum">-</span>
                     <el-date-picker
-                        v-model="pd0.end" format="yyyy-MM-dd"
+                        v-model="pd.LRRQ_DateRange.end" format="yyyy-MM-dd"
                         type="date" size="small" value-format="yyyyMMdd"
                         placeholder="结束时间" >
+                    </el-date-picker>
+                 </div>
+                </el-col>
+                <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                  <span class="input-text">住宿日期：</span>
+                  <div class="input-input t-flex t-date">
+                    <el-date-picker
+                       v-model="pd.ZSRQ_DateRange.begin" format="yyyy-MM-dd"
+                       type="date" size="small" value-format="yyyyMMdd"
+                       placeholder="开始时间" >
+                    </el-date-picker>
+                    <span class="septum">-</span>
+                    <el-date-picker
+                        v-model="pd.ZSRQ_DateRange.end" format="yyyy-MM-dd"
+                        type="date" size="small" value-format="yyyyMMdd"
+                        placeholder="结束时间">
                     </el-date-picker>
                  </div>
                 </el-col>
@@ -312,7 +328,7 @@ import LZXX from '../../../common/lzxx_xq'
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
-      pd:{LRRQ_DateRange:{},LRDW_BH_Like:'1',LRDW_BH:'1',DJDWXZQH:'3201',LB_SFBG:'2',ZSLX:'0',TYPE:'YF'},
+      pd:{LRRQ_DateRange:{begin:'',end:''},ZSRQ_DateRange:{begin:'',end:''},LRDW_BH_Like:'1',LRDW_BH:'1',DJDWXZQH:'3201',LB_SFBG:'2',ZSLX:'0',TYPE:'YF'},
       pdTu:{},
       pd0:{
         begin:'',
@@ -362,8 +378,6 @@ import LZXX from '../../../common/lzxx_xq'
       }
     },
     getListC(){
-      this.pd0.begin==''?this.pd.LRRQ_DateRange.begin='':this.pd0.begin==null?this.pd.LRRQ_DateRange.begin=null:this.pd.LRRQ_DateRange.begin=this.pd0.begin+'000000';
-      this.pd0.end==''?this.pd.LRRQ_DateRange.end='':this.pd0.end==null?this.pd.LRRQ_DateRange.end=null:this.pd.LRRQ_DateRange.end=this.pd0.end+'000000';
       //表格
       this.$api.post(this.Global.aport4+'/eS_LZ_LZXXController/getListByParam',{pd:this.pd},
        r =>{
@@ -381,8 +395,6 @@ import LZXX from '../../../common/lzxx_xq'
         });
         return
       }
-      this.pd0.begin==''?this.pd.LRRQ_DateRange.begin='':this.pd0.begin==null?this.pd.LRRQ_DateRange.begin=null:this.pd.LRRQ_DateRange.begin=this.pd0.begin+'000000';
-      this.pd0.end==''?this.pd.LRRQ_DateRange.end='':this.pd0.end==null?this.pd.LRRQ_DateRange.end=null:this.pd.LRRQ_DateRange.end=this.pd0.end+'000000';
       this.$api.post(this.Global.aport4+'/eS_LZ_LZXXController/exportList',{pd:this.pd},
        r =>{
          this.downloadM(r);
@@ -425,15 +437,13 @@ import LZXX from '../../../common/lzxx_xq'
         })
     },
     getList(){
-      // if((this.pd0.begin==''||this.pd0.begin==undefined||this.pd0.begin==null)&&(this.pd0.end==''||this.pd0.end==undefined||this.pd0.end==null)){
-      //   this.$message({
-      //     message: '时间范围不能为空',
-      //     type: 'warning'
-      //   });
-      //   return
-      // }
-      this.pd0.begin==''?this.pd.LRRQ_DateRange.begin='':this.pd0.begin==null?this.pd.LRRQ_DateRange.begin=null:this.pd.LRRQ_DateRange.begin=this.pd0.begin+'000000';
-      this.pd0.end==''?this.pd.LRRQ_DateRange.end='':this.pd0.end==null?this.pd.LRRQ_DateRange.end=null:this.pd.LRRQ_DateRange.end=this.pd0.end+'000000';
+      if(((this.pd.LRRQ_DateRange.begin!=''&&this.pd.LRRQ_DateRange.begin!=null)||(this.pd.LRRQ_DateRange.end!=''&&this.pd.LRRQ_DateRange.end!=null))&&((this.pd.ZSRQ_DateRange.begin!=''&&this.pd.ZSRQ_DateRange.begin!=null)||(this.pd.ZSRQ_DateRange.begin!=''&&this.pd.ZSRQ_DateRange.begin!=null))){
+        this.$alert('录入日期和住宿日二者只能选其一！', '提示', {
+          confirmButtonText: '确定',
+          type: 'warning'
+        })
+        return
+      }
       let p = {
         "pd": this.pd
       };
@@ -540,10 +550,6 @@ import LZXX from '../../../common/lzxx_xq'
          p=Object.assign({}, that.pd);
          if(p.hasOwnProperty('LRDW_BH_Like')){delete p.LRDW_BH_Like};
          if(p.hasOwnProperty('LRDW_BH')){delete p.LRDW_BH};
-         p.LRRQ_DateRange={
-           'begin':that.pd0.begin==''?'':that.pd0.begin==null?null:that.pd0.begin+'000000',
-           'end':that.pd0.end==''?'':that.pd0.end==null?null:that.pd0.end+'000000',
-         };
          p.HEADER=ydata;
          p.TIME=params.name;
          p.DW=params.seriesName;

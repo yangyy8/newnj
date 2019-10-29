@@ -88,18 +88,18 @@
            </el-table-column> -->
            <el-table-column
              prop="rgsbts"
-             label="人工干预">
+             label="待人工干预">
              <template slot-scope="scope">
              <a class="sb" @click="toLink (scope.row,'rgsbts')" > {{scope.row.rgsbts}} </a>
              </template>
            </el-table-column>
-           <!-- <el-table-column
-             prop="sbzts"
-             label="上报数据">
+           <el-table-column
+             prop="ygy"
+             label="已干预">
              <template slot-scope="scope">
-                <a class="sb" @click="toLink (scope.row,'sbzts')" href="#"> {{scope.row.sbzts}} </a>
+                <a class="sb" @click="toLink (scope.row,'ygy')"> {{scope.row.ygy}} </a>
              </template>
-           </el-table-column> -->
+           </el-table-column>
 
          </el-table>
      <!-- <div class="middle-foot">
