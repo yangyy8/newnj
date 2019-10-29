@@ -114,7 +114,6 @@
         </el-pagination>
       </div>
     </div>
-
     <el-dialog :title="dialogText" :visible.sync="addsDialogVisible" width="600px" >
     <el-form :model="from" ref="addForm" >
          <el-row :gutter="1">
