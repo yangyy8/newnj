@@ -230,7 +230,7 @@
         </el-col>
         <el-col :span="12" class="input-item">
           <span class="input-text">性别：</span>
-          <el-select v-model="pd.XBDM" placeholder="请选择"  filterable clearable default-first-option size="small" class="input-input">
+          <el-select v-model="editForm.XBDM" placeholder="请选择" @change="getLable(1,editForm.XBDM)"   filterable clearable default-first-option size="small" class="input-input">
             <el-option
               v-for="(item,ind3) in $store.state.xb"
               :key="ind3"
@@ -239,7 +239,17 @@
             </el-option>
           </el-select>
         </el-col>
-
+        <el-col :span="12" class="input-item">
+          <span class="input-text">国家地区：</span>
+          <el-select v-model="editForm.GJDQDM" filterable clearable default-first-option @change="getLable(2,editForm.GJDQDM)" placeholder="请选择"  size="small" class="input-input">
+            <el-option
+              v-for="item in $store.state.gjdq"
+              :key="item.dm"
+              :label="item.dm+' - '+item.mc"
+              :value="item.dm">
+            </el-option>
+          </el-select>
+        </el-col>
 
         <el-col :span="12" class="input-item">
          <span class="input-text">护照号码：</span>
@@ -247,7 +257,7 @@
         </el-col>
         <el-col :span="12" class="input-item">
           <span class="input-text" title="入境签证类型">入境签证类型：</span>
-          <el-select v-model="pd.RJQZLXDM" placeholder="请选择"  filterable clearable default-first-option size="small" class="input-input">
+          <el-select v-model="editForm.RJQZLXDM" placeholder="请选择" @change="getLable(3,editForm.RJQZLXDM)"   filterable clearable default-first-option size="small" class="input-input">
             <el-option
               v-for="(item,ind4) in $store.state.rjqzzl"
               :key="ind4"
@@ -258,7 +268,7 @@
         </el-col>
         <el-col :span="12" class="input-item">
           <span class="input-text">身份类型：</span>
-          <el-select v-model="pd.SFDM" placeholder="请选择"  filterable clearable default-first-option size="small" class="input-input">
+          <el-select v-model="editForm.SFDM" placeholder="请选择" @change="getLable(4,editForm.SFDM)"   filterable clearable default-first-option size="small" class="input-input">
             <el-option
               v-for="(item,ind5) in $store.state.sflx"
               :key="ind5"
@@ -455,7 +465,14 @@
                     </el-row>
                 </el-col>
                 <el-col :span="8" class="imgt">
-                     <img src="../../../assets/img/t1.png"  class="img">
+                     <el-carousel height="300px">
+                       <el-carousel-item  v-if="imgshow1" style="text-align: center;padding-top:10px;">
+                         <img  :src="props.row.ZPNR" width="400px;" height="250">
+                       </el-carousel-item>
+                       <el-carousel-item v-else style="text-align: center;padding-top:10px;">
+                         <img src="../../../assets/img/t1.png"  width="400px;" height="250">
+                       </el-carousel-item>
+                     </el-carousel>
                 </el-col>
               </el-row>
 
@@ -481,7 +498,7 @@
                     <span>{{ props.row.RJKA }}</span>
                   </el-form-item>
                 </el-col>
-                <el-col :span="8">
+                <!-- <el-col :span="8">
                   <el-form-item label="何处来：">
                     <span>{{ props.row.LYD }}</span>
                   </el-form-item>
@@ -490,12 +507,12 @@
                   <el-form-item label="何处去：">
                     <span>{{ props.row.GJDQ }}</span>
                   </el-form-item>
-                </el-col>
-                <el-col :span="8">
+                </el-col> -->
+                <!-- <el-col :span="8">
                   <el-form-item label="行政区划：">
                     <span>{{ props.row.DJDWXZQH }}</span>
                   </el-form-item>
-                </el-col>
+                </el-col> -->
                 <el-col :span="8">
                   <el-form-item label="入境事由：">
                     <span>{{ props.row.JLSY }}</span>
@@ -511,18 +528,23 @@
                     <span>{{ props.row.JDDW }}</span>
                   </el-form-item>
                 </el-col>
-                <el-col :span="8">
+                <!-- <el-col :span="8">
                   <el-form-item label="拟离开日期：">
                     <span>{{ props.row.NLKRQ }}</span>
                   </el-form-item>
-                </el-col>
+                </el-col> -->
                 <el-col :span="8">
                   <el-form-item label="投宿于：">
-                    <span>{{ props.row.LB_DJDW }}</span>
+                    <span>{{ props.row.LB_DJDW==1?"社会面":"酒店" }}</span>
                   </el-form-item>
                 </el-col>
-                <el-col :span="8">
+                <el-col :span="8" v-if="props.row.LB_DJDW==1">
                   <el-form-item label="标准化地址：">
+                    <span>{{ props.row.BZHDZMC }}</span>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8" v-if="props.row.LB_DJDW==2">
+                  <el-form-item label="旅馆名称：">
                     <span>{{ props.row.BZHDZMC }}</span>
                   </el-form-item>
                 </el-col>
@@ -538,7 +560,7 @@
                 </el-col>
                 <el-col :span="8">
                   <el-form-item label="派出所名称：">
-                    <span>{{ props.row.LB_DJDW }}</span>
+                    <span>{{ props.row.LRDW }}</span>
                   </el-form-item>
                 </el-col>
                 <el-col :span="8">
@@ -664,7 +686,6 @@
   </el-dialog>
 </div>
   </div>
-
 </template>
 <script>
 export default {
@@ -689,6 +710,7 @@ export default {
       options:this.pl.options,
       tableData: [],
       tableData1:[],
+      imgshow1: false,
 
     }
   },
@@ -700,6 +722,40 @@ export default {
      this.getList(this.CurrentPage,  this.pageSize, this.pd);
   },
   methods: {
+    getLable(t,val){
+      if(t==1){//性别
+
+        let obj = {};
+         obj = this.$store.state.xb.find((item)=>{
+             return item.dm === val;
+         });
+         this.editForm.XBMC = obj.mc;
+      }
+      if(t==2){//国家地区
+        let obj = {};
+         obj = this.$store.state.gjdq.find((item)=>{
+             return item.dm === val;
+         });
+         this.editForm.GJDQMC = obj.mc;
+      }
+      if(t==3){
+        let obj = {};
+         obj = this.$store.state.rjqzzl.find((item)=>{
+             return item.dm === val;
+         });
+         this.editForm.RJQZLXMC = obj.mc;
+
+      }
+      if(t==4){
+        let obj = {};
+         obj = this.$store.state.sflx.find((item)=>{
+             return item.dm === val;
+         });
+         this.editForm.SFMC = obj.mc;
+
+      }
+    },
+
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
@@ -732,6 +788,7 @@ export default {
               window.location.href ="#/";
           }
           this.tableData = r.data.resultList;
+
           this.TotalResult = r.data.totalResult;
         })
     },
@@ -749,7 +806,12 @@ export default {
           if(r.code=="1000001"){
               window.location.href ="#/";
           }
-          this.tableData1 = r.data;
+          this.tableData1 = r.data.resultList;
+          if(r.data.resultList.ZPNR==undefined){
+            this.imgshow1=false;
+          }else {
+            this.imgshow1=true;
+          }
           this.TotalResult1 = r.data.totalResult;
         })
 
@@ -783,7 +845,6 @@ export default {
         this.$refs[afrom].resetFields();
         this.editsDialogVisible = false;
         this.getList(this.CurrentPage,this.pageSize,this.pd);
-
       }, e => {
         this.$message.error('失败了');
       });

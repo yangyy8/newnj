@@ -184,7 +184,7 @@
             </el-col>
             <el-col :span="12" class="input-item">
               <span class="input-text">行政区划：</span>
-              <el-select v-model="editForm.XZQHDM" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
+              <el-select v-model="editForm.XZQHDM" @change="getLable(1,editForm.XZQHDM)" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
                 <el-option
                   v-for="(item,ind2) in $store.state.xzqh"
                   :key="ind2"
@@ -195,7 +195,7 @@
             </el-col>
             <el-col :span="12" class="input-item">
               <span class="input-text">签发机关：</span>
-              <el-select v-model="editForm.XZQHDM" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
+              <el-select v-model="editForm.QFJGDM" @change="getLable(2,editForm.QFJGDM)" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
                 <el-option
                   v-for="(item,ind3) in $store.state.qfjg"
                   :key="ind3"
@@ -211,7 +211,7 @@
             </el-col>
             <el-col :span="12" class="input-item">
               <span class="input-text">性别：</span>
-              <el-select v-model="editForm.XBDM" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
+              <el-select v-model="editForm.XBDM" @change="getLable(3,editForm.XBDM)" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
                 <el-option
                   v-for="(item,ind4) in $store.state.xb"
                   :key="ind4"
@@ -230,7 +230,7 @@
             </el-col>
             <el-col :span="12" class="input-item">
              <span class="input-text">国家地区：</span>
-             <el-select v-model="editForm.GJDQDM" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
+             <el-select v-model="editForm.GJDQDM" @change="getLable(4,editForm.GJDQDM)" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
                <el-option
                  v-for="(item,ind5) in $store.state.gjdq"
                  :key="ind5"
@@ -241,7 +241,7 @@
             </el-col>
             <el-col :span="12" class="input-item">
              <span class="input-text">证件种类：</span>
-             <el-select v-model="editForm.ZJZLDM" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
+             <el-select v-model="editForm.ZJZLDM" @change="getLable(5,editForm.ZJZLDM)" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
                <el-option
                  v-for="(item,ind6) in $store.state.zjzl"
                  :key="ind6"
@@ -256,7 +256,7 @@
             </el-col>
             <el-col :span="12" class="input-item">
               <span class="input-text">签证种类：</span>
-              <el-select v-model="editForm.RJQZLXDM" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
+              <el-select v-model="editForm.RJQZLXDM" @change="getLable(6,editForm.RJQZLXDM)" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
                 <el-option
                   v-for="(item,ind7) in $store.state.rjqzzl"
                   :key="ind7"
@@ -295,7 +295,7 @@
             </el-col>
             <el-col :span="12" class="input-item">
               <span class="input-text">入境口岸：</span>
-              <el-select v-model="editForm.RJKADM" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
+              <el-select v-model="editForm.RJKADM" @change="getLable(7,editForm.RJKADM)" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
                 <el-option
                   v-for="(item,ind8) in $store.state.rjkn"
                   :key="ind8"
@@ -539,7 +539,7 @@
                <el-col :span="12" class="input-item">
                  <span class="input-text">入境口岸：</span>
 
-                   <el-select v-model="editForm1.RJKADM" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
+                   <el-select v-model="editForm1.RJKADM" @change="getLable1(8,editForm1.RJKADM)"  filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
                      <el-option
                        v-for="(item,ind10) in $store.state.rjkn"
                        :key="ind10"
@@ -555,7 +555,7 @@
                </el-col>
                <el-col :span="12" class="input-item">
                  <span class="input-text">性别：</span>
-                   <el-select v-model="editForm1.XBDM" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
+                   <el-select v-model="editForm1.XBDM" @change="getLable1(3,editForm1.XBDM)" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
                      <el-option
                        v-for="(item,ind11) in $store.state.xb"
                        :key="ind11"
@@ -574,7 +574,7 @@
                </el-col>
                <el-col :span="12" class="input-item">
                 <span class="input-text">国家地区：</span>
-                  <el-select v-model="editForm1.GJDQDM" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
+                  <el-select v-model="editForm1.GJDQDM" @change="getLable1(4,editForm1.GJDQDM)" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
                     <el-option
                       v-for="(item,ind12) in $store.state.gjdq"
                       :key="ind12"
@@ -585,7 +585,7 @@
                </el-col>
                <el-col :span="12" class="input-item">
                 <span class="input-text">证件种类：</span>
-                  <el-select v-model="editForm1.ZJZLDM" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
+                  <el-select v-model="editForm1.ZJZLDM"  @change="getLable1(5,editForm1.ZJZLDM)" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
                     <el-option
                       v-for="(item,ind13) in $store.state.zjzl"
                       :key="ind13"
@@ -600,7 +600,7 @@
                </el-col>
                <el-col :span="12" class="input-item">
                  <span class="input-text">签证种类：</span>
-                 <el-select v-model="editForm1.RJQZLXDM" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
+                 <el-select v-model="editForm1.RJQZLXDM" @change="getLable1(6,editForm1.RJQZLXDM)" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
                    <el-option
                      v-for="(item,ind14) in $store.state.rjqzzl"
                      :key="ind14"
@@ -623,7 +623,7 @@
                </el-col>
                <el-col :span="12" class="input-item">
                  <span class="input-text">签发机关：</span>
-                 <el-select v-model="editForm1.QFJGDM" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
+                 <el-select v-model="editForm1.QFJGDM" @change="getLable1(7,editForm1.QFJGDM)" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
                    <el-option
                      v-for="(item,ind15) in $store.state.qfjg"
                      :key="ind15"
@@ -858,7 +858,7 @@
                </el-col>
                <el-col :span="12" class="input-item">
                  <span class="input-text">行政区划：</span>
-                 <el-select v-model="editForm2.XZQHDM" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
+                 <el-select v-model="editForm2.XZQHDM" @change="getLable2(1,editForm2.XZQHDM)" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
                    <el-option
                      v-for="(item,ind20) in $store.state.xzqh"
                      :key="ind20"
@@ -869,7 +869,7 @@
                </el-col>
                <el-col :span="12" class="input-item">
                  <span class="input-text">住宿登记地：</span>
-                 <el-select v-model="editForm2.ZSDJDDM" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
+                 <el-select v-model="editForm2.ZSDJDDM" @change="getLable2(2,editForm2.ZSDJDDM)" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
                    <el-option
                      v-for="(item,ind27) in $store.state.xzqh"
                      :key="ind27"
@@ -893,7 +893,7 @@
                </el-col>
                <el-col :span="12" class="input-item">
                  <span class="input-text">性别：</span>
-                 <el-select v-model="editForm2.XBDM" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
+                 <el-select v-model="editForm2.XBDM" @change="getLable2(3,editForm2.XBDM)"  filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
                    <el-option
                      v-for="(item,ind21) in $store.state.xb"
                      :key="ind21"
@@ -905,7 +905,7 @@
 
                <el-col :span="12" class="input-item">
                 <span class="input-text">国家地区：</span>
-                <el-select v-model="editForm2.GJDQDM" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
+                <el-select v-model="editForm2.GJDQDM" @change="getLable2(4,editForm2.GJDQDM)"  filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
                   <el-option
                     v-for="(item,ind22) in $store.state.gjdq"
                     :key="ind22"
@@ -916,7 +916,7 @@
                </el-col>
                <el-col :span="12" class="input-item">
                 <span class="input-text">证件种类：</span>
-                <el-select v-model="editForm2.ZJZLDM" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
+                <el-select v-model="editForm2.ZJZLDM" @change="getLable2(5,editForm2.ZJZLDM)" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
                   <el-option
                     v-for="(item,ind23) in $store.state.zjzl"
                     :key="ind23"
@@ -931,7 +931,7 @@
                </el-col>
                <el-col :span="12" class="input-item">
                  <span class="input-text">签证种类：</span>
-                 <el-select v-model="editForm2.RJQZLXDM" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
+                 <el-select v-model="editForm2.RJQZLXDM"  @change="getLable2(6,editForm2.RJQZLXDM)" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
                    <el-option
                      v-for="(item,ind24) in $store.state.rjqzzl"
                      :key="ind24"
@@ -947,7 +947,7 @@
 
                <el-col :span="12" class="input-item">
                  <span class="input-text">签发机关：</span>
-                 <el-select v-model="editForm2.QFJGDM" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
+                 <el-select v-model="editForm2.QFJGDM"  @change="getLable2(7,editForm2.QFJGDM)" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
                    <el-option
                      v-for="(item,ind25) in $store.state.qfjg"
                      :key="ind25"
@@ -982,7 +982,7 @@
                </el-col>
                <el-col :span="12" class="input-item">
                  <span class="input-text">入境口岸：</span>
-                 <el-select v-model="editForm2.RJKADM" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
+                 <el-select v-model="editForm2.RJKADM" @change="getLable2(8,editForm2.RJKADM)" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
                    <el-option
                      v-for="(item,ind26) in $store.state.rjkn"
                      :key="ind26"
@@ -1230,7 +1230,7 @@
                </el-col>
                <el-col :span="12" class="input-item">
                  <span class="input-text">口岸：</span>
-                 <el-select v-model="editForm3.KADM" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
+                 <el-select v-model="editForm3.KADM" @change="getLable3(8,editForm3.KADM)" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
                    <el-option
                      v-for="(item,ind31) in $store.state.rjkn"
                      :key="ind31"
@@ -1247,7 +1247,7 @@
                </el-col>
                <el-col :span="12" class="input-item">
                  <span class="input-text">性别：</span>
-                 <el-select v-model="editForm3.XBDM" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
+                 <el-select v-model="editForm3.XBDM" @change="getLable3(3,editForm3.XBDM)" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
                    <el-option
                      v-for="(item,ind32) in $store.state.xb"
                      :key="ind32"
@@ -1267,7 +1267,7 @@
 
                <el-col :span="12" class="input-item">
                 <span class="input-text">入境证件种类：</span>
-                  <el-select v-model="editForm3.RJZJZLDM" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
+                  <el-select v-model="editForm3.RJZJZLDM" @change="getLable3(5,editForm3.RJZJZLDM)" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
                     <el-option
                       v-for="(item,ind33) in $store.state.zjzl"
                       :key="ind33"
@@ -1282,7 +1282,7 @@
                </el-col>
                <el-col :span="12" class="input-item">
                  <span class="input-text">签证种类：</span>
-                 <el-select v-model="editForm3.QZLXDM" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
+                 <el-select v-model="editForm3.QZLXDM" @change="getLable3(6,editForm3.QZLXDM)" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
                    <el-option
                      v-for="(item,ind34) in $store.state.rjqzzl"
                      :key="ind34"
@@ -1304,8 +1304,8 @@
                  </el-date-picker>
                   </el-col>
                <el-col :span="12" class="input-item">
-                 <span class="input-text" title="签证有效日期">签证地：</span>
-                 <el-select v-model="editForm3.QFDDM" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
+                 <span class="input-text" title="签证地">签证地：</span>
+                 <el-select v-model="editForm3.QFDDM"  @change="getLable3(4,editForm3.QFDDM)" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
                    <el-option
                      v-for="(item,ind35) in $store.state.qfjg"
                      :key="ind35"
@@ -1332,7 +1332,7 @@
                </el-col>
                <el-col :span="12" class="input-item">
                  <span class="input-text">最后住宿登记地：</span>
-                 <el-select v-model="editForm3.ZHZSDJDDM" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
+                 <el-select v-model="editForm3.ZHZSDJDDM" @change="getLable3(1,editForm3.ZHZSDJDDM)" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
                    <el-option
                      v-for="(item,ind36) in $store.state.xzqh"
                      :key="ind36"
@@ -1533,6 +1533,236 @@ export default {
 
   },
   methods: {
+    getLable(t,val){
+     if(t==1){//行政区划
+
+       let obj = {};
+        obj = this.$store.state.xzqh.find((item)=>{
+            return item.dm === val;
+        });
+        this.editForm.XZQHMC = obj.mc;
+     }
+     if(t==2){//签发机关
+       let obj = {};
+        obj = this.$store.state.qfjg.find((item)=>{
+            return item.dm === val;
+        });
+        this.editForm.QFJGMC = obj.mc;
+     }
+     if(t==3){//性别
+       let obj = {};
+        obj = this.$store.state.xb.find((item)=>{
+            return item.dm === val;
+        });
+        this.editForm.XBMC = obj.mc;
+     }
+     if(t==4){//国家地区
+       let obj = {};
+        obj = this.$store.state.gjdq.find((item)=>{
+            return item.dm === val;
+        });
+        this.editForm.GJDQMC = obj.mc;
+     }
+     if(t==5){//证件种类
+       let obj = {};
+        obj = this.$store.state.zjzl.find((item)=>{
+            return item.dm === val;
+        });
+        this.editForm.ZJZLMC = obj.mc;
+     }
+     if(t==6){//签证种类
+       let obj = {};
+        obj = this.$store.state.rjqzzl.find((item)=>{
+            return item.dm === val;
+        });
+        this.editForm.RJQZLXMC = obj.mc;
+     }
+
+     if(t==7){//入境口岸
+       let obj = {};
+        obj = this.$store.state.rjkn.find((item)=>{
+            return item.dm === val;
+        });
+        this.editForm.RJKAMC = obj.mc;
+     }
+   },
+   getLable1(t,val){
+    if(t==1){//行政区划
+
+      let obj = {};
+       obj = this.$store.state.xzqh.find((item)=>{
+           return item.dm === val;
+       });
+       this.editForm1.XZQHMC = obj.mc;
+    }
+    if(t==2){//住宿登记地
+      let obj = {};
+       obj = this.$store.state.xzqh.find((item)=>{
+           return item.dm === val;
+       });
+       this.editForm1.ZSDJDMC = obj.mc;
+    }
+    if(t==3){//性别
+      let obj = {};
+       obj = this.$store.state.xb.find((item)=>{
+           return item.dm === val;
+       });
+       this.editForm1.XBMC = obj.mc;
+    }
+    if(t==4){//国家地区
+      let obj = {};
+       obj = this.$store.state.gjdq.find((item)=>{
+           return item.dm === val;
+       });
+       this.editForm1.GJDQMC = obj.mc;
+    }
+    if(t==5){//证件种类
+      let obj = {};
+       obj = this.$store.state.zjzl.find((item)=>{
+           return item.dm === val;
+       });
+       this.editForm1.ZJZLMC = obj.mc;
+    }
+    if(t==6){//签证种类
+      let obj = {};
+       obj = this.$store.state.rjqzzl.find((item)=>{
+           return item.dm === val;
+       });
+       this.editForm1.RJQZLXMC = obj.mc;
+    }
+    if(t==7){//签发机关
+      let obj = {};
+       obj = this.$store.state.qfjg.find((item)=>{
+           return item.dm === val;
+       });
+       this.editForm1.QFJGMC = obj.mc;
+    }
+    if(t==8){//入境口岸
+      let obj = {};
+       obj = this.$store.state.rjkn.find((item)=>{
+           return item.dm === val;
+       });
+       this.editForm1.RJKAMC = obj.mc;
+    }
+  },
+    getLable2(t,val){
+     if(t==1){//行政区划
+
+       let obj = {};
+        obj = this.$store.state.xzqh.find((item)=>{
+            return item.dm === val;
+        });
+        this.editForm2.XZQHMC = obj.mc;
+     }
+     if(t==2){//住宿登记地
+       let obj = {};
+        obj = this.$store.state.xzqh.find((item)=>{
+            return item.dm === val;
+        });
+        this.editForm2.ZSDJDMC = obj.mc;
+     }
+     if(t==3){//性别
+       let obj = {};
+        obj = this.$store.state.xb.find((item)=>{
+            return item.dm === val;
+        });
+        this.editForm2.XBMC = obj.mc;
+     }
+     if(t==4){//国家地区
+       let obj = {};
+        obj = this.$store.state.gjdq.find((item)=>{
+            return item.dm === val;
+        });
+        this.editForm2.GJDQMC = obj.mc;
+     }
+     if(t==5){//证件种类
+       let obj = {};
+        obj = this.$store.state.zjzl.find((item)=>{
+            return item.dm === val;
+        });
+        this.editForm2.ZJZLMC = obj.mc;
+     }
+     if(t==6){//签证种类
+       let obj = {};
+        obj = this.$store.state.rjqzzl.find((item)=>{
+            return item.dm === val;
+        });
+        this.editForm2.RJQZLXMC = obj.mc;
+     }
+     if(t==7){//签发机关
+       let obj = {};
+        obj = this.$store.state.qfjg.find((item)=>{
+            return item.dm === val;
+        });
+        this.editForm2.QFJGMC = obj.mc;
+     }
+     if(t==8){//入境口岸
+       let obj = {};
+        obj = this.$store.state.rjkn.find((item)=>{
+            return item.dm === val;
+        });
+        this.editForm2.RJKAMC = obj.mc;
+     }
+   },
+   getLable3(t,val){
+    if(t==1){//行政区划
+
+      let obj = {};
+       obj = this.$store.state.xzqh.find((item)=>{
+           return item.dm === val;
+       });
+       this.editForm3.ZHZSDJDMC = obj.mc;
+    }
+    if(t==2){//住宿登记地
+      let obj = {};
+       obj = this.$store.state.xzqh.find((item)=>{
+           return item.dm === val;
+       });
+       this.editForm3.ZSDJDMC = obj.mc;
+    }
+    if(t==3){//性别
+      let obj = {};
+       obj = this.$store.state.xb.find((item)=>{
+           return item.dm === val;
+       });
+       this.editForm3.XBMC = obj.mc;
+    }
+    if(t==4){//国家地区
+      let obj = {};
+       obj = this.$store.state.gjdq.find((item)=>{
+           return item.dm === val;
+       });
+       this.editForm3.QFDMC = obj.mc;
+    }
+    if(t==5){//证件种类
+      let obj = {};
+       obj = this.$store.state.zjzl.find((item)=>{
+           return item.dm === val;
+       });
+       this.editForm3.RJZJZLMC = obj.mc;
+    }
+    if(t==6){//签证种类
+      let obj = {};
+       obj = this.$store.state.rjqzzl.find((item)=>{
+           return item.dm === val;
+       });
+       this.editForm3.QZLXMC = obj.mc;
+    }
+    if(t==7){//签发机关
+      let obj = {};
+       obj = this.$store.state.qfjg.find((item)=>{
+           return item.dm === val;
+       });
+       this.editForm3.QFJGMC = obj.mc;
+    }
+    if(t==8){//入境口岸
+      let obj = {};
+       obj = this.$store.state.rjkn.find((item)=>{
+           return item.dm === val;
+       });
+       this.editForm3.KAMC = obj.mc;
+    }
+  },
     base() {
       this.page = 0;
     },
@@ -1683,12 +1913,20 @@ export default {
       var url = "";
       if (t == 0) {
         url = this.Global.aport3 + "/drffjlyndjlxk/updateFFJL_YNDJLXK";
+        this.editForm.token=this.$store.state.token;
+        ff=this.editForm;
       } else if (t == 1) {
         url = this.Global.aport3 + "/drffjlyrjkawzswjlxk/updateFFJL_YRJKAWZSWJLXK";
+        this.editForm1.token=this.$store.state.token;
+        ff=this.editForm1;
       } else if (t == 2) {
         url = this.Global.aport3 + "/drffjlyzswjlxk/updateFFJL_YZSWJLXK";
+        this.editForm2.token=this.$store.state.token;
+        ff=this.editForm2;
       } else if (t == 3) {
         url = this.Global.aport3 + "/drffjlyqynrcjtxz/updateFFJL_YQYNRCJTXZ";
+        this.editForm3.token=this.$store.state.token;
+        ff=this.editForm3;
       }
 
       this.$api.post(url, ff,

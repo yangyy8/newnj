@@ -186,7 +186,7 @@
         </el-col>
         <el-col :span="12" class="input-item">
           <span class="input-text">性别：</span>
-          <el-select v-model="editForm.XBDM" placeholder="请选择"  filterable clearable default-first-option size="small" class="input-input">
+          <el-select v-model="editForm.XBDM" placeholder="请选择" @change="getLable(1,editForm.XBDM)"  filterable clearable default-first-option size="small" class="input-input">
             <el-option
               v-for="(item,ind) in $store.state.xb"
               :key="ind"
@@ -205,7 +205,7 @@
         </el-col>
         <el-col :span="12" class="input-item">
           <span class="input-text">移民签证种类：</span>
-          <el-select v-model="editForm.YMQZZLDM" filterable clearable  default-first-option placeholder="请选择"  size="small" class="input-input">
+          <el-select v-model="editForm.YMQZZLDM" @change="getLable(2,editForm.YMQZZLDM)"  filterable clearable  default-first-option placeholder="请选择"  size="small" class="input-input">
             <el-option
               v-for="(item,ind1) in $store.state.ymqzzl"
               :key="ind1"
@@ -216,7 +216,7 @@
         </el-col>
         <el-col :span="12" class="input-item">
           <span class="input-text">签证国家：</span>
-          <el-select v-model="editForm.QZGJDM" filterable clearable  default-first-option placeholder="请选择"  size="small" class="input-input">
+          <el-select v-model="editForm.QZGJDM" @change="getLable(3,editForm.QZGJDM)" filterable clearable  default-first-option placeholder="请选择"  size="small" class="input-input">
             <el-option
               v-for="(item,ind1) in $store.state.gjdq"
               :key="ind1"
@@ -353,7 +353,30 @@ export default {
   this.actions = window.IPConfig.IP+this.Global.aport3;
   },
   methods: {
+    getLable(t,val){
+         if(t==1){//性别
 
+           let obj = {};
+            obj = this.$store.state.xb.find((item)=>{
+                return item.dm === val;
+            });
+            this.editForm.XBMC = obj.mc;
+         }
+         if(t==2){
+           let obj = {};
+            obj = this.$store.state.ymqzzl.find((item)=>{
+                return item.dm === val;
+            });
+            this.editForm.YMQZZLMC = obj.mc;
+         }
+         if(t==3){
+           let obj = {};
+            obj = this.$store.state.gjdq.find((item)=>{
+                return item.dm === val;
+            });
+            this.editForm.QZGJMC = obj.mc;
+         }
+       },
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },

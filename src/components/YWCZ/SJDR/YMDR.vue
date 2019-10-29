@@ -195,7 +195,7 @@
         </el-col>
         <el-col :span="12" class="input-item">
           <span class="input-text">移民申请状态：</span>
-          <el-select v-model="editForm.YMSQZTDM" filterable clearable  default-first-option placeholder="请选择"  size="small" class="input-input">
+          <el-select v-model="editForm.YMSQZTDM" filterable clearable @change="getLable(1,editForm.YMSQZTDM)"  default-first-option placeholder="请选择"  size="small" class="input-input">
             <el-option
               v-for="(item,ind1) in $store.state.ymsqzt"
               :key="ind1"
@@ -206,7 +206,7 @@
         </el-col>
         <el-col :span="12" class="input-item">
           <span class="input-text">前往国：</span>
-          <el-select v-model="editForm.QWGDM" filterable clearable  default-first-option placeholder="请选择"  size="small" class="input-input">
+          <el-select v-model="editForm.QWGDM" filterable clearable  @change="getLable(2,editForm.QWGDM)"  default-first-option placeholder="请选择"  size="small" class="input-input">
             <el-option
               v-for="(item,ind1) in $store.state.gjdq"
               :key="ind1"
@@ -217,7 +217,7 @@
         </el-col>
         <el-col :span="12" class="input-item">
           <span class="input-text">移民种类：</span>
-          <el-select v-model="editForm.YMZLDM" filterable clearable  default-first-option placeholder="请选择"  size="small" class="input-input">
+          <el-select v-model="editForm.YMZLDM" filterable clearable @change="getLable(3,editForm.YMZLDM)"  default-first-option placeholder="请选择"  size="small" class="input-input">
             <el-option
               v-for="(item,ind1) in $store.state.ymzl"
               :key="ind1"
@@ -377,6 +377,30 @@ export default {
   this.actions = window.IPConfig.IP+this.Global.aport3;
   },
   methods: {
+    getLable(t,val){
+    if(t==1){//移民申请状态
+
+      let obj = {};
+       obj = this.$store.state.ymsqzt.find((item)=>{
+           return item.dm === val;
+       });
+       this.editForm.YMSQZTMC = obj.mc;
+    }
+    if(t==2){//前往国
+      let obj = {};
+       obj = this.$store.state.gjdq.find((item)=>{
+           return item.dm === val;
+       });
+       this.editForm.QWGMC = obj.mc;
+    }
+    if(t==3){//移民种类
+      let obj = {};
+       obj = this.$store.state.ymzl.find((item)=>{
+           return item.dm === val;
+       });
+       this.editForm.YMZLMC = obj.mc;
+    }
+  },
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },

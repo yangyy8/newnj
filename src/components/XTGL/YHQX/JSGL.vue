@@ -114,7 +114,6 @@
         </el-pagination>
       </div>
     </div>
-
     <el-dialog :title="dialogText" :visible.sync="addsDialogVisible" width="600px" >
     <el-form :model="from" ref="addForm" >
          <el-row :gutter="1">
@@ -126,7 +125,7 @@
            <el-col :span="24" class="yzform" data-scope="demo" data-name="ssdwdm" data-type="input"
             v-validate-easy="[['required']]">
            <span class="yy-input-text" >所属单位：</span>
-           <el-select v-model="from.ssdwdm"  filterable clearable  default-first-option class="yy-input-input" placeholder="请选择"  size="small" @change="dwChange()">
+           <el-select v-model="from.ssdwdm"  filterable clearable  default-first-option class="yy-input-input" placeholder="请选择"  size="small">
              <el-option
               v-for="item in company"
               :key="item.dm"

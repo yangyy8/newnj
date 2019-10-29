@@ -410,10 +410,7 @@ export default {
                           borderColor:'#277cdc'
                         }
                      },
-                    // symbol: 'emptyCircle',
-
-                    edgeSymbol:['none','none'],
-
+                    symbol: 'emptyCircle',
                     symbolSize: 8,
 
                 }
