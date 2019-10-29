@@ -61,13 +61,6 @@
         <div class="content">
 
           <img src="../assets/img/sg/map2.png" />
-          <div id="home_bg1" class="mapdwbg1"></div>
-          <div id="home_bg1" class="mapdwbg2"></div>
-          <div id="home_bg1" class="mapdwbg3"></div>
-          <div id="home_bg1" class="mapdwbg4"></div>
-          <div id="home_bg1" class="mapdwbg5"></div>
-          <div id="home_bg1" class="mapdwbg6"></div>
-          <div id="home_bg1" class="mapdwbg7"></div>
           <div id="home_map" class="mapy"></div>
           <div id="home_line" class="mapline"></div>
           <div id="home_map1" class="mapdw"></div>
@@ -171,7 +164,7 @@ export default {
           [[11, 12, '江宁区', 10, 40]],
           [[3, 17, '浦口区', 10, 40]],
           [[18, 7, '溧水区', 10, 40]],
-          [[12, 0.5, '高淳区', 10, 40]],
+          [[12, 1, '高淳区', 10, 40]],
           [[11, 22, '栖霞区', 10, 30]],
           [[7, 16, '雨花台区', 10, 20]],
           [[10, 20, '鼓楼区', 10, 20]],
@@ -312,6 +305,7 @@ export default {
                var arr=r.data.series;
                 for (var i = 0; i < arr.length; i++) {
                   var gg=this.getGrid(i);
+
                   this.drawLine(arr[i],gg,'home_map'+(i+1),r.data.series[i]['lzvalue'],r.data.series[i]['czvalue']);
                 }
            }
@@ -341,7 +335,7 @@ export default {
                   show: false
                 },
                 series: [{ //江北新区
-                    data: [[15,89], [4, 107]],
+                    data: [[15,89], [5,107], [0, 107]],
                     type: 'line',
                     itemStyle:{
             						normal:{
@@ -351,7 +345,7 @@ export default {
 					           },
                 },
                 {//栖霞区
-                    data: [[21, 85], [33, 115], [36, 117]],
+                    data: [[21, 85], [35, 115], [40, 115]],
                     type: 'line',
                     itemStyle:{
             						normal:{
@@ -371,7 +365,7 @@ export default {
                      },
                 },
                 {//玄武区
-                    data: [[23, 80], [35, 92], [40, 93]],
+                    data: [[23, 80], [35, 95], [40, 95]],
                     type: 'line',
                     itemStyle:{
                         normal:{
@@ -381,7 +375,7 @@ export default {
                      },
                 },
                 {//秦淮区
-                    data: [[24,70], [35, 72],[40, 74]],
+                    data: [[24,70], [35, 75],[40, 75]],
                     type: 'line',
                     itemStyle:{
                         normal:{
@@ -391,7 +385,7 @@ export default {
                      },
                 },
                 {//建邺区
-                    data: [[17, 65], [36, 51]],
+                    data: [[16, 65], [35, 52],[40, 52]],
                     type: 'line',
                     itemStyle:{
                         normal:{
@@ -401,21 +395,14 @@ export default {
                      },
                 },
                 {//雨花台区
-                    data: [[13, 56],[4, 38]],
+                    data: [[11, 56], [5, 23],[0, 23]],
                     type: 'line',
                     itemStyle:{
                         normal:{
                           show:true,
-                          color:'#05DDF2',
-                          borderColor:'#277cdc'
+                          color:'#05DDF2'
                         }
                      },
-                    // symbol: 'emptyCircle',
-
-                    edgeSymbol:['none','none'],
-
-                    symbolSize: 8,
-
                 }
               ]
           },true)
@@ -513,7 +500,7 @@ export default {
                       formatter: function(v) {
                           return v.value[2];
                       },
-                      fontSize: 14,
+                      fontSize: 10,
                       fontWeight:'bold',
                       rich: {
                           name: {
@@ -551,7 +538,7 @@ export default {
                         formatter: function(v) {
                             return v.value[2];
                         },
-                        fontSize: 14,
+                        fontSize: 11,
                         fontWeight:'bold',
                         rich: {
                             name: {
@@ -588,7 +575,7 @@ export default {
                           formatter: function(v) {
                               return v.value[2];
                           },
-                          fontSize: 14,
+                          fontSize: 11,
                           fontWeight:'bold',
                           rich: {
                               name: {
@@ -626,7 +613,7 @@ export default {
                             formatter: function(v) {
                                 return v.value[2];
                             },
-                            fontSize: 14,
+                            fontSize: 11,
                             rich: {
                                 name: {
                                     textBorderColor: '#fff'
@@ -663,7 +650,7 @@ export default {
                       formatter: function(v) {
                           return v.value[2];
                       },
-                      fontSize: 14,
+                      fontSize: 11,
                       rich: {
                           name: {
                               textBorderColor: '#fff'
@@ -699,7 +686,7 @@ export default {
                         formatter: function(v) {
                             return v.value[2];
                         },
-                        fontSize: 14,
+                        fontSize: 11,
                         rich: {
                             name: {
                                 textBorderColor: '#fff'
@@ -736,7 +723,7 @@ export default {
                         formatter: function(v) {
                             return v.value[2];
                         },
-                        fontSize: 14,
+                        fontSize: 11,
                         rich: {
                             name: {
                                 textBorderColor: '#fff'
@@ -773,7 +760,7 @@ export default {
                         formatter: function(v) {
                             return v.value[2];
                         },
-                        fontSize: 14,
+                        fontSize: 11,
                         rich: {
                             name: {
                                 textBorderColor: '#fff'
@@ -809,7 +796,7 @@ export default {
                         formatter: function(v) {
                             return v.value[2];
                         },
-                        fontSize: 14,
+                        fontSize: 11,
                         fontWeight:'bold',
                         rich: {
                             name: {
@@ -847,7 +834,7 @@ export default {
                         formatter: function(v) {
                             return v.value[2];
                         },
-                        fontSize: 14,
+                        fontSize: 11,
                         rich: {
                             name: {
                                 textBorderColor: '#fff'
@@ -885,7 +872,7 @@ export default {
                         formatter: function(v) {
                             return v.value[2];
                         },
-                        fontSize: 14,
+                        fontSize: 11,
                         rich: {
                             name: {
                                 textBorderColor: '#fff'
@@ -922,7 +909,7 @@ export default {
                         formatter: function(v) {
                             return v.value[2];
                         },
-                        fontSize: 14,
+                        fontSize: 11,
                         rich: {
                             name: {
                                 textBorderColor: '#fff'
@@ -942,40 +929,40 @@ export default {
         // console.log(i);
         var gg=
         {
-          left: '47%',
-          right: '44%',
+          left: '48%',
+          right: '41%',
           bottom: '82%',
-          top:'12%',
+          top:'10%',
           containLabel: true
         }//六合区
         switch (i) {
           case 1://江北新区
           gg=
           {
-            left: '10%',
-            right: '78%',
-            bottom: '79%',
-            top:'15%',
+            left: '9%',
+            right: '80%',
+            bottom: '78%',
+            top:'14%',
             containLabel: true
           }
           break;
           case 2://栖霞区
           gg=
           {
-            left: '74%',
-            right: '14%',
-            bottom: '86%',
-            top:'8%',
+            left: '80%',
+            right: '9%',
+            bottom: '83%',
+            top:'9%',
             containLabel: true
           }
           break;
           case 3://玄武区
           gg=
           {
-            left: '79%',
+            left: '80%',
             right: '9%',
             bottom: '70%',
-            top:'24%',
+            top:'22%',
             containLabel: true
           }
           break;
@@ -983,18 +970,18 @@ export default {
           gg=
           {
             left: '80%',
-            right: '8%',
-            bottom: '56%',
-            top:'38%',
+            right: '9%',
+            bottom: '55%',
+            top:'37%',
             containLabel: true
           }
           break;
           case 5://鼓楼区
           gg=
           {
-            left: '5%',
-            right: '83%',
-            bottom: '66%',
+            left: '9%',
+            right: '80%',
+            bottom: '64%',
             top:'28%',
             containLabel: true
           }
@@ -1002,60 +989,60 @@ export default {
           case 6://浦口区
           gg=
           {
-            left: '27%',
-            right: '66%',
-            bottom: '54%',
-            top:'40%',
+            left: '22%',
+            right: '67%',
+            bottom: '53%',
+            top:'39%',
             containLabel: true
           }
           break;
           case 7://建邺区
           gg=
           {
-            left: '74%',
-            right: '14%',
+            left: '80%',
+            right: '9%',
             bottom: '40%',
-            top:'54%',
+            top:'52%',
             containLabel: true
           }
           break;
           case 8://雨花台区
           gg=
           {
-            left: '10%',
-            right: '78%',
-            bottom: '32%',
-            top:'62%',
+            left: '9%',
+            right: '80%',
+            bottom: '20%',
+            top:'72%',
             containLabel: true
           }
           break;
           case 9://江宁区
           gg=
           {
-            left: '43%',
-            right: '50%',
-            bottom: '40%',
-            top:'54%',
+            left: '44%',
+            right: '45%',
+            bottom: '39%',
+            top:'53%',
             containLabel: true
           }
           break;
           case 10://溧水区
           gg=
           {
-            left: '58%',
-            right: '33%',
-            bottom: '26%',
-            top:'68%',
+            left: '63%',
+            right: '26%',
+            bottom: '25%',
+            top:'67%',
             containLabel: true
           }
           break;
           case 11://高淳区
           gg=
           {
-            left: '58%',
-            right: '33%',
-            bottom: '6%',
-            top:'88%',
+            left: '60%',
+            right: '29%',
+            bottom: '3%',
+            top:'89%',
             containLabel: true
           }
           break;
@@ -1073,87 +1060,50 @@ export default {
         let _this = this;
         _this.mapCenter.setOption({
           xAxis: {
-            type: 'value',
-            axisLine:{
-                lineStyle:{
-                    color:'#fff',
-                    width:0,
-                },
-            },
-            axisTick:{//去掉坐标刻度线
-              show:false,
-            },
-            axisLabel: {
-              show: false //这行代码控制着坐标轴x轴的文字是否显示
-            },
-            splitLine:{
-              show:false
-            },
-
+               type: 'category',
+               data: ['临住','常住'],
+               axisLine:{
+                   lineStyle:{
+                       color:'#01DEEC',
+                       fontSize:9
+                   }
+               },
+               splitLine: { //网格线
+                 show: false
+               },
+               axisTick:{//去掉坐标刻度线
+                 show:false,
+               },
+               triggerEvent:true
            },
            grid:grid,
            yAxis: {
-             type: 'category',
-             data: ['常住','临住'],
-             axisLine:{
-                 lineStyle:{
-                     color:'#01DEEC',
-                     width:0,
-                     fontSize:11
-                 }
-             },
-             splitLine: { //网格线
-               show: false
-             },
-             axisTick:{//去掉坐标刻度线
-               show:false,
-             },
-
-
+               type: 'value',
+               axisLine:{
+                   lineStyle:{
+                       color:'#fff',
+                       width:0,
+                   },
+               },
+               axisTick:{//去掉坐标刻度线
+                 show:false,
+               },
+               axisLabel: {
+                 show: false //这行代码控制着坐标轴x轴的文字是否显示
+               },
+               splitLine:{
+                 show:false
+               }
            }
          ,
            series: [
              {
 
               type: 'bar',
-              barWidth:8,
+              barWidth:10,
               // barGap:'1%',/*多个并排柱子设置柱子之间的间距*/
               barCategoryGap:-1,/*多个并排柱子设置柱子之间的间距*/
               data: [
-
-                {
-                    name:'常住',
-                    type:'bar',
-                    // barGap:'1%',/*多个并排柱子设置柱子之间的间距*/
-                    // barCategoryGap:'1%',/*多个并排柱子设置柱子之间的间距*/
-                    itemStyle:{
-                      normal:{
-                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                           offset: 0,
-                           color: '#1CC9A1'
-                         }, {
-                           offset: 1,
-                           color: '#4371CE'
-                         }])
-                      },
-                      emphasis:{
-                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                           offset: 0,
-                           color: '#D5C95D'
-                         }, {
-                           offset: 1,
-                           color: '#C39E69'
-                         }])
-                      },
-                    },
-                    label:{
-                      show:true,
-                      color:'#fff',
-                      position: 'right', //在上方显示
-                      fontSize:12
-                    },
-                    value:czdata
-                },
                 {
                     name:'临住',
                     type:'bar',
@@ -1182,10 +1132,43 @@ export default {
                     label:{
                       show:true,
                       color:'#fff',
-                      position: 'right', //在上方显示
+                      position: 'top', //在上方显示
                       fontSize:12,
                     },
                     value:lzdata,
+                },
+                {
+                    name:'常住',
+                    type:'bar',
+                    // barGap:'1%',/*多个并排柱子设置柱子之间的间距*/
+                    // barCategoryGap:'1%',/*多个并排柱子设置柱子之间的间距*/
+                    itemStyle:{
+                      normal:{
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                           offset: 0,
+                           color: '#1CC9A1'
+                         }, {
+                           offset: 1,
+                           color: '#4371CE'
+                         }])
+                      },
+                      emphasis:{
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                           offset: 0,
+                           color: '#D5C95D'
+                         }, {
+                           offset: 1,
+                           color: '#C39E69'
+                         }])
+                      },
+                    },
+                    label:{
+                      show:true,
+                      color:'#fff',
+                      position: 'top', //在上方显示
+                      fontSize:12
+                    },
+                    value:czdata
                 },
               ],
            },

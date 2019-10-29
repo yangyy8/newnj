@@ -42,6 +42,12 @@ export default new Router({
     component:resolve => require(['@/components/Screen'], resolve),
     },
     {
+    path:'/dpinfo',
+    name:'dpinfo',
+    meta: {logined:true},
+    component:resolve => require(['@/components/dpinfo'], resolve),
+    },
+    {
     path:'/indexmap',
     name:'Indexmap',
     meta: {logined:true},

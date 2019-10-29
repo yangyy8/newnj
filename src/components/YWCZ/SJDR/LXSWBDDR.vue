@@ -167,7 +167,7 @@
         </el-col>
         <el-col :span="12" class="input-item">
           <span class="input-text">性别：</span>
-          <el-select v-model="editform.XBDM" placeholder="请选择"  filterable clearable default-first-option size="small" class="input-input">
+          <el-select v-model="editform.XBDM" placeholder="请选择" @change="getLable(1,editform.XBDM)"  filterable clearable default-first-option size="small" class="input-input">
             <el-option
               v-for="(item,ind1) in $store.state.xb"
               :key="ind1"
@@ -182,7 +182,7 @@
         </el-col>
         <el-col :span="12" class="input-item">
           <span class="input-text">国家地区：</span>
-          <el-select v-model="editform.GJDQDM" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
+          <el-select v-model="editform.GJDQDM" filterable clearable default-first-option @change="getLable(2,editform.GJDQDM)" placeholder="请选择"  size="small" class="input-input">
             <el-option
               v-for="item in $store.state.gjdq"
               :key="item.dm"
@@ -293,7 +293,23 @@ export default {
      //this.getList(this.CurrentPage,this.pageSize,this.pd);
   },
   methods: {
+    getLable(t,val){
+         if(t==1){//性别
 
+           let obj = {};
+            obj = this.$store.state.xb.find((item)=>{
+                return item.dm === val;
+            });
+            this.editform.XBMC = obj.mc;
+         }
+         if(t==2){
+           let obj = {};
+            obj = this.$store.state.gjdq.find((item)=>{
+                return item.dm === val;
+            });
+            this.editform.GJDQMC = obj.mc;
+         }
+       },
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
@@ -344,12 +360,14 @@ export default {
             message: '保存成功！',
             type: 'success'
           });
+          this.editsDialogVisible = false;
+            this.getList(this.CurrentPage,this.pageSize,this.pd);
         } else {
           this.$message.error(r.Message);
         }
         this.$refs[afrom].resetFields();
-        this.editsDialogVisible = false;
-        this.getList(this.CurrentPage,this.pageSize,this.pd);
+
+
       }, e => {
         this.$message.error('失败了');
       });
