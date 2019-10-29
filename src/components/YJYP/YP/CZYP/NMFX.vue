@@ -246,8 +246,13 @@ export default {
       pageSize: 10,
       TotalResult: 0,
       ALLResult:0,
-      pd: {CSRQ_DateRange:{},ZCRQ_DateRange:{}},
-      pd0: {},
+      pd: {CSRQ_DateRange:{begin:'',end:''},ZCRQ_DateRange:{begin:'',end:''}},
+      pd0: {
+        beginCS:'',
+        endCS:'',
+        beginZC:'',
+        endZC:'',
+      },
       pm:{},
       configHeader:[],
       tableData:[],
@@ -425,23 +430,27 @@ export default {
    // }else {
    //    this.disa=false;
    // }
-      if(this.pd0.beginCS!=undefined && this.pd0.endCS!=undefined && this.pd0.beginCS!=null && this.pd0.endCS!=null){
-        this.pd.CSRQ_DateRange.begin=this.pd0.beginCS;
-        this.pd.CSRQ_DateRange.end=this.pd0.endCS;
-      }else if(this.pd0.beginCS==null && this.pd0.endCS==null){
-          this.pd.ZCRQ_DateRange={};
-       }else{
-          this.open("出生日期开始时间和结束时间都不能为空！");return ;
-      }
-      if(this.pd0.beginZC!=undefined && this.pd0.endZC!=undefined && this.pd0.beginZC!=null && this.pd0.endZC!=null){
-        this.pd.ZCRQ_DateRange.begin=this.pd0.beginZC;
-        this.pd.ZCRQ_DateRange.end=this.pd0.endZC;
-      }else if(this.pd0.beginZC==null && this.pd0.endZC==null){
-        this.pd.ZCRQ_DateRange={};
-     }else{
-          this.open("注册日期的开始时间和结束时间都不能为空！");return ;
-      }
+     //  if(this.pd0.beginCS!=undefined && this.pd0.endCS!=undefined && this.pd0.beginCS!=null && this.pd0.endCS!=null){
+     //    this.pd.CSRQ_DateRange.begin=this.pd0.beginCS;
+     //    this.pd.CSRQ_DateRange.end=this.pd0.endCS;
+     //  }else if(this.pd0.beginCS==null && this.pd0.endCS==null){
+     //      this.pd.ZCRQ_DateRange={};
+     //   }else{
+     //      this.open("出生日期开始时间和结束时间都不能为空！");return ;
+     //  }
+     //  if(this.pd0.beginZC!=undefined && this.pd0.endZC!=undefined && this.pd0.beginZC!=null && this.pd0.endZC!=null){
+     //    this.pd.ZCRQ_DateRange.begin=this.pd0.beginZC;
+     //    this.pd.ZCRQ_DateRange.end=this.pd0.endZC;
+     //  }else if(this.pd0.beginZC==null && this.pd0.endZC==null){
+     //    this.pd.ZCRQ_DateRange={};
+     // }else{
+     //      this.open("注册日期的开始时间和结束时间都不能为空！");return ;
+     //  }
       console.log('this.pd.ZCRQ_DateRange',this.pd.ZCRQ_DateRange,this.pd0.endZC);
+      this.pd.CSRQ_DateRange.begin=this.pd0.beginCS;
+      this.pd.CSRQ_DateRange.end=this.pd0.endCS;
+      this.pd.ZCRQ_DateRange.begin=this.pd0.beginZC;
+      this.pd.ZCRQ_DateRange.end=this.pd0.endZC;
       if(this.rs!=0)
       {
         this.pd.RS=this.rs;
