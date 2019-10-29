@@ -481,7 +481,7 @@
                     <span>{{ props.row.RJKA }}</span>
                   </el-form-item>
                 </el-col>
-                <el-col :span="8">
+                <!-- <el-col :span="8">
                   <el-form-item label="何处来：">
                     <span>{{ props.row.LYD }}</span>
                   </el-form-item>
@@ -490,12 +490,12 @@
                   <el-form-item label="何处去：">
                     <span>{{ props.row.GJDQ }}</span>
                   </el-form-item>
-                </el-col>
-                <el-col :span="8">
+                </el-col> -->
+                <!-- <el-col :span="8">
                   <el-form-item label="行政区划：">
                     <span>{{ props.row.DJDWXZQH }}</span>
                   </el-form-item>
-                </el-col>
+                </el-col> -->
                 <el-col :span="8">
                   <el-form-item label="入境事由：">
                     <span>{{ props.row.JLSY }}</span>
@@ -664,7 +664,6 @@
   </el-dialog>
 </div>
   </div>
-
 </template>
 <script>
 export default {
@@ -689,7 +688,6 @@ export default {
       options:this.pl.options,
       tableData: [],
       tableData1:[],
-
     }
   },
   mounted() {
@@ -744,12 +742,12 @@ export default {
         	"orderType":"DESC",
           "token":this.$store.state.token
       };
-      this.$api.post(this.Global.aport3+'/ywescxlszsdjxx/getLSZSDJXXList', p,
+      this.$api.post('http://10.0.30.63:9439/ywescxlszsdjxx/getLSZSDJXXList', p,
         r => {
           if(r.code=="1000001"){
               window.location.href ="#/";
           }
-          this.tableData1 = r.data;
+          this.tableData1 = r.data.resultList;
           this.TotalResult1 = r.data.totalResult;
         })
 
@@ -783,7 +781,6 @@ export default {
         this.$refs[afrom].resetFields();
         this.editsDialogVisible = false;
         this.getList(this.CurrentPage,this.pageSize,this.pd);
-
       }, e => {
         this.$message.error('失败了');
       });
