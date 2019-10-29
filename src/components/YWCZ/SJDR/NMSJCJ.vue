@@ -511,18 +511,23 @@
                     <span>{{ props.row.JDDW }}</span>
                   </el-form-item>
                 </el-col>
-                <el-col :span="8">
+                <!-- <el-col :span="8">
                   <el-form-item label="拟离开日期：">
                     <span>{{ props.row.NLKRQ }}</span>
                   </el-form-item>
-                </el-col>
+                </el-col> -->
                 <el-col :span="8">
                   <el-form-item label="投宿于：">
-                    <span>{{ props.row.LB_DJDW }}</span>
+                    <span>{{ props.row.LB_DJDW==1?"社会面":"酒店" }}</span>
                   </el-form-item>
                 </el-col>
-                <el-col :span="8">
+                <el-col :span="8" v-if="props.row.LB_DJDW==1">
                   <el-form-item label="标准化地址：">
+                    <span>{{ props.row.BZHDZMC }}</span>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8" v-if="props.row.LB_DJDW==2">
+                  <el-form-item label="旅馆名称：">
                     <span>{{ props.row.BZHDZMC }}</span>
                   </el-form-item>
                 </el-col>
@@ -538,7 +543,7 @@
                 </el-col>
                 <el-col :span="8">
                   <el-form-item label="派出所名称：">
-                    <span>{{ props.row.LB_DJDW }}</span>
+                    <span>{{ props.row.LRDW }}</span>
                   </el-form-item>
                 </el-col>
                 <el-col :span="8">
