@@ -535,7 +535,7 @@
             </el-col>
             <el-col :span="8" class="input-item">
               <span class="input-text">处理对象类别：</span>
-              <span class="input-input detailinput">  {{data6.objectType}}</span>
+              <span class="input-input detailinput">  {{data6.objectType_desc}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
               <span class="input-text">案事件类别：</span>

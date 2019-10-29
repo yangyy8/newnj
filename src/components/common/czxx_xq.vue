@@ -761,7 +761,7 @@
           <el-row :gutter="3"  class="mb-6">
             <el-col :span="8" class="input-item">
               <span class="input-text" title="走访信息类别">走访信息类别：</span>
-              <span class="input-input detailinput">  {{zfinfo.GZXXLB}}</span>
+              <span class="input-input detailinput">  {{zfinfo.GZXXLB_DESC}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
               <span class="input-text" title="走访信息标题">走访信息标题：</span>

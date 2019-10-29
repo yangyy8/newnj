@@ -307,7 +307,7 @@
 
             <el-col :span="8" class="input-item">
               <span class="input-text">入住方式：</span>
-              <span class="input-input detailinput"> {{jzinfo.RZFS}}</span>
+              <span class="input-input detailinput"> {{jzinfo.RZFS_DESC}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
               <span class="input-text" title="居住初始状态产生时间">居住初始状态产生时间：</span>
@@ -319,7 +319,7 @@
             </el-col>
             <el-col :span="8" class="input-item">
               <span class="input-text">登记单位：</span>
-              <span class="input-input detailinput">  {{jzinfo.DJDW}}</span>
+              <span class="input-input detailinput">  {{jzinfo.DJDW_DESC}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
               <span class="input-text">登记人：</span>
@@ -331,7 +331,7 @@
             </el-col>
             <el-col :span="8" class="input-item">
               <span class="input-text" title="居住状态类型">居住状态类型：</span>
-              <span class="input-input detailinput">  {{jzinfo.ZT_JZZT}}</span>
+              <span class="input-input detailinput">  {{jzinfo.ZT_JZZT_DESC}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
               <span class="input-text">是否核对：</span>
@@ -359,7 +359,7 @@
             </el-col>
             <el-col :span="8" class="input-item">
               <span class="input-text">更新单位：</span>
-              <span class="input-input detailinput">  {{jzinfo.GXDW}}</span>
+              <span class="input-input detailinput">  {{jzinfo.GXDW_DESC}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
               <span class="input-text">数据来源：</span>
@@ -715,7 +715,7 @@
           <el-row :gutter="3"  class="mb-6">
             <el-col :span="8" class="input-item">
               <span class="input-text" title="走访信息类别">走访信息类别：</span>
-              <span class="input-input detailinput">  {{zfinfo.GZXXLB}}</span>
+              <span class="input-input detailinput">  {{zfinfo.GZXXLB_DESC}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
               <span class="input-text" title="走访信息标题">走访信息标题：</span>
@@ -727,7 +727,7 @@
             </el-col>
             <el-col :span="8" class="input-item">
               <span class="input-text" title="登记单位">登记单位：</span>
-              <span class="input-input detailinput">  {{zfinfo.DJDW}}</span>
+              <span class="input-input detailinput">  {{zfinfo.DJDW_DESC}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
               <span class="input-text" title="登记人">登记人：</span>
@@ -755,7 +755,7 @@
             </el-col>
             <el-col :span="8" class="input-item">
               <span class="input-text" title="更新单位">更新单位：</span>
-              <span class="input-input detailinput">  {{zfinfo.GXDW}}</span>
+              <span class="input-input detailinput">  {{zfinfo.GXDW_DESC}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
               <span class="input-text" title="数据来源">数据来源：</span>
@@ -889,7 +889,7 @@
             </el-col>
             <el-col :span="8" class="input-item">
               <span class="input-text" title="登记单位">登记单位：</span>
-              <span class="input-input detailinput">  {{abinfo.DJDW}}</span>
+              <span class="input-input detailinput">  {{abinfo.DJDW_DESC}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
               <span class="input-text" title="登记时间">登记时间：</span>
@@ -1019,7 +1019,7 @@
             </el-col>
             <el-col :span="8" class="input-item">
               <span class="input-text">登记单位：</span>
-              <span class="input-input detailinput">  {{lginfo.DJDW}}</span>
+              <span class="input-input detailinput">  {{lginfo.DJDW_DESC}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
               <span class="input-text">登记人：</span>
@@ -1161,7 +1161,7 @@
           </el-col>
           <el-col :span="8" class="input-item">
             <span class="input-text">登记单位：</span>
-            <span class="input-input detailinput">  {{thinfo.DJDW}}</span>
+            <span class="input-input detailinput">  {{thinfo.DJDW_DESC}}</span>
           </el-col>
         </el-row>
         </div>

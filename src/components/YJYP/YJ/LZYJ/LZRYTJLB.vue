@@ -55,7 +55,7 @@
            label="登记单位">
          </el-table-column>
          <el-table-column
-           prop="ssfj"
+           prop="ssfjmc"
            label="所属分局">
          </el-table-column>
          <el-table-column

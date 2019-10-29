@@ -229,7 +229,9 @@
           </div>
         </div>
         <div v-show="page==1">
-          <el-button type="primary" size="small" class="mb-5" @click="exportexcel">导出</el-button>
+          <div style="width:100%;text-align:right">
+            <el-button type="primary" size="small" class="mb-5" @click="exportexcel">导出</el-button>
+          </div>
           <el-table
              :data="tableData"
              border

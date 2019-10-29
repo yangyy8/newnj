@@ -119,17 +119,19 @@ router.beforeResolve((to, from, next) => {
 // 全局混入，关闭tab时清除组件缓存
 Vue.mixin({
   beforeRouteLeave(to, from, next) {
+    console.log(this.$vnode)
+    // debugger;
     let flag = true
-    // console.log(store.state.tabList)
-    // console.log(from.path)
     store.state.tabList.forEach(e => {    // options存储打开的tabs的组件路由
       if(from.path == e.fullPath) {
-        flag = false
+        // debugger;
+        flag = false;
       }
     })
-    console.log(this.$vnode)
+
     if(flag && this.$vnode.parent && this.$vnode.parent.componentInstance.cache) {
-      //debugger;
+      // debugger;
+      console.log('首页进来',this.$vnode.parent,this.$vnode.parent.componentInstance.cache);
       let key = this.$vnode.tag.split('-')[2]   // 当前关闭的组件名
       let cache = this.$vnode.parent.componentInstance.cache  // 缓存的组件
       let keys = this.$vnode.parent.componentInstance.keys  // 缓存的组件名
