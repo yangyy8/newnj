@@ -30,14 +30,15 @@
                                <span class="input-text">案事件编号：</span>
                                <span class="input-input detailinput">  {{aForm1.caseNO}}</span>
                               </el-col>
+                              <el-col :span="16" class="input-item">
+                               <span class="input-text" style="width:17.5%!important">案件名称：</span>
+                               <span class="input-input detailinput" style="width:77.5%!important">  {{aForm1.caseName}}</span>
+                              </el-col>
                               <el-col :span="8" class="input-item">
                                 <span class="input-text">案件来源：</span>
                                 <span class="input-input detailinput">  {{aForm1.caseOrigion_desc}}</span>
                               </el-col>
-                              <el-col :span="8" class="input-item">
-                               <span class="input-text">案件名称：</span>
-                               <span class="input-input detailinput">  {{aForm1.caseName}}</span>
-                              </el-col>
+
                               <el-col :span="8" class="input-item">
                                <span class="input-text">案件侵害关系：</span>
                                <span class="input-input detailinput">  {{aForm1.aggressionRelation_desc}}</span>
@@ -85,10 +86,6 @@
                               <el-col :span="8" class="input-item">
                                 <span class="input-text" title="案发地管辖机关联系电话">案发地管辖机关联系电话：</span>
                                 <span class="input-input detailinput">  {{aForm1.venueOrgTel}}</span>
-                              </el-col>
-                              <el-col :span="8" class="input-item">
-                                <span class="input-text">基本案情：</span>
-                                <span class="input-input detailinput">  {{aForm1.basicCase}}</span>
                               </el-col>
 
                               <el-col :span="8" class="input-item">
@@ -659,6 +656,12 @@
                                 <span class="input-text" title="入库时间">入库时间：</span>
                                 <span class="input-input detailinput">  {{aForm1.RKSJ}}</span>
                               </el-col> -->
+                          </el-row>
+                          <el-row :gutter="3"  class="mb-6">
+                            <el-col :span="24" class="input-item">
+                              <span class="input-text" style="width:11.6%!important">基本案情：</span>
+                              <span class="input-input detailinput" style="width:85%!important">  {{aForm1.basicCase}}</span>
+                            </el-col>
                           </el-row>
                         </el-form>
 
