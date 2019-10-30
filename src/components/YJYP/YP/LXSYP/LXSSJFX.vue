@@ -127,6 +127,11 @@
                     <el-button type="primary" size="mini" @click="doset()">重置</el-button>
                   </el-col>
                 </el-row>
+                <el-row type="flex" v-if="ccshow">
+                  <el-col :span="24" style="text-align:center;font-size:16px;">
+                        统计总数：<span style="color:red">{{count}}</span>
+                  </el-col>
+                </el-row>
              </div>
             </el-collapse-transition>
         </div>
@@ -247,6 +252,8 @@ export default {
        result:[],
        centers:[],
        ssfjsub:'',
+       ccshow:false,
+       count:0,
 
     }
   },
@@ -290,6 +297,7 @@ export default {
         this.$set(this.pd,"sspcs",'');
         this.$set(this.pd,"jzztlx",'');
         this.$set(this.pd,"ssfj",'');
+        this.ccshow=false;
     },
     getGX(){
       this.$api.get(this.Global.aport1+'/servicemap/getUniversity',null,
@@ -375,7 +383,7 @@ export default {
 }
         }
       }
-      this.show=false;
+      // this.show=false;
       getSearch(this.centers);
   	},
     //获取派出所   不用
@@ -396,7 +404,7 @@ export default {
             if (r.success) {
               var arr=r.data;
               for (var i = 0; i < arr.length; i++) {
-              searchResult.push(arr[i]);
+                searchResult.push(arr[i]);
               }
 
               callback && callback(searchResult)
@@ -434,9 +442,17 @@ export default {
             if (r.success) {
               var arr=r.data;
               for (var i = 0; i < arr.length; i++) {
-              searchResult.push(arr[i]);
+
+                  if(arr[i].SumList==undefined)
+                  {
+                    searchResult.push(arr[i]);
+                  }else {
+                    this.count=arr[i].SumList;
+                    this.ccshow=true;
+                  }
               }
               if(searchResult.length==0){
+                this.ccshow=false;
                 this.$message.error("没有查询到数据信息! ");return ;
               }
               callback && callback(searchResult,this.ssfjsub)
