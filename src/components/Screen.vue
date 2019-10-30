@@ -389,7 +389,7 @@ export default {
                      symbol: 'image://static/cyc.png',
                 },
                 {//秦淮区
-                    data: [[25.5,71],[40, 74]],
+                    data: [[23,73],[40, 74]],
                     type: 'line',
                     itemStyle:{
                         normal:{

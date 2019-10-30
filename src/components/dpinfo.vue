@@ -334,8 +334,9 @@ export default {
                     },
                   show: false
                 },
-                series: [{ //江北新区
-                    data: [[15,89], [5,107], [0, 107]],
+                series: [
+                  { //江北新区
+                    data: [[17,89], [5,107], [0, 107]],
                     type: 'line',
                     itemStyle:{
             						normal:{
@@ -343,6 +344,8 @@ export default {
             							color:'#05DDF2'
             						}
 					           },
+                     symbolSize: 7,
+                     symbol: 'image://static/cyc.png',
                 },
                 {//栖霞区
                     data: [[21, 85], [35, 115], [40, 115]],
@@ -353,9 +356,11 @@ export default {
             							color:'#05DDF2'
             						}
 					           },
+                     symbolSize: 7,
+                     symbol: 'image://static/cyc.png',
                 },
                 {//鼓楼区
-                    data: [[17, 76], [5, 87],[0, 87]],
+                    data: [[18, 77], [5, 87],[0, 87]],
                     type: 'line',
                     itemStyle:{
                         normal:{
@@ -363,9 +368,11 @@ export default {
                           color:'#05DDF2'
                         }
                      },
+                     symbolSize: 7,
+                     symbol: 'image://static/cyc.png',
                 },
                 {//玄武区
-                    data: [[23, 80], [35, 95], [40, 95]],
+                    data: [[24, 81], [35, 95], [40, 95]],
                     type: 'line',
                     itemStyle:{
                         normal:{
@@ -373,9 +380,11 @@ export default {
                           color:'#05DDF2'
                         }
                      },
+                     symbolSize: 7,
+                     symbol: 'image://static/cyc.png',
                 },
                 {//秦淮区
-                    data: [[24,70], [35, 75],[40, 75]],
+                    data: [[23,73],[40, 75]],
                     type: 'line',
                     itemStyle:{
                         normal:{
@@ -383,9 +392,11 @@ export default {
                           color:'#05DDF2'
                         }
                      },
+                     symbolSize: 7,
+                     symbol: 'image://static/cyc.png',
                 },
                 {//建邺区
-                    data: [[16, 65], [35, 52],[40, 52]],
+                    data: [[18, 64], [35, 52],[40, 52]],
                     type: 'line',
                     itemStyle:{
                         normal:{
@@ -393,9 +404,11 @@ export default {
                           color:'#05DDF2'
                         }
                      },
+                     symbolSize: 7,
+                     symbol: 'image://static/cyc.png',
                 },
                 {//雨花台区
-                    data: [[11, 56], [5, 23],[0, 23]],
+                    data: [[13, 56], [5, 40],[0, 40]],
                     type: 'line',
                     itemStyle:{
                         normal:{
@@ -403,6 +416,8 @@ export default {
                           color:'#05DDF2'
                         }
                      },
+                     symbolSize: 7,
+                     symbol: 'image://static/cyc.png',
                 }
               ]
           },true)
@@ -989,8 +1004,8 @@ export default {
           case 6://浦口区
           gg=
           {
-            left: '22%',
-            right: '67%',
+            left: '27%',
+            right: '62%',
             bottom: '53%',
             top:'39%',
             containLabel: true
@@ -1011,8 +1026,8 @@ export default {
           {
             left: '9%',
             right: '80%',
-            bottom: '20%',
-            top:'72%',
+            bottom: '32%',
+            top:'60%',
             containLabel: true
           }
           break;
@@ -1029,8 +1044,8 @@ export default {
           case 10://溧水区
           gg=
           {
-            left: '63%',
-            right: '26%',
+            left: '60%',
+            right: '29%',
             bottom: '25%',
             top:'67%',
             containLabel: true
@@ -1039,8 +1054,8 @@ export default {
           case 11://高淳区
           gg=
           {
-            left: '60%',
-            right: '29%',
+            left: '59%',
+            right: '30%',
             bottom: '3%',
             top:'89%',
             containLabel: true
