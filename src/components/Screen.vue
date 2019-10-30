@@ -341,7 +341,7 @@ export default {
                   show: false
                 },
                 series: [{ //江北新区
-                    data: [[15,89], [4, 107]],
+                    data: [[17,90], [4, 107]],
                     type: 'line',
                     itemStyle:{
             						normal:{
@@ -349,9 +349,11 @@ export default {
             							color:'#05DDF2'
             						}
 					           },
+                     symbolSize: 7,
+                     symbol: 'image://static/cyc.png',
                 },
                 {//栖霞区
-                    data: [[21, 85], [33, 115], [36, 117]],
+                    data: [[21, 86], [32, 117], [36, 117]],
                     type: 'line',
                     itemStyle:{
             						normal:{
@@ -359,9 +361,11 @@ export default {
             							color:'#05DDF2'
             						}
 					           },
+                     symbolSize: 7,
+                     symbol: 'image://static/cyc.png',
                 },
                 {//鼓楼区
-                    data: [[17, 76], [5, 87],[0, 87]],
+                    data: [[19, 77], [5, 87],[0, 87]],
                     type: 'line',
                     itemStyle:{
                         normal:{
@@ -369,9 +373,11 @@ export default {
                           color:'#05DDF2'
                         }
                      },
+                     symbolSize: 7,
+                     symbol: 'image://static/cyc.png',
                 },
                 {//玄武区
-                    data: [[23, 80], [35, 92], [40, 93]],
+                    data: [[25, 81], [35, 92], [40, 93]],
                     type: 'line',
                     itemStyle:{
                         normal:{
@@ -379,9 +385,11 @@ export default {
                           color:'#05DDF2'
                         }
                      },
+                     symbolSize: 7,
+                     symbol: 'image://static/cyc.png',
                 },
                 {//秦淮区
-                    data: [[24,70], [35, 72],[40, 74]],
+                    data: [[23,73],[40, 74]],
                     type: 'line',
                     itemStyle:{
                         normal:{
@@ -389,9 +397,11 @@ export default {
                           color:'#05DDF2'
                         }
                      },
+                     symbolSize: 7,
+                     symbol: 'image://static/cyc.png',
                 },
                 {//建邺区
-                    data: [[17, 65], [36, 51]],
+                    data: [[18, 64], [32, 51], [36, 51]],
                     type: 'line',
                     itemStyle:{
                         normal:{
@@ -399,9 +409,11 @@ export default {
                           color:'#05DDF2'
                         }
                      },
+                     symbolSize: 7,
+                     symbol: 'image://static/cyc.png',
                 },
                 {//雨花台区
-                    data: [[13, 56],[4, 38]],
+                    data: [[13, 55.5],[8, 38],[4, 38]],
                     type: 'line',
                     itemStyle:{
                         normal:{
@@ -411,10 +423,10 @@ export default {
                         }
                      },
                     // symbol: 'emptyCircle',
+                    // smooth: true,
+                    symbolSize: 7,
+                    symbol: 'image://static/cyc.png',
 
-                    edgeSymbol:['none','none'],
-
-                    symbolSize: 8,
 
                 }
               ]
