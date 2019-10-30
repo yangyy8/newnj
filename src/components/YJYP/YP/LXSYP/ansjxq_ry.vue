@@ -44,7 +44,7 @@
                               </el-col>
                               <el-col :span="8" class="input-item">
                                 <span class="input-text">被侵害对象类别：</span>
-                                <span class="input-input detailinput">  {{aForm1.aggrievedPartyType}}</span>
+                                <span class="input-input detailinput">  {{aForm1.aggrievedPartyType_desc}}</span>
                               </el-col>
                               <el-col :span="8" class="input-item">
                                 <span class="input-text">案事件类型：</span>
@@ -60,7 +60,7 @@
                               </el-col>
                               <el-col :span="8" class="input-item">
                                 <span class="input-text">案发场所：</span>
-                                <span class="input-input detailinput">  {{aForm1.casePlace}}</span>
+                                <span class="input-input detailinput">  {{aForm1.casePlace_desc}}</span>
                               </el-col>
                               <el-col :span="8" class="input-item">
                                 <span class="input-text">案发地区：</span>
@@ -948,11 +948,11 @@
                        label="裁决日期">
                      </el-table-column>
                      <el-table-column
-                       prop="arbitrationOrg"
+                       prop="arbitrationOrg_desc"
                        label="裁决单位">
                      </el-table-column>
                      <el-table-column
-                       prop="arbitrationResult"
+                       prop="arbitrationResult_desc"
                        label="裁决结果">
                      </el-table-column>
                      <!-- <el-table-column
@@ -960,7 +960,7 @@
                        label="出生日期">
                      </el-table-column> -->
                      <el-table-column
-                       prop="executeOrg"
+                       prop="executeOrg_desc"
                        label="执行单位">
                      </el-table-column>
                      <el-table-column

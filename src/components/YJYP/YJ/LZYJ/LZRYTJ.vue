@@ -70,13 +70,13 @@
                <span class="sb" @click="toLink (pd,scope.row,'rxz')" >{{scope.row.rxz}}</span>
              </template>
            </el-table-column>
-           <el-table-column
+           <!-- <el-table-column
              prop="frxz"
              label="非人像照数">
              <template slot-scope="scope">
                <span class="sb" @click="toLink (pd,scope.row,'frxz')" >{{scope.row.frxz}}</span>
              </template>
-           </el-table-column>
+           </el-table-column> -->
            <el-table-column
              prop="qrxz"
              label="缺人像照数">

@@ -1681,7 +1681,7 @@ export default {
            // console.log(e.target.lastChild.id,e.target.firstChild.id)
            if(e.target.lastChild.id=='tt'||e.target.firstChild.id=='home_map'){
              // console.log('鼠标离开',e);
-            // _this.isShow=false;
+            _this.isShow=false;
            }
          }
       },
