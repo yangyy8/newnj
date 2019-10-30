@@ -139,9 +139,10 @@ export default {
       if (val.length > 9) {
         this.tabliwidth = Math.floor(100 / (this.tabList.length+1)) + '%'
       }
+      this.$store.commit('getTabList',val);
     },
     $route:function(val){
-      console.log("$store.state",this.$store.state.key,this.$store.state.key.id)
+      // console.log("$store.state",this.$store.state.key,this.$store.state.key.id)
       if(val.meta.title&&!val.meta.father){
         this.tabListCheck=val.name
         // this.routeList=val.meta.title
@@ -158,13 +159,12 @@ export default {
         }
         this.checkeditem=val;
         this.tabList.push(val);
-        this.$store.commit('getTabList',this.tabList);
         this.Global.tabLists=this.tabList;
       }
     }
   },
   mounted() {
-    console.log('this.$route.name',this.$route.name);
+    // console.log('this.$route.name',this.$route.name);
     if(this.$route.name!="Home"){
       if(this.$route.meta.father){
         this.$router.push({name:this.$route.meta.father})
@@ -183,10 +183,10 @@ export default {
 
   methods: {
     handleOpen(key, keyPath) {
-    console.log(key, keyPath);
+    // console.log(key, keyPath);
     },
     handleClose(key, keyPath) {
-      console.log(key, keyPath);
+      // console.log(key, keyPath);
     },
 
     checklast(url){
@@ -205,7 +205,7 @@ export default {
        });
     },
     getmemu(dm,mc){
-      console.log('-----------mc',mc);
+      // console.log('-----------mc',mc);
       if(mc==""){
         if(this.$route.meta.title==undefined){
            this.$router.push({name:"Index"});
@@ -245,7 +245,7 @@ export default {
     },
     tabClick(i,index,is){
       this.$router.push({name:i.name,query:i.query});
-      console.log("this.checkeditem",this.checkeditem)
+      // console.log("this.checkeditem",this.checkeditem)
       if(is){
         this.close1(index,i,is)
       }else{

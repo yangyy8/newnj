@@ -126,7 +126,8 @@
           <el-table
              :data="tableData1"
              border
-             style="width: 100%">
+             style="width: 100%"
+             @header-click="titleShow">
              <el-table-column
                prop="fjmc"
                label="单位">
@@ -164,6 +165,20 @@
                label="安全走访缺项">
                <template slot-scope="scope">
                   <span v-html="sjzh(scope.row.zfxxqlList)"></span>
+                </template>
+             </el-table-column>
+             <el-table-column
+               prop="wabList"
+               label="无安保登记数">
+               <template slot-scope="scope">
+                  <span v-html="sjzh(scope.row.clfwwqzaList)"></span>
+                </template>
+             </el-table-column>
+             <el-table-column
+               prop="wzfList"
+               label="无安全走访登记数">
+               <template slot-scope="scope">
+                  <span v-html="sjzh(scope.row.dqwtxList)"></span>
                 </template>
              </el-table-column>
              <el-table-column
@@ -229,6 +244,9 @@
     window.cardDetail= this.cardDetail
   },
   methods:{
+    titleShow(e,el){
+      el.target.title = e.label;
+    },
     download(){
       this.getPd();
       if(this.page==0){
