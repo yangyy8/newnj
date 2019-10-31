@@ -95,7 +95,6 @@
             <!--
             <router-view v-if="$store.state.key.id==99"></router-view>
             <router-view v-if="$store.state.key.id==0" :key="$store.state.key2"></router-view> -->
-
           </keep-alive>
         </div>
       </el-main>
