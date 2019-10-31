@@ -969,7 +969,7 @@ export default {
     if(this.row.SFYX=='1'){
       this.shShow=false;
       this.shpc.SHZT = this.row.SFYX;
-      this.shpc.SHNR = this.row.SHNR;
+      this.shpc.SHNR = this.row.FKNR;
     }
     this.getData();
   },

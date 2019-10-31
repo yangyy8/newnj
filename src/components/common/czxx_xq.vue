@@ -1292,9 +1292,21 @@ export default {
         label: "7"
       }
     ],
+    userCode:'',
+    userName:'',
+    orgCode:'',
+    orgName:'',
+    juState:'',
+    token:'',
     }
   },
   mounted(){
+    this.userCode=this.$store.state.uid;
+    this.userName=this.$store.state.uname;
+    this.orgName=this.$store.state.orgname;
+    this.orgCode=this.$store.state.orgid;
+    this.juState=this.$store.state.juState;
+    this.token=this.$store.state.token;
       this.initData();
    },
   watch:{
@@ -1306,6 +1318,12 @@ export default {
     immediate: true
     },
     random:function(newVal,oldVal){
+      this.userCode=this.$store.state.uid;
+      this.userName=this.$store.state.uname;
+      this.orgName=this.$store.state.orgname;
+      this.orgCode=this.$store.state.orgid;
+      this.juState=this.$store.state.juState;
+      this.token=this.$store.state.token;
       this.random=newVal;
       this.initData();
     },
@@ -1403,6 +1421,11 @@ export default {
           RYBH:this.rybh,
           YWLB:'0004'
         },
+        userCode:this.userCode,
+        userName:this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token,
         // "orderType":"DESC",
 	      // "orderBy":{value:"CJSJ",dataType:"date"}
       }
@@ -1423,7 +1446,12 @@ export default {
 
       this.pd.DTID=this.row.DTID;
       let p = {
-        "pd": this.pp
+        "pd": this.pp,
+        userCode:this.userCode,
+        userName:this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token,
       };
       //人员基本信息
        this.$api.post(this.Global.aport3+'/ryhx/getczryjbxx', p,
@@ -1449,6 +1477,11 @@ export default {
        "pd": pd,
        "currentPage":currentPage,
        "showCount":showCount,
+       userCode:this.userCode,
+       userName:this.userName,
+       orgJB:this.juState,
+       orgCode:this.orgCode,
+       token:this.token,
      };
      this.$api.post(this.Global.aport3+'/ryhx/getczjzdxx', pp,
       r => {
@@ -1466,6 +1499,11 @@ export default {
        "pd": pd,
        "currentPage":currentPage,
        "showCount":showCount,
+       userCode:this.userCode,
+       userName:this.userName,
+       orgJB:this.juState,
+       orgCode:this.orgCode,
+       token:this.token,
      };
       this.$api.post(this.Global.aport3+'/ryhx/getczgzdxx', pp,
        r => {
@@ -1481,6 +1519,11 @@ export default {
        "pd": pd,
        "currentPage":currentPage,
        "showCount":showCount,
+       userCode:this.userCode,
+       userName:this.userName,
+       orgJB:this.juState,
+       orgCode:this.orgCode,
+       token:this.token,
      };
 
       this.$api.post(this.Global.aport3+'/ryhx/getczzfxx', pp,
@@ -1498,6 +1541,11 @@ export default {
          "pd": pd,
          "currentPage":currentPage,
          "showCount":showCount,
+         userCode:this.userCode,
+         userName:this.userName,
+         orgJB:this.juState,
+         orgCode:this.orgCode,
+         token:this.token,
        };
         this.$api.post(this.Global.aport3+'/ryhx/getczabxx', pp,
          r => {
@@ -1514,6 +1562,11 @@ export default {
            "pd": pd,
            "currentPage":currentPage,
            "showCount":showCount,
+           userCode:this.userCode,
+           userName:this.userName,
+           orgJB:this.juState,
+           orgCode:this.orgCode,
+           token:this.token,
          };
 
           this.$api.post(this.Global.aport3+'/ryhx/getczzdlgxx', pp,
@@ -1530,6 +1583,11 @@ export default {
               "pd": pd,
               "currentPage":currentPage,
               "showCount":showCount,
+              userCode:this.userCode,
+              userName:this.userName,
+              orgJB:this.juState,
+              orgCode:this.orgCode,
+              token:this.token,
             };
              this.$api.post(this.Global.aport3+'/ryhx/getczthrxx',pp,
               r => {
@@ -1541,37 +1599,31 @@ export default {
             },
           getJZ(row,event,column)
             {
-              console.log(row,event,column);
               this.jzinfo=row;
               this.jzshow=true;
           },
           getGZ(row,event,column)
           {
-            console.log(row,event,column);
             this.gzinfo=row;
             this.gzshow=true;
           },
           getZF(row,event,column)
           {
-            console.log(row,event,column);
             this.zfinfo=row;
             this.zfshow=true;
           },
           getAB(row,event,column)
           {
-            console.log(row,event,column);
             this.abinfo=row;
             this.abshow=true;
           },
           getLG(row,event,column)
           {
-            console.log(row,event,column);
             this.lginfo=row;
             this.lgshow=true;
           },
           getTH(row,event,column)
           {
-            console.log(row,event,column);
             this.thinfo=row;
             this.thshow=true;
           },

@@ -165,12 +165,24 @@ export default {
       }
     ],
     tableData: [],
+    userCode:'',
+    userName:'',
+    orgCode:'',
+    orgName:'',
+    token:'',
+    juState:'',
     }
   },
   activated(){
     this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   mounted() {
+    this.userCode=this.$store.state.uid;
+    this.userName=this.$store.state.uname;
+    this.orgName=this.$store.state.orgname;
+    this.orgCode=this.$store.state.orgid;
+    this.juState=this.$store.state.juState;
+    this.token=this.$store.state.token;
     this.$store.dispatch('getGjdq');
   //  this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
@@ -180,11 +192,9 @@ export default {
     },
     pageSizeChange(val) {
       this.getList(this.CurrentPage, val, this.pd);
-      console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
       this.getList(val, this.pageSize, this.pd);
-      console.log(`当前页: ${val}`);
     },
 
     getList(currentPage, showCount, pd) {
@@ -208,6 +218,9 @@ export default {
         'gjdqList':pd.gjdq,
         "operatorId":this.$store.state.uid,
         "operatorNm":this.$store.state.uname,
+         token:this.token,
+         orgJB:this.juState,
+         orgCode:this.orgCode,
       };
 
       var url=this.Global.aport2+'/data_report/selectSbList';

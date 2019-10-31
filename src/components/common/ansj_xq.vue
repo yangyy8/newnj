@@ -208,9 +208,9 @@
                         <span class="input-text">受理方式：</span>
                         <span class="input-input detailinput">  {{aForm1.SLFS}}</span>
                       </el-col>
-                      <el-col :span="8" class="input-item">
-                        <span class="input-text">简要案情：</span>
-                        <span class="input-input detailinput">  {{aForm1.JYAQ}}</span>
+                      <el-col :span="24" class="input-item">
+                        <span class="input-text" style="width:11.6%!important">简要案情：</span>
+                        <span class="input-input detailinput" style="width:85%!important">  {{aForm1.JYAQ}}</span>
                       </el-col>
                       <el-col :span="8" class="input-item">
                         <span class="input-text" title="对外说辞">对外说辞：</span>
@@ -257,7 +257,7 @@
                         <span class="input-text" title="协办人姓名">协办人姓名：</span>
                         <span class="input-input detailinput">  {{aForm1.XBRXM}}</span>
                       </el-col>
-                      <el-col :span="8" class="input-item">
+                      <!-- <el-col :span="8" class="input-item">
                         <span class="input-text" title="立案单位">立案单位：</span>
                         <span class="input-input detailinput">  {{aForm1.LADW}}</span>
                       </el-col>
@@ -442,7 +442,7 @@
                       <el-col :span="8" class="input-item">
                         <span class="input-text" title="转案件编号">转案件编号：</span>
                         <span class="input-input detailinput">  {{aForm1.ZAJBH}}</span>
-                      </el-col>
+                      </el-col> -->
                       <el-col :span="8" class="input-item">
                         <span class="input-text" title="登记时间">登记时间：</span>
                         <span class="input-input detailinput">  {{aForm1.DJSJ}}</span>
@@ -475,7 +475,7 @@
                         <span class="input-text" title="修改单位名称">修改单位名称：</span>
                         <span class="input-input detailinput">  {{aForm1.XGDWMC}}</span>
                       </el-col>
-                      <el-col :span="8" class="input-item">
+                      <!-- <el-col :span="8" class="input-item">
                         <span class="input-text" title="接收时间">接收时间：</span>
                         <span class="input-input detailinput">  {{aForm1.JSSJ}}</span>
                       </el-col>
@@ -514,12 +514,14 @@
                       <el-col :span="8" class="input-item">
                         <span class="input-text" title="受理单位联系电话">受理单位联系电话：</span>
                         <span class="input-input detailinput">  {{aForm1.SLDWDH}}</span>
-                      </el-col>
+                      </el-col> -->
+
                       <el-col :span="8" class="input-item">
                         <span class="input-text" title="主办人电话">主办人电话：</span>
                         <span class="input-input detailinput">  {{aForm1.ZBRDH}}</span>
                       </el-col>
-                      <el-col :span="8" class="input-item">
+
+                      <!-- <el-col :span="8" class="input-item">
                         <span class="input-text" title="其他受害人数">其他受害人数：</span>
                         <span class="input-input detailinput">  {{aForm1.AJQTSHRS}}</span>
                       </el-col>
@@ -622,7 +624,7 @@
                       <el-col :span="8" class="input-item">
                         <span class="input-text" title="结案报告的文件内容">结案报告的文件内容：</span>
                         <span class="input-input detailinput">  {{aForm1.JABGDWJNR}}</span>
-                      </el-col>
+                      </el-col> -->
                       <el-col :span="8" class="input-item">
                         <span class="input-text" title="更新时间">更新时间：</span>
                         <span class="input-input detailinput">  {{aForm1.GXSJ}}</span>
@@ -1349,13 +1351,25 @@ export default {
       px:{},
       pages: this.type,
       id: this.xid,
+      userCode:'',
+      userName:'',
+      orgCode:'',
+      orgName:'',
+      juState:'',
+      token:'',
     }
   },
   activated() {
     this.getData(this.id);
   },
   mounted() {
-
+    this.userCode=this.$store.state.uid;
+    this.userName=this.$store.state.uname;
+    this.orgName=this.$store.state.orgname;
+    this.orgCode=this.$store.state.orgid;
+    this.juState=this.$store.state.juState;
+    this.token=this.$store.state.token;
+    this.getData(this.id)
   },
   watch:{
       type: function(val){
@@ -1364,6 +1378,12 @@ export default {
       xid:{
         handler(val){
         this.id=val;
+        this.userCode=this.$store.state.uid;
+        this.userName=this.$store.state.uname;
+        this.orgName=this.$store.state.orgname;
+        this.orgCode=this.$store.state.orgid;
+        this.juState=this.$store.state.juState;
+        this.token=this.$store.state.token;
         this.getData(this.id)
       },
       immediate: true
@@ -1392,11 +1412,15 @@ export default {
     getData(xid) {
 
       var arr=xid.split(',');
-          console.log(arr[0],arr[1]);
         this.pd.RGUID = arr[0];
         this.px.DTID=arr[1];
       let p = {
-        "pd": this.px
+        "pd": this.px,
+        userCode:this.userCode,
+        userName:this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token,
       };
       //人员基本信息
       this.getData1(this.pd);
@@ -1430,12 +1454,16 @@ export default {
 
     getData1(pp){
       let p={
-        "pd":pp
+        "pd":pp,
+        userCode:this.userCode,
+        userName:this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token,
       }
       this.$api.post(this.Global.aport4 + '/eS_AJ_JBXXController/getEntityByRGUID', p,
         r => {
           this.aForm1 = r.data;
-
         })
     },
 

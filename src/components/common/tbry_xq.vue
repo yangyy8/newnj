@@ -161,10 +161,22 @@ export default {
       tcDialogVisible:false,
       imgs:'',
       deg:0,
+      userCode:'',
+      userName:'',
+      orgCode:'',
+      orgName:'',
+      juState:'',
+      token:'',
     }
   },
   mounted(){
    // this.$nextTick(()=>{
+   this.userCode=this.$store.state.uid;
+   this.userName=this.$store.state.uname;
+   this.orgName=this.$store.state.orgname;
+   this.orgCode=this.$store.state.orgid;
+   this.juState=this.$store.state.juState;
+   this.token=this.$store.state.token;
     this.getData0(this.xid);
     this.getPhoto()
   // });
@@ -172,6 +184,12 @@ export default {
   watch:{
     random:function(newVal,oldVal){
       this.random=newVal;
+      this.userCode=this.$store.state.uid;
+      this.userName=this.$store.state.uname;
+      this.orgName=this.$store.state.orgname;
+      this.orgCode=this.$store.state.orgid;
+      this.juState=this.$store.state.juState;
+      this.token=this.$store.state.token;
       this.getData0(this.xid);
       this.getPhoto()
     },
@@ -191,7 +209,12 @@ export default {
     getData0(xid){
       this.pp.RGUID=xid;
       let p = {
-        "pd": this.pp
+        "pd": this.pp,
+        userCode:this.userCode,
+        userName:this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token,
       };
       this.$api.post(this.Global.aport4+'/eS_Tbry_GroupController/getTongBaoGroupInfoByRGUID', p,
         r => {
@@ -207,7 +230,12 @@ export default {
         pd:{
           RYBH:this.rybh,
           YWLB:"0005"
-        }
+        },
+        userCode:this.userCode,
+        userName:this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token,
       }
       this.$api.post(this.Global.aport4+'/eS_RY_TPXXController/getResultListByParams',p,
         r =>{
@@ -219,7 +247,12 @@ export default {
     },
     downLoad(row){
       let p={
-        "pd":{RGUID:row.RGUID}
+        "pd":{RGUID:row.RGUID},
+        userCode:this.userCode,
+        userName:this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token,
       }
       this.$api.post(this.Global.aport4+'/eS_Tbry_GroupController/getTongBaoPAPERInfoByRGUID',p,
        r =>{

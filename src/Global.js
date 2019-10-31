@@ -44,7 +44,7 @@ const pcs="/service/getRedisDataByDm?tablename=DM_PCS"//派出所
 const jzlx="/service/getRedisDataByDm?tablename=DM_JZLX"//居住类型
 const zsxz="/service/getRedisDataByDm?tablename=DM_ZSXZ"//住所性质,住房类型
 const jzzt="/service/getRedisDataByDm?tablename=DM_JZZT"//居住状态
-const jzztcz="/service/getRedisDataByDm?tablename=DM_JWEYJZZTLX"//常住综合分析居住状态
+const jzztcz="/service/getRedisDataByDm?tablename=DM_JWRYJZZTLX"//常住综合分析居住状态
 const xzqh="/service/getRedisDataByDm?tablename=DM_XZQH"//行政区划
 const jtgx="/service/getRedisDataByDm?tablename=DM_JTGX"//家庭关系
 const sflx="/service/getRedisDataByDm?tablename=DM_NMSF"//身份类型

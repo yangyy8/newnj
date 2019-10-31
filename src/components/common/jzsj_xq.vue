@@ -98,11 +98,22 @@ export default {
       page:this.type,
       id:this.xid,
       pp:{},
+      userCode:'',
+      userName:'',
+      orgCode:'',
+      orgName:'',
+      juState:'',
+      token:'',
     }
   },
   mounted(){
+    this.userCode=this.$store.state.uid;
+    this.userName=this.$store.state.uname;
+    this.orgName=this.$store.state.orgname;
+    this.orgCode=this.$store.state.orgid;
+    this.juState=this.$store.state.juState;
+    this.token=this.$store.state.token;
       this.initData();
-      console.log('this.pp.RGUID',this.pp.RGUID);
    },
   watch:{
       type: function(val){
@@ -111,6 +122,12 @@ export default {
       xid:{
         handler(val){
         this.id=val;
+        this.userCode=this.$store.state.uid;
+        this.userName=this.$store.state.uname;
+        this.orgName=this.$store.state.orgname;
+        this.orgCode=this.$store.state.orgid;
+        this.juState=this.$store.state.juState;
+        this.token=this.$store.state.token;
         this.initData()
       },
       immediate: true
@@ -129,9 +146,13 @@ export default {
     },
     getData1(){
       this.pp.RGUID=this.id;
-      console.log(this.pp.RGUID);
       let p = {
-        "pd": this.pp
+        "pd": this.pp,
+        userCode:this.userCode,
+        userName:this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token,
       };
        this.$api.post(this.Global.aport4+'/eS_JCJ_SJXXController/getEntityByRGUID', p,
         r => {

@@ -25,7 +25,7 @@
         </el-col>
         <el-col :span="4">
           <el-button type="success" size="small"  @click="CurrentPage=1;getList(CurrentPage,pageSize,pd)">查询</el-button>
-          <el-button type="success" size="small"  @click="">导出</el-button>
+          <el-button type="success" size="small"  @click="download">导出</el-button>
         </el-col>
       </el-row>
     </div>
@@ -119,25 +119,67 @@ export default {
       TotalResult: 0,
       pd: {BASJ_DateRange:{begin:"",end:""}},
       tableData: [],
+      userCode:'',
+      userName:'',
+      orgCode:'',
+      orgName:'',
+      token:'',
+      juState:'',
     }
   },
     activated(){
     },
   mounted() {
-
+    this.userCode=this.$store.state.uid;
+    this.userName=this.$store.state.uname;
+    this.orgName=this.$store.state.orgname;
+    this.orgCode=this.$store.state.orgid;
+    this.juState=this.$store.state.juState;
+    this.token=this.$store.state.token;
    },
   methods: {
     getList(currentPage, showCount, pd) {
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
-        "pd": pd
+        "pd": pd,
+        userCode:this.userCode,
+        userName:this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token
       };
       this.$api.post(this.Global.aport2+'/ajbbController/swajbb', p,
         r => {
           this.tableData = r.data.data;
           this.TotalResult = r.data.data.length;
         })
+    },
+    download(){
+      let p={
+        pd:this.pd,
+        userCode:this.userCode,
+        userName:this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token
+      }
+        this.$api.post(this.Global.aport2+'/ajbbController/exportSwajbb',p,
+         r =>{
+           this.downloadM(r)
+         },e=>{},{},'blob')
+    },
+    downloadM (data) {
+        if (!data) {
+            return
+        }
+        let url = window.URL.createObjectURL(new Blob([data],{type:"application/octet-stream"}))
+        let link = document.createElement('a')
+        link.style.display = 'none'
+        link.href = url
+        link.setAttribute('download', '报表.xls')
+        document.body.appendChild(link)
+        link.click()
     },
   }
 }

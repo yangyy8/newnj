@@ -219,14 +219,32 @@ export default {
       tcDialogVisible:false,
       imgs:'',
       deg:0,
+      userCode:'',
+      userName:'',
+      orgCode:'',
+      orgName:'',
+      juState:'',
+      token:'',
     }
   },
 
   mounted(){
+    this.userCode=this.$store.state.uid;
+    this.userName=this.$store.state.uname;
+    this.orgName=this.$store.state.orgname;
+    this.orgCode=this.$store.state.orgid;
+    this.juState=this.$store.state.juState;
+    this.token=this.$store.state.token;
     this.initData();
   },
   watch:{
     random:function(newVal,oldVal){
+      this.userCode=this.$store.state.uid;
+      this.userName=this.$store.state.uname;
+      this.orgName=this.$store.state.orgname;
+      this.orgCode=this.$store.state.orgid;
+      this.juState=this.$store.state.juState;
+      this.token=this.$store.state.token;
       this.random=newVal;
       this.initData();
     },
@@ -264,6 +282,11 @@ export default {
           RYBH:this.rybh,
           YWLB:'0003'
         },
+        userCode:this.userCode,
+        userName:this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token,
         // "orderType":"DESC",
 	      // "orderBy":{value:"CJSJ",dataType:"date"}
       }
@@ -285,7 +308,12 @@ export default {
          this.pp.DTID=this.xid;
       }
       let p = {
-        "pd": this.pp
+        "pd": this.pp,
+        userCode:this.userCode,
+        userName:this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token,
       };
 
       this.$api.post(this.Global.aport4+'/eS_LZ_LZXXController/getEntityByDTID', p,
@@ -308,7 +336,12 @@ export default {
       this.form={};
       this.pp.DTID=this.xid;
       let p = {
-        "pd": this.pp
+        "pd": this.pp,
+        userCode:this.userCode,
+        userName:this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token,
       };
       this.$api.post(this.Global.aport4+'/eS_LZ_LZXXController/getResultListByParams', p,
         r => {
@@ -330,7 +363,12 @@ export default {
       this.form={};
       this.pp.RGUID=this.xid;
       let p = {
-        "pd": this.pp
+        "pd": this.pp,
+        userCode:this.userCode,
+        userName:this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token,
       };
       this.$api.post(this.Global.aport3+'/ryhx/getlzlzxx', p,
         r => {

@@ -551,7 +551,7 @@
             </el-col>
             <el-col :span="8" class="input-item">
              <span class="input-text">裁决单位：</span>
-             <span class="input-input detailinput">  {{data6.arbitrationOrg}}</span>
+             <span class="input-input detailinput">  {{data6.arbitrationOrg_desc}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
              <span class="input-text">裁决书号：</span>
@@ -563,7 +563,7 @@
             </el-col>
             <el-col :span="8" class="input-item">
               <span class="input-text">裁决结果：</span>
-              <span class="input-input detailinput">  {{data6.arbitrationResult}}</span>
+              <span class="input-input detailinput">  {{data6.arbitrationResult_desc}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
               <span class="input-text">罚款金额：</span>
@@ -587,7 +587,7 @@
             </el-col>
             <el-col :span="8" class="input-item">
              <span class="input-text">执行单位：</span>
-             <span class="input-input detailinput">  {{data6.executeOrg}}</span>
+             <span class="input-input detailinput">  {{data6.executeOrg_desc}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
               <span class="input-text">执行日期：</span>

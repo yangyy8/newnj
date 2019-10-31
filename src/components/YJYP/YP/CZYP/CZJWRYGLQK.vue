@@ -231,10 +231,21 @@
       tableData:[],
       tableData1:[],
       CZDialogVisible:false,
+      userCode:'',
+      userName:'',
+      orgCode:'',
+      orgName:'',
+      token:'',
+      juState:'',
     }
   },
   mounted(){
-
+    this.userCode=this.$store.state.uid;
+    this.userName=this.$store.state.uname;
+    this.orgName=this.$store.state.orgname;
+    this.orgCode=this.$store.state.orgid;
+    this.juState=this.$store.state.juState;
+    this.token=this.$store.state.token;
   },
   activated(){
     // this.getList()
@@ -250,12 +261,12 @@
     download(){
       this.getPd();
       if(this.page==0){
-        this.$api.post(this.Global.aport2+'/czgltb/exportglqktbb',{pd:this.pd},
+        this.$api.post(this.Global.aport2+'/czgltb/exportglqktbb',{pd:this.pd,userCode:this.userCode,userName:this.userName,orgJB:this.juState,orgCode:this.orgCode,token:this.token},
          r =>{
            this.downloadM(r)
          },e=>{},{},'blob')
       }else{
-        this.$api.post(this.Global.aport2+'/czgltb/exportcwxxmd',{pd:this.pd},
+        this.$api.post(this.Global.aport2+'/czgltb/exportcwxxmd',{pd:this.pd,userCode:this.userCode,userName:this.userName,orgJB:this.juState,orgCode:this.orgCode,token:this.token},
          r =>{
            this.downloadM(r)
          },e=>{},{},'blob')
@@ -305,7 +316,7 @@
     },
     getList(){
       this.getPd();
-      this.$api.post(this.Global.aport2+'/czgltb/getgltb',{pd:this.pd},
+      this.$api.post(this.Global.aport2+'/czgltb/getgltb',{pd:this.pd,userCode:this.userCode,userName:this.userName,orgJB:this.juState,orgCode:this.orgCode,token:this.token},
        r =>{
          if(r.success){
            this.tableData=r.data;
@@ -314,7 +325,7 @@
     },
     getList1(){
       this.getPd();
-      this.$api.post(this.Global.aport2+'/czgltb/getgltb',{pd:this.pd},
+      this.$api.post(this.Global.aport2+'/czgltb/getgltb',{pd:this.pd,userCode:this.userCode,userName:this.userName,orgJB:this.juState,orgCode:this.orgCode,token:this.token},
        r=>{
          if(r.success){
            this.tableData1=r.data;

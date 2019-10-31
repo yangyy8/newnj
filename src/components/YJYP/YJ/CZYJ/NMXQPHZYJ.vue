@@ -114,12 +114,6 @@
                     </el-option>
                   </el-select>
                 </el-col>
-                <el-col  :sm="24" :md="24" :lg="24"   class="input-item" v-if="rulesTotal!=0">
-                   <span class="input-text" style="width: 7.3%;">分类标签：</span>
-                   <el-radio-group v-model="ruleType">
-                      <el-radio :label="item.RULE_NAME" v-for="(item,ind) in rules" :key="ind" @change="rulesKey(item.RULE_Map,item.RULE_Map_notIn)">{{item.RULE_NAME}}</el-radio>
-                    </el-radio-group>
-                </el-col>
           </el-row>
          </el-col>
         <el-col :span="2" class="down-btn-area">
@@ -279,70 +273,27 @@ export default {
       tableData: [],
       type:'',
       tabList:[],
-      ruleType:{},
-      ruleMap:null,
-      ruleNo:null,
-      keyHis:{},
-      pdNotIn:{
-        // ZJZL:["ZJZL_11","ZJZL_12"],
-        // QZZL:["QZZL_05","QZZL_20"]
-        // ZJZL:["11","12"],
-        // QZZL:["05","20"]
-      },
-      rules:[],
-      rulesTotal:0,
       addsDialogVisible:false,
       userCode:'',
       userName:'',
       orgCode:'',
       orgName:'',
+      token:'',
       form:{},
       addlg:{},
       getallfj:[],
       PSC:[],
-      multipleSelection0:[],
-      selectionAll0:[],
-      selectionReal0:[],
-
-      multipleSelection1:[],
-      selectionAll1:[],
-      selectionReal1:[],
-
-      multipleSelection2:[],
-      selectionAll2:[],
-      selectionReal2:[],
-
-      multipleSelection3:[],
-      selectionAll3:[],
-      selectionReal3:[],
 
       multipleSelection4:[],
       selectionAll4:[],
       selectionReal4:[],
 
-      multipleSelection5:[],
-      selectionAll5:[],
-      selectionReal5:[],
-
-      multipleSelection6:[],
-      selectionAll6:[],
-      selectionReal6:[],
-
-      multipleSelection7:[],
-      selectionAll7:[],
-      selectionReal7:[],
-
-      multipleSelection8:[],
-      selectionAll8:[],
-      selectionReal8:[],
       yuid:[],
       tabList:this.$store.state.tabList,
       juState:'',
     }
   },
   activated(){
-    if(this.Global.serviceState==0){this.$set(this.pd,'CLZT','CLZT_1')};
-    if(this.Global.serviceState==1){this.$set(this.pd,'CLZT','1')};
     if(this.juState=='2'){//分局登录
       this.pd.FJ = this.orgCode;
       this.getPSC(this.pd.FJ);
@@ -353,46 +304,23 @@ export default {
       this.pd.PCS = this.orgCode;
     }
     this.Global.indexstate=1;
-    this.selectionAll5=[];
-    this.selectionReal5=[];
-
-    this.selectionAll3=[];
-    this.selectionReal3=[];
-
-    this.selectionAll0=[];
-    this.selectionReal0=[];
-
-    this.selectionAll1=[];
-    this.selectionReal1=[];
-
-    this.selectionAll2=[];
-    this.selectionReal2=[];
 
     this.selectionAll4=[];
     this.selectionReal4=[];
 
-    this.selectionAll6=[];
-    this.selectionReal6=[];
-
-    this.selectionAll8=[];
-    this.selectionReal8=[];
-    this.rulesTotal=0;
-    this.type=4;
+     this.type=4;
      this.$store.commit('getType',this.type)
      this.getMXLX(this.type);
-     this.getRules();
-     this.ruleType = this.keyHis;
-
 
      let _this = this;
      setTimeout(function(){
-       console.log('_this.ruleType',_this.ruleType)
-       _this.ruleType = _this.keyHis;
-       _this.getList(_this.CurrentPage, _this.pageSize, _this.pd,_this.ruleMap,_this.ruleNo);
+       _this.getList(_this.CurrentPage, _this.pageSize, _this.pd);
      },1000)
   },
   mounted() {
     this.Global.indexstate=1;
+    if(this.Global.serviceState==0){this.$set(this.pd,'CLZT','CLZT_1')};
+    if(this.Global.serviceState==1){this.$set(this.pd,'CLZT','1')};
     this.$store.dispatch('getGjdq');
     this.$store.dispatch('getClzt');
     this.$store.dispatch('getXB');
@@ -400,16 +328,17 @@ export default {
     this.$store.dispatch('getRjqzzl');
     this.$store.dispatch('getLgyj');
     this.$store.dispatch('getGljb');
-    this.userCode=this.$store.state.uname;
-    this.userName=this.$store.state.uid;
+    this.userCode=this.$store.state.uid;
+    this.userName=this.$store.state.uname;
     this.orgName=this.$store.state.orgname;
     this.orgCode=this.$store.state.orgid;
     this.juState=this.$store.state.juState;
+    this.token=this.$store.state.token;
     this.getFj();
   },
   methods: {
     getFj(){
-      this.$api.post(this.Global.aport5+'/djbhl/getallfj',{},
+      this.$api.post(this.Global.aport5+'/djbhl/getallfj',{userCode:this.userCode,userName:this.userName,orgJB:this.juState,orgCode:this.orgCode,token:this.token},
        r =>{
          if(r.success){
            this.getallfj=r.data;
@@ -418,7 +347,7 @@ export default {
     },
     getPSC(i){
       this.$set(this.pd,'PCS','');
-      this.$api.post(this.Global.aport5+'/djbhl/getpcsbyfjdm',{fjdm:i},
+      this.$api.post(this.Global.aport5+'/djbhl/getpcsbyfjdm',{pd:{fjdm:i},userCode:this.userCode,userName:this.userName,orgJB:this.juState,orgCode:this.orgCode,token:this.token},
       r =>{
         if(r.success){
           this.PSC=r.data;
@@ -438,154 +367,28 @@ export default {
         }
       }
       // console.log('this.selectionAll',arr);
-      if(this.type==5){this.selectionReal5=arrReal;this.selectionAll5=arr;this.multipleSelection5=mul}
-      if(this.type==3){this.selectionReal3=arrReal;this.selectionAll3=arr;this.multipleSelection3=mul}
-      if(this.type==2){this.selectionReal2=arrReal;this.selectionAll2=arr;this.multipleSelection2=mul}
-      if(this.type==1){this.selectionReal1=arrReal;this.selectionAll1=arr;this.multipleSelection1=mul}
-      if(this.type==0){this.selectionReal0=arrReal;this.selectionAll0=arr;this.multipleSelection0=mul}
       if(this.type==4){this.selectionReal4=arrReal;this.selectionAll4=arr;this.multipleSelection4=mul}
-      if(this.type==6){this.selectionReal6=arrReal;this.selectionAll6=arr;this.multipleSelection6=mul}
-      if(this.type==8){this.selectionReal8=arrReal;this.selectionAll8=arr;this.multipleSelection8=mul}
     },
     handleSelectionChange(val){},
     selectfn(val,b){
-      if(this.type==5){
-        this.multipleSelection5 = val;
-        this.handleSelectionFilter(this.selectionReal5,this.selectionAll5,this.multipleSelection5)
-      }
-      if(this.type==3){
-        this.multipleSelection3 = val;
-        this.handleSelectionFilter(this.selectionReal3,this.selectionAll3,this.multipleSelection3)
-      }
-      if(this.type==0){
-        this.multipleSelection0 = val;
-        this.handleSelectionFilter(this.selectionReal0,this.selectionAll0,this.multipleSelection0)
-      }
-      if(this.type==1){
-        this.multipleSelection1 = val;
-        this.handleSelectionFilter(this.selectionReal1,this.selectionAll1,this.multipleSelection1)
-      }
-      if(this.type==2){
-        this.multipleSelection2 = val;
-        this.handleSelectionFilter(this.selectionReal2,this.selectionAll2,this.multipleSelection2)
-      }
       if(this.type==4){
         this.multipleSelection4 = val;
         this.handleSelectionFilter(this.selectionReal4,this.selectionAll4,this.multipleSelection4)
       }
-      if(this.type==6){
-        this.multipleSelection6 = val;
-        this.handleSelectionFilter(this.selectionReal6,this.selectionAll6,this.multipleSelection6)
-      }
-      if(this.type==8){
-        this.multipleSelection8 = val;
-        this.handleSelectionFilter(this.selectionReal8,this.selectionAll8,this.multipleSelection8)
-      }
     },
     download(){
       let p={};
-      if(this.type==5){
-        if(this.selectionAll5.length==0){//全部导出
-           p={
-            "pd":this.pd,
-            "orderBy":'BJSJ',
-            "orderType":'DESC'
-          }
-        }else{//导出选中
-          this.yuid=[];
-          for(var i in this.selectionAll5){
-            this.yuid.push(this.selectionAll5[i].YJID)
-          };
-          console.log('============',this.selectionAll5,this.yuid)
-          this.pd.YJID=this.yuid;
-           p={
-            "pd":this.pd,
-            "orderBy":'BJSJ',
-            "orderType":'DESC',
-          }
-        }
-      }else if(this.type==3){
-        if(this.selectionAll3.length==0){//全部导出
-           p={
-            "pd":this.pd,
-            "orderBy":'BJSJ',
-            "orderType":'DESC'
-          }
-        }else{//导出选中
-          this.yuid=[];
-          for(var i in this.selectionAll3){
-            this.yuid.push(this.selectionAll3[i].YJID)
-          };
-          this.pd.YJID=this.yuid;
-           p={
-            "pd":this.pd,
-            "orderBy":'BJSJ',
-            "orderType":'DESC',
-          }
-        }
-      }else if(this.type==0){
-        if(this.selectionAll0.length==0){//全部导出
-           p={
-            "pd":this.pd,
-            "orderBy":'BJSJ',
-            "orderType":'DESC'
-          }
-        }else{//导出选中
-          this.yuid=[];
-          for(var i in this.selectionAll0){
-            this.yuid.push(this.selectionAll0[i].YJID)
-          };
-          this.pd.YJID=this.yuid;
-           p={
-            "pd":this.pd,
-            "orderBy":'BJSJ',
-            "orderType":'DESC',
-          }
-        }
-      }else if(this.type==1){
-        if(this.selectionAll1.length==0){//全部导出
-           p={
-            "pd":this.pd,
-            "orderBy":'BJSJ',
-            "orderType":'DESC'
-          }
-        }else{//导出选中
-          this.yuid=[];
-          for(var i in this.selectionAll1){
-            this.yuid.push(this.selectionAll1[i].YJID)
-          };
-          this.pd.YJID=this.yuid;
-           p={
-            "pd":this.pd,
-            "orderBy":'BJSJ',
-            "orderType":'DESC',
-          }
-        }
-      }else if(this.type==2){
-        if(this.selectionAll2.length==0){//全部导出
-           p={
-            "pd":this.pd,
-            "orderBy":'BJSJ',
-            "orderType":'DESC'
-          }
-        }else{//导出选中
-          this.yuid=[];
-          for(var i in this.selectionAll2){
-            this.yuid.push(this.selectionAll2[i].YJID)
-          };
-          this.pd.YJID=this.yuid;
-           p={
-            "pd":this.pd,
-            "orderBy":'BJSJ',
-            "orderType":'DESC',
-          }
-        }
-      }else if(this.type==4){
+     if(this.type==4){
         if(this.selectionAll4.length==0){//全部导出
            p={
             "pd":this.pd,
             "orderBy":'BJSJ',
-            "orderType":'DESC'
+            "orderType":'DESC',
+            userCode:this.userCode,
+            userName:this.userName,
+            orgJB:this.juState,
+            orgCode:this.orgCode,
+            token:this.token,
           }
         }else{//导出选中
           this.yuid=[];
@@ -597,58 +400,18 @@ export default {
             "pd":this.pd,
             "orderBy":'BJSJ',
             "orderType":'DESC',
-          }
-        }
-      }else if(this.type==6){
-        if(this.selectionAll6.length==0){//全部导出
-           p={
-            "pd":this.pd,
-            "orderBy":'BJSJ',
-            "orderType":'DESC'
-          }
-        }else{//导出选中
-          this.yuid=[];
-          for(var i in this.selectionAll6){
-            this.yuid.push(this.selectionAll6[i].YJID)
-          };
-          this.pd.YJID=this.yuid;
-           p={
-            "pd":this.pd,
-            "orderBy":'BJSJ',
-            "orderType":'DESC',
-          }
-        }
-      }else if(this.type==8){
-        if(this.selectionAll8.length==0){//全部导出
-           p={
-            "pd":this.pd,
-            "orderBy":'BJSJ',
-            "orderType":'DESC'
-          }
-        }else{//导出选中
-          this.yuid=[];
-          for(var i in this.selectionAll8){
-            this.yuid.push(this.selectionAll8[i].YJID)
-          };
-          this.pd.YJID=this.yuid;
-           p={
-            "pd":this.pd,
-            "orderBy":'BJSJ',
-            "orderType":'DESC',
+            userCode:this.userCode,
+            userName:this.userName,
+            orgJB:this.juState,
+            orgCode:this.orgCode,
+            token:this.token,
           }
         }
       }
 
       this.$api.post(this.Global.aport4+'/warningInfoController/exportByMxLx',p,
         r =>{
-          if(this.type==5){this.downloadM(r,'布控预警报表')}
-          if(this.type==3){this.downloadM(r,'临住核查报表')}
-          if(this.type==0){this.downloadM(r,'留学生市外临住报表')}
-          if(this.type==1){this.downloadM(r,'留学生涉恐报表')}
-          if(this.type==2){this.downloadM(r,'留学生市出入境报表')}
           if(this.type==4){this.downloadM(r,'难民和需求庇护者提醒报表')}
-          if(this.type==6){this.downloadM(r,'留学生录取未报到报表')}
-          if(this.type==8){this.downloadM(r,'涉恐国家人员信息报表')}
         },e=>{},{},'blob')
     },
     downloadM (data,name) {
@@ -663,29 +426,7 @@ export default {
         document.body.appendChild(link)
         link.click()
     },
-    getRules(){
-      if(this.pd.MXLX=="LZ_HC"){
-        this.pd2.MXLX=this.pd.MXLX
-        this.$api.post(this.Global.aport4+'/warningSortRuleController/selectByMXLX',{pd:this.pd2},
-        r =>{
-          if(r.success){
-            this.rules=r.data.resultList;
-            this.rulesTotal=r.data.totalResult;
-          }
-        })
-      }
-    },
-    rulesChange(){
-       // this.getList(this.CurrentPage, this.pageSize,this.pd);
-    },
-    rulesKey(map,notIn){
-      this.keyHis = this.ruleType;
-      this.ruleMap = map;
-      this.ruleNo = notIn;
-      this.getList(this.CurrentPage, this.pageSize,this.pd,this.ruleMap,this.ruleNo);
-    },
     getMXLX(type){
-      console.log(parseInt(type))
       switch (parseInt(type)) {
       case 0:
           this.pd.MXLX="LXS_SWLZYJ";//留学生市外临住预警
@@ -704,7 +445,6 @@ export default {
           break;
       case 5:
           this.pd.MXLX="BKYJ";//布控预警
-          console.log(this.pd,this.pd.MXLX);
           break;
       case 6:
           this.pd.MXLX="LXS_WBDYJ";//留学生录取未报到预警
@@ -718,18 +458,14 @@ export default {
       default:
          break;
        }
-
-       console.log('this.pd.MXLX',this.pd.MXLX);
       if(this.pd.MXLX!=undefined){
-       this.getList(this.CurrentPage, this.pageSize, this.pd,this.ruleMap,this.ruleNo);
+       this.getList(this.CurrentPage, this.pageSize, this.pd);
        }
     },
     tabClick(i){
-      console.log(i)
       this.$router.push({name:i.name})
     },
     close1(index) {
-      console.log('index',index);
       this.tabList.splice(index, 1);
       if (index > 0) {
         this.tabClick(this.tabList[index - 1])
@@ -746,15 +482,13 @@ export default {
     },
     pageSizeChange(val) {
       this.pageSize=val;
-      this.getList(this.CurrentPage, this.pageSize, this.pd,this.ruleMap,this.ruleNo);
-      console.log(`每页 ${val} 条`);
+      this.getList(this.CurrentPage, this.pageSize, this.pd);
     },
     handleCurrentChange(val) {
       this.CurrentPage=val;
-      this.getList(this.CurrentPage, this.pageSize, this.pd,this.ruleMap,this.ruleNo);
-      console.log(`当前页: ${val}`);
+      this.getList(this.CurrentPage, this.pageSize, this.pd);
     },
-    getList(currentPage, showCount, pd,map,notIn) {
+    getList(currentPage, showCount, pd) {
       if(pd.hasOwnProperty('YJID')){
         delete pd['YJID']
       }
@@ -763,59 +497,37 @@ export default {
         "showCount": showCount,
         "pd": pd,
         "orderBy":'BJSJ',
-        "orderType":'DESC'
+        "orderType":'DESC',
+        userCode:this.userCode,
+        userName:this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token,
       };
-      if(this.type==3){
-        let pdReal={};
-        pdReal=Object.assign({},pd,map)
-        p.pd=pdReal;
-        p.pdNotIn=notIn;
-      }
       this.$api.post(this.Global.aport4+'/warningInfoController/getInfoListByMxLx1', p,
         r => {
           if(r.success){
             this.tableData = r.data.resultList;
             this.TotalResult = r.data.totalResult;
-            if(this.type==5&&this.selectionReal5.length==0){this.selectionReal5=new Array(Math.ceil(this.TotalResult/showCount))}
-            if(this.type==3&&this.selectionReal3.length==0){this.selectionReal3=new Array(Math.ceil(this.TotalResult/showCount))}
-            if(this.type==0&&this.selectionReal0.length==0){this.selectionReal0=new Array(Math.ceil(this.TotalResult/showCount))}
-            if(this.type==1&&this.selectionReal1.length==0){this.selectionReal1=new Array(Math.ceil(this.TotalResult/showCount))}
-            if(this.type==2&&this.selectionReal2.length==0){this.selectionReal2=new Array(Math.ceil(this.TotalResult/showCount))}
             if(this.type==4&&this.selectionReal4.length==0){this.selectionReal4=new Array(Math.ceil(this.TotalResult/showCount))}
-            if(this.type==6&&this.selectionReal6.length==0){this.selectionReal6=new Array(Math.ceil(this.TotalResult/showCount))}
-            if(this.type==8&&this.selectionReal8.length==0){this.selectionReal8=new Array(Math.ceil(this.TotalResult/showCount))}
             this.$nextTick(()=>{
-              if(this.type==5){this.selectionXr(this.tableData,this.selectionAll5,this.multipleSelection5)}
-              if(this.type==3){this.selectionXr(this.tableData,this.selectionAll3,this.multipleSelection3)}
-              if(this.type==0){this.selectionXr(this.tableData,this.selectionAll0,this.multipleSelection0)}
-              if(this.type==1){this.selectionXr(this.tableData,this.selectionAll1,this.multipleSelection1)}
-              if(this.type==2){this.selectionXr(this.tableData,this.selectionAll2,this.multipleSelection2)}
               if(this.type==4){this.selectionXr(this.tableData,this.selectionAll4,this.multipleSelection4)}
-              if(this.type==6){this.selectionXr(this.tableData,this.selectionAll6,this.multipleSelection6)}
-              if(this.type==8){this.selectionXr(this.tableData,this.selectionAll8,this.multipleSelection8)}
             })
           }
         })
     },
     selectionXr(table,arr,mul){
-      console.log('this.selectionAll',arr);
       mul=[];
       for(var i=0;i<table.length;i++){
         for(var j=0;j<arr.length;j++){
           if(table[i].YJID==arr[j].YJID){
-            console.log(table[i].YJID,arr[j].YJID,table[i].YJID==arr[j].YJID)
             this.$refs.multipleTable.toggleRowSelection(table[i],true);
           }
         }
       }
     },
     getEdit(n){
-
-      if(this.type==4){
       this.$router.push({name:'NMXQPHZYJ_XQ',query:{row:n}});
-      }else {
-      this.$router.push({name:'LXSXXGLYJ_XQ',query:{row:n}});
-      }
     },
     getXM(zw,yw){
 
@@ -840,7 +552,12 @@ export default {
            pd:{
              ZJHM:i.ZJHM,
              GJDQ:i.GJ,
-           }
+           },
+           userCode:this.userCode,
+           userName:this.userName,
+           orgJB:this.juState,
+           orgCode:this.orgCode,
+           token:this.token
          }
         this.$api.post(this.Global.aport4+'/zDRYController/isLGRY', p,
          r => {
@@ -872,7 +589,9 @@ export default {
            userName:this.userName,
            userCode:this.userCode,
            orgCode:this.orgCode,
-           orgName:this.orgName
+           orgName:this.orgName,
+           orgJB:this.juState,
+           token:this.token,
          }
         this.$api.post(this.Global.aport4+'/zDRYController/setZdry', p,
          r => {
@@ -883,7 +602,6 @@ export default {
                });
                 this.addsDialogVisible=false;
                }else{
-                 console.log('==========')
                  this.$message({
                    message: r.message,
                    type: 'warning'
