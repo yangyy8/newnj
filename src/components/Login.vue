@@ -19,10 +19,10 @@
           <i slot="prefix" class="el-input__icon"><img src="../assets/img/logo02.png"></i>
         </el-input>
       </div>
-        <!-- <div class="login-item2">
+        <div class="login-item2">
          <el-checkbox v-model="jzmm">记住密码</el-checkbox>
          <a class="login-a">忘记密码</a>
-        </div> -->
+        </div>
       <button class="login-btn" @click="login">登录</button>
        <div class="loginmessage">
          供下载内容:
@@ -38,7 +38,6 @@
     </div>
 
 <el-dialog title="选择单位" :visible.sync="companyDialogVisible" width="20%">
-
   <el-row align="center"   :gutter="1">
         <el-col  :span="24"  class="input-item yzform"  data-scope="demo2" data-name="org" data-type="select"
          v-validate-easy="[['required']]">
@@ -104,7 +103,6 @@ export default {
      }
     this.initJzmm();
 
-    console.log('this.$store.state.orgid',this.$store.state.orgid)
   },
   methods:{
     getJuState(){
@@ -130,10 +128,12 @@ export default {
     },
     initJzmm(){
       if(sessionStorage.getItem('jzmm')==1){
+        this.jzmm=true;
         this.user={
           userName:sessionStorage.getItem('userName'),
           password:sessionStorage.getItem('password')
         }
+          console.log('this.user',this.user);
       }
     },
     isJzmm(){
@@ -149,7 +149,7 @@ export default {
         // this.V.$submit('demo', (canSumit,data) => {
         //
         //   if(!canSumit) return;
-
+            this.isJzmm();
             if(this.user.userName=="" || this.user.userName==undefined){
               this.$message.error("请输入用户名！");return;
             }

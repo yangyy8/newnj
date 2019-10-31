@@ -46,6 +46,10 @@
                   label="登记日期">
                 </el-table-column>
                 <el-table-column
+                  prop="rzrq"
+                  label="入住日期" v-if="!czshow">
+                </el-table-column>
+                <el-table-column
                   prop="gjdq"
                   label="国家地区">
                 </el-table-column>
