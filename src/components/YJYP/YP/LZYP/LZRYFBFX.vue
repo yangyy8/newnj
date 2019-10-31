@@ -344,6 +344,7 @@ export default {
        this.ccshow=false;
     },
     doSearch() {
+
       // 以下为查询ES，由于es_lz_lzxx被删除，暂时注释掉。
       // 数据模拟
       // if (this.pd.ssfj == undefined || this.pd.ssfj == "") {
