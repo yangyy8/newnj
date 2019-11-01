@@ -944,9 +944,22 @@ export default {
       showZD:true,
       showFJ:true,
       showPCS:true,
+
+      userCode:'',
+      userName:'',
+      orgCode:'',
+      orgName:'',
+      juState:'',
+      token:'',
     }
   },
   activated() {
+    this.userCode=this.$store.state.uid;
+    this.userName=this.$store.state.uname;
+    this.orgName=this.$store.state.orgname;
+    this.orgCode=this.$store.state.orgid;
+    this.juState=this.$store.state.juState;
+    this.token=this.$store.state.token;
     this.getJB();
     this.CurrentPage1=1;//临住信息
     this.CurrentPage2=1;//临住信息
@@ -1016,98 +1029,87 @@ export default {
       if(this.yjType==20){this.$router.push({name:'GWHZYJ'})}//公务护照预警
     },
     getJB(){
-      console.log("this.$store.state.orgid",this.$store.state.orgid);
       let p = {
         "currentPage": 1,
         "showCount": 10,
-        "pd": {"DM":this.$store.state.orgid}
+        "pd": {"DM":this.$store.state.orgid},
       };
       this.$api.post(this.Global.aport4+'/LRDWController/getMCAndJBByDM', p,
         r => {
-          console.log('r.data.JB',r.data[0].JB);
           this.jb=r.data[0].JB
         })
     },
     pageSizeChange1(val) {
       this.pageSize1=val;
       this.getList(this.CurrentPage1,this.pageSize1,this.url1, 1);
-      console.log(`每页 ${val} 条`);
     },
     handleCurrentChange1(val) {
       this.CurrentPage1=val;
       this.getList(this.CurrentPage1,this.pageSize1,this.url1, 1);
-      console.log(`当前页: ${val}`);
     },
     pageSizeChange2(val) {
       this.pageSize2=val;
       this.getList(this.CurrentPage2,this.pageSize2,this.url2, 2);
-      console.log(`每页 ${val} 条`);
     },
     handleCurrentChange2(val) {
       this.CurrentPage2=val;
       this.getList(this.CurrentPage2,this.pageSize2,this.url2, 2);
-      console.log(`当前页: ${val}`);
     },
     pageSizeChange3(val) {
       this.pageSize3=val;
       this.getList(this.CurrentPage3,this.pageSize3,this.url3, 3);
-      console.log(`每页 ${val} 条`);
     },
     handleCurrentChange3(val) {
       this.CurrentPage3=val;
       this.getList(this.CurrentPage3,this.pageSize3,this.url3, 3);
-      console.log(`当前页: ${val}`);
     },
     pageSizeChange4(val) {
       this.pageSize4=val;
       this.getList(this.CurrentPage4,this.pageSize4,this.url4, 4);
-      console.log(`每页 ${val} 条`);
     },
     handleCurrentChange4(val) {
       this.CurrentPage4=val;
       this.getList(this.CurrentPage4,this.pageSize4,this.url4, 4);
-      console.log(`当前页: ${val}`);
     },
     pageSizeChange5(val) {
       this.pageSize5=val;
       this.getList(this.CurrentPage5,this.pageSize5,this.url5, 5);
-      console.log(`每页 ${val} 条`);
     },
     handleCurrentChange5(val) {
       this.CurrentPage5=val;
       this.getList(this.CurrentPage5,this.pageSize5,this.url5, 5);
-      console.log(`当前页: ${val}`);
     },
     openTc(title, type, id) {
       this.xtitle = title;
       this.xtype = type;
       this.xid = id;
       this.detailsDialogVisible = true;
-
     },
     getList(currentPage,showCount, url, type) {
 
       if(type==0){
-
-                if(this.row.YJID!=undefined){
-                this.cdt={};
-                this.cdt.YJID=this.row.YJID;
-                  }else {
-                    return ;
-                  }
+        if(this.row.YJID!=undefined){
+          this.cdt={};
+          this.cdt.YJID=this.row.YJID;
+        }else {
+          return ;
+        }
       }else {
         if(this.row.RYBH!=undefined){
-        this.cdt={};
-        this.cdt.RYBH = this.row.RYBH;
-          }else {
-            return ;
-          }
+          this.cdt={};
+          this.cdt.RYBH = this.row.RYBH;
+        }else {
+          return ;
+        }
       }
-
       let p = {
-        "pd": this.cdt
+        "pd": this.cdt,
+        userCode:this.userCode,
+        userName:this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token,
       };
-
       switch (type) {
         case 1:
           p={
@@ -1115,7 +1117,12 @@ export default {
             "showCount": showCount,
             "pd": this.cdt,
             "orderBy": 'QZYXQZ',
-            "orderType": 'DESC'
+            "orderType": 'DESC',
+            userCode:this.userCode,
+            userName:this.userName,
+            orgJB:this.juState,
+            orgCode:this.orgCode,
+            token:this.token,
           };
           break;
         case 4:
@@ -1123,6 +1130,11 @@ export default {
             "currentPage": currentPage,
             "showCount": showCount,
             "pd": this.cdt,
+            userCode:this.userCode,
+            userName:this.userName,
+            orgJB:this.juState,
+            orgCode:this.orgCode,
+            token:this.token,
           };
           break;
         case 2:
@@ -1131,7 +1143,12 @@ export default {
               "showCount": showCount,
               "pd": this.cdt,
               "orderBy":{value:"IOSTRING",dataType:"date"},
-              "orderType":"DESC"
+              "orderType":"DESC",
+              userCode:this.userCode,
+              userName:this.userName,
+              orgJB:this.juState,
+              orgCode:this.orgCode,
+              token:this.token,
             };
             break;
         case 3:
@@ -1140,7 +1157,12 @@ export default {
             "showCount": showCount,
             "pd": this.cdt,
             "orderBy":{value:"ZSRQ",dataType:"date"},
-            "orderType":"DESC"
+            "orderType":"DESC",
+            userCode:this.userCode,
+            userName:this.userName,
+            orgJB:this.juState,
+            orgCode:this.orgCode,
+            token:this.token,
           };
           break;
         default:
@@ -1214,7 +1236,6 @@ export default {
     },
     chuli() {
         if(this.jb=="2"){
-
           if(this.pd.FJYJ=="" || this.pd.FJYJ==undefined)
           {
             this.$alert('分局调查意见不能为空！', '提示', {
@@ -1251,7 +1272,12 @@ export default {
       this.pcl.CLR=this.withname;
       this.pcl.CLRID=this.$store.state.uid;
       let p = {
-        "pd":this.pcl
+        "pd":this.pcl,
+        userCode:this.userCode,
+        userName:this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token,
       };
       this.$api.post(this.Global.aport4+'/warningInfoController/saveCLJG', p,
         r => {

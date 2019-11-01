@@ -80,7 +80,7 @@
              label="联系电话">
            </el-table-column>
            <el-table-column
-             prop="SFYX"
+             prop="SFYX_DESC"
              label="审核状态">
            </el-table-column>
            <el-table-column

@@ -155,7 +155,7 @@
                 </el-col> -->
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                     <span class="input-text">所属分局：</span>
-                    <el-select v-model="pd.SSFJ" @change="getPSC(pd.SSFJ)" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
+                    <el-select v-model="pd.SSFJ" @change="getPSC(pd.SSFJ)" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input" :disabled="juState=='1'?false:true">
                       <el-option
                         v-for="item in getallfj"
                         :key="item.DM"
@@ -166,7 +166,7 @@
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                     <span class="input-text" title="所属派出所">所属派出所：</span>
-                    <el-select v-model="pd.SSPCS" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
+                    <el-select v-model="pd.SSPCS" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input" :disabled="juState=='3'">
                       <el-option
                         v-for="item in PSC"
                         :key="item.DM"
@@ -378,9 +378,31 @@ import CZXX from '../../../common/czxx_xq'
       selectionAll:[],
       yuid:[],
       selectionReal:[],
+
+      userCode:'',
+      userName:'',
+      orgCode:'',
+      orgName:'',
+      token:'',
+      juState:'',
     }
   },
   mounted(){
+    this.userCode=this.$store.state.uid;
+    this.userName=this.$store.state.uname;
+    this.orgName=this.$store.state.orgname;
+    this.orgCode=this.$store.state.orgid;
+    this.juState=this.$store.state.juState;
+    this.token=this.$store.state.token;
+    if(this.juState=='2'){//分局登录
+      this.pd.SSFJ = this.orgCode;
+      this.getPSC(this.pd.SSFJ);
+    }
+    if(this.juState=='3'){//派出所登录
+      this.pd.SSFJ = this.$store.state.pcsToju;
+      this.getPSC(this.pd.SSFJ);
+      this.pd.SSPCS = this.orgCode;
+    }
     this.$store.dispatch("getGjdq");
     this.$store.dispatch("getZjzl");
     this.$store.dispatch("getQzzl");
@@ -417,6 +439,11 @@ import CZXX from '../../../common/czxx_xq'
       if(this.selectionAll.length==0){//全部导出
          p={
           "pd":this.pdTu,
+          userCode:this.userCode,
+          userName:this.userName,
+          orgJB:this.juState,
+          orgCode:this.orgCode,
+          token:this.token
         }
       }else{//导出选中
         this.yuid=[];
@@ -425,6 +452,11 @@ import CZXX from '../../../common/czxx_xq'
         };
          p={
           "pd":{RGUID:this.yuid},
+          userCode:this.userCode,
+          userName:this.userName,
+          orgJB:this.juState,
+          orgCode:this.orgCode,
+          token:this.token
         }
       }
       this.$api.post(this.Global.aport5+'/djbhl/exportdjbhl',p,
@@ -458,7 +490,15 @@ import CZXX from '../../../common/czxx_xq'
       this.changeTime(pd0.TLYXQ_DateRange,pd.TLYXQ_DateRange);
       this.changeTime(pd0.FJJSSJ_DateRange,pd.FJJSSJ_DateRange);
       //表格
-      this.$api.post(this.Global.aport5+'/djbhl/getdjbhltjlb',{pd:pd},
+      let p={
+        pd:pd,
+        userCode:this.userCode,
+        userName:this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token
+      }
+      this.$api.post(this.Global.aport5+'/djbhl/getdjbhltjlb',p,
        r =>{
          if(r.success){
            this.tableDataC = r.data.resultList
@@ -471,7 +511,15 @@ import CZXX from '../../../common/czxx_xq'
       this.changeTime(pd0.TLYXQ_DateRange,pd.TLYXQ_DateRange);
       this.changeTime(pd0.FJJSSJ_DateRange,pd.FJJSSJ_DateRange);
       // this.changeTime(pd.PCSJSSJ_DateRange);
-      this.$api.post(this.Global.aport5+'/djbhl/getdjbhl',{pd:pd},
+      let p={
+        pd:pd,
+        userCode:this.userCode,
+        userName:this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token
+      }
+      this.$api.post(this.Global.aport5+'/djbhl/getdjbhl',p,
        r =>{
          if(r.success){
            this.drawLine(r.data.legend,r.data.xAxis,r.data.series);
@@ -490,7 +538,15 @@ import CZXX from '../../../common/czxx_xq'
       this.changeTime(pd0.CSRQ_DateRange,pd.CSRQ_DateRange);
       this.changeTime(pd0.TLYXQ_DateRange,pd.TLYXQ_DateRange);
       this.changeTime(pd0.FJJSSJ_DateRange,pd.FJJSSJ_DateRange);
-      this.$api.post(this.Global.aport5+'/djbhl/exportdjbhlchart',{pd:pd},
+      let p={
+        pd:pd,
+        userCode:this.userCode,
+        userName:this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token
+      }
+      this.$api.post(this.Global.aport5+'/djbhl/exportdjbhlchart',p,
        r =>{
          this.downloadM(r);
        },e=>{},{},'blob')
@@ -512,7 +568,12 @@ import CZXX from '../../../common/czxx_xq'
       let p={
         'currentPage':currentPage,
         'showCount':pageSize,
-        'pd':pd
+        'pd':pd,
+        userCode:this.userCode,
+        userName:this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token
       }
       this.$api.post(this.Global.aport5+'/djbhl/getjbxx',p,
        r =>{
@@ -542,7 +603,14 @@ import CZXX from '../../../common/czxx_xq'
       this.CZDialogVisible=true;
     },
     getFj(){
-      this.$api.post(this.Global.aport5+'/djbhl/getallfj',{},
+      let p={
+        userCode:this.userCode,
+        userName:this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token
+      }
+      this.$api.post(this.Global.aport5+'/djbhl/getallfj',p,
        r =>{
          if(r.success){
            this.getallfj=r.data;
@@ -550,7 +618,15 @@ import CZXX from '../../../common/czxx_xq'
        })
     },
     getPSC(i){
-      this.$api.post(this.Global.aport5+'/djbhl/getpcsbyfjdm',{fjdm:i},
+      let p={
+        pd:{fjdm:i},
+        userCode:this.userCode,
+        userName:this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token
+      }
+      this.$api.post(this.Global.aport5+'/djbhl/getpcsbyfjdm',p,
       r =>{
         if(r.success){
           this.PSC=r.data;

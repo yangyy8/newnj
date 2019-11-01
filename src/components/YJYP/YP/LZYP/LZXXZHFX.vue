@@ -73,7 +73,7 @@
 
                   <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
                         <span class="input-text"> 所属分局：</span>
-                        <el-select v-model="pd.SSFJ" filterable clearable default-first-option @change="getSSPCS(pd.SSFJ)" placeholder="请选择"  size="small" class="input-input">
+                        <el-select v-model="pd.SSFJ" filterable clearable default-first-option @change="getSSPCS(pd.SSFJ)" placeholder="请选择"  size="small" class="input-input" :disabled="juState=='1'?false:true">
                           <el-option
                             v-for="(item,ind1) in ssfj"
                             :key="ind1"
@@ -84,7 +84,7 @@
                     </el-col>
                   <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
                         <span class="input-text">派出所：</span>
-                          <el-select v-model="pd.SSPCS" filterable clearable default-first-option placeholder="请输入关键字"  size="small" class="input-input">
+                          <el-select v-model="pd.SSPCS" filterable clearable default-first-option placeholder="请输入关键字"  size="small" class="input-input" :disabled="juState=='3'">
                          <el-option
                            v-for="(item,ind1) in sspcs"
                            :key="ind1"
@@ -220,7 +220,6 @@
                  label="操作" width="100">
                  <template slot-scope="scope">
                  <el-button type="text"  class="a-btn"  title="详情"  icon="el-icon-document" @click="$router.push({name:'JWRYXX',query:{row:scope.row,queryPd:pd}})"></el-button>
-                 <!-- <el-button type="text"  class="a-btn"  title="详情"  icon="el-icon-document" @click="aa(scope)"></el-button> -->
                  </template>
                </el-table-column>
           </el-table>
@@ -508,9 +507,31 @@
           selectionReal:[],
           ssfj: [],
           sspcs: [],
+
+          userCode:'',
+          userName:'',
+          orgCode:'',
+          orgName:'',
+          token:'',
+          juState:'',
         }
       },
       mounted() {
+        this.userCode=this.$store.state.uid;
+        this.userName=this.$store.state.uname;
+        this.orgName=this.$store.state.orgname;
+        this.orgCode=this.$store.state.orgid;
+        this.juState=this.$store.state.juState;
+        this.token=this.$store.state.token;
+        if(this.juState=='2'){//分局登录
+          this.pd.SSFJ = this.orgCode;
+          this.getSSPCS(this.pd.SSFJ);
+        }
+        if(this.juState=='3'){//派出所登录
+          this.pd.SSFJ = this.$store.state.pcsToju;
+          this.getSSPCS(this.pd.SSFJ);
+          this.pd.SSPCS = this.orgCode;
+        }
          this.$store.dispatch("getGjdq");
          this.$store.dispatch("getXB");
          this.$store.dispatch("getSsdw");
@@ -520,14 +541,12 @@
          this.$store.dispatch("getZsxz");
          this.$store.dispatch("getSjly");
          this.getSsfj();
-
       },
       activated(){
         this.getList(this.CurrentPage,this.pageSize, this.pd);
       },
       watch:{
         falg:function(newVal,oldVal){
-          console.log('flag',newVal,oldVal)
           this.multipleSelection=[];
           this.selectionAll=[];
           this.selectionReal=[];
@@ -535,7 +554,6 @@
         checkedList:{
           handler(newVal, oldVal) {
             if(!(newVal.toString()==oldVal.toString())){
-              console.log(newVal,oldVal)
               this.multipleSelection=[];
               this.selectionAll=[];
               this.selectionReal=[];
@@ -547,12 +565,11 @@
         getSsfj() {
           let p = {
             "operatorId": this.$store.state.uid,
-            "operatorNm": this.$store.state.uname
+            "operatorNm": this.$store.state.uname,
           };
           var url = this.Global.aport2 + "/data_report/selectSsfjDm";
           this.$api.post(url, p,
             r => {
-
               this.ssfj = sortByKey(r.data.SSFJ,'dm');
             })
         },
@@ -561,9 +578,8 @@
           this.$set(this.pd, "SSPCS", '');
           var srr = [];
           srr.push(arr);
-          console.log(srr);
           let p = {
-            "fjdmList": srr
+             "fjdmList": srr
           }
           this.$api.post(this.Global.aport2 + '/data_report/selectPcsDm', p,
             r => {
@@ -572,18 +588,15 @@
               }
             })
         },
-        aa(val){
-          console.log(val);
-        },
 
         selectfn(a,b){
           this.multipleSelection = a;
           this.dataSelection()
         },
         dataSelection(){
-          console.log('this.multipleSelection',this.multipleSelection)
+          // console.log('this.multipleSelection',this.multipleSelection)
           this.selectionReal.splice(this.CurrentPage-1,1,this.multipleSelection);
-          console.log('this.selectionReal',this.selectionReal);
+          // console.log('this.selectionReal',this.selectionReal);
           this.selectionAll=[];
           for(var i=0;i<this.selectionReal.length;i++){
             if(this.selectionReal[i]){
@@ -592,7 +605,7 @@
               }
             }
           }
-          console.log('this.selectionAll',this.selectionAll);
+          // console.log('this.selectionAll',this.selectionAll);
         },
         download(){
           let p={};
@@ -601,7 +614,12 @@
             url="/linZhuInfoComprehensiveAnalysisController/exportPersonList"
             if(this.selectionAll.length==0){//人员全部导出
               p={
-                "pd":this.pd
+                "pd":this.pd,
+                userCode:this.userCode,
+                userName:this.userName,
+                orgJB:this.juState,
+                orgCode:this.orgCode,
+                token:this.token,
               }
             }else{//人员部分导出
               this.yuid=[];
@@ -611,6 +629,11 @@
               this.pd.DTID=this.yuid;
               p={
                 "pd":this.pd,
+                userCode:this.userCode,
+                userName:this.userName,
+                orgJB:this.juState,
+                orgCode:this.orgCode,
+                token:this.token,
               }
             }
           }else{//统计导出
@@ -619,17 +642,26 @@
               p={
                 "pd":this.pd,
                 "groupList":this.checkedList,
+                userCode:this.userCode,
+                userName:this.userName,
+                orgJB:this.juState,
+                orgCode:this.orgCode,
+                token:this.token,
               }
             }else{//统计部分导出
               p={
                 "requestTempList":this.selectionAll,
                 "groupList":this.checkedList,
+                userCode:this.userCode,
+                userName:this.userName,
+                orgJB:this.juState,
+                orgCode:this.orgCode,
+                token:this.token,
               }
             }
           }
           this.$api.post(this.Global.aport5+url,p,
             r =>{
-              console.log(r);
               this.downloadM(r)
             },e=>{},{},'blob')
         },
@@ -651,12 +683,10 @@
         pageSizeChange(val) {
           this.pageSize=val;
           this.getList(this.CurrentPage, val, this.pd);
-          console.log(`每页 ${val} 条`);
         },
         handleCurrentChange(val) {
           this.CurrentPage=val;
           this.getList(val, this.pageSize, this.pd);
-          console.log(`当前页: ${val}`);
         },
         open(content) {
           this.$alert(content, '提示', {
@@ -696,7 +726,12 @@
             "pd": pd,
             "orderBy":'',
             "orderType":'DESC',
-            "groupList":this.checkedList
+            "groupList":this.checkedList,
+            userCode:this.userCode,
+            userName:this.userName,
+            orgJB:this.juState,
+            orgCode:this.orgCode,
+            token:this.token,
           };
 
           this.$api.post(this.Global.aport5+'/linZhuInfoComprehensiveAnalysisController/getComprehensiveAnalysis', p,

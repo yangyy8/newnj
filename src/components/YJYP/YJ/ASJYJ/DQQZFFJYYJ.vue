@@ -276,6 +276,7 @@ export default {
       userName:'',
       orgCode:'',
       orgName:'',
+      token:'',
       form:{},
       addlg:{},
       getallfj:[],
@@ -289,6 +290,8 @@ export default {
     }
   },
   mounted() {
+    if(this.Global.serviceState==0){this.$set(this.pd,'CLZT','CLZT_1')};
+    if(this.Global.serviceState==1){this.$set(this.pd,'CLZT','1')};
     this.$store.dispatch('getGjdq');
     this.$store.dispatch('getClzt');
     this.$store.dispatch('getZjzl');
@@ -296,18 +299,15 @@ export default {
     this.$store.dispatch('getRjqzzl');
     this.$store.dispatch('getLgyj');
     this.$store.dispatch('getGljb');
-    this.userCode=this.$store.state.uname;
-    this.userName=this.$store.state.uid;
+    this.userCode=this.$store.state.uid;
+    this.userName=this.$store.state.uname;
     this.orgName=this.$store.state.orgname;
     this.orgCode=this.$store.state.orgid;
     this.juState=this.$store.state.juState;
-    console.log(this.$store.state.orgname,this.$store.state.orgid);
+    this.token=this.$store.state.token;
     this.getFj();
    },
    activated(){
-     if(this.Global.serviceState==0){this.$set(this.pd,'CLZT','CLZT_1')};
-     if(this.Global.serviceState==1){this.$set(this.pd,'CLZT','1')};
-     console.log('this.juState',this.juState);
      if(this.juState=='2'){//分局登录
        this.pd.FJ = this.orgCode;
        this.getPSC(this.pd.FJ);
@@ -324,7 +324,7 @@ export default {
    },
   methods: {
     getFj(){
-      this.$api.post(this.Global.aport5+'/djbhl/getallfj',{},
+      this.$api.post(this.Global.aport5+'/djbhl/getallfj',{userCode:this.userCode,userName:this.userName,orgJB:this.juState,orgCode:this.orgCode,token:this.token},
        r =>{
          if(r.success){
            this.getallfj=r.data;
@@ -333,29 +333,14 @@ export default {
     },
     getPSC(i){
       this.$set(this.pd,'PCS','');
-      this.$api.post(this.Global.aport5+'/djbhl/getpcsbyfjdm',{fjdm:i},
+      this.$api.post(this.Global.aport5+'/djbhl/getpcsbyfjdm',{pd:{fjdm:i},userCode:this.userCode,userName:this.userName,orgJB:this.juState,orgCode:this.orgCode,token:this.token},
       r =>{
         if(r.success){
           this.PSC=r.data;
         }
       })
     },
-    handleSelectionChange(val) {
-      // this.multipleSelection = val;
-      // for(var i in this.multipleSelection){
-      //   this.selectionAll.push(this.multipleSelection[i]);
-      // }
-      // var arrAfter=[];
-      // var arrReal=[];
-      // for(var j in this.selectionAll){
-      //   if(arrAfter.indexOf(this.selectionAll[j].YJID)==-1){
-      //     arrAfter.push(this.selectionAll[j].YJID);
-      //     arrReal.push(this.selectionAll[j])
-      //   }
-      // }
-      // this.selectionAll = arrReal;
-      // console.log(this.selectionAll)
-    },
+    handleSelectionChange(val) {},
     selectfn(a,b){
       this.multipleSelection = a;
       this.dataSelection()
@@ -380,7 +365,12 @@ export default {
          p={
           "pd":this.pd,
           "orderBy":'BJSJ',
-          "orderType":'DESC'
+          "orderType":'DESC',
+          'userCode':this.userCode,
+          'userName':this.userName,
+          'orgJB':this.juState,
+          'orgCode':this.orgCode,
+          'token':this.token
         }
       }else{//导出选中
         this.yuid=[];
@@ -392,11 +382,15 @@ export default {
           "pd":this.pd,
           "orderBy":'BJSJ',
           "orderType":'DESC',
+          'userCode':this.userCode,
+          'userName':this.userName,
+          'orgJB':this.juState,
+          'orgCode':this.orgCode,
+          'token':this.token
         }
       }
       this.$api.post(this.Global.aport4+'/warningInfoController/exportByMxLx',p,
         r =>{
-          console.log(r);
           this.downloadM(r)
         },e=>{},{},'blob')
     },
@@ -415,12 +409,10 @@ export default {
     pageSizeChange(val) {
       this.pageSize=val;
       this.getList(this.CurrentPage, this.pageSize, this.pd);
-      console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
       this.CurrentPage=val;
       this.getList(this.CurrentPage, this.pageSize, this.pd);
-      console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
       this.pd.MXLX='ASJ_DQQZFFJY';
@@ -434,7 +426,12 @@ export default {
         "showCount": showCount,
         "pd": pd,
         "orderBy":'BJSJ',
-        "orderType":'DESC'
+        "orderType":'DESC',
+        'userCode':this.userCode,
+        'userName':this.userName,
+        'orgJB':this.juState,
+        'orgCode':this.orgCode,
+        'token':this.token
       };
       this.$api.post(this.Global.aport4+'/warningInfoController/getInfoListByMxLx1', p,
         r => {
@@ -477,7 +474,12 @@ export default {
            pd:{
              ZJHM:i.ZJHM,
              GJDQ:i.GJ,
-           }
+           },
+           'userCode':this.userCode,
+           'userName':this.userName,
+           'orgJB':this.juState,
+           'orgCode':this.orgCode,
+           'token':this.token
          }
         this.$api.post(this.Global.aport4+'/zDRYController/isLGRY', p,
          r => {
@@ -507,7 +509,9 @@ export default {
            userName:this.userName,
            userCode:this.userCode,
            orgCode:this.orgCode,
-           orgName:this.orgName
+           orgName:this.orgName,
+           orgJB:this.juState,
+           token:this.token
          }
         this.$api.post(this.Global.aport4+'/zDRYController/setZdry', p,
          r => {

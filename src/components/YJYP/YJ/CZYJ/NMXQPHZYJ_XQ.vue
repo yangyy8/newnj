@@ -663,13 +663,24 @@ export default {
       withname:this.$store.state.uname,
       row:{},
       clztShow:true,
+      userCode:'',
+      userName:'',
+      orgCode:'',
+      orgName:'',
+      juState:'',
+      token:'',
     }
   },
   activated(){
     // this.rybh=this.$route.query.rybh;
     // this.yjid=this.$route.query.yjid;
+    this.userCode=this.$store.state.uid;
+    this.userName=this.$store.state.uname;
+    this.orgName=this.$store.state.orgname;
+    this.orgCode=this.$store.state.orgid;
+    this.juState=this.$store.state.juState;
+    this.token=this.$store.state.token;
     this.row=this.$route.query.row;
-    console.log('this.row',this.row);
     this.clztShow=true;
     this.pc.CHANGE_RESON='';
     if(this.row!=undefined && (this.row.CLZT=='0'||this.row.CLZT=='CLZT_0')){
@@ -699,58 +710,52 @@ export default {
   methods: {
     asjpageSizeChange(val) {
     this.getData0(this.asjCurrentPage,val);
-      console.log(`每页 ${val} 条`);
     },
     asjhandleCurrentChange(val) {
       this.getData0(val,this.asjpageSize);
-      console.log(`当前页: ${val}`);
     },
     pageSizeChange(val) {
       this.pageSize=val;
       this.getCZXX(this.CurrentPage, this.pageSize);
-      console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
       this.CurrentPage=val;
       this.getCZXX(this.CurrentPage, this.pageSize);
-      console.log(`当前页: ${val}`);
     },
     pageSizeChange1(val) {
       this.pageSize1=val;
       this.getCRJ(this.CurrentPage1, this.pageSize1);
-      console.log(`每页 ${val} 条`);
     },
     handleCurrentChange1(val) {
       this.CurrentPage1=val;
       this.getCRJ(this.CurrentPage1, this.pageSize1);
-      console.log(`当前页: ${val}`);
     },
     pageSizeChange2(val) {
       this.pageSize2=val;
       this.getSJ(this.CurrentPage2, this.pageSize2);
-      console.log(`每页 ${val} 条`);
     },
     handleCurrentChange2(val) {
       this.CurrentPage2=val;
       this.getSJ(this.CurrentPage2, this.pageSize2);
-      console.log(`当前页: ${val}`);
     },
     pageSizeChange3(val) {
       this.pageSize3=val;
       this.getLZ(this.CurrentPage3, this.pageSize3);
-      console.log(`每页 ${val} 条`);
     },
     handleCurrentChange3(val) {
       this.CurrentPage3=val;
       this.getLZ(this.CurrentPage3, this.pageSize3);
-      console.log(`当前页: ${val}`);
     },
     getData0(currentPage,showCount){
-
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
         "pd": this.px,
+        userCode:this.userCode,
+        userName:this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token
       };
       this.$api.post(this.Global.aport4+'/eS_AJ_GroupController/getAnJianInfoByRYBH', p,
         r => {
@@ -759,14 +764,13 @@ export default {
       })
     },
     detailsasj(n){
-       this.xid=n.RGUID+","+n.DTID;
+      this.xid=n.RGUID+","+n.DTID;
       this.asjDialogVisible=true;
     },
     openTc(n,id){
       this.xid=id;
           if(n==1)//常住居住地
           {
-
             this.detailsDialogVisible=true;
           }else if(n==2)//出入境
           {    this.type=1;
@@ -779,28 +783,33 @@ export default {
       this.rybh=n.RYBH;
       this.lzxxDialogVisible=true;
     },
-    getList(url,type){
-      let p = {
-        "rybh": this.rybh
-      };
-      this.$api.post(url, p,
-        r => {
-          if(type==0){
-            this.baseData=r.data
-          }else if(type==1){
-            this.tableData1=r.data
-          }else if(type==2){
-            this.tableData2=r.data
-          }else if(type==3){
-            this.tableData3=r.data
-          }else if(type==4){
-            this.tableData4=r.data
-          }
-        })
-    },
+    // getList(url,type){
+    //   let p = {
+    //     "rybh": this.rybh
+    //   };
+    //   this.$api.post(url, p,
+    //     r => {
+    //       if(type==0){
+    //         this.baseData=r.data
+    //       }else if(type==1){
+    //         this.tableData1=r.data
+    //       }else if(type==2){
+    //         this.tableData2=r.data
+    //       }else if(type==3){
+    //         this.tableData3=r.data
+    //       }else if(type==4){
+    //         this.tableData4=r.data
+    //       }
+    //     })
+    // },
     getBase() {//人员基本信息
       let p = {
-        "pd": this.pd
+        "pd": this.pd,
+        userCode:this.userCode,
+        userName:this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token,
       };
       this.$api.post(this.Global.aport4+'/warningInfoController/getEntityByYJID', p,
         r => {
@@ -808,7 +817,12 @@ export default {
         })
 
         let pp = {
-          "pd": this.px
+          "pd": this.px,
+          userCode:this.userCode,
+          userName:this.userName,
+          orgJB:this.juState,
+          orgCode:this.orgCode,
+          token:this.token
         };
         this.$api.post(this.Global.aport4+'/eS_NM_JBXXController/getEntityByRYBH', pp,
           r => {
@@ -822,6 +836,11 @@ export default {
         "pd": this.px,
         // "orderBy":"RQ_RZRQ",
         // "orderType":"DESC"
+        userCode:this.userCode,
+        userName:this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token
       };
       this.$api.post(this.Global.aport4+'/eS_CZ_JZDXXController/getResultListByParams', pp,
         r => {
@@ -835,7 +854,12 @@ export default {
         "showCount": showCount,
         "pd": this.px,
         "orderBy":{value:"ZSRQ",dataType:"date"},
-        "orderType":"DESC"
+        "orderType":"DESC",
+        userCode:this.userCode,
+        userName:this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token
       };
       this.$api.post(this.Global.aport4+'/eS_LZ_LZXXController/getResultListByParams', pp,
         r => {
@@ -850,7 +874,12 @@ export default {
         "showCount": showCount,
         "pd": this.px,
         "orderBy":{value:"IOSTRING",dataType:"date"},
-        "orderType":"DESC"
+        "orderType":"DESC",
+        userCode:this.userCode,
+        userName:this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token
       };
       this.$api.post(this.Global.aport4+'/eS_CRJJLBController/getResultListByParams', pp,
         r => {
@@ -865,7 +894,12 @@ export default {
         "showCount": showCount,
         "pd": this.px,
         "orderBy":{value:"CJSJ",dataType:"date"},
-        "orderType":"DESC"
+        "orderType":"DESC",
+        userCode:this.userCode,
+        userName:this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token,
       };
       this.$api.post(this.Global.aport4+'/eS_JCJ_SJXXController/getResultListByParams', pp,
         r => {
@@ -889,7 +923,12 @@ export default {
       this.pcl.CLDW=this.$store.state.orgname;
       this.pcl.CLR=this.withname;
       let p = {
-        "pd":this.pcl
+        "pd":this.pcl,
+        userCode:this.userCode,
+        userName:this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token
       };
       this.$api.post(this.Global.aport4+'/warningInfoController/saveCLJG', p,
         r => {

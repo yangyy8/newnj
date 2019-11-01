@@ -604,6 +604,13 @@
           selectionReal:[],
           ssfj: [],
           sspcs: [],
+
+          userCode:'',
+          userName:'',
+          orgCode:'',
+          orgName:'',
+          token:'',
+          juState:'',
         }
       },
       mounted() {
@@ -618,6 +625,21 @@
          this.$store.dispatch("getJzztlx");
          this.$store.dispatch("getSf");
          this.$store.dispatch("getZflx");
+         this.userCode=this.$store.state.uid;
+         this.userName=this.$store.state.uname;
+         this.orgName=this.$store.state.orgname;
+         this.orgCode=this.$store.state.orgid;
+         this.juState=this.$store.state.juState;
+         this.token=this.$store.state.token;
+         if(this.juState=='2'){//分局登录
+           this.pd.SSFJ = this.orgCode;
+           this.getSSPCS(this.pd.SSFJ);
+         }
+         if(this.juState=='3'){//派出所登录
+           this.pd.SSFJ = this.$store.state.pcsToju;
+           this.getSSPCS(this.pd.SSFJ);
+           this.pd.SSPCS = this.orgCode;
+         }
          this.getSsfj();
       },
       watch:{
@@ -665,23 +687,7 @@
               }
             })
         },
-        handleSelectionChange(val) {
-          // console.log(val)
-          // this.multipleSelection = val;
-          // for(var i in this.multipleSelection){
-          //   this.selectionAll.push(this.multipleSelection[i]);
-          // }
-          // var arrAfter=[];
-          // var arrReal=[];
-          // for(var j in this.selectionAll){
-          //   if(arrAfter.indexOf(this.selectionAll[j].RGUID)==-1){
-          //     arrAfter.push(this.selectionAll[j].RGUID);
-          //     arrReal.push(this.selectionAll[j])
-          //   }
-          // }
-          // this.selectionAll = arrReal;
-          // console.log(this.selectionAll)
-        },
+        handleSelectionChange(val) {},
         selectfn(a,b){
           this.multipleSelection = a;
           this.dataSelection()
@@ -707,11 +713,21 @@
             if(this.checkedList.length==0){//人员全部导出
               p={
                "pd":this.pd,
+               userCode:this.userCode,
+               userName:this.userName,
+               orgJB:this.juState,
+               orgCode:this.orgCode,
+               token:this.token
              }
             }else{//统计全部导出
              p={
                "pd":this.pd,
                "groupList":this.checkedList,
+               userCode:this.userCode,
+               userName:this.userName,
+               orgJB:this.juState,
+               orgCode:this.orgCode,
+               token:this.token
              }
             }
           }else{//导出选中
@@ -723,11 +739,21 @@
               this.pd.RGUID=this.yuid;
                p={
                 "pd":this.pd,
+                userCode:this.userCode,
+                userName:this.userName,
+                orgJB:this.juState,
+                orgCode:this.orgCode,
+                token:this.token
               }
             }else{//统计选中导出
               p={
                 "requestTempList":this.selectionAll,
                 "groupList":this.checkedList,
+                userCode:this.userCode,
+                userName:this.userName,
+                orgJB:this.juState,
+                orgCode:this.orgCode,
+                token:this.token
               }
             }
           }
@@ -751,12 +777,10 @@
         pageSizeChange(val) {
           this.pageSize=val;
           this.getList(this.CurrentPage, val, this.pd);
-          console.log(`每页 ${val} 条`);
         },
         handleCurrentChange(val) {
           this.CurrentPage=val;
           this.getList(val, this.pageSize, this.pd);
-          console.log(`当前页: ${val}`);
         },
         open(content) {
           this.$alert(content, '提示', {
@@ -793,6 +817,11 @@
             "showCount": showCount,
             "pd": pd,
             "groupList":this.checkedList,
+            userCode:this.userCode,
+            userName:this.userName,
+            orgJB:this.juState,
+            orgCode:this.orgCode,
+            token:this.token
           };
 
           this.$api.post(this.Global.aport5+'/changZhuController/getCount', p,

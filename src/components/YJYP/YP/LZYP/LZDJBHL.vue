@@ -95,7 +95,7 @@
                 <el-col  :sm="24" :md="12" :lg="12"  class="input-item">
                     <span class="input-text">所属分局：</span>
                     <div class="input-input t-fuzzy-12 t-flex">
-                      <el-select v-model="pd.LRDW_Like" multiple :multiple-limit="5" @change="getPCS(pd.LRDW_Like)"  collapse-tags  filterable clearable default-first-option placeholder="请选择"  size="small">
+                      <el-select v-model="pd.LRDW_Like" multiple :multiple-limit="5" @change="getPCS(pd.LRDW_Like)"  collapse-tags  filterable clearable default-first-option placeholder="请选择"  size="small" :disabled="juState=='1'?false:true">
                         <el-option
                           v-for="item in fjlist"
                           :key="item.dm"
@@ -109,7 +109,7 @@
                 <el-col  :sm="24" :md="12" :lg="12"  class="input-item">
                     <span class="input-text">派出所：</span>
                     <div class="input-input t-fuzzy-12 t-flex">
-                      <el-select v-model="pd.LRDW" multiple :multiple-limit="5"  collapse-tags filterable clearable default-first-option placeholder="请选择"  size="small">
+                      <el-select v-model="pd.LRDW" multiple :multiple-limit="5"  collapse-tags filterable clearable default-first-option placeholder="请选择"  size="small" :disabled="juState=='3'">
                         <el-option
                           v-for="item in pcslist"
                           :key="item.dm"
@@ -363,9 +363,31 @@ import LZXX from '../../../common/lzxx_xq'
       yuid:[],
       selectionReal:[],
 
+      userCode:'',
+      userName:'',
+      orgCode:'',
+      orgName:'',
+      token:'',
+      juState:'',
+
     }
   },
   mounted(){
+    this.userCode=this.$store.state.uid;
+    this.userName=this.$store.state.uname;
+    this.orgName=this.$store.state.orgname;
+    this.orgCode=this.$store.state.orgid;
+    this.juState=this.$store.state.juState;
+    this.token=this.$store.state.token;
+    if(this.juState=='2'){//分局登录
+      this.pd.LRDW_Like = [this.orgCode];
+      this.getPCS(this.pd.LRDW_Like);
+    }
+    if(this.juState=='3'){//派出所登录
+      this.pd.LRDW_Like = this.$store.state.pcsToju;
+      this.getPCS(this.pd.LRDW_Like);
+      this.pd.LRDW = [this.orgCode];
+    }
     this.$store.dispatch("getGjdq");
     this.$store.dispatch("getZjzl");
     this.$store.dispatch("getRjqzzl");
@@ -396,9 +418,9 @@ import LZXX from '../../../common/lzxx_xq'
       this.dataSelection()
     },
     dataSelection(){
-      console.log('this.multipleSelection',this.multipleSelection)
+      // console.log('this.multipleSelection',this.multipleSelection)
       this.selectionReal.splice(this.CurrentPage-1,1,this.multipleSelection);
-      console.log('this.selectionReal',this.selectionReal);
+      // console.log('this.selectionReal',this.selectionReal);
       this.selectionAll=[];
       for(var i=0;i<this.selectionReal.length;i++){
         if(this.selectionReal[i]){
@@ -407,13 +429,18 @@ import LZXX from '../../../common/lzxx_xq'
           }
         }
       }
-      console.log('this.selectionAll',this.selectionAll);
+      // console.log('this.selectionAll',this.selectionAll);
     },
     download(){
       let p={};
       if(this.selectionAll.length==0){//全部导出
          p={
           "pd":this.pdTu,
+          userCode:this.userCode,
+          userName:this.userName,
+          orgJB:this.juState,
+          orgCode:this.orgCode,
+          token:this.token
         }
       }else{//导出选中
         this.yuid=[];
@@ -423,6 +450,11 @@ import LZXX from '../../../common/lzxx_xq'
         this.pdTu.DTID=this.yuid;
          p={
           "pd":this.pdTu,
+          userCode:this.userCode,
+          userName:this.userName,
+          orgJB:this.juState,
+          orgCode:this.orgCode,
+          token:this.token
         }
       }
       this.$api.post(this.Global.aport4+'/warningInfoController/exportByMxLx',p,
@@ -450,7 +482,15 @@ import LZXX from '../../../common/lzxx_xq'
         });
         return
       }
-      this.$api.post(this.Global.aport4+'/eS_LZ_LZXXController/exportList',{pd:this.pd},
+      let p={
+        pd:this.pd,
+        userCode:this.userCode,
+        userName:this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token
+      }
+      this.$api.post(this.Global.aport4+'/eS_LZ_LZXXController/exportList',p,
        r =>{
          this.downloadM(r);
        },e=>{},{},'blob')
@@ -466,7 +506,10 @@ import LZXX from '../../../common/lzxx_xq'
     getFJ(){
       let p={
         "operatorId":this.$store.state.uid,
-        "operatorNm":this.$store.state.uname
+        "operatorNm":this.$store.state.uname,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token
       };
       this.$api.post(this.Global.aport2+'/data_report/selectSsfjDm', p,
         r => {
@@ -496,7 +539,7 @@ import LZXX from '../../../common/lzxx_xq'
     },
     getPCS(arr){
       let p={
-        "fjdmList":arr
+        "fjdmList":arr,
       }
       this.$api.post(this.Global.aport3+'/data_report/selectPcsDm',p,
        r=>{
@@ -515,7 +558,12 @@ import LZXX from '../../../common/lzxx_xq'
         return
       }
       let p = {
-        "pd": this.pd
+        "pd": this.pd,
+        userCode:this.userCode,
+        userName:this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token
       };
       this.$api.post(this.Global.aport4+'/eS_LZ_LZXXController/getCountByParam', p,
         r => {
@@ -527,7 +575,15 @@ import LZXX from '../../../common/lzxx_xq'
     },
     getListC(){
       //表格
-      this.$api.post(this.Global.aport4+'/eS_LZ_LZXXController/getListByParam',{pd:this.pd},
+      let p={
+        pd:this.pd,
+        userCode:this.userCode,
+        userName:this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token
+      }
+      this.$api.post(this.Global.aport4+'/eS_LZ_LZXXController/getListByParam',p,
        r =>{
          if(r.success){
            this.tableHeader = r.data.table;
@@ -539,7 +595,12 @@ import LZXX from '../../../common/lzxx_xq'
       let p={
         'currentPage':currentPage,
         'showCount':pageSize,
-        'pd':pd
+        'pd':pd,
+        userCode:this.userCode,
+        userName:this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token
       }
       this.$api.post(this.Global.aport4+'/eS_LZ_LZXXController/getLzListByParams',p,
         r =>{
@@ -646,11 +707,15 @@ import LZXX from '../../../common/lzxx_xq'
       that.lineChart.resize();
     },
     exportexcel(){
-      console.log('this.pddc',this.pdTu);
       let p={
         'currentPage':1,
         'showCount':10000,
-        'pd':this.pdTu
+        'pd':this.pdTu,
+        userCode:this.userCode,
+        userName:this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token
       }
       this.$api.post(this.Global.aport4+'/eS_LZ_LZXXController/export',p,
 

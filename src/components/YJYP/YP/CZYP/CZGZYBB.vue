@@ -461,9 +461,22 @@ import CZXX from '../../../common/czxx_xq'
       pdKey3:{},
       pdKey4:{},
       pdAll:{},
+
+      userCode:'',
+      userName:'',
+      orgCode:'',
+      orgName:'',
+      token:'',
+      juState:'',
     }
   },
   mounted(){
+    this.userCode=this.$store.state.uid;
+    this.userName=this.$store.state.uname;
+    this.orgName=this.$store.state.orgname;
+    this.orgCode=this.$store.state.orgid;
+    this.juState=this.$store.state.juState;
+    this.token=this.$store.state.token;
     this.getList()
   },
   watch:{
@@ -477,7 +490,12 @@ import CZXX from '../../../common/czxx_xq'
       this.getPd();
       let p={
         "currentPage":currentPage,
-        "showCount":showCount
+        "showCount":showCount,
+        userCode:this.userCode,
+        userName:this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token
       }
       this.specialKey = val;
       this.keyOne = valOne;
@@ -565,12 +583,12 @@ import CZXX from '../../../common/czxx_xq'
     download(){
       this.getPd();
       if(this.page==0){
-        this.$api.post(this.Global.aport2+'/gzybb/exportgzybb',{pd:this.pd},
+        this.$api.post(this.Global.aport2+'/gzybb/exportgzybb',{pd:this.pd,userCode:this.userCode,userName:this.userName,orgJB:this.juState,orgCode:this.orgCode,token:this.token},
          r =>{
            this.downloadM(r)
          },e=>{},{},'blob')
       }else{
-        this.$api.post(this.Global.aport2+'/gzybb/exportyptb',{pd:this.pd},
+        this.$api.post(this.Global.aport2+'/gzybb/exportyptb',{pd:this.pd,userCode:this.userCode,userName:this.userName,orgJB:this.juState,orgCode:this.orgCode,token:this.token},
          r =>{
            this.downloadM(r)
          },e=>{},{},'blob')
@@ -645,7 +663,7 @@ import CZXX from '../../../common/czxx_xq'
     },
     getList(){//工作月报表
       this.getPd();
-      this.$api.post(this.Global.aport2+'/gzybb/getgzybb',{pd:this.pd},
+      this.$api.post(this.Global.aport2+'/gzybb/getgzybb',{pd:this.pd,userCode:this.userCode,userName:this.userName,orgJB:this.juState,orgCode:this.orgCode,token:this.token},
        r =>{
          if(r.success){
            this.tableData=r.data;
@@ -654,7 +672,7 @@ import CZXX from '../../../common/czxx_xq'
     },
     getList1(){//来宁事由
       this.getPd();
-      this.$api.post(this.Global.aport2+'/gzybb/czlnsy',{pd:this.pd},
+      this.$api.post(this.Global.aport2+'/gzybb/czlnsy',{pd:this.pd,userCode:this.userCode,userName:this.userName,orgJB:this.juState,orgCode:this.orgCode,token:this.token},
        r=>{
          if(r.success){
            this.tableData1=r.data;
@@ -663,7 +681,7 @@ import CZXX from '../../../common/czxx_xq'
     },
     getList2(){//境外人员分布
       this.getPd();
-      this.$api.post(this.Global.aport2+'/gzybb/czsffb',{pd:this.pd},
+      this.$api.post(this.Global.aport2+'/gzybb/czsffb',{pd:this.pd,userCode:this.userCode,userName:this.userName,orgJB:this.juState,orgCode:this.orgCode,token:this.token},
        r =>{
          if(r.success){
            this.tableData2=r.data;
@@ -672,7 +690,7 @@ import CZXX from '../../../common/czxx_xq'
     },
     getList3(){//前五国家
       this.getPd();
-      this.$api.post(this.Global.aport2+'/gzybb/czpmq5gjdq',{pd:this.pd},
+      this.$api.post(this.Global.aport2+'/gzybb/czpmq5gjdq',{pd:this.pd,userCode:this.userCode,userName:this.userName,orgJB:this.juState,orgCode:this.orgCode,token:this.token},
        r =>{
          if(r.success){
            this.tableData3=r.data;
@@ -681,7 +699,7 @@ import CZXX from '../../../common/czxx_xq'
     },
     getList4(){//涉恐
       this.getPd();
-      this.$api.post(this.Global.aport2+'/gzybb/getsk31',{pd:this.pd},
+      this.$api.post(this.Global.aport2+'/gzybb/getsk31',{pd:this.pd,userCode:this.userCode,userName:this.userName,orgJB:this.juState,orgCode:this.orgCode,token:this.token},
        r =>{
          if(r.success){
            this.tableData4=r.data;
@@ -690,7 +708,7 @@ import CZXX from '../../../common/czxx_xq'
     },
     getTu1(){//来宁事由图表
       this.getPd();
-      this.$api.post(this.Global.aport2+'/gzybb/czlnsychart',{pd:this.pd},
+      this.$api.post(this.Global.aport2+'/gzybb/czlnsychart',{pd:this.pd,userCode:this.userCode,userName:this.userName,orgJB:this.juState,orgCode:this.orgCode,token:this.token},
        r =>{
          if(r.success){
            this.drawPie(r.data.legend,r.data.series,'echartspie')
@@ -699,7 +717,7 @@ import CZXX from '../../../common/czxx_xq'
     },
     getTu2(){//境外人员分布
       this.getPd();
-      this.$api.post(this.Global.aport2+'/gzybb/czsffbchart',{pd:this.pd},
+      this.$api.post(this.Global.aport2+'/gzybb/czsffbchart',{pd:this.pd,userCode:this.userCode,userName:this.userName,orgJB:this.juState,orgCode:this.orgCode,token:this.token},
         r =>{
           if(r.success){
             this.drawPie(r.data.legend,r.data.series,'echartspiejw')
@@ -708,7 +726,7 @@ import CZXX from '../../../common/czxx_xq'
     },
     getTu3(){//前五国家排名
       this.getPd();
-      this.$api.post(this.Global.aport2+'/gzybb/czpmq5gjdqchart',{pd:this.pd},
+      this.$api.post(this.Global.aport2+'/gzybb/czpmq5gjdqchart',{pd:this.pd,userCode:this.userCode,userName:this.userName,orgJB:this.juState,orgCode:this.orgCode,token:this.token},
         r =>{
           if(r.success){
             this.drawPie(r.data.legend,r.data.series,'echartspieq5')
@@ -717,7 +735,7 @@ import CZXX from '../../../common/czxx_xq'
     },
     getTu4(){//涉恐
       this.getPd();
-      this.$api.post(this.Global.aport2+'/gzybb/getsk31chart',{pd:this.pd},
+      this.$api.post(this.Global.aport2+'/gzybb/getsk31chart',{pd:this.pd,userCode:this.userCode,userName:this.userName,orgJB:this.juState,orgCode:this.orgCode,token:this.token},
         r =>{
           if(r.success){
             this.drawBar(r.data.title.text,r.data.xAxis,r.data.series,'echartspiesk')

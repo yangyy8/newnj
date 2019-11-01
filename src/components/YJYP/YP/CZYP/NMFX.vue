@@ -317,12 +317,25 @@ export default {
     selectionAll:[],
     yuid:[],
     selectionReal:[],
+
+    userCode:'',
+    userName:'',
+    orgCode:'',
+    orgName:'',
+    token:'',
+    juState:'',
     }
   },
   mounted() {
-       this.$store.dispatch("getGjdq");
-       this.$store.dispatch("getXB");
-       this.$store.dispatch("getSflx");
+    this.userCode=this.$store.state.uid;
+    this.userName=this.$store.state.uname;
+    this.orgName=this.$store.state.orgname;
+    this.orgCode=this.$store.state.orgid;
+    this.juState=this.$store.state.juState;
+    this.token=this.$store.state.token;
+   this.$store.dispatch("getGjdq");
+   this.$store.dispatch("getXB");
+   this.$store.dispatch("getSflx");
   },
   watch:{
     falg:function(newVal,oldVal){
@@ -343,16 +356,16 @@ export default {
   },
   methods: {
     handleChange(val){
-      console.log(val);
+      // console.log(val);
     },
     selectfn(a,b){
       this.multipleSelection = a;
       this.dataSelection()
     },
     dataSelection(){
-      console.log('this.multipleSelection',this.multipleSelection)
+      // console.log('this.multipleSelection',this.multipleSelection)
       this.selectionReal.splice(this.CurrentPage-1,1,this.multipleSelection);
-      console.log('this.selectionReal',this.selectionReal);
+      // console.log('this.selectionReal',this.selectionReal);
       this.selectionAll=[];
       for(var i=0;i<this.selectionReal.length;i++){
         if(this.selectionReal[i]){
@@ -361,14 +374,19 @@ export default {
           }
         }
       }
-      console.log('this.selectionAll',this.selectionAll);
+      // console.log('this.selectionAll',this.selectionAll);
     },
     download(){
       let p={};
       if(this.checkedList.length==0){//人员导出
         if(this.selectionAll.length==0){//人员全部导出,无选中的数据
           p={
-            "pd":this.pd
+            "pd":this.pd,
+            userCode:this.userCode,
+            userName:this.userName,
+            orgJB:this.juState,
+            orgCode:this.orgCode,
+            token:this.token
           }
         }else{//人员部分导出
           this.yuid=[];
@@ -378,6 +396,11 @@ export default {
           this.pd.RGUID=this.yuid;
           p={
             "pd":this.pd,
+            userCode:this.userCode,
+            userName:this.userName,
+            orgJB:this.juState,
+            orgCode:this.orgCode,
+            token:this.token
           }
         }
       }else{//统计导出
@@ -385,11 +408,21 @@ export default {
           p={
             "pd":this.pd,
             "groupList":this.checkedList,
+            userCode:this.userCode,
+            userName:this.userName,
+            orgJB:this.juState,
+            orgCode:this.orgCode,
+            token:this.token
           }
         }else{//统计部分导出
           p={
             "requestTempList":this.selectionAll,
             "groupList":this.checkedList,
+            userCode:this.userCode,
+            userName:this.userName,
+            orgJB:this.juState,
+            orgCode:this.orgCode,
+            token:this.token
           }
         }
       }
@@ -446,7 +479,6 @@ export default {
      // }else{
      //      this.open("注册日期的开始时间和结束时间都不能为空！");return ;
      //  }
-      console.log('this.pd.ZCRQ_DateRange',this.pd.ZCRQ_DateRange,this.pd0.endZC);
       this.pd.CSRQ_DateRange.begin=this.pd0.beginCS;
       this.pd.CSRQ_DateRange.end=this.pd0.endCS;
       this.pd.ZCRQ_DateRange.begin=this.pd0.beginZC;
@@ -476,7 +508,12 @@ export default {
         "pd": pd,
         "orderBy":'ZCRQ',
         "orderType":'DESC',
-        "groupList":this.checkedList
+        "groupList":this.checkedList,
+        userCode:this.userCode,
+        userName:this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token
       };
 
       this.$api.post(this.Global.aport5+'/nanMinController/getCount', p,

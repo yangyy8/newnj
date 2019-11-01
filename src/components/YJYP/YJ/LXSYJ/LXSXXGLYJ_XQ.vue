@@ -1171,9 +1171,21 @@ export default {
       showZD:true,
       showFJ:true,
       showPCS:true,
+      userCode:'',
+      userName:'',
+      orgCode:'',
+      orgName:'',
+      juState:'',
+      token:'',
     }
   },
   activated(){
+    this.userCode=this.$store.state.uid;
+    this.userName=this.$store.state.uname;
+    this.orgName=this.$store.state.orgname;
+    this.orgCode=this.$store.state.orgid;
+    this.juState=this.$store.state.juState;
+    this.token=this.$store.state.token;
     this.CurrentPage=1;
     this.CurrentPage1=1;
     this.CurrentPage2=1;
@@ -1318,103 +1330,89 @@ export default {
     asjpageSizeChange(val) {
       this.asjpageSize=val;
       this.getData0(this.asjCurrentPage,val);
-      console.log(`每页 ${val} 条`);
     },
     asjhandleCurrentChange(val) {
       this.asjCurrentPage=val;
       this.getData0(val,this.asjpageSize);
-      console.log(`当前页: ${val}`);
     },
     sjpageSizeChange(val) {
       this.sjpageSize=val;
       this.getData1(this.sjCurrentPage,val);
-      console.log(`每页 ${val} 条`);
     },
     sjhandleCurrentChange(val) {
       this.sjCurrentPage=val;
       this.getData1(val,this.sjpageSize);
-      console.log(`当前页: ${val}`);
     },
     pageSizeChange(val) {
       this.pageSiz=val;
       this.getLzxx(this.CurrentPage,val);
-      console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
       this.CurrentPage=val;
       this.getLzxx(val,this.pageSize);
-      console.log(`当前页: ${val}`);
     },
     pageSizeChange1(val) {
       this.pageSize1=val;
       this.getCrjxx(this.CurrentPage1,val);
-      console.log(`每页 ${val} 条`);
     },
     handleCurrentChange1(val) {
        this.CurrentPage1=val;
        this.getCrjxx(val,this.pageSize1);
-       console.log(`当前页: ${val}`);
     },
     pageSizeChange2(val) {
       this.pageSize2=val;
       this.getFFJY(this.CurrentPage2,val,this.pp);
-      console.log(`每页 ${val} 条`);
     },
     handleCurrentChange2(val) {
        this.CurrentPage2=val;
        this.getFFJY(val,this.pageSize2,this.pp);
-      console.log(`当前页: ${val}`);
     },
     pageSizeChange3(val) {
       this.pageSize3=val;
       this.getJZ(this.CurrentPage3,val,this.pp);
-      console.log(`每页 ${val} 条`);
     },
     handleCurrentChange3(val) {
        this.CurrentPage3=val;
        this.getJZ(val,this.pageSize3,this.pp);
-       console.log(`当前页: ${val}`);
     },
     pageSizeChange4(val) {
       this.pageSize4=val;
       this.getZJXX(this.CurrentPage4,val);
-      console.log(`每页 ${val} 条`);
     },
     handleCurrentChange4(val) {
       this.CurrentPage4=val;
       this.getZJXX(val,this.pageSize4);
-      console.log(`当前页: ${val}`);
     },
     pageSizeChange5(val) {
       this.pageSize5=val;
       this.getQZXX(this.CurrentPage5,val);
-      console.log(`每页 ${val} 条`);
     },
     handleCurrentChange5(val) {
       this.CurrentPage5=val;
       this.getQZXX(val,this.pageSize5);
-      console.log(`当前页: ${val}`);
     },
     pageSizeChange6(val) {
       this.pageSize6=val;
       this.getNMXX(this.CurrentPage6,val);
-      console.log(`每页 ${val} 条`);
     },
     handleCurrentChange6(val) {
       this.CurrentPage6=val;
       this.getNMXX(val,this.pageSize6);
-      console.log(`当前页: ${val}`);
     },
     getDetails(n){
       this.xid=n.RGUID;
       this.QZDialogVisible = true;
     },
     getData0(currentPage,showCount){
-
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
         "pd": this.px,
+        userCode:this.userCode,
+        userName:this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token,
       };
       this.$api.post(this.Global.aport4+'/eS_AJ_GroupController/getAnJianInfoByRYBH', p,
         r => {
@@ -1427,6 +1425,11 @@ export default {
         "currentPage": currentPage,
         "showCount": showCount,
         "pd": this.px,
+        userCode:this.userCode,
+        userName:this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token,
       };
       this.$api.post(this.Global.aport4+'/eS_JCJ_SJXXController/getResultListByParams', p,
         r => {
@@ -1436,7 +1439,12 @@ export default {
     },
     getBase() {
       let p = {
-        "pd": this.pd
+        "pd": this.pd,
+        userCode:this.userCode,
+        userName:this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token,
       };
       this.$api.post(this.Global.aport4+'/warningInfoController/getEntityByYJID', p,
         r => {
@@ -1450,7 +1458,12 @@ export default {
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
-        "pd": this.pd
+        "pd": this.pd,
+        userCode:this.userCode,
+        userName:this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token
       };
       this.$api.post(this.Global.aport4+'/eS_RY_JWRYZJController/getResultListByParams', p,
         r => {
@@ -1467,7 +1480,12 @@ export default {
         "showCount": showCount,
         "pd": this.pd,
         "orderBy":'QZYXQZ',
-        "orderType": 'DESC'
+        "orderType": 'DESC',
+        userCode:this.userCode,
+        userName:this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token,
       };
       this.$api.post(this.Global.aport4+'/eS_FNVISASController/getResultListByParams', p,
         r => {
@@ -1504,16 +1522,25 @@ export default {
         "showCount": showCount,
         "pd": this.px,
         "orderBy":{value:"ZSRQ",dataType:"date"},
-        "orderType":"DESC"
+        "orderType":"DESC",
+        userCode:this.userCode,
+        userName:this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token
       };
       if(this.row.MXLX=="BKYJ"){
-            console.log(this.pxcrj);
         p = {
           "currentPage": currentPage,
           "showCount": showCount,
           "pd": this.pxlz,
           "orderBy":{value:"ZSRQ",dataType:"date"},
-          "orderType":"DESC"
+          "orderType":"DESC",
+          userCode:this.userCode,
+          userName:this.userName,
+          orgJB:this.juState,
+          orgCode:this.orgCode,
+          token:this.token
         };
       }
       this.$api.post(this.Global.aport4+'/eS_LZ_LZXXController/getResultListByParams', p,
@@ -1530,16 +1557,25 @@ export default {
         "showCount": showCount,
         "pd": this.px,
         "orderBy":{value:"IOSTRING",dataType:"date"},
-        "orderType":"DESC"
+        "orderType":"DESC",
+        userCode:this.userCode,
+        userName:this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token
       };
       if(this.row.MXLX=="BKYJ"){
-        console.log(this.pxcrj);
         p = {
           "currentPage": currentPage,
           "showCount": showCount,
           "pd": this.pxcrj,
           "orderBy":{value:"IOSTRING",dataType:"date"},
-          "orderType":"DESC"
+          "orderType":"DESC",
+          userCode:this.userCode,
+          userName:this.userName,
+          orgJB:this.juState,
+          orgCode:this.orgCode,
+          token:this.token,
         };
       }
 
@@ -1552,7 +1588,12 @@ export default {
     //通报人员信息
     getTBRY(px){
       let p = {
-        "pd":px
+        "pd":px,
+        userCode:this.userCode,
+        userName:this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token,
       };
       this.$api.post(this.Global.aport4+'/eS_Tbry_GroupController/getTongBaoListByRyxx', p,
         r => {
@@ -1562,7 +1603,12 @@ export default {
     //难民信息
     getNMXX(currentPage,showCount){
       let p = {
-        "pd":this.px
+        "pd":this.px,
+        userCode:this.userCode,
+        userName:this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token,
       };
       this.$api.post(this.Global.aport4+'/eS_NM_JBXXController/getResultListByParams', p,
         r => {
@@ -1577,7 +1623,12 @@ export default {
         "showCount": showCount,
         "pd":px,
         "orderBy":{value:"CJSJ",dataType:"date"},
-        "orderType":"DESC"
+        "orderType":"DESC",
+        userCode:this.userCode,
+        userName:this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token,
       };
       this.$api.post(this.Global.aport4+'/eS_FFJL_GroupController/getResultListByParams', p,
         r => {
@@ -1592,7 +1643,12 @@ export default {
         "showCount": showCount,
         "pd":px,
         "orderBy":{value:"RQRB",dataType:"date"},
-        "orderType":"DESC"
+        "orderType":"DESC",
+        userCode:this.userCode,
+        userName:this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token
       };
       this.$api.post(this.Global.aport4+'/eS_KZ_CZWGMTJZController/getResultListByParams', p,
         r => {
@@ -1696,8 +1752,6 @@ export default {
    },
    getback(){
      this.$router.go(-1)
-     // this.getMX(this.row.MXLX);
-
    },
    addJytSave(){
      if(this.pc.CHANGE_RESON=="" || this.pc.CHANGE_RESON==undefined){
@@ -1712,7 +1766,12 @@ export default {
      this.pcl.CLDW=this.$store.state.orgname;
      this.pcl.CLR=this.withname;
      let p = {
-       "pd":this.pcl
+       "pd":this.pcl,
+       userCode:this.userCode,
+       userName:this.userName,
+       orgJB:this.juState,
+       orgCode:this.orgCode,
+       token:this.token
      };
      this.$api.post(this.Global.aport4+"/warningInfoController/saveLXS_ZSYJCLJG", p,
        r => {
@@ -1759,7 +1818,12 @@ export default {
     this.pcl.CLDW=this.$store.state.orgname;
     this.pcl.CLR=this.withname;
     let p = {
-      "pd":this.pcl
+      "pd":this.pcl,
+      userCode:this.userCode,
+      userName:this.userName,
+      orgJB:this.juState,
+      orgCode:this.orgCode,
+      token:this.token
     };
     let url='/warningInfoController/saveCLJG';
     this.$api.post(this.Global.aport4+url, p,
