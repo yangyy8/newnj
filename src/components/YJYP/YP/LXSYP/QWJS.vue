@@ -46,7 +46,7 @@
                        <el-col :span="6" class="t-el-content"><div class="t-el-text">证件号码：</div><div class="t-el-sub">{{item.zjhm}}</div></el-col>
                      </el-row>
                      <el-row>
-                       <el-col :span="24" class="t-el-content"><div class="t-el-text">命中信息：</div><div class="t-el-sub">{{item.index}}</div></el-col>
+                       <el-col :span="24" class="t-el-content"><div class="t-el-text">命中信息：</div><div class="t-el-sub"><span v-html='item.cusHighlight'></span></div></el-col>
                      </el-row>
                    </el-col>
                    <el-col :span="2">

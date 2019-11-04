@@ -582,7 +582,7 @@ export default {
         "sjxfStart": this.pd.sjxfStart,
         "sjxfEnd": this.pd.sjxfEnd,
       };
-      var url = this.Global.aport + "/ywczdt/getCZDJXXPCSList";
+      var url = "http://10.0.30.35:9420/ywczdt/getCZDJXXPCSList";
       this.$api.post(url, p,
         r => {
           if (r.success) {
