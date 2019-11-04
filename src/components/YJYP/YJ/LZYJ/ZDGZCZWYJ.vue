@@ -210,13 +210,16 @@ export default {
       selectionAll:[],
       yuid:[],
       selectionReal:[],
-      juState:'',
+      userCode:'',
+      userName:'',
       orgCode:'',
+      orgName:'',
+      token:'',
+      juState:'',
+
     }
   },
   activated(){
-    if(this.Global.serviceState==0){this.$set(this.pd,'CLZT','CLZT_1')};
-    if(this.Global.serviceState==1){this.$set(this.pd,'CLZT','1')};
     if(this.juState=='2'){//分局登录
       this.pd.FJ = this.orgCode;
       this.getPSC(this.pd.FJ);
@@ -232,13 +235,19 @@ export default {
     },1000)
   },
   mounted() {
+    if(this.Global.serviceState==0){this.$set(this.pd,'CLZT','CLZT_1')};
+    if(this.Global.serviceState==1){this.$set(this.pd,'CLZT','1')};
     this.$store.dispatch('getGjdq');
     this.$store.dispatch('getPcs');
     this.$store.dispatch('getXzqh');
     this.$store.dispatch('getClzt');
     this.$store.dispatch('getShzt');
-    this.juState=this.$store.state.juState;
+    this.userCode=this.$store.state.uid;
+    this.userName=this.$store.state.uname;
+    this.orgName=this.$store.state.orgname;
     this.orgCode=this.$store.state.orgid;
+    this.juState=this.$store.state.juState;
+    this.token=this.$store.state.token;
     this.getZrq();
     this.getFj();
   },
@@ -264,7 +273,7 @@ export default {
     },
     getPSC(i){
       this.$set(this.pd,'PCS','');
-      this.$api.post(this.Global.aport5+'/djbhl/getpcsbyfjdm',{fjdm:i},
+      this.$api.post(this.Global.aport5+'/djbhl/getpcsbyfjdm',{pd:{fjdm:i}},
       r =>{
         if(r.success){
           this.PSC=r.data;
@@ -306,7 +315,12 @@ export default {
          p={
           "pd":this.pd,
           "orderBy":'BJSJ',
-          "orderType":'DESC'
+          "orderType":'DESC',
+          userCode:this.userCode,
+          userName:this.userName,
+          orgJB:this.juState,
+          orgCode:this.orgCode,
+          token:this.token
         }
       }else{//导出选中
         this.yuid=[];
@@ -318,6 +332,11 @@ export default {
           "pd":this.pd,
           "orderBy":'BJSJ',
           "orderType":'DESC',
+          userCode:this.userCode,
+          userName:this.userName,
+          orgJB:this.juState,
+          orgCode:this.orgCode,
+          token:this.token
         }
       }
       this.$api.post(this.Global.aport4+'/fangWuWarningInfoController/exportByMxLx',p,
@@ -340,12 +359,10 @@ export default {
     pageSizeChange(val) {
       this.pageSize=val;
       this.getList(this.CurrentPage, this.pageSize, this.pd);
-      console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
       this.CurrentPage=val;
       this.getList(this.CurrentPage, this.pageSize, this.pd);
-      console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
       pd.MXLX='CZW_ZDGZYJ';
@@ -361,7 +378,12 @@ export default {
         "showCount": showCount,
         "pd": pd,
         "orderBy":'BJSJ',
-        "orderType":'DESC'
+        "orderType":'DESC',
+        userCode:this.userCode,
+        userName:this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token
       };
       this.$api.post(this.Global.aport4+'/fangWuWarningInfoController/getInfoListByMxLx', p,
         r => {

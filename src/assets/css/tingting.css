@@ -196,24 +196,24 @@
        right: 38%;
      }
      .jiangbei{
-       top:14%;
+       top:11%;
        right: 48%;
      }
      .qixia{
        top: 25.5%;
-       right: 23.5%;
+       right: 21.5%;
      }
      .xuanwu{
-       top: 28.5%;
-       right: 28%;
+       top: 34.5%;
+       right: 26%;
      }
      .gulou{
        top: 30%;
        right: 53%;
      }
      .qinhuai{
-       top:38%;
-       right: 31%;
+       top:37%;
+       right: 28%;
      }
      .jianye{
        top:43%;
@@ -251,20 +251,21 @@
      }
      .fun-choose{
        width: 100%;
-       height: 26px;
+       height: 36px;
        border: 1px solid #02C8E8;
-       /* border-bottom: none!important; */
        border-radius: 5px;
-       margin-bottom: 10px
+       margin-bottom: 10px;
+       display: flex;
      }
      .fun-choose .tab-fun{
        font-size: 12px;
        color: #02C8E8;
        width: 48%;
-       height: 26px;
-       line-height: 26px;
+       height: 36px;
+       line-height: 16px;
        text-align: center;
        display: inline-block;
+       padding: 1px 0px;
        box-sizing: border-box;
      }
      .fun-choose .tab-fun:hover{
@@ -656,20 +657,21 @@
    }
    .fun-choose{
      width: 100%;
-     height: 30px;
+     height: 40px;
      border: 1px solid #02C8E8;
-     /* border-bottom: none!important; */
      border-radius: 5px;
-     margin-bottom: 10px
+     margin-bottom: 10px;
+     display: flex;
    }
    .fun-choose .tab-fun{
      font-size: 14px;
      color: #02C8E8;
      width: 48%;
-     height: 30px;
-     line-height: 30px;
+     height: 40px;
+     line-height: 20px;
      text-align: center;
      display: inline-block;
+     padding: 1px 0px;
      box-sizing: border-box;
    }
    .fun-choose .tab-fun:hover{
@@ -1087,20 +1089,21 @@
      }
      .fun-choose{
        width: 100%;
-       height: 26px;
+       height: 36px;
        border: 1px solid #02C8E8;
-       /* border-bottom: none!important; */
        border-radius: 5px;
-       margin-bottom: 10px
+       margin-bottom: 10px;
+       display: flex;
      }
      .fun-choose .tab-fun{
        font-size: 12px;
        color: #02C8E8;
        width: 48%;
-       height: 26px;
-       line-height: 26px;
+       height: 36px;
+       line-height: 16px;
        text-align: center;
        display: inline-block;
+       padding: 1px 0px;
        box-sizing: border-box;
      }
      .fun-choose .tab-fun:hover{

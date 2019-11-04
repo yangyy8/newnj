@@ -382,6 +382,7 @@
               CSRQ_DateRange:{dataType:'date'},
               TLYXQZ_DateRange:{dataType:'date'},
               ZSRQ_DateRange:{dataType:'date'},
+              YWXM:''
             },
           imagess:[],
           imgshow1:false,
@@ -610,6 +611,7 @@
         download(){
           let p={};
           let url="";
+          this.pd.YWXM = (this.pd.YWXM).toUpperCase();
           if(this.checkedList.length==0){//人员导出
             url="/linZhuInfoComprehensiveAnalysisController/exportPersonList"
             if(this.selectionAll.length==0){//人员全部导出
@@ -717,6 +719,7 @@
           this.pd.TLYXQZ_DateRange.end=this.pd0.endTLYXQZ;
           this.pd.ZSRQ_DateRange.begin=this.pd0.beginZSRQ;
           this.pd.ZSRQ_DateRange.end=this.pd0.endZSRQ;
+          this.pd.YWXM = (this.pd.YWXM).toUpperCase();
           if(pd.hasOwnProperty('DTID')){
             delete pd['DTID']
           }

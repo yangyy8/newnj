@@ -951,8 +951,9 @@ export default {
         }
         this.form.rgsblx = this.sbtype;
         this.form.gxr = this.$store.state.uname;
-        this.form.gxdw = this.$store.state.orgid
       }
+      this.form.gxdw = this.$store.state.orgid;
+      console.log('this.form.gxdw',this.form.gxdw,this.$store.state.orgid)
       var url = this.Global.aport2 + "/data_report/update";
       this.$api.post(url, this.form,
         r => {

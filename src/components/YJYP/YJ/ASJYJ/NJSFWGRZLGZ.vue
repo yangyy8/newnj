@@ -229,12 +229,24 @@ export default {
       pd: {BASJ_DateRange:{begin:'',end:''}},
       options: this.pl.ps,
       tableData: [],
+      userCode:'',
+      userName:'',
+      orgCode:'',
+      orgName:'',
+      token:'',
+      juState:'',
     }
   },
     activated(){
         this.getList(this.CurrentPage, this.pageSize, this.pd);
     },
   mounted() {
+    this.userCode=this.$store.state.uid;
+    this.userName=this.$store.state.uname;
+    this.orgName=this.$store.state.orgname;
+    this.orgCode=this.$store.state.orgid;
+    this.juState=this.$store.state.juState;
+    this.token=this.$store.state.token;
    },
   methods: {
     pageSizeChange(val) {
@@ -246,11 +258,15 @@ export default {
       this.getList(this.CurrentPage, this.pageSize, this.pd);
     },
     getList(currentPage, showCount, pd) {
-      /* this.pd.MXLX='ASJ_DQQZFFJY'; */
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
-        "pd": pd
+        "pd": pd,
+        userCode:this.userCode,
+        userName:this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token
       };
       this.$api.post(this.Global.aport2+'/ajbbController/njsfzgtjb', p,
         r => {
@@ -259,7 +275,15 @@ export default {
         })
     },
     download(){
-        this.$api.post(this.Global.aport2+'/ajbbController/exportNjsf',{pd:this.pd},
+      let p={
+        pd:this.pd,
+        userCode:this.userCode,
+        userName:this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token
+      }
+        this.$api.post(this.Global.aport2+'/ajbbController/exportNjsf',p,
          r =>{
            this.downloadM(r)
          },e=>{},{},'blob')
@@ -272,7 +296,7 @@ export default {
         let link = document.createElement('a')
         link.style.display = 'none'
         link.href = url
-        link.setAttribute('download', '报表.xlsx')
+        link.setAttribute('download', '报表.xls')
         document.body.appendChild(link)
         link.click()
     },

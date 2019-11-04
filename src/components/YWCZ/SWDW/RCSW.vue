@@ -944,9 +944,22 @@ export default {
           state:'2',
         }
       ],
+
+      userCode:'',
+      userName:'',
+      orgCode:'',
+      orgName:'',
+      token:'',
+      juState:'',
     }
   },
   mounted(){
+    this.userCode=this.$store.state.uid;
+    this.userName=this.$store.state.uname;
+    this.orgCode=this.$store.state.orgname;
+    this.orgName=this.$store.state.orgid;
+    this.juState=this.$store.state.juState;
+    this.token=this.$store.state.token;
     // this.getData();
   },
   activated(){
@@ -985,7 +998,15 @@ export default {
       this.tcDialogVisible=true;
     },
     getAllFile(){
-      this.$api.post(this.Global.aport4+'/SWDW_PAPERController/getInfoList',{pd:{YWDTID:this.row.DTID,SJLX:'wj'}},
+      let p={
+        pd:{YWDTID:this.row.DTID,SJLX:'wj'},
+        userCode:this.userCode,
+        userName:this.userName,
+        orgCode:this.orgCode,
+        orgJB:this.juState,
+        token:this.token,
+      }
+      this.$api.post(this.Global.aport4+'/SWDW_PAPERController/getInfoList',p,
        r =>{
          if(r.success){
            if(this.$route.query.hiType=='jlxk'){this.tableDatajlxk = r.data.resultList;}
@@ -996,7 +1017,15 @@ export default {
            if(this.$route.query.hiType=='slry'){this.tableDataslry = r.data.resultList;}
          }
        })
-       this.$api.post(this.Global.aport4+'/SWDW_PAPERController/getInfoList',{pd:{YWDTID:this.row.DTID,SJLX:'tp'}},
+       let pp={
+         pd:{YWDTID:this.row.DTID,SJLX:'tp'},
+         userCode:this.userCode,
+         userName:this.userName,
+         orgCode:this.orgCode,
+         orgJB:this.juState,
+         token:this.token,
+       }
+       this.$api.post(this.Global.aport4+'/SWDW_PAPERController/getInfoList',pp,
         r =>{
           if(r.success){
             if(this.$route.query.hiType=='jlxk'){this.imagejlxk = r.data.resultList;this.imagejlxk.length==0?this.imgshowjlxk=false:this.imgshowjlxk=true;}
@@ -1017,7 +1046,15 @@ export default {
       }
     },
     downFiles(id,name,type){
-      this.$api.post(this.Global.aport4+'/SWDW_PAPERController/downloadByDTID',{pd:{DTID:id}},
+      let p={
+        pd:{DTID:id},
+        userCode:this.userCode,
+        userName:this.userName,
+        orgCode:this.orgCode,
+        orgJB:this.juState,
+        token:this.token,
+      }
+      this.$api.post(this.Global.aport4+'/SWDW_PAPERController/downloadByDTID',p,
        r =>{
          this.downloadMFiles(r,name,type)
        },e=>{},{},'blob')
@@ -1048,12 +1085,28 @@ export default {
     },
     downloadJlxklb(val){
       if(val=='1'){
-        this.$api.post(this.Global.aport4+'/JLXKXBZFWarningInfoController/exportZFSPBByDTID',{pd:{DTID:this.row.DTID}},
+        let p={
+          pd:{DTID:this.row.DTID},
+          userCode:this.userCode,
+          userName:this.userName,
+          orgCode:this.orgCode,
+          orgJB:this.juState,
+          token:this.token,
+        }
+        this.$api.post(this.Global.aport4+'/JLXKXBZFWarningInfoController/exportZFSPBByDTID',p,
          r =>{
            this.downloadM(r,'宣布作废审批表')
          },e=>{},{},'blob')
       }else if(val=='2'){
-        this.$api.post(this.Global.aport4+'/JLXKXBZFWarningInfoController/exportZFGSByDTIDs',{pd:{DTIDs:[this.row.DTID]}},
+        let p={
+          pd:{DTIDs:[this.row.DTID]},
+          userCode:this.userCode,
+          userName:this.userName,
+          orgCode:this.orgCode,
+          orgJB:this.juState,
+          token:this.token,
+        }
+        this.$api.post(this.Global.aport4+'/JLXKXBZFWarningInfoController/exportZFGSByDTIDs',p,
          r =>{
            if (!r) {
                return
@@ -1112,8 +1165,15 @@ export default {
       }
     },
     getPhoto(){
-      console.log('this.row.ID',this.row.ID);
-      this.$api.post(this.Global.aport4+'/ES_SWDW_XT_USERShenHeController/getUSERDATABASEEntityByUSERID',{pd:{USERID:this.row.ID}},
+      let p={
+        pd:{USERID:this.row.ID},
+        userCode:this.userCode,
+        userName:this.userName,
+        orgCode:this.orgCode,
+        orgJB:this.juState,
+        token:this.token,
+      }
+      this.$api.post(this.Global.aport4+'/ES_SWDW_XT_USERShenHeController/getUSERDATABASEEntityByUSERID',p,
         r => {
           if(r.success){
             this.imgArr=r.data.resultList;
@@ -1166,6 +1226,11 @@ export default {
         "currentPage": currentPage,
         "showCount": showCount,
         "pd": {RYBH:this.rybh},
+        userCode:this.userCode,
+        userName:this.userName,
+        orgCode:this.orgCode,
+        orgJB:this.juState,
+        token:this.token,
       };
       this.$api.post(this.Global.aport4+'/eS_AJ_GroupController/getAnJianInfoByRYBH', p,
         r => {
@@ -1178,6 +1243,11 @@ export default {
         "currentPage": currentPage,
         "showCount": showCount,
         "pd": {RYBH:this.rybh},
+        userCode:this.userCode,
+        userName:this.userName,
+        orgCode:this.orgCode,
+        orgJB:this.juState,
+        token:this.token,
       };
       this.$api.post(this.Global.aport4+'/eS_JCJ_SJXXController/getResultListByParams', p,
         r => {
@@ -1192,7 +1262,12 @@ export default {
         "showCount": showCount,
         "pd": {RYBH:this.rybh},
         "orderBy":{value:"ZSRQ",dataType:"date"},
-        "orderType":"DESC"
+        "orderType":"DESC",
+        userCode:this.userCode,
+        userName:this.userName,
+        orgCode:this.orgCode,
+        orgJB:this.juState,
+        token:this.token,
       };
       this.$api.post(this.Global.aport4+'/eS_LZ_LZXXController/getResultListByParams', p,
         r => {
@@ -1207,7 +1282,12 @@ export default {
         "showCount": showCount,
         "pd": {RYBH:this.rybh},
         "orderBy":{value:"IOSTRING",dataType:"date"},
-        "orderType":"DESC"
+        "orderType":"DESC",
+        userCode:this.userCode,
+        userName:this.userName,
+        orgCode:this.orgCode,
+        orgJB:this.juState,
+        token:this.token,
       };
       this.$api.post(this.Global.aport4+'/eS_CRJJLBController/getResultListByParams', p,
         r => {
@@ -1221,6 +1301,11 @@ export default {
         "currentPage": currentPage,
         "showCount": showCount,
         "pd": {RYBH:this.rybh},
+        userCode:this.userCode,
+        userName:this.userName,
+        orgCode:this.orgCode,
+        orgJB:this.juState,
+        token:this.token,
       };
       this.$api.post(this.Global.aport4+'/eS_FNVISASController/getResultListByParams', p,
         r => {
@@ -1232,6 +1317,11 @@ export default {
     getTBRY(){
       let p = {
         "pd":{RYBH:this.rybh},
+        userCode:this.userCode,
+        userName:this.userName,
+        orgCode:this.orgCode,
+        orgJB:this.juState,
+        token:this.token,
       };
       this.$api.post(this.Global.aport4+'/eS_Tbry_GroupController/getTongBaoListByRyxx', p,
         r => {
@@ -1302,7 +1392,12 @@ export default {
        }).then(() => {
          this.pcl.SFFK='1'
          let p = {
-           "pd":this.pcl
+           "pd":this.pcl,
+           userCode:this.userCode,
+           userName:this.userName,
+           orgCode:this.orgCode,
+           orgJB:this.juState,
+           token:this.token,
          };
          this.$api.post(this.Global.aport4+url, p,
            r => {
@@ -1317,7 +1412,12 @@ export default {
        }).catch(() => {
          this.pcl.SFFK='0';
          let p = {
-           "pd":this.pcl
+           "pd":this.pcl,
+           userCode:this.userCode,
+           userName:this.userName,
+           orgCode:this.orgCode,
+           orgJB:this.juState,
+           token:this.token,
          };
          this.$api.post(this.Global.aport4+url, p,
            r => {
@@ -1345,7 +1445,12 @@ export default {
           SHZT:this.shpc.SHZT,
           SHNR:this.shpc.SHNR,
           CLR:this.withname,
-        }
+        },
+        userCode:this.userCode,
+        userName:this.userName,
+        orgCode:this.orgCode,
+        orgJB:this.juState,
+        token:this.token,
       }
       this.$api.post(this.Global.aport4+'/ES_SWDW_XT_USERShenHeController/saveSHJG', p,
         r => {

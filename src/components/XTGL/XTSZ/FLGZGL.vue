@@ -216,11 +216,22 @@ export default {
       form:{},
       detailsDialogVisible:false,
       addsDialogVisible:false,
-      dialogText:'新增'
+      dialogText:'新增',
+      userCode:'',
+      userName:'',
+      orgCode:'',
+      orgName:'',
+      token:'',
+      juState:'',
     }
   },
   mounted() {
-
+    this.userCode=this.$store.state.uid;
+    this.userName=this.$store.state.uname;
+    this.orgCode=this.$store.state.orgname;
+    this.orgName=this.$store.state.orgid;
+    this.juState=this.$store.state.juState;
+    this.token=this.$store.state.token;
   },
   activated(){
     this.getList(this.CurrentPage,this.pageSize,this.pd)
@@ -237,18 +248,21 @@ export default {
     pageSizeChange(val) {
       this.pageSize=val;
       this.getList(this.CurrentPage, this.pageSize, this.pd);
-      console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
       this.CurrentPage=val;
       this.getList(this.CurrentPage, this.pageSize, this.pd);
-      console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
-        "pd": pd
+        "pd": pd,
+        userCode:this.userCode,
+        userName:this.userName,
+        orgCode:this.orgCode,
+        orgJB:this.juState,
+        token:this.token,
       };
       this.$api.post(this.Global.aport4+'/warningSortRuleController/getResultListByParams', p,
         r => {
@@ -289,6 +303,10 @@ export default {
     addItem(addForm){
        this.V.$submit('demo', (canSumit,data) =>{
          if(!canSumit) return;
+         this.form.userCode = this.userCode;
+         this.form.userName = this.userName;
+         this.form.orgCode = this.orgCode;
+         this.form.token = this.token;
          this.$api.post(this.Global.aport4+'/warningSortRuleController/saveOrUpdate', this.form,
          r => {
                if(r.success){
@@ -312,7 +330,12 @@ export default {
         "pd":{
           ID:val.ID,
           SFYX:val.SFYX=='1'?'0':'1' //无效是0，有效是1
-        }
+        },
+        userCode:this.userCode,
+        userName:this.userName,
+        orgCode:this.orgCode,
+        orgJB:this.juState,
+        token:this.token,
       }
       this.$api.post(this.Global.aport4+'/warningSortRuleController/updateSFYXByID',p,
         r =>{

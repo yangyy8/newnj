@@ -272,21 +272,27 @@
              border
              style="width: 100%" class="stu-table">
              <el-table-column
-               prop="DJRQ"
-               label="登记时间">
-             </el-table-column>
-             <el-table-column
-               prop="DJDW_DESC"
-               label="登记单位">
-             </el-table-column>
-             <el-table-column
                prop="SFDM_DESC"
                label="身份">
              </el-table-column>
              <el-table-column
-               prop="TLSY_DESC"
-               label="停留事由">
+               prop="FWCS"
+               label="服务处所">
              </el-table-column>
+             <el-table-column
+               label="签证有效期">
+               <template slot-scope="scope">
+                 <span>{{scope.row.SSCS=='3201'?scope.row.TLYXQ:scope.row.QZYXQ}}</span>
+               </template>
+             </el-table-column>
+             <el-table-column
+               prop="SSPCS_DESC"
+               label="所属单位">
+             </el-table-column>
+             <!-- <el-table-column
+               prop="SSPCS_DESC"
+               label="居住地址">
+             </el-table-column> -->
              <el-table-column
                label="操作" width="80">
                <template slot-scope="scope">
@@ -582,7 +588,7 @@
     </div>
     <!-- 分局级别是2并且是未处理状态   展示派出所详情和分局意见输入框-->
    <div class="stu-footer" v-if="jb=='2' && showFJ">
-     <div class="stu-title">处理结果：{{pd.CLJG}}</div>
+     <!-- <div class="stu-title">处理结果：{{pd.CLJG}}</div> -->
      <div class="stu-title">分局调查意见</div>
      <el-row type="flex" class="mb-15">
       <el-col :span="20">
@@ -604,7 +610,7 @@
    </div>
    <!-- 分局级别是2且是已处理状态  展示两个详情 -->
    <div class="stu-footer" v-if="jb=='2' && !showFJ">
-     <div class="stu-title">处理结果：{{pd.CLJG}}</div>
+     <!-- <div class="stu-title">处理结果：{{pd.CLJG}}</div> -->
      <div class="stu-title">分局调查意见：{{pd.FJYJ}}</div>
      <div class="czfont">
        处理人: {{$store.state.uname}}
@@ -614,7 +620,7 @@
    <!-- 市局和支队级别是1 且是未处理状态 展示分局和派出所意见详情 支队处理意见输入框 -->
    <div class="stu-footer" v-if="(org=='320100060000'||jb=='1') && showZD">
      <div class="stu-title">分局调查意见：{{pd.FJYJ}}</div>
-     <div class="stu-title">处理结果：{{pd.CLJG}}</div>
+     <!-- <div class="stu-title">处理结果：{{pd.CLJG}}</div> -->
      <div class="stu-title">支队处理意见</div>
      <el-row type="flex" class="mb-15">
       <el-col :span="20">
@@ -637,7 +643,7 @@
    <div class="stu-footer" v-if="(org=='320100060000'||jb=='1') && !showZD">
      <div class="stu-title">支队处理意见：{{pd.ZDYJ}}</div>
      <div class="stu-title">分局调查意见：{{pd.FJYJ}}</div>
-     <div class="stu-title">处理结果：{{pd.CLJG}}</div>
+     <!-- <div class="stu-title">处理结果：{{pd.CLJG}}</div> -->
      <div class="czfont">
        处理人: {{$store.state.uname}}
      </div>

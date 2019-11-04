@@ -79,7 +79,7 @@ export function createDWMap(id, mc) {
                 arr.push(datae.ycoord+'');
                 arr.push(datae.xcoord+'');
 
-                var tmmc = "<div style='line-height:25px;'>学校：" + mc + " <br/>地址：" + datae.src_addr + "</div>";
+                var tmmc = "<div style='line-height:25px;'>学校：" + mc + " <br/>地址：" + dzdm + "</div>";
 
                 var tm = L.marker([arr[0], arr[1]]).bindPopup(tmmc);
                 markerLayer1.addLayer(tm);

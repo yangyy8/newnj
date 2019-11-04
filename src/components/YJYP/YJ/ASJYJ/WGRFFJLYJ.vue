@@ -267,7 +267,7 @@
           CurrentPage: 1,
           pageSize: 10,
           TotalResult: 0,
-          pd: {BJSJ_DateRange:{}},
+          pd: {BJSJ_DateRange:{},YWXM:''},
           pd0:{},
           options: this.pl.ps,
           tableData: [],
@@ -277,6 +277,7 @@
           orgCode:'',
           orgName:'',
           token:'',
+          juState:'',
           form:{},
           addlg:{},
           getallfj:[],
@@ -286,7 +287,6 @@
           selectionAll:[],
           yuid:[],
           selectionReal:[],
-          juState:'',
         }
       },
         activated(){
@@ -361,6 +361,7 @@
         },
         download(){
           let p={};
+          this.pd.YWXM = (this.pd.YWXM).toUpperCase();
           if(this.selectionAll.length==0){//全部导出
              p={
               "pd":this.pd,
@@ -418,6 +419,7 @@
           this.pd.MXLX='ASJ_FFJL';
           this.pd.BJSJ_DateRange.begin=this.pd0.beginBJSJ;
           this.pd.BJSJ_DateRange.end=this.pd0.endBJSJ;
+          this.pd.YWXM = (this.pd.YWXM).toUpperCase();
           if(pd.hasOwnProperty('YJID')){
             delete pd['YJID']
           }

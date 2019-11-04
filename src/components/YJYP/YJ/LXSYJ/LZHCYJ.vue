@@ -273,7 +273,7 @@ export default {
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
-      pd: {BJSJ_DateRange:{begin:'',end:''},GJ:[],ZJZL:[],QZZL:[]},
+      pd: {BJSJ_DateRange:{begin:'',end:''},GJ:[],ZJZL:[],QZZL:[],YWXM:''},
       pd2:{},
       options: this.pl.ps,
       tableData: [],
@@ -401,6 +401,7 @@ export default {
     },
     download(){
       let p={};
+      this.pd.YWXM = (this.pd.YWXM).toUpperCase();
       if(this.type==3){
         if(this.selectionAll3.length==0){//全部导出
            p={
@@ -536,6 +537,7 @@ export default {
       if(pd.hasOwnProperty('YJID')){
         delete pd['YJID']
       }
+      this.pd.YWXM = (this.pd.YWXM).toUpperCase();
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
@@ -571,7 +573,7 @@ export default {
       for(var i=0;i<table.length;i++){
         for(var j=0;j<arr.length;j++){
           if(table[i].YJID==arr[j].YJID){
-            console.log(table[i].YJID,arr[j].YJID,table[i].YJID==arr[j].YJID)
+            // console.log(table[i].YJID,arr[j].YJID,table[i].YJID==arr[j].YJID)
             this.$refs.multipleTable.toggleRowSelection(table[i],true);
           }
         }

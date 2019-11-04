@@ -943,6 +943,7 @@ export default{
        options: this.pl.ps,
        gjdq:'',
        gjdqxq:'',
+       token:'',
     }
   },
   activated(){
@@ -993,6 +994,7 @@ export default{
   //   }
   // },
   mounted(){
+    this.token = this.$store.state.token;
     this.bqDialogVisible=false;
     this.zpDialogVisible=false;
     this.lzxxDialogVisible=false;
@@ -1006,7 +1008,6 @@ export default{
   },
   methods:{
     toTegional(id){
-      console.log()
       document.querySelector('#'+id).scrollIntoView(true);
     },
     pageSizeChange1(val) {
@@ -1051,48 +1052,39 @@ export default{
     },
     pageSizeChange5(val) {
         this.getMHJCGXX(this.CurrentPage5,val,this.pd);
-      console.log(`每页 ${val} 条`);
     },
     handleCurrentChange5(val) {
         this.getMHJCGXX(val,this.pageSize5,this.pd);
-      console.log(`当前页: ${val}`);
     },
     pageSizeChange6(val) {
       this.getDWJBXX(this.CurrentPage6,val,this.pd);
-      console.log(`每页 ${val} 条`);
     },
     handleCurrentChange6(val) {
       this.getDWJBXX(val,this.pageSize6,this.pd);
-      console.log(`当前页: ${val}`);
     },
     pageSizeChange7(val) {
         this.getLXSXX(this.CurrentPage7,val,this.pd);
-      console.log(`每页 ${val} 条`);
     },
     handleCurrentChange7(val) {
       this.getLXSXX(val,this.pageSize7,this.pd);
-      console.log(`当前页: ${val}`);
     },
     pageSizeChange8(val) {
       this.getLXSXXZXXX(this.CurrentPage8,val,this.pd);
-      console.log(`每页 ${val} 条`);
     },
     handleCurrentChange8(val) {
       this.getLXSXXZXXX(val,this.pageSize8,this.pd);
-      console.log(`当前页: ${val}`);
     },
     pageSizeChange9(val) {
       this.getTbxx(this.CurrentPage9,val,this.pd);
-      console.log(`每页 ${val} 条`);
     },
     handleCurrentChange9(val) {
       this.getTbxx(val,this.pageSize9,this.pd);
-      console.log(`当前页: ${val}`);
     },
     //最新照片
     getZXZP(){
       let p = {
         "pd": this.pd,
+        "token":this.token,
       };
       this.$api.post(this.Global.aport3+'/ryhx/getrytpxxpro', p,
         r => {
@@ -1106,7 +1098,8 @@ export default{
     getRYXX(){
       let p = {
         "certificateNO": this.zjhm,
-        "GJDQ":this.gjdq
+        "GJDQ":this.gjdq,
+        "token":this.token,
       };
       this.$api.post(this.Global.aport3+'/ryhxhx/getryryxx', p,
         r => {
@@ -1121,6 +1114,7 @@ export default{
     getLable(){
       let p = {
         "pd": this.pd,
+        "token":this.token,
       };
       this.$api.post(this.Global.aport3+'/ryhx/getrybqxx', p,
         r => {
@@ -1166,6 +1160,7 @@ export default{
         }else{
           p.RYBH=''
         }
+        p.token=this.token;
         this.$api.post(this.Global.aport3+'/ryhx/addrybqbyrybh', p,
           r => {
             if(r.success){
@@ -1202,6 +1197,7 @@ export default{
       }else{
         p.RYBH=''
       }
+      p.token = this.token
       this.$api.post(this.Global.aport3+'/ryhx/deleterybqbyrybh', p,
         r => {
           if(r.success){
@@ -1233,6 +1229,7 @@ export default{
       }
       let p={
         "pd":this.pd,
+        "token":this.token,
       };
       this.$api.post(this.Global.aport3+'/ryhx/getrytpxx', p,
         r => {
@@ -1247,6 +1244,7 @@ export default{
       	"showCount":showCount,
         // "pd":pd
         "certificateNO":this.zjhm,
+        "token":this.token,
       };
       this.$api.post(this.Global.aport3+'/ryhxhx/getcrjjl', p,
         r => {
@@ -1262,7 +1260,8 @@ export default{
         // "showCount":showCount,
         // "pd":pd
         "paperNO":this.zjhm,
-        "nationality":this.gjdq
+        "nationality":this.gjdq,
+        'token':this.token,
 
       };
       this.$api.post(this.Global.aport3+'/ryhxhx/getlzxx', p,
@@ -1278,7 +1277,8 @@ export default{
         // "showCount":showCount,
         // "pd":pd
         "paperNO":this.zjhm,
-        "nationality":this.gjdq
+        "nationality":this.gjdq,
+        "token":this.token,
       };
       this.$api.post(this.Global.aport3+'/ryhxhx/getczxx', p,
         r => {
@@ -1293,7 +1293,8 @@ export default{
         // "showCount":showCount,
         // "pd":pd
         "paperNO":this.zjhm,
-        "nationality":this.gjdq
+        "nationality":this.gjdq,
+        "token":this.token,
 
       };
       this.$api.post(this.Global.aport3+'/ryhxhx/getajjbxx', p,
@@ -1307,8 +1308,8 @@ export default{
       let p={
         "currentPage":currentPage,
         "showCount":showCount,
-        "pd":pd
-
+        "pd":pd,
+        "token":this.token,
       };
       this.$api.post(this.Global.aport3+'/ryhx/getstmhjgxxn', p,
         r => {
@@ -1321,8 +1322,8 @@ export default{
       let p={
         "currentPage":currentPage,
         "showCount":showCount,
-        "pd":pd
-
+        "pd":pd,
+        "token":this.token
       };
       this.$api.post(this.Global.aport3+'/ryhx/getczgzdxx', p,
         r => {
@@ -1335,7 +1336,8 @@ export default{
       let p={
         "currentPage":currentPage,
         "showCount":showCount,
-        "pd":pd
+        "pd":pd,
+        "token":this.token,
       };
       this.$api.post(this.Global.aport3+'/ryhx/getlxjsbaseinfo', p,
         r => {
@@ -1348,7 +1350,8 @@ export default{
       let p={
         "currentPage":currentPage,
         "showCount":showCount,
-        "pd":pd
+        "pd":pd,
+        "token":this.token,
       };
       this.$api.post(this.Global.aport3+'/ryhx/getzyxdcrjstudent', p,
         r => {
@@ -1374,7 +1377,8 @@ export default{
     getQZXX(pd){
       let p={
         "passportNO":this.zjhm,
-        "nationality":this.gjdq
+        "nationality":this.gjdq,
+        "token":this.token,
       };
       this.$api.post(this.Global.aport3+'/ryhxhx/getwgrzjxx', p,
         r => {
@@ -1387,7 +1391,8 @@ export default{
       let p={
         "currentPage":currentPage,
         "showCount":showCount,
-        "pd":pd
+        "pd":pd,
+        "token":this.token,
       };
       this.$api.post(this.Global.aport3+'/ryhx/gettbryjbxx', p,
         r => {
@@ -1456,7 +1461,6 @@ export default{
       this.mhDialogVisible==true;
     },
     ggo(){
-      console.log('-----',this.$route.query.stype);
       if(this.$route.query.stype!=undefined){
       var tt=this.$route.query.stype;
       var cc=this.$route.query.zjhmes;

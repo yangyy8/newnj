@@ -157,6 +157,8 @@ export default {
       userName:'',
       orgCode:'',
       orgName:'',
+      token:'',
+      juState:'',
       multipleSelection:[],
       selectionAll:[],
       yuid:[],
@@ -190,7 +192,9 @@ export default {
     this.userCode=this.$store.state.uid;
     this.userName=this.$store.state.uname;
     this.orgName=this.$store.state.orgname;
-    this.orgCode=this.$store.state.orgid
+    this.orgCode=this.$store.state.orgid;
+    this.juState=this.$store.state.juState;
+    this.token=this.$store.state.token;
     this.getDw();
   },
   methods: {
@@ -222,7 +226,6 @@ export default {
     },
     reviewUpload(event){//消息回复的附件
       this.reviewFile=event.target.files;
-      console.log(this.reviewFile)
     },
     upload(val){//上传文件
       var formData = new FormData();
@@ -233,6 +236,10 @@ export default {
       formData.append("YWDTID",val);
       formData.append("orgCode",this.orgCode);
       formData.append("orgName",this.orgName);
+      formData.append("userCode",this.userCode);
+      formData.append("userName",this.userName);
+      formData.append("orgJB",this.juState);
+      formData.append("token",this.token);
       let p=formData;
       console.log('formData',formData)
       this.$api.post(this.Global.aport4+'/SWDW_TZTBController/upload',p,
@@ -259,6 +266,8 @@ export default {
         "userName":this.$store.state.uname,
         "orgCode":this.$store.state.orgid,
         "orgName":this.$store.state.orgname,
+        orgJB:this.juState,
+        token:this.token,
       }
       this.$api.post(this.Global.aport4+'/SWDW_TZTBController/saveOrSend',p,
        r =>{
@@ -279,7 +288,15 @@ export default {
     details(row){
       this.detailDialogVisible=true;
       this.dform = row;
-      this.$api.post(this.Global.aport4+'/SWDW_SJSBController/getPAPERByYWDTID',{pd:{YWDTID:row.DTID}},
+      let p={
+        pd:{YWDTID:row.DTID},
+        userCode:this.userCode,
+        userName:this.userName,
+        orgCode:this.orgCode,
+        orgJB:this.juState,
+        token:this.token,
+      }
+      this.$api.post(this.Global.aport4+'/SWDW_SJSBController/getPAPERByYWDTID',p,
        r =>{
          if(r.success){
            this.inFiles = r.data;
@@ -287,7 +304,15 @@ export default {
        })
     },
     cutOff(row){
-      this.$api.post(this.Global.aport4+'/SWDW_TZTBController/deleteByDTID',{pd:{DTID:row.DTID}},
+      let p={
+        pd:{DTID:row.DTID},
+        userCode:this.userCode,
+        userName:this.userName,
+        orgCode:this.orgCode,
+        orgJB:this.juState,
+        token:this.token,
+      }
+      this.$api.post(this.Global.aport4+'/SWDW_TZTBController/deleteByDTID',p,
        r =>{
          if(r.success){
            this.$message({
@@ -323,6 +348,11 @@ export default {
           "pd":this.pd,
           "orderBy":'SBSJ',
           "orderType":'DESC',
+          userCode:this.userCode,
+          userName:this.userName,
+          orgCode:this.orgCode,
+          orgJB:this.juState,
+          token:this.token,
         }
       }else{//导出选中
         this.yuid=[];
@@ -334,6 +364,11 @@ export default {
           "pd":this.pd,
           "orderBy":'SBSJ',
           "orderType":'DESC',
+          userCode:this.userCode,
+          userName:this.userName,
+          orgCode:this.orgCode,
+          orgJB:this.juState,
+          token:this.token,
         }
       }
       this.$api.post(this.Global.aport4+'/warningInfoController/exportByMxLx',p,
@@ -342,7 +377,15 @@ export default {
         },e=>{},{},'blob')
     },
     downLoadFj(val,name,type){
-      this.$api.post(this.Global.aport4+'/SWDW_PAPERController/downloadByDTID',{pd:{DTID:val}},
+      let p={
+        pd:{DTID:val},
+        userCode:this.userCode,
+        userName:this.userName,
+        orgCode:this.orgCode,
+        orgJB:this.juState,
+        token:this.token,
+      }
+      this.$api.post(this.Global.aport4+'/SWDW_PAPERController/downloadByDTID',p,
         r =>{
           this.downloadMfj(r,name,type)
         },e=>{},{},'blob')
@@ -374,12 +417,10 @@ export default {
     pageSizeChange(val) {
       this.pageSize=val;
       this.getList(this.CurrentPage, this.pageSize, this.pd);
-      console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
       this.CurrentPage=val;
       this.getList(this.CurrentPage, this.pageSize, this.pd);
-      console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
       if(pd.hasOwnProperty('YJID')){
@@ -393,6 +434,8 @@ export default {
         userName:this.$store.state.uname,
         orgName:this.$store.state.orgname,
         orgCode:this.$store.state.orgid,
+        orgJB:this.juState,
+        token:this.token,
       };
       this.$api.post(this.Global.aport4+'/SWDW_SJSBController/getInfoList', p,
         r => {

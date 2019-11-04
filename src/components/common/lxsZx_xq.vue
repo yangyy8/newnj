@@ -723,6 +723,12 @@ export default {
   data(){
     return{
       lxsinfo:{},
+      userCode:'',
+      userName:'',
+      orgCode:'',
+      orgName:'',
+      token:'',
+      juState:'',
     }
   },
   mounted(){
@@ -731,6 +737,12 @@ export default {
   watch:{
     random:function(newVal,oldVal){
       this.random=newVal;
+      this.userCode=this.$store.state.uid;
+      this.userName=this.$store.state.uname;
+      this.orgName=this.$store.state.orgname;
+      this.orgCode=this.$store.state.orgid;
+      this.juState=this.$store.state.juState;
+      this.token=this.$store.state.token;
       this.initData();
     },
   },

@@ -339,11 +339,11 @@ export default {
   methods:{
     pageSizeChange(val) {
       this.pageSize=val;
-      this.getListTu(this.CurrentPage,val,this.pdTu);
+      this.getList(this.CurrentPage,val,this.pdTu);
     },
     handleCurrentChange(val) {
       this.CurrentPage=val;
-      this.getListTu(val,this.pageSize,this.pdTu);
+      this.getList(val,this.pageSize,this.pdTu);
     },
     getImg(id){
       let p={
@@ -376,7 +376,6 @@ export default {
        })
     },
     details(i){
-      console.log(i);
       this.form=i;
       this.detailsDialogVisible = true;
       this.getImg(i.uuid)

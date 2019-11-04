@@ -311,6 +311,12 @@ export default {
       page:0,
       qzinfo:{},
       zjinfo:{},
+      userCode:'',
+      userName:'',
+      orgCode:'',
+      orgName:'',
+      token:'',
+      juState:'',
     }
   },
   mounted(){
@@ -319,6 +325,12 @@ export default {
   watch:{
       random:function(newVal,oldVal){
         this.random=newVal;
+        this.userCode=this.$store.state.uid;
+        this.userName=this.$store.state.uname;
+        this.orgName=this.$store.state.orgname;
+        this.orgCode=this.$store.state.orgid;
+        this.juState=this.$store.state.juState;
+        this.token=this.$store.state.token;
         this.getData();
       },
     },
@@ -331,7 +343,12 @@ export default {
     },
     getData(){
       let p = {
-        "pd":{"RGUID":this.xid.RGUID}
+        "pd":{"RGUID":this.xid.RGUID},
+        userCode:this.userCode,
+        userName:this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token
       };
       this.$api.post(this.Global.aport5+'/esFnsqxxController/getEntityByRGUID',p,
       r =>{
@@ -345,6 +362,11 @@ export default {
         },
         'currentPage':1,
         'showCount':10,
+        userCode:this.userCode,
+        userName:this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token
       }
       this.$api.post(this.Global.aport5+'/esFnvisasController/getResultListByParams',pp,
       r =>{

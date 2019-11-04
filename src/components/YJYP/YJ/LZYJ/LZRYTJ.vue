@@ -119,14 +119,39 @@ export default {
         list:[],//合计
         dwbm:'',
       },
-      levelOne:{},
-      levelTwo:{},
+      levelOne:{
+        level:'',
+        type:'0',
+        list:[],//合计
+        dwbm:'',
+      },
+      levelTwo:{
+        level:'',
+        type:'0',
+        list:[],//合计
+        dwbm:'',
+      },
+      userCode:'',
+      userName:'',
+      orgCode:'',
+      orgName:'',
+      token:'',
+      juState:'',
     }
   },
   activated(){
     this.getList(this.pd,this.deepCli,1);
   },
   mounted() {
+    this.userCode=this.$store.state.uid;
+    this.userName=this.$store.state.uname;
+    this.orgName=this.$store.state.orgname;
+    this.orgCode=this.$store.state.orgid;
+    this.juState=this.$store.state.juState;
+    this.token=this.$store.state.token;
+    if(this.juState=='2'||this.juState=='1'){this.levelSave=''}
+    if(this.juState=='3'){this.levelSave='1'}
+    this.getList(this.pd,this.deepCli,1);
     this.$store.dispatch('getZsbg');
   },
   methods: {
@@ -136,10 +161,10 @@ export default {
     getList(pd,deepCli,type) {
       let p={};
       if(type==1){//点击查询按钮查询当前
-        deepCli.level = this.levelSave;
         if(this.levelSave=='2'){deepCli = this.levelTwo};
         if(this.levelSave=='1'){deepCli = this.levelOne};
         if(this.levelSave==''){deepCli = this.levelKon};
+        deepCli.level = this.levelSave;
          p = {
           pd:{
             beginDate:pd.beginDate,
@@ -153,6 +178,9 @@ export default {
           },
           userCode:this.$store.state.uid,
           userName:this.$store.state.uname,
+          orgJB:this.juState,
+          orgCode:this.orgCode,
+          token:this.token
         };
       }else{//点击列表嵌入
          p = {
@@ -168,13 +196,15 @@ export default {
           },
           userCode:this.$store.state.uid,
           userName:this.$store.state.uname,
+          orgJB:this.juState,
+          orgCode:this.orgCode,
+          token:this.token
         };
         this.levelSave = deepCli.level;
-        if(this.levelSave=='2'){this.levelTwo.dwbm = deepCli.dwbm;this.levelTwo.list = deepCli.hjList;this.levelTwo.type = deepCli.type;this.levelTwo.level = deepCli.level;};
-        if(this.levelSave=='1'){this.levelOne.dwbm = deepCli.dwbm;this.levelOne.list = deepCli.hjList;this.levelOne.type = deepCli.type;this.levelOne.level = deepCli.level;};
-        if(this.levelSave==''){this.levelKon.dwbm = deepCli.dwbm;this.levelKon.list = deepCli.hjList;this.levelKon.type = deepCli.type;this.levelKon.level = deepCli.level;};
       }
-
+      if(this.levelSave=='2'){this.levelTwo.dwbm = deepCli.dwbm;this.levelTwo.list = deepCli.hjList;this.levelTwo.type = deepCli.type;this.levelTwo.level = deepCli.level;};
+      if(this.levelSave=='1'){this.levelOne.dwbm = deepCli.dwbm;this.levelOne.list = deepCli.hjList;this.levelOne.type = deepCli.type;this.levelOne.level = deepCli.level;};
+      if(this.levelSave==''){this.levelKon.dwbm = deepCli.dwbm;this.levelKon.list = deepCli.hjList;this.levelKon.type = deepCli.type;this.levelKon.level = deepCli.level;};
       var url=this.Global.aport3+'/rxtj/getRxData';
       this.$api.post(url, p,
         r => {
@@ -184,11 +214,14 @@ export default {
         })
     },
     goBack(){
-      console.log(this.deepCli.level)
       if(this.levelSave=='2'){
         this.deepCli.level='1';
         this.getList(this.pd,this.levelOne)
       }else if(this.levelSave=='1'){
+        if(this.juState=='3'){
+          this.deepCli.level='1';
+          return
+        }
         this.deepCli.level='';
         this.getList(this.pd,this.levelKon)
       }

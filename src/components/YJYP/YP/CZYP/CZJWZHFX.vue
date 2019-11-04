@@ -66,13 +66,6 @@
                  </div>
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-                  <span class="input-text">是否查有效人员：</span>
-                  <el-select v-model="pd.isYXRY" filterable clearable default-first-option  placeholder="请选择"  size="small" class="input-input">
-                    <el-option value="true" label="是"></el-option>
-                    <el-option value="false" label="否"></el-option>
-                  </el-select>
-                </el-col>
-                <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                   <span class="input-text">国家地区：</span>
                   <el-select v-model="pd.GJDQ" filterable clearable default-first-option  placeholder="请选择"  size="small" class="input-input">
                     <el-option
@@ -246,12 +239,22 @@
                     </el-date-picker>
                  </div>
                 </el-col>
+                <!-- <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                  <span class="input-text">有效常住人员：</span>
+                  <el-select v-model="pd.isYXRY" filterable clearable default-first-option  placeholder="请选择"  size="small" class="input-input">
+                    <el-option value="true" label="是"></el-option>
+                    <el-option value="false" label="否"></el-option>
+                  </el-select>
+                </el-col> -->
                 <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
                   <div class="gjcz">
                     <el-checkbox-group v-model="checkedList">
                       <el-checkbox v-for="item in checkItem" :label="item.code" :key="item.code" v-if="item.code=='SHIGUO'||item.code=='SANSHIYIGUO'">{{item.label}}</el-checkbox>
                     </el-checkbox-group>
                   </div>
+                </el-col>
+                <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
+                  <el-checkbox class="gjcz" v-model="pd.isYXRY">有效常住人员</el-checkbox>
                 </el-col>
               </el-row>
              </el-col>
@@ -472,7 +475,9 @@
             PCSJSSJ_DateRange:{begin:'',end:'',dataType:'date'},
             TLYXQ_DateRange:{begin:'',end:'',dataType:'date'},
             JZZT:"1",
-            isYXRY:"true"
+            isYXRY:true,
+            YWX:'',
+            YWM:''
           },
           // pdGjItem:{
           //   GJDQITEM:'',
@@ -676,7 +681,7 @@
           this.$set(this.pd, "SSPCS", '');
           var srr = [];
           srr.push(arr);
-          console.log(srr);
+          // console.log(srr);
           let p = {
             "fjdmList": srr
           }
@@ -709,6 +714,8 @@
         download(){
           let p={};
           let url="";
+          this.pd.YWX = (this.pd.YWX).toUpperCase();
+          this.pd.YWM = (this.pd.YWM).toUpperCase();
           if(this.selectionAll.length==0){//全部导出
             if(this.checkedList.length==0){//人员全部导出
               p={
@@ -809,6 +816,8 @@
               }
             }
           }
+          this.pd.YWX = (this.pd.YWX).toUpperCase();
+          this.pd.YWM = (this.pd.YWM).toUpperCase();
           if(pd.hasOwnProperty('RGUID')){
             delete pd['RGUID']
           }

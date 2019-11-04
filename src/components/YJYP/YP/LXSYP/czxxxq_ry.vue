@@ -100,7 +100,6 @@
               <span class="input-text">身份：</span>
               <span class="input-input">  {{czinfo.degreeCode_desc}}</span>
             </el-col>
-
           </el-row>
         </el-col>
       </el-row>

@@ -114,7 +114,7 @@
            </el-table-column>
          </el-table>
     </div>
-  <el-dialog :title="diaglogtitle" customClass="customWidth" :visible.sync="detailsDialogVisible" :append-to-body="true">
+  <el-dialog :title="diaglogtitle" customClass="customWidth" :visible.sync="detailsDialogVisible" :append-to-body="true" width="80%">
         <el-row  style="text-align:right;">
             <el-button type="primary" size="small" @click="download(1)">导出</el-button>
         </el-row>
@@ -241,13 +241,25 @@ export default {
       formData: {
                 pageIndex: 1,
                 pageSize: 10,
-      }
+      },
+      userCode:'',
+      userName:'',
+      orgCode:'',
+      orgName:'',
+      token:'',
+      juState:'',
     }
   },
   activated() {
     this.getList(this.pd);
   },
   mounted() {
+    this.userCode=this.$store.state.uid;
+    this.userName=this.$store.state.uname;
+    this.orgName=this.$store.state.orgname;
+    this.orgCode=this.$store.state.orgid;
+    this.juState=this.$store.state.juState;
+    this.token=this.$store.state.token;
     this.getList(this.pd);
   },
   methods: {
@@ -267,6 +279,10 @@ export default {
         "endTime": this.pd.endTime,
         "operatorId": this.$store.state.uid,
         "operatorNm": this.$store.state.uname,
+        'orgJB':this.juState,
+        'orgCode':this.orgCode,
+        'token':this.token
+
       };
       var url = this.Global.aport2 + '/data_report/selectTjxx';
       this.$api.post(url, p,

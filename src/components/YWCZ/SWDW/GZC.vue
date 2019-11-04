@@ -207,6 +207,7 @@ export default {
       orgCode:'',
       orgName:'',
       juState:'',
+      token:'',
     }
   },
 
@@ -230,11 +231,12 @@ export default {
     this.orgName=this.$store.state.orgname;
     this.orgCode=this.$store.state.orgid;
     this.juState=this.$store.state.juState;
+    this.token=this.$store.state.token;
     this.getDw();
   },
   methods: {
     getDw(){
-      this.$api.post(this.Global.aport4+'/SWDW_SJSBController/getAllDW',{userCode:this.userCode,userName:this.userName,orgJB:this.juState,orgCode:this.orgCode},
+      this.$api.post(this.Global.aport4+'/SWDW_SJSBController/getAllDW',{userCode:this.userCode,userName:this.userName,orgJB:this.juState,orgCode:this.orgCode,token:this.token},
         r =>{
           if(r.success){
             this.dwList = r.data.resultList;
@@ -282,7 +284,8 @@ export default {
           userCode:this.userCode,
           userName:this.userName,
           orgJB:this.juState,
-          orgCode:this.orgCode
+          orgCode:this.orgCode,
+          token:this.token,
         }
       }else{//导出选中
         this.yuid=[];
@@ -297,7 +300,8 @@ export default {
           userCode:this.userCode,
           userName:this.userName,
           orgJB:this.juState,
-          orgCode:this.orgCode
+          orgCode:this.orgCode,
+          token:this.token,
         }
       }
       this.$api.post(this.Global.aport4+'/warningInfoController/exportByMxLx',p,
@@ -338,7 +342,8 @@ export default {
         userCode:this.userCode,
         userName:this.userName,
         orgJB:this.juState,
-        orgCode:this.orgCode
+        orgCode:this.orgCode,
+        token:this.token,
       };
       this.$api.post(this.Global.aport4+'/SWDWWarningInfoController/getInfoListByHCMX', p,
         r => {

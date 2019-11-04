@@ -380,13 +380,24 @@
           selectionReal:[],
 
           totalAllResult:0,
+          userCode:'',
+          userName:'',
+          orgCode:'',
+          orgName:'',
+          token:'',
+          juState:'',
         }
       },
       mounted() {
          this.$store.dispatch("getGjdq");
          this.$store.dispatch("getXB");
          this.$store.dispatch("getQzzl");
-
+         this.userCode=this.$store.state.uid;
+         this.userName=this.$store.state.uname;
+         this.orgName=this.$store.state.orgname;
+         this.orgCode=this.$store.state.orgid;
+         this.juState=this.$store.state.juState;
+         this.token=this.$store.state.token;
       },
       watch:{
         falg:function(newVal,oldVal){
@@ -410,9 +421,9 @@
           this.dataSelection()
         },
         dataSelection(){
-          console.log('this.multipleSelection',this.multipleSelection)
+          // console.log('this.multipleSelection',this.multipleSelection)
           this.selectionReal.splice(this.CurrentPage-1,1,this.multipleSelection);
-          console.log('this.selectionReal',this.selectionReal);
+          // console.log('this.selectionReal',this.selectionReal);
           this.selectionAll=[];
           for(var i=0;i<this.selectionReal.length;i++){
             if(this.selectionReal[i]){
@@ -421,14 +432,19 @@
               }
             }
           }
-          console.log('this.selectionAll',this.selectionAll);
+          // console.log('this.selectionAll',this.selectionAll);
         },
         download(){
           let p={};
           if(this.checkedList.length==0){//人员导出
             if(this.selectionAll.length==0){//人员全部导出,无选中的数据
               p={
-                "pd":this.pd
+                "pd":this.pd,
+                userCode:this.userCode,
+                userName:this.userName,
+                orgJB:this.juState,
+                orgCode:this.orgCode,
+                token:this.token
               }
             }else{//人员部分导出
               this.yuid=[];
@@ -438,6 +454,11 @@
               this.pd.RGUID=this.yuid;
               p={
                 "pd":this.pd,
+                userCode:this.userCode,
+                userName:this.userName,
+                orgJB:this.juState,
+                orgCode:this.orgCode,
+                token:this.token
               }
             }
           }else{//统计导出
@@ -445,11 +466,21 @@
               p={
                 "pd":this.pd,
                 "groupList":this.checkedList,
+                userCode:this.userCode,
+                userName:this.userName,
+                orgJB:this.juState,
+                orgCode:this.orgCode,
+                token:this.token
               }
             }else{//统计部分导出
               p={
                 "requestTempList":this.selectionAll,
                 "groupList":this.checkedList,
+                userCode:this.userCode,
+                userName:this.userName,
+                orgJB:this.juState,
+                orgCode:this.orgCode,
+                token:this.token
               }
             }
           }
@@ -475,11 +506,9 @@
         },
         pageSizeChange(val) {
           this.getList(this.CurrentPage, val, this.pd);
-          console.log(`每页 ${val} 条`);
         },
         handleCurrentChange(val) {
           this.getList(val, this.pageSize, this.pd);
-          console.log(`当前页: ${val}`);
         },
         open(content) {
           this.$alert(content, '提示', {
@@ -503,6 +532,11 @@
             "showCount": showCount,
             "pd": pd,
             "groupList":this.checkedList,
+            userCode:this.userCode,
+            userName:this.userName,
+            orgJB:this.juState,
+            orgCode:this.orgCode,
+            token:this.token
           };
 
           this.$api.post(this.Global.aport5+'/esDbqzController/getCount', p,
@@ -569,7 +603,12 @@
           let p={
             pd:{
               RGUID:i.RGUID
-            }
+            },
+            userCode:this.userCode,
+            userName:this.userName,
+            orgJB:this.juState,
+            orgCode:this.orgCode,
+            token:this.token
           }
           this.$api.post(this.Global.aport5+'/esDbqzController/getResultListByParams',p,
            r =>{

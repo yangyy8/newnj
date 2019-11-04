@@ -142,6 +142,8 @@ export default {
       userName:'',
       orgCode:'',
       orgName:'',
+      juState:'',
+      token:'',
       multipleSelection:[],
       selectionAll:[],
       yuid:[],
@@ -166,7 +168,9 @@ export default {
     this.userCode=this.$store.state.uname;
     this.userName=this.$store.state.uid;
     this.orgCode=this.$store.state.orgname;
-    this.orgName=this.$store.state.orgid
+    this.orgName=this.$store.state.orgid;
+    this.juState=this.$store.state.juState;
+    this.token=this.$store.state.token;
   },
   methods: {
     selectfn(a,b){
@@ -194,6 +198,11 @@ export default {
           "pd":this.pd,
           "orderBy":'SBSJ',
           "orderType":'DESC',
+          userCode:this.userCode,
+          userName:this.userName,
+          orgJB:this.juState,
+          orgCode:this.orgCode,
+          token:this.token,
         }
       }else{//导出选中
         this.yuid=[];
@@ -205,6 +214,11 @@ export default {
           "pd":this.pd,
           "orderBy":'SBSJ',
           "orderType":'DESC',
+          userCode:this.userCode,
+          userName:this.userName,
+          orgJB:this.juState,
+          orgCode:this.orgCode,
+          token:this.token,
         }
       }
       this.$api.post(this.Global.aport4+'/warningInfoController/exportByMxLx',p,
@@ -227,12 +241,10 @@ export default {
     pageSizeChange(val) {
       this.pageSize=val;
       this.getList(this.CurrentPage, this.pageSize, this.pd);
-      console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
       this.CurrentPage=val;
       this.getList(this.CurrentPage, this.pageSize, this.pd);
-      console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
       if(pd.hasOwnProperty('YJID')){
@@ -242,6 +254,11 @@ export default {
         "currentPage": currentPage,
         "showCount": showCount,
         "pd": pd,
+        userCode:this.userCode,
+        userName:this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token,
         // "orderBy":'SBSJ',
         // "orderType":'DESC',
       };

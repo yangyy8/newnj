@@ -144,6 +144,12 @@ export default {
   data(){
     return{
       qzinfo:{},
+      userCode:'',
+      userName:'',
+      orgCode:'',
+      orgName:'',
+      token:'',
+      juState:'',
     }
   },
   mounted(){
@@ -152,6 +158,12 @@ export default {
   watch:{
       random:function(newVal,oldVal){
         this.random = newVal;
+        this.userCode=this.$store.state.uid;
+        this.userName=this.$store.state.uname;
+        this.orgName=this.$store.state.orgname;
+        this.orgCode=this.$store.state.orgid;
+        this.juState=this.$store.state.juState;
+        this.token=this.$store.state.token;
         this.getData1();
       },
     },
@@ -171,7 +183,12 @@ export default {
     //持短期（WGRFFJLYJ_XQ）
     getData1(){
       let p={
-        "pd":{"RGUID":this.xid}
+        "pd":{"RGUID":this.xid},
+        userCode:this.userCode,
+        userName:this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token
       }
       this.$api.post(this.Global.aport5+'/esFnsqxxController/getEntityByRGUID',p,
       r =>{

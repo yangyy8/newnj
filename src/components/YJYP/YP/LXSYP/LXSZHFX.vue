@@ -496,6 +496,13 @@
           selectionAll:[],
           yuid:[],
           selectionReal:[],
+
+          userCode:'',
+          userName:'',
+          orgCode:'',
+          orgName:'',
+          token:'',
+          juState:'',
         }
       },
       mounted() {
@@ -505,6 +512,12 @@
          this.$store.dispatch("getXxdm");
          this.$store.dispatch("getHyzt");
          this.$store.dispatch("getXslb");
+         this.userCode=this.$store.state.uid;
+         this.userName=this.$store.state.uname;
+         this.orgName=this.$store.state.orgname;
+         this.orgCode=this.$store.state.orgid;
+         this.juState=this.$store.state.juState;
+         this.token=this.$store.state.token;
       },
       methods: {
         selectfn(a,b){
@@ -530,7 +543,12 @@
           if(this.checkedList.length==0){//人员导出
             if(this.selectionAll.length==0){//人员全部导出,无选中的数据
               p={
-                "pd":this.pd
+                "pd":this.pd,
+                userCode:this.userCode,
+                userName:this.userName,
+                orgJB:this.juState,
+                orgCode:this.orgCode,
+                token:this.token
               }
             }else{//人员部分导出
               this.yuid=[];
@@ -540,6 +558,11 @@
               this.pd.RGUID=this.yuid;
               p={
                 "pd":this.pd,
+                userCode:this.userCode,
+                userName:this.userName,
+                orgJB:this.juState,
+                orgCode:this.orgCode,
+                token:this.token
               }
             }
           }else{//统计导出
@@ -547,11 +570,21 @@
               p={
                 "pd":this.pd,
                 "groupList":this.checkedList,
+                userCode:this.userCode,
+                userName:this.userName,
+                orgJB:this.juState,
+                orgCode:this.orgCode,
+                token:this.token
               }
             }else{//统计部分导出
               p={
                 "requestTempList":this.selectionAll,
                 "groupList":this.checkedList,
+                userCode:this.userCode,
+                userName:this.userName,
+                orgJB:this.juState,
+                orgCode:this.orgCode,
+                token:this.token
               }
             }
           }
@@ -610,6 +643,11 @@
             "orderBy":'',
             "orderType":'DESC',
             "groupList":this.checkedList,
+            userCode:this.userCode,
+            userName:this.userName,
+            orgJB:this.juState,
+            orgCode:this.orgCode,
+            token:this.token
           };
 
           this.$api.post(this.Global.aport5+'/esLxsController/getCount', p,

@@ -598,6 +598,8 @@ export default {
       userName:'',
       orgCode:'',
       orgName:'',
+      token:'',
+      juState:'',
       multipleSelection:[],
       selectionAll:[],
       yuid:[],
@@ -644,7 +646,9 @@ export default {
     this.userCode=this.$store.state.uid;
     this.userName=this.$store.state.uname;
     this.orgCode=this.$store.state.orgname;
-    this.orgName=this.$store.state.orgid
+    this.orgName=this.$store.state.orgid;
+    this.juState=this.$store.state.juState;
+    this.token=this.$store.state.token;
   },
   methods: {
     pageSizeChange4(val) {
@@ -655,28 +659,22 @@ export default {
     },
     pageSizeChange9(val) {
       this.getTbxx(this.CurrentPage9,val);
-      console.log(`每页 ${val} 条`);
     },
     handleCurrentChange9(val) {
       this.getTbxx(val,this.pageSize9);
-      console.log(`当前页: ${val}`);
     },
     sjpageSizeChange(val) {
       this.sjpageSize=val;
       this.getSJ(this.sjCurrentPage,val);
-      console.log(`每页 ${val} 条`);
     },
     sjhandleCurrentChange(val) {
       this.sjCurrentPage=val;
       this.getSJ(val,this.sjpageSize);
-      console.log(`当前页: ${val}`);
     },
     pageSizeChange1(val) {
       this.pageSize1=val;
-
     },
     handleCurrentChange1(val) {
-
       this.CurrentPage1=val;
     },
     selectfn(a,b){
@@ -711,9 +709,14 @@ export default {
        var formData = new FormData();
        let arr=this.fileData;
        for(var i=0;i<arr.length;i++){
-         console.log(arr[i]);
          formData.append("file",arr[i]);
        }
+       formData.append("orgCode",this.orgCode);
+       formData.append("orgName",this.orgName);
+       formData.append("userCode",this.userCode);
+       formData.append("userName",this.userName);
+       formData.append("orgJB",this.juState);
+       formData.append("token",this.token);
        let p=formData;
        this.$api.post(this.Global.aport2+'/bjsc/getplbjsc',p,
         r =>{
@@ -751,12 +754,10 @@ export default {
     },
     downcontent() {
       var url= window.IPConfig.IP +"/"+ this.Global.aport3 + '/webapp/templateFile/背景审查核查模板.xls';
-      console.log('dddd,',url);
       window.location.href =url;
     },
     download(){
       let p={};
-      console.log('this.tableData',this.tableData);
       if(this.tableData.length==0){
         this.$message({
          message: '列表还没有数据，请进行查询！',
@@ -785,6 +786,11 @@ export default {
           "pd":this.pd,
           "userCode":this.$store.state.uid,
           "userName":this.$store.state.uname,
+          userCode:this.userCode,
+          userName:this.userName,
+          orgCode:this.orgCode,
+          orgJB:this.juState,
+          token:this.token,
         }
       }else{//导出选中
         this.yuid=[];
@@ -795,6 +801,11 @@ export default {
          "pd": {RYBH:this.yuid},
          "userCode":this.$store.state.uid,
          "userName":this.$store.state.uname,
+         userCode:this.userCode,
+         userName:this.userName,
+         orgCode:this.orgCode,
+         orgJB:this.juState,
+         token:this.token,
       }
       }
       this.$api.post(this.Global.aport2+'/bjsc/exportdate',p,
@@ -803,7 +814,6 @@ export default {
         },e=>{},{},'blob')
     },
     downloadM (data) {
-      console.log(data);
         if (!data) {
             return
         }
@@ -818,12 +828,10 @@ export default {
     pageSizeChange(val) {
       this.pageSize=val;
       this.getList(this.CurrentPage, this.pageSize, this.pd,this.type);
-      console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
       this.CurrentPage=val;
       this.getList(this.CurrentPage, this.pageSize, this.pd,this.type);
-      console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd, type) {
         this.type=type;
@@ -872,8 +880,10 @@ export default {
              "userCode":this.$store.state.uid,
              "userName":this.$store.state.uname,
              "pd": pd,
+             orgCode:this.orgCode,
+             orgJB:this.juState,
+             token:this.token,
            };
-           console.log(type,url);
        this.$api.post(url, p,
         r => {
           if(r.success){
@@ -904,6 +914,9 @@ export default {
         "pd": this.px,
         "userCode":this.$store.state.uid,
         "userName":this.$store.state.uname,
+        orgCode:this.orgCode,
+        orgJB:this.juState,
+        token:this.token,
       };
       this.$api.post(this.Global.aport3+'/ryhx/getsjxx', p,
         r => {
@@ -931,7 +944,12 @@ export default {
       let p={
         "currentPage":currentPage,
         "showCount":showCount,
-        "pd":this.px
+        "pd":this.px,
+        userCode:this.userCode,
+        userName:this.userName,
+        orgCode:this.orgCode,
+        orgJB:this.juState,
+        token:this.token,
       };
       this.$api.post(this.Global.aport3+'/ryhx/gettbryjbxx', p,
         r => {
@@ -941,7 +959,6 @@ export default {
     },
     //出入境
     getCrj(currentPage,showCount){
-      console.log('this.px.RYBH',this.px.RYBH);
       let p={
         "currentPage":currentPage,
         "showCount":showCount,
@@ -950,6 +967,9 @@ export default {
         },
         "userCode":this.userCode,
         "userName":this.userName,
+        orgCode:this.orgCode,
+        orgJB:this.juState,
+        token:this.token,
       };
       this.$api.post(this.Global.aport3+'/bjsc/getbjsccrjjl', p,
         r => {
@@ -986,7 +1006,6 @@ export default {
       this.sjshow=true;
     },
     gotos(n,t){
-      console.log(n,t);
       this.px.ZJHM=n.ZJHM;
       this.px.GJDQ=n.GJDQ;
       this.px.RYBH=n.RYBH;

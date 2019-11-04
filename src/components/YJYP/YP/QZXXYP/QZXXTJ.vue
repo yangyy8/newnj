@@ -77,17 +77,7 @@
                       </el-option>
                     </el-select>
                 </el-col>
-                <!-- <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-                    <span class="input-text" title="签证办理状态">签证办理状态：</span>
-                    <el-select v-model="pd.CURRENTSTATE" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
-                      <el-option
-                        v-for="item in $store.state.qzzl"
-                        :key="item.dm"
-                        :label="item.dm+' - '+item.mc"
-                        :value="item.dm">
-                      </el-option>
-                    </el-select>
-                </el-col> -->
+
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                     <span class="input-text">申请类别：</span>
                     <el-select v-model="pd.SQLB" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
@@ -129,6 +119,17 @@
                    <span class="input-text">签证号码：</span>
                    <el-input placeholder="请输入内容" size="small" v-model="pd.SBQZHM" class="input-input"></el-input>
                 </el-col>
+                <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                    <span class="input-text" title="申请事由">申请事由：</span>
+                    <el-select v-model="pd.SQSY" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
+                      <el-option
+                        v-for="item in $store.state.sqsy"
+                        :key="item.dm"
+                        :label="item.dm+' - '+item.mc"
+                        :value="item.dm">
+                      </el-option>
+                    </el-select>
+                </el-col>
               </el-row>
              </el-col>
                 <el-col :span="2" class="down-btn-area">
@@ -169,7 +170,7 @@
                <el-table-column
                  label="操作" width="100">
                  <template slot-scope="scope">
-                 <el-button type="text"  class="a-btn"  title="详情"  icon="el-icon-document" @click="$router.push({name:'QZRYXX',query:{row:scope.row}})"></el-button>
+                 <el-button type="text"  class="a-btn"  title="详情"  icon="el-icon-document" @click="$router.push({name:'QZRYXX',query:{row:scope.row,queryPd:pd}})"></el-button>
                  </template>
                </el-table-column>
             </el-table>
@@ -355,10 +356,10 @@
               code:'SQQZZL',
               label:'申请签证种类'
             },
-            // {
-            //   code:'CURRENTSTATE',
-            //   label:'签证办理状态'
-            // },
+            {
+              code:'SQSY',
+              label:'申请事由'
+            },
             {
               code:'SQLB',
               label:'申请证件种类'
@@ -391,10 +392,10 @@
               code:'SQQZZL_DESC',
               label:'申请签证种类'
             },
-            // {
-            //   code:'CURRENTSTATE_DESC',
-            //   label:'签证办理状态'
-            // },
+            {
+              code:'SQSY_DESC',
+              label:'申请事由'
+            },
             {
               code:'SQLB_DESC',
               label:'申请证件种类'
@@ -420,6 +421,12 @@
           selectionReal:[],
 
           totalAllResult:0,
+          userCode:'',
+          userName:'',
+          orgCode:'',
+          orgName:'',
+          token:'',
+          juState:'',
         }
       },
       mounted() {
@@ -434,6 +441,12 @@
          this.$store.dispatch("getRydylb");
          this.$store.dispatch("getSqqzzl");
          this.$store.dispatch("getSqlb");
+         this.userCode=this.$store.state.uid;
+         this.userName=this.$store.state.uname;
+         this.orgName=this.$store.state.orgname;
+         this.orgCode=this.$store.state.orgid;
+         this.juState=this.$store.state.juState;
+         this.token=this.$store.state.token;
       },
       watch:{
         falg:function(newVal,oldVal){
@@ -457,9 +470,9 @@
           this.dataSelection()
         },
         dataSelection(){
-          console.log('this.multipleSelection',this.multipleSelection)
+          // console.log('this.multipleSelection',this.multipleSelection)
           this.selectionReal.splice(this.CurrentPage-1,1,this.multipleSelection);
-          console.log('this.selectionReal',this.selectionReal);
+          // console.log('this.selectionReal',this.selectionReal);
           this.selectionAll=[];
           for(var i=0;i<this.selectionReal.length;i++){
             if(this.selectionReal[i]){
@@ -468,14 +481,19 @@
               }
             }
           }
-          console.log('this.selectionAll',this.selectionAll);
+          // console.log('this.selectionAll',this.selectionAll);
         },
         download(){
           let p={};
           if(this.checkedList.length==0){//人员导出
             if(this.selectionAll.length==0){//人员全部导出,无选中的数据
               p={
-                "pd":this.pd
+                "pd":this.pd,
+                userCode:this.userCode,
+                userName:this.userName,
+                orgJB:this.juState,
+                orgCode:this.orgCode,
+                token:this.token
               }
             }else{//人员部分导出
               this.yuid=[];
@@ -485,6 +503,11 @@
               this.pd.RGUID=this.yuid;
               p={
                 "pd":this.pd,
+                userCode:this.userCode,
+                userName:this.userName,
+                orgJB:this.juState,
+                orgCode:this.orgCode,
+                token:this.token
               }
             }
           }else{//统计导出
@@ -492,11 +515,21 @@
               p={
                 "pd":this.pd,
                 "groupList":this.checkedList,
+                userCode:this.userCode,
+                userName:this.userName,
+                orgJB:this.juState,
+                orgCode:this.orgCode,
+                token:this.token
               }
             }else{//统计部分导出
               p={
                 "requestTempList":this.selectionAll,
                 "groupList":this.checkedList,
+                userCode:this.userCode,
+                userName:this.userName,
+                orgJB:this.juState,
+                orgCode:this.orgCode,
+                token:this.token
               }
             }
           }
@@ -522,11 +555,9 @@
         },
         pageSizeChange(val) {
           this.getList(this.CurrentPage, val, this.pd);
-          console.log(`每页 ${val} 条`);
         },
         handleCurrentChange(val) {
           this.getList(val, this.pageSize, this.pd);
-          console.log(`当前页: ${val}`);
         },
         open(content) {
           this.$alert(content, '提示', {
@@ -550,6 +581,11 @@
             "showCount": showCount,
             "pd": pd,
             "groupList":this.checkedList,
+            userCode:this.userCode,
+            userName:this.userName,
+            orgJB:this.juState,
+            orgCode:this.orgCode,
+            token:this.token
           };
           this.$api.post(this.Global.aport5+'/esFnvisasController/getCount', p,
             r => {

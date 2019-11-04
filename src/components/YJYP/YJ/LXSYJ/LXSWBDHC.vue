@@ -769,6 +769,8 @@ export default {
       userName:'',
       orgCode:'',
       orgName:'',
+      juState:'',
+      token:'',
 
       crjDialogVisible:false,
       tableData1:[],
@@ -801,6 +803,8 @@ export default {
     this.userCode=this.$store.state.uid;
     this.orgName=this.$store.state.orgname;
     this.orgCode=this.$store.state.orgid;
+    this.juState=this.$store.state.juState;
+    this.token=this.$store.state.token;
     this.getDw();
   },
   methods: {
@@ -853,7 +857,10 @@ export default {
         "showCount": showCount,
         "pd": pd,
         "userCode":this.userCode,
-	      "userName":this.userName
+	      "userName":this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token,
       };
       this.$api.post(this.Global.aport3+'/lxslqwbd/getlxslqwbd', p,
         r => {
@@ -872,6 +879,9 @@ export default {
         },
         "userCode":this.userCode,
         "userName":this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token,
       }
       this.$api.post(this.Global.aport3+'/lxslqwbd/getlxslrwbdcrjjl',p,
       r =>{
@@ -895,6 +905,9 @@ export default {
         },
         "userCode":this.userCode,
         "userName":this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token,
       }
       this.$api.post(this.Global.aport3+'/lxslqwbd/getlxslrwbdlzxx',p,
       r =>{
@@ -917,6 +930,9 @@ export default {
         },
         "userCode":this.userCode,
         "userName":this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token,
       }
       this.$api.post(this.Global.aport3+'/lxslqwbd/getlxslrwbdqzxx',p,
       r =>{

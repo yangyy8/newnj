@@ -145,8 +145,10 @@
             <div class="map">
                 <div class="lzrq">
                   <div class="fun-choose">
-                    <span @click="mapFun('L');page=0" :class="{'checktab':page==0}" class="tab-fun hand" style="position:relative;z-index:999;border-right:1px solid #02C8E8">临住登记量</span
-                    ><span @click="mapFun('C');page=1" :class="{'checktab':page==1}" class="tab-fun hand" style="position:relative;z-index:999">常住人员量</span>
+                    <div @click="mapFun('L');page=0" :class="{'checktab':page==0}" class="tab-fun hand" style="position:relative;z-index:999;border-right:1px solid #02C8E8">
+                      <div>临住登记量</div><div>{{allLzNum}}</div></div
+                    ><div @click="mapFun('C');page=1" :class="{'checktab':page==1}" class="tab-fun hand" style="position:relative;z-index:999">
+                      <div>常住人员量</div><div>{{allCzNum}}</div></div>
                   </div>
                   <div class="choose" v-show="page==0">
                     <el-select v-model="lzyear" size="small" placeholder="年" style="z-index: 999" clearable @change="mapFun">
@@ -519,11 +521,26 @@ export default {
       checkedList:[],
       isFull:false,
       isFullM:false,
+
+      allLzNum:0,
+      allCzNum:0,
+
+      userCode:'',
+      userName:'',
+      orgCode:'',
+      orgName:'',
+      token:'',
+      juState:'',
     }
   },
   mounted() {
      window.vm=this;
-     console.log(this.Global.indexstate);
+     this.userCode=this.$store.state.uid;
+     this.userName=this.$store.state.uname;
+     this.orgName=this.$store.state.orgname;
+     this.orgCode=this.$store.state.orgid;
+     this.juState=this.$store.state.juState;
+     this.token=this.$store.state.token;
      if(this.Global.indexstate!=0){
        this.Global.indexstate=0;
        window.location.reload();
@@ -538,7 +555,6 @@ export default {
             that.fullHeight = window.fullHeight;
             that.imgHeightOne=that.$refs.ajC.offsetHeight;
             that.$store.commit('getOne',that.imgHeightOne);
-            console.log('mounted',that.imgHeightOne);
         })()
      }
      if(this.fullHeight>=657&&this.fullHeight<=768){
@@ -548,7 +564,7 @@ export default {
      }
      if(this.fullHeight>800){
        // this.isFull = true
-       console.log('this.fullHeight',this.fullHeight)
+       // console.log('this.fullHeight',this.fullHeight)
        this.$refs.fullS.style.height = this.fullHeight +'px';
      }
     if(this.screenWidth<1600){
@@ -569,6 +585,24 @@ export default {
                     ];
       this.yjl='370px';
       this.ajyjl="155px";
+    }else if(this.screenWidth>=1600&&this.screenWidth<1700){
+      this.seriesData=[
+                        [[13, 27, '六合区', 12, 35]],
+                        [[11, 13, '江宁区', 10, 35]],
+                        [[3, 18, '浦口区', 10, 35]],
+                        [[18, 7, '溧水区', 10, 35]],
+                        [[15, 1, '高淳区', 10, 35]],
+                        [[15.2, 21.5, '栖霞区', 10, 18]],
+                        [[7, 16, '雨花台区', 10, 18]],
+                        [[10, 20, '鼓楼区', 10, 18]],
+                        [[13, 21, '玄武区', 10, 18]],
+                        [[8.5, 18, '建邺区', 10, 18]],
+                        [[11.5, 19, '秦淮区', 10, 18]],
+                        [[8.5, 23.5, '江北新区', 10, 23]],
+                        [[13, 22.5, '经济技术开发区', 10, 12]],
+                    ];
+                    this.yjl='500px';
+                    this.ajyjl="240px";
     }else{
       this.seriesData=[
                         [[13, 27, '六合区', 12, 40]],
@@ -639,6 +673,24 @@ export default {
                           ];
             this.yjl='370px';
             this.ajyjl="155px";
+          }else if(this.screenWidth>=1600&&this.screenWidth<1700){
+            this.seriesData=[
+                              [[13, 27, '六合区', 12, 30]],
+                              [[11, 13, '江宁区', 10, 30]],
+                              [[3, 18, '浦口区', 10, 30]],
+                              [[18, 7, '溧水区', 10, 30]],
+                              [[15, 1, '高淳区', 10, 30]],
+                              [[15.2, 21.5, '栖霞区', 10, 15]],
+                              [[7, 16, '雨花台区', 10, 15]],
+                              [[10, 20, '鼓楼区', 10, 15]],
+                              [[13, 21, '玄武区', 10, 15]],
+                              [[8.5, 18, '建邺区', 10, 15]],
+                              [[11.5, 19, '秦淮区', 10, 15]],
+                              [[8.5, 23.5, '江北新区', 10, 20]],
+                              [[13, 22.5, '经济技术开发区', 10, 10]],
+                          ];
+                          this.yjl='500px';
+                          this.ajyjl="240px";
           }else{
             this.seriesData=[
                             [[13, 27, '六合区', 12, 40]],
@@ -663,7 +715,7 @@ export default {
       },
       imgHeightOne(val){
         this.$nextTick(()=>{
-          console.log('one==',val);
+          // console.log('one==',val);
           this.$store.commit('getOne',val);
           document.getElementById("ajecharts").style.height=(val-20)+'px';
           document.getElementById("lzecharts").style.height=(val-20)+'px';
@@ -773,7 +825,7 @@ export default {
       },
       //得到派出所
       getpcs(n,callback){
-        console.log('this.mapList.type',this.mapList.type)
+        // console.log('this.mapList.type',this.mapList.type)
           var searchResult = [];
             let p={
               "lrdw":this.mapList.lrdw,
@@ -801,11 +853,9 @@ export default {
       },
       pageSizeChange(val) {
         this.getRyxx(this.CurrentPage,val,this.bzhid,this.mc,this.lrdw);
-        console.log(`每页 ${val} 条`);
       },
       handleCurrentChange(val) {
         this.getRyxx(val,this.pageSize,this.bzhid,this.mc,this.lrdw);
-        console.log(`当前页: ${val}`);
       },
       //获取标准化地址
       getbzhdz(n,callback){
@@ -945,18 +995,18 @@ export default {
         },0)
       },
       sbEnter(){
-        console.log('enter')
+        // console.log('enter')
         // this.animate=false;
         clearInterval(this.timer);
         this.timer=null;
       },
       sbleave(){
-        console.log('leave')
+        // console.log('leave')
         // this.animate=true;
         this.timer=setInterval(this.scrollYj,2000);
       },
       yjFun(){
-        this.$api.post(this.Global.aport+'/home/getWaringData',{},
+        this.$api.post(this.Global.aport+'/home/getWaringData',{userCode:this.userCode,userName:this.userName,orgJB:this.juState,orgCode:this.orgCode,token:this.token},
          r =>{
            this.yjList = r.data
          })
@@ -1022,6 +1072,8 @@ export default {
         this.$api.post(this.Global.aport+'/home/getCenterData',p,
          r =>{
            if(r.success){
+             this.allLzNum = r.data.allLzNum;
+             this.allCzNum = r.data.allCzNum;
              this.drawLine(r.data.series,r.data.legend,r.data.name)
            }
          })
@@ -2533,6 +2585,21 @@ export default {
   font-size: 18px;font-weight: lighter;
         border-left: 4px #86cdfb solid;padding-left: 10px;
       }
+      .bgh1 .map-class .el-dialog__headerbtn{
+          position: fixed;
+          top: 38px;
+          right: 4.5%;
+          padding: 0px;
+          background: #fff;
+          border: none;
+          border-radius: 50%;
+          outline: 0;
+          cursor: pointer;
+          font-size: 16px;
+          width: 25px;
+          height: 25px;
+          color: #000;
+        }
     .bgh1  .el-dialog__headerbtn{
         position: absolute;
         top: -6px;
@@ -2547,9 +2614,11 @@ export default {
         width: 25px;
         height: 25px;
         color: #000;
+        z-index: 2000;
       }
       .bgh1 .el-dialog__wrapper{
-        top: -79px!important;
+        /* top: -79px!important; */
+        overflow: hidden!important;
       }
     .bgh1 .el-dialog__header{
         border-bottom: none;
@@ -2603,6 +2672,12 @@ export default {
         }
         .bgh1 .el-table__empty-text{
           color: #a9d6fd;
+        }
+        .bgh1 .map-class{
+          top: 48px!important;
+          margin: 0 auto 0!important;
+          overflow: hidden;
+          height: 90%!important;
         }
       .bgh1 .el-pagination.is-background .btn-next.disabled, .el-pagination.is-background .btn-next:disabled, .el-pagination.is-background .btn-prev.disabled, .el-pagination.is-background .btn-prev:disabled, .el-pagination.is-background .el-pager li.disabled
       {

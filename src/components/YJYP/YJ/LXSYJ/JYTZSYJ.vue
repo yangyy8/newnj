@@ -222,13 +222,16 @@ export default {
       selectionAll:[],
       yuid:[],
       selectionReal:[],
-      juState:'',
+      userCode:'',
+      userName:'',
       orgCode:'',
+      orgName:'',
+      token:'',
+      juState:'',
     }
   },
   activated(){
-    if(this.Global.serviceState==0){this.$set(this.pd,'CLZT','CLZT_1')};
-    if(this.Global.serviceState==1){this.$set(this.pd,'CLZT','1')};
+
     if(this.juState=='2'){//分局登录
       this.pd.FJ = this.orgCode;
       this.getPSC(this.pd.FJ);
@@ -241,11 +244,17 @@ export default {
     this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   mounted() {
+    if(this.Global.serviceState==0){this.$set(this.pd,'CLZT','CLZT_1')};
+    if(this.Global.serviceState==1){this.$set(this.pd,'CLZT','1')};
     this.$store.dispatch('getGjdq');
     this.$store.dispatch('getClzt');
     this.$store.dispatch('getShzt');
-    this.juState=this.$store.state.juState;
+    this.userCode=this.$store.state.uid;
+    this.userName=this.$store.state.uname;
+    this.orgName=this.$store.state.orgname;
     this.orgCode=this.$store.state.orgid;
+    this.juState=this.$store.state.juState;
+    this.token=this.$store.state.token;
     this.getFj();
   },
   methods: {
@@ -259,7 +268,7 @@ export default {
     },
     getPSC(i){
       this.$set(this.pd,'PCS','');
-      this.$api.post(this.Global.aport5+'/djbhl/getpcsbyfjdm',{fjdm:i},
+      this.$api.post(this.Global.aport5+'/djbhl/getpcsbyfjdm',{pd:{fjdm:i}},
       r =>{
         if(r.success){
           this.PSC=r.data;
@@ -271,9 +280,9 @@ export default {
       this.dataSelection()
     },
     dataSelection(){
-      console.log('this.multipleSelection',this.multipleSelection)
+      // console.log('this.multipleSelection',this.multipleSelection)
       this.selectionReal.splice(this.CurrentPage-1,1,this.multipleSelection);
-      console.log('this.selectionReal',this.selectionReal);
+      // console.log('this.selectionReal',this.selectionReal);
       this.selectionAll=[];
       for(var i=0;i<this.selectionReal.length;i++){
         if(this.selectionReal[i]){
@@ -282,13 +291,18 @@ export default {
           }
         }
       }
-      console.log('this.selectionAll',this.selectionAll);
+      // console.log('this.selectionAll',this.selectionAll);
     },
     download(){
       let p={};
       if(this.selectionAll.length==0){//全部导出
          p={
           "pd":this.pd,
+          userCode:this.userCode,
+          userName:this.userName,
+          orgJB:this.juState,
+          orgCode:this.orgCode,
+          token:this.token
           // "orderBy":'BJSJ',
           // "orderType":'DESC'
         }
@@ -300,6 +314,11 @@ export default {
         this.pd.YJID=this.yuid;
          p={
           "pd":this.pd,
+          userCode:this.userCode,
+          userName:this.userName,
+          orgJB:this.juState,
+          orgCode:this.orgCode,
+          token:this.token
           // "orderBy":'BJSJ',
           // "orderType":'DESC',
         }
@@ -324,12 +343,10 @@ export default {
     pageSizeChange(val) {
       this.pageSize=val;
       this.getList(this.CurrentPage, this.pageSize, this.pd);
-      console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
       this.CurrentPage=val;
       this.getList(this.CurrentPage, this.pageSize, this.pd);
-      console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
       this.pd.MXLX='LXS_ZSYJ';
@@ -341,7 +358,12 @@ export default {
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
-        "pd": pd
+        "pd": pd,
+        userCode:this.userCode,
+        userName:this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token
       };
       this.$api.post(this.Global.aport4+'/warningInfoController/getInfoListByMxLx1', p,
         r => {

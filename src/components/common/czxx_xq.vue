@@ -92,6 +92,10 @@
               <span class="input-text">证件有效期：</span>
               <span class="input-input">{{czinfo.ZJYXQ}}</span>
             </el-col>
+            <el-col :span="8" class="input-item">
+              <span class="input-text">服务处所：</span>
+              <span class="input-input">{{czinfo.FWCS}}</span>
+            </el-col>
           </el-row>
         </el-col>
       </el-row>
