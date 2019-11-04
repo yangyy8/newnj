@@ -57,7 +57,6 @@ export function createDWMap(id, mc) {
         //   if (features.length > 0) {
         //     var x = features[0].properties.SMX;
         //     var y = features[0].properties.SMY;
-        //
         //     var tmmc = "<div style='line-height:25px;'>学校：" + mc + " <br/>地址：" + dm + "</div>";
         //     var tm = L.marker([y, x]).bindPopup(tmmc);
         //
@@ -71,9 +70,7 @@ export function createDWMap(id, mc) {
         //     //getXXDZInfo(id, arr, mc, dm);
         //     // getStudents(id, parseFloat(x), parseFloat(y));
         //   } else {
-
             var ss = window.ffvm.getXY(dzdm, function(datae) {
-
               var arr = [];
               if (datae != undefined && datae.ycoord > 0 && datae.xcoord > 0) {
                 arr.push(datae.ycoord+'');
@@ -198,8 +195,6 @@ ii=i+1;
           // console.log(gg,sdas.length,gl);
           redergls([x1, y1], num, dm, xmc,mc,gl);
         }
-
-
         // markerLayer.addLayer(marker1);
         // marker1.bindPopup(content).openPopup(marker1.getLatLng());
         // marker1.on("mousemove", function(e) {
