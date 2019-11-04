@@ -292,7 +292,7 @@ export default {
       CurrentPage1: 1,
       pageSize1: 10,
       TotalResult1: 0,
-      pd: {SSPCS:this.$store.state.orgid,isAll:false},
+      pd: {isAll:false},
       options: this.pl.ps,
       tableData: [],
       userCode:'',
@@ -333,8 +333,8 @@ export default {
     this.$store.dispatch('getRjqzzl');
     this.$store.dispatch('getLgyj');
     this.$store.dispatch('getGljb');
-    this.userCode=this.$store.state.uname;
-    this.userName=this.$store.state.uid;
+    this.userCode=this.$store.state.uid;
+    this.userName=this.$store.state.uname;
     this.orgName=this.$store.state.orgname;
     this.orgCode=this.$store.state.orgid;
     this.juState=this.$store.state.juState;

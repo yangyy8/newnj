@@ -315,14 +315,32 @@ export default {
       page:this.type,
       id:this.xid,
       pp:{},
+      userCode:'',
+      userName:'',
+      orgCode:'',
+      orgName:'',
+      juState:'',
+      token:'',
     }
   },
   mounted(){
-      this.initData();
+    this.userCode=this.$store.state.uid;
+    this.userName=this.$store.state.uname;
+    this.orgName=this.$store.state.orgname;
+    this.orgCode=this.$store.state.orgid;
+    this.juState=this.$store.state.juState;
+    this.token=this.$store.state.token;
+    this.initData();
    },
   watch:{
       random:function(newVal,oldVal){
         this.random = newVal;
+        this.userCode=this.$store.state.uid;
+        this.userName=this.$store.state.uname;
+        this.orgName=this.$store.state.orgname;
+        this.orgCode=this.$store.state.orgid;
+        this.juState=this.$store.state.juState;
+        this.token=this.$store.state.token;
         this.initData();
       },
       type:{
@@ -359,7 +377,12 @@ export default {
     getData1(){
       this.pp.DTID=this.id;
       let p={
-        "pd":this.pp
+        "pd":this.pp,
+        userCode:this.userCode,
+        userName:this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token,
       };
       this.$api.post(this.Global.aport5+'/jiaoYuTing202Controller/getEntityByDTID', p,
        r => {
@@ -382,7 +405,12 @@ export default {
     getData3(){
       this.pp.RGUID=this.id;
       let p={
-        "pd":this.pp
+        "pd":this.pp,
+        userCode:this.userCode,
+        userName:this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token,
       };
       this.$api.post(this.Global.aport5+'/jiaoYuTing202Controller/getEntityByRGUID', p,
        r => {

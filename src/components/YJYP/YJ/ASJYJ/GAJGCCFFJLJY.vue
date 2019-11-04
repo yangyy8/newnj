@@ -53,7 +53,7 @@
              label="来华事由">
            </el-table-column>
             <el-table-column
-              prop="rjhm"
+              prop="zjhm"
               label="入境证件号码"
               width="120">
             </el-table-column>

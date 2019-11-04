@@ -568,10 +568,22 @@ export default {
       page:this.type,
       id:this.xid,
       pp:{},
+      userCode:'',
+      userName:'',
+      orgCode:'',
+      orgName:'',
+      juState:'',
+      token:'',
     }
   },
   mounted(){
-      this.initData();
+    this.userCode=this.$store.state.uid;
+    this.userName=this.$store.state.uname;
+    this.orgName=this.$store.state.orgname;
+    this.orgCode=this.$store.state.orgid;
+    this.juState=this.$store.state.juState;
+    this.token=this.$store.state.token;
+    this.initData();
    },
   watch:{
       type: function(val){
@@ -580,6 +592,12 @@ export default {
       xid:{
         handler(val){
         this.id=val;
+        this.userCode=this.$store.state.uid;
+        this.userName=this.$store.state.uname;
+        this.orgName=this.$store.state.orgname;
+        this.orgCode=this.$store.state.orgid;
+        this.juState=this.$store.state.juState;
+        this.token=this.$store.state.token;
         this.initData()
       },
       immediate: true
@@ -599,7 +617,12 @@ export default {
     getData2(){
       this.pp.RGUID=this.id;
       let p = {
-        "pd": this.pp
+        "pd": this.pp,
+        userCode:this.userCode,
+        userName:this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token,
       };
        this.$api.post(this.Global.aport3+'/ryhx/getstmhjgxxn', p,
         r => {

@@ -168,7 +168,7 @@ export default {
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
-      pd: {HCMX:'YYRY',SSPCS:this.$store.state.orgid},
+      pd: {HCMX:'YYRY'},
       options: this.pl.ps,
       tableData: [],
       userCode:'',
@@ -202,10 +202,10 @@ export default {
     this.$store.dispatch('getLgyj');
     this.$store.dispatch('getGljb');
     this.$store.dispatch('getSwcl');
-    this.userCode=this.$store.state.uname;
-    this.userName=this.$store.state.uid;
-    this.orgCode=this.$store.state.orgname;
-    this.orgName=this.$store.state.orgid;
+    this.userCode=this.$store.state.uid;
+    this.userName=this.$store.state.uname;
+    this.orgCode=this.$store.state.orgid;
+    this.orgName=this.$store.state.orgname;
     this.juState=this.$store.state.juState;
     this.token=this.$store.state.token;
     this.getDw();

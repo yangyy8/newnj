@@ -439,14 +439,32 @@ export default {
         label: "30"
       }
     ],
+    userCode:'',
+    userName:'',
+    orgCode:'',
+    orgName:'',
+    juState:'',
+    token:'',
     }
   },
   mounted(){
+    this.userCode=this.$store.state.uid;
+    this.userName=this.$store.state.uname;
+    this.orgName=this.$store.state.orgname;
+    this.orgCode=this.$store.state.orgid;
+    this.juState=this.$store.state.juState;
+    this.token=this.$store.state.token;
       this.getData();
    },
   watch:{
     random:function(newVal,oldVal){
       this.random=newVal;
+      this.userCode=this.$store.state.uid;
+      this.userName=this.$store.state.uname;
+      this.orgName=this.$store.state.orgname;
+      this.orgCode=this.$store.state.orgid;
+      this.juState=this.$store.state.juState;
+      this.token=this.$store.state.token;
       this.getData();
     },
   },
@@ -506,6 +524,11 @@ export default {
        "pd": pd,
        "currentPage":currentPage,
        "showCount":showCount,
+       userCode:this.userCode,
+       userName:this.userName,
+       orgJB:this.juState,
+       orgCode:this.orgCode,
+       token:this.token,
      };
      this.$api.post(this.Global.aport3+'/ryhx/gettbrygjdq', pp,
       r => {
@@ -521,6 +544,11 @@ export default {
        "pd": pd,
        "currentPage":currentPage,
        "showCount":showCount,
+       userCode:this.userCode,
+       userName:this.userName,
+       orgJB:this.juState,
+       orgCode:this.orgCode,
+       token:this.token,
      };
       this.$api.post(this.Global.aport3+'/ryhx/gettbrypaper', pp,
        r => {
@@ -536,6 +564,11 @@ export default {
        "pd": pd,
        "currentPage":currentPage,
        "showCount":showCount,
+       userCode:this.userCode,
+       userName:this.userName,
+       orgJB:this.juState,
+       orgCode:this.orgCode,
+       token:this.token,
      };
 
       this.$api.post(this.Global.aport3+'/ryhx/getczzfxx', pp,
@@ -547,17 +580,17 @@ export default {
        })
    },
     getGj(row,event,column){
-      console.log(row,event,column);
+      // console.log(row,event,column);
       this.gjinfo=row;
       this.gjshow=true;
     },
     getCl(row,event,column){
-      console.log(row,event,column);
+      // console.log(row,event,column);
       this.clinfo=row;
       this.clshow=true;
     },
     getZj(row,event,column){
-      console.log(row,event,column);
+      // console.log(row,event,column);
       this.zjinfo=row;
       this.zjshow=true;
     },

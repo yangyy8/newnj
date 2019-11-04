@@ -305,7 +305,13 @@
                 </el-table-column>
                 <el-table-column
                   prop="djrq"
-                  label="登记日期">
+                  label="登记日期"
+                  v-if="mapList.type=="C"">
+                </el-table-column>
+                <el-table-column
+                  prop="rzrq"
+                  label="住宿日期"
+                  v-if="mapList.type=="L"">
                 </el-table-column>
                 <el-table-column
                   prop="gjdq"

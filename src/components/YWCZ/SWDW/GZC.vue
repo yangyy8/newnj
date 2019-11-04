@@ -192,7 +192,7 @@ export default {
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
-      pd: {SBSJ:{begin:'',end:''},HCMX:'WFZJLZM',SSPCS:this.$store.state.orgid},
+      pd: {SBSJ:{begin:'',end:''},HCMX:'WFZJLZM'},
       options: this.pl.ps,
       tableData: [],
       multipleSelection:[],

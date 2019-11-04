@@ -273,7 +273,7 @@ export default {
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
-      pd: {HCMX:'CYRY',SSPCS:this.$store.state.orgid,TLYXQ_DateRange:{}},
+      pd: {HCMX:'CYRY',TLYXQ_DateRange:{}},
       options: this.pl.ps,
       tableData: [],
       userCode:'',
@@ -310,10 +310,10 @@ export default {
     this.$store.dispatch('getHyzt');
     this.$store.dispatch('getZjxy');
     this.$store.dispatch('getSwcl');
-    this.userCode=this.$store.state.uname;
-    this.userName=this.$store.state.uid;
-    this.orgCode=this.$store.state.orgname;
-    this.orgName=this.$store.state.orgid;
+    this.userCode=this.$store.state.uid;
+    this.userName=this.$store.state.uname;
+    this.orgCode=this.$store.state.orgid;
+    this.orgName=this.$store.state.orgname;
     this.juState=this.$store.state.juState;
     this.token=this.$store.state.token;
     this.getDw();

@@ -143,14 +143,10 @@
                      </div>
                     </el-col>
                     <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
-                      <span class="input-text">住房类型：</span>
-                      <el-select v-model="pd.ZFZL" placeholder="请选择"  multiple collapse-tags filterable clearable default-first-option  size="small" class="input-input">
-                        <el-option v-for="item in $store.state.zsxz"
-                         :key="item.dm"
-                         :label="item.dm+' - '+item.mc"
-                         :value="item.dm"
-                        >
-                        </el-option>
+                      <span class="input-text">投宿于：</span>
+                      <el-select v-model="pd.LB_SFBG" placeholder="请选择" filterable clearable default-first-option  size="small" class="input-input">
+                        <el-option  label="宾馆" value="1"></el-option>
+                        <el-option  label="社会面" value="2"></el-option>
                       </el-select>
                     </el-col>
                     <el-col  :sm="24" :md="12" :lg="8"  class="input-item">

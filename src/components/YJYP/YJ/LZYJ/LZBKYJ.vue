@@ -7,11 +7,11 @@
           <el-row align="center"   :gutter="2">
                 <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
                    <span class="input-text">英文姓名：</span>
-                   <el-input placeholder="请输入内容" size="small" v-model="pd.YWXM" class="input-input"></el-input>
+                   <el-input placeholder="请输入内容" size="small" v-model="pd.YWXM_Like" class="input-input"></el-input>
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
                    <span class="input-text">中文姓名：</span>
-                   <el-input placeholder="请输入内容" size="small" v-model="pd.ZWXM" class="input-input"></el-input>
+                   <el-input placeholder="请输入内容" size="small" v-model="pd.ZWXM_Like" class="input-input"></el-input>
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                   <span class="input-text">预警时间：</span>
@@ -267,7 +267,7 @@ export default {
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
-      pd: {BJSJ_DateRange:{begin:'',end:''},GJ:[],ZJZL:[],QZZL:[],YWXM:''},
+      pd: {BJSJ_DateRange:{begin:'',end:''},GJ:[],ZJZL:[],QZZL:[],YWXM_Like:''},
       options: this.pl.ps,
       tableData: [],
       type:'',
@@ -373,7 +373,7 @@ export default {
     },
     download(){
       let p={};
-      this.pd.YWXM = (this.pd.YWXM).toUpperCase();
+      this.pd.YWXM_Like = (this.pd.YWXM_Like).toUpperCase();
       if(this.type==5){
         if(this.selectionAll5.length==0){//全部导出
            p={
@@ -488,7 +488,7 @@ export default {
       if(pd.hasOwnProperty('YJID')){
         delete pd['YJID']
       }
-      this.pd.YWXM = (this.pd.YWXM).toUpperCase();
+      this.pd.YWXM_Like = (this.pd.YWXM_Like).toUpperCase();
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,

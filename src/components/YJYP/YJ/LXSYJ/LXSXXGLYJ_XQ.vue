@@ -702,7 +702,7 @@
    <div class="stu-footer" v-else>
      <!-- 分局级别是2并且是未处理状态   展示派出所详情和分局意见输入框-->
      <div v-if="jb=='2' && showFJ">
-       <div class="stu-title">处理结果：{{pc.CLJG}}</div>
+       <!-- <div class="stu-title">处理结果：{{pc.CLJG}}</div> -->
        <div class="stu-title">分局调查意见</div>
        <el-row type="flex" class="mb-15">
         <el-col :span="20">
@@ -719,12 +719,12 @@
       </el-row>
      </div>
      <div v-if="jb=='2' && !showFJ">
-       <div class="stu-title">处理结果：{{pc.CLJG}}</div>
+       <!-- <div class="stu-title">处理结果：{{pc.CLJG}}</div> -->
        <div class="stu-title">分局调查意见：{{pc.FJYJ}}</div>
      </div>
      <div v-if="(org=='320100060000'||jb=='1') && showZD">
        <div class="stu-title">分局调查意见：{{pc.FJYJ}}</div>
-       <div class="stu-title">处理结果：{{pc.CLJG}}</div>
+       <!-- <div class="stu-title">处理结果：{{pc.CLJG}}</div> -->
        <div class="stu-title">支队处理意见</div>
        <el-row type="flex" class="mb-15">
         <el-col :span="20">
@@ -743,7 +743,7 @@
      <div v-if="(org=='320100060000'||jb=='1') && !showZD">
        <div class="stu-title">支队处理意见：{{pc.ZDYJ}}</div>
        <div class="stu-title">分局调查意见：{{pc.FJYJ}}</div>
-       <div class="stu-title">处理结果：{{pc.CLJG}}</div>
+       <!-- <div class="stu-title">处理结果：{{pc.CLJG}}</div> -->
      </div>
      <div v-if="jb=='3' && showPCS">
        <div class="stu-title">处理结果</div>
