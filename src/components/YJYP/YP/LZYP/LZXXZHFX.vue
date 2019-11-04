@@ -444,8 +444,8 @@
             label:'外国人和四种人分布'
           },
           {
-            code:'ZFZL',
-            label:'住房类型'
+            code:'LB_SFBG',
+            label:'投宿于'
           },
           {
             code:'LSDWDZ',
@@ -483,8 +483,8 @@
             label:'停留事由'
           },
           {
-            code:'ZFZL_DESC',
-            label:'住房类型'
+            code:'LB_SFBG_DESC',
+            label:'投宿于'
           },
           {
             code:'LSDWDZ',

@@ -254,7 +254,7 @@
                label="地址">
              </el-table-column>
              <el-table-column
-               prop="TLYXQ"
+               prop="TLYXQZ"
                label="停留有效期至">
              </el-table-column>
              <el-table-column
