@@ -20,12 +20,12 @@ const aport4="api-yujing";//李文龙 预警
 const aport5="api-yanpan";//李文龙研判
 // const aport5="http://10.0.30.47:9438";//李文龙
 
-// const aport6="http://10.33.72.217:9447";//孙
-const aport6="http://192.168.3.217:9447";
-// const aport7="http://10.33.72.218:9436";//游
-const aport7="http://192.168.3.217:9436";
-// const aport8="http://10.33.72.144:9438";//中管
-const aport8="http://192.168.3.217:9438";
+const aport6="http://10.33.72.217:9447";//孙
+// const aport6="http://192.168.3.217:9447";
+const aport7="http://10.33.72.218:9436";//游
+// const aport7="http://192.168.3.217:9436";
+const aport8="http://10.33.72.144:9438";//中管
+// const aport8="http://192.168.3.217:9438";
 
 const serviceState=1 //代码已统一
 

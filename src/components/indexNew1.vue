@@ -306,12 +306,12 @@
                 <el-table-column
                   prop="djrq"
                   label="登记日期"
-                  v-if="mapList.type=="C"">
+                  v-if="czshow">
                 </el-table-column>
                 <el-table-column
                   prop="rzrq"
                   label="住宿日期"
-                  v-if="mapList.type=="L"">
+                  v-if="!czshow">
                 </el-table-column>
                 <el-table-column
                   prop="gjdq"
@@ -910,8 +910,12 @@ export default {
            'day':this.lzdate,
            "lrdw":this.ssfj,
          };
+         this.czshow=false;
+         console.log('临住',this.czshow)
           var url=this.Global.aport+"/zxdt/getLSZSDJXXRYList";
          if(this.mapList.type=="C"){
+           this.czshow=true;
+           console.log('常住',this.czshow)
            p={
              "currentPage":currentPage,
              "showCount":showCount,
@@ -1883,13 +1887,12 @@ export default {
                 bb.setAttribute('id','mainMap');
                 bb.setAttribute('class','mapbjindex');
                  _this.aaDom.appendChild(bb);
-                 console.log(_this.aaDom);
             })
             createMapL(_this.mapList.lrdw,_this.mapList.lrdwmc,_this.mapList.rs,_this.mapList.type);
             if(_this.mapList.type=="C"){
-              this.czshow=true;
+              _this.czshow=true;
             }else {
-              this.czshow=false;
+              _this.czshow=false;
             }
         })
       },

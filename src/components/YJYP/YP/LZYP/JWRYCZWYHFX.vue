@@ -1,3 +1,4 @@
+
 <template lang="html">
     <!-- 境外人员出租房屋隐患分析 -->
       <div class="yymain ">
@@ -27,7 +28,7 @@
                   </el-col>
                   <el-col :span="24">
                       <span class="yy-input-text">派出所：</span>
-                        <el-select v-model="pd.sspcs" filterable clearable default-first-option placeholder="请输入关键字"  size="small" class="yy-input-input">
+                        <el-select v-model="pd.sspcs" filterable clearable default-first-option placeholder="请输入关键字" @change="getZrq(pd.sspcs)" size="small" class="yy-input-input">
                        <el-option
                          v-for="(item,ind1) in sspcs"
                          :key="ind1"
@@ -591,10 +592,11 @@ export default {
           this.list = ToArray(r.data);
         })
     },
-    getZrq() {
+    getZrq(arr) {
       let p = {
         "operatorId": this.$store.state.uid,
-        "operatorNm": this.$store.state.uname
+        "operatorNm": this.$store.state.uname,
+        "pcsdm":[arr]
       };
       var url = this.Global.aport2 + "/data_report/selectZrqDm";
       this.$api.post(url, p,

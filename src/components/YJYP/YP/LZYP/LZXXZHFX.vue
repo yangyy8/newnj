@@ -444,8 +444,8 @@
             label:'外国人和四种人分布'
           },
           {
-            code:'ZFZL',
-            label:'住房类型'
+            code:'LB_SFBG',
+            label:'投宿于'
           },
           {
             code:'LSDWDZ',
@@ -483,8 +483,8 @@
             label:'停留事由'
           },
           {
-            code:'ZFZL_DESC',
-            label:'住房类型'
+            code:'LB_SFBG_DESC',
+            label:'投宿于'
           },
           {
             code:'LSDWDZ',
@@ -492,6 +492,7 @@
           },
         ],
           tableData: [],
+          checkItemReal:[],
           configHeader:[],
           pd0:{},
           form:{},
@@ -709,6 +710,14 @@
         //   return pd;
         // },
         getList(currentPage, showCount, pd) {
+          this.checkItemReal=[];
+          for(var i=0;i<this.checkedList.length;i++){
+            for(var j=0;j<this.checkItem.length;j++){
+              if(this.checkedList[i] == this.checkItem[j].code){
+                this.checkItemReal.push(this.checkItem[j])
+              }
+            }
+          }
           this.pd.CSRQ_DateRange.begin=this.pd0.beginCSRQ;
           this.pd.CSRQ_DateRange.end=this.pd0.endCSRQ;
           this.pd.TLYXQZ_DateRange.begin=this.pd0.beginTLYXQZ;
@@ -742,23 +751,16 @@
                 this.totalAllResult = r.data.totalAllResult;
                 this.configHeader=[];
                 let _this = this;
-                for(var i=0;i<_this.checkedList.length;i++){
+                for(var i=0;i<_this.checkItemReal.length;i++){
                   var obj={};
                   for(var j=0;j<_this.tableHead.length;j++){
-                    if(_this.checkedList[i]=='SHIGUO'||_this.checkedList[i]=='SANSHIYIGUO'||_this.checkedList[i]=='WAIGSIG'){
+                    if(_this.checkItemReal[i].code=='SHIGUO'||_this.checkItemReal[i].code=='SANSHIYIGUO'||_this.checkItemReal[i].code=='WAIGSIG'){
                       obj.code='GJDQ_DESC';
                       obj.label='国家地区';
                     }
-                    if(_this.tableHead[j].code.indexOf('DESC')!=-1){
-                      if(_this.tableHead[j].code.split('_')[0]==_this.checkedList[i]){
-                        obj.code=_this.tableHead[j].code;
-                        obj.label=_this.tableHead[j].label;
-                      }
-                    }else{
-                      if(_this.tableHead[j].code==_this.checkedList[i]){
-                        obj.code=_this.tableHead[j].code;
-                        obj.label=_this.tableHead[j].label;
-                      }
+                    if(_this.tableHead[j].label==_this.checkItemReal[i].label){
+                      obj.code=_this.tableHead[j].code;
+                      obj.label=_this.tableHead[j].label;
                     }
                   }
                   _this.configHeader.push(obj);

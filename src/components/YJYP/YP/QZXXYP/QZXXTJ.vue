@@ -123,7 +123,7 @@
                     <span class="input-text" title="申请事由">申请事由：</span>
                     <el-select v-model="pd.SQSY" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
                       <el-option
-                        v-for="item in $store.state.sqsy"
+                        v-for="item in $store.state.rjsy"
                         :key="item.dm"
                         :label="item.dm+' - '+item.mc"
                         :value="item.dm">
