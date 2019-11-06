@@ -76,6 +76,7 @@ var store = new Vuex.Store({
     sqlb:[],
     swdwclzt:[],
     xslb:[],
+    fjclzt:[],
   },
   mutations: {
     getOne(state,data){
@@ -287,6 +288,9 @@ var store = new Vuex.Store({
     },
     getXslb(state,data){
       state.xslb=data;
+    },
+    getFjclzt(state,data){
+      state.fjclzt=data;
     }
   },
   actions: {
@@ -575,6 +579,12 @@ var store = new Vuex.Store({
         r =>{
           context.commit('getXslb',ToArray(r.data))
         })
+    },
+    getFjclzt(context){
+      api.get(global_.aport1+global_.fjclzt,null,
+       r =>{
+         context.commit('getFjclzt',ToArray(r.data))
+       })
     }
   }
 });

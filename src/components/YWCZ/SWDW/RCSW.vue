@@ -1301,6 +1301,8 @@ export default {
         "currentPage": currentPage,
         "showCount": showCount,
         "pd": {RYBH:this.rybh},
+        "orderBy": 'QZYXQZ',
+        "orderType": 'DESC',
         userCode:this.userCode,
         userName:this.userName,
         orgCode:this.orgCode,

@@ -559,10 +559,11 @@ export default {
       if (this.pd.sspcs != undefined && this.pd.sspcs != "") {
         ssdw = this.pd.sspcs.substr(0, 12);
       } else {
-        if (this.pd.ssfj == undefined || this.pd.ssfj == null || this.pd.ssfj == ""){}else {
+        if (this.pd.ssfj == undefined || this.pd.ssfj == null || this.pd.ssfj == ""){
+          ssdw = ""
+        }else {
           ssdw = this.pd.ssfj.substr(0, 6);
         }
-
       }
       console.log(ssdw);
       var searchResult = [];
@@ -582,7 +583,7 @@ export default {
         "sjxfStart": this.pd.sjxfStart,
         "sjxfEnd": this.pd.sjxfEnd,
       };
-      var url = "http://10.0.30.35:9420/ywczdt/getCZDJXXPCSList";
+      var url =this.Global.aport + "/ywczdt/getCZDJXXPCSList";
       this.$api.post(url, p,
         r => {
           if (r.success) {
@@ -608,12 +609,16 @@ export default {
     },
     //得到标准化地址
     getBZHDZ(n, callback) {
-      var ssdw = "";
-      if (this.pd.sspcs != undefined && this.pd.sspcs != "") {
-        ssdw = this.pd.sspcs.substr(0, 12);
-      } else {
-        ssdw = this.pd.ssfj.substr(0, 6);
-      }
+      // var ssdw = "";
+      // if (this.pd.sspcs != undefined && this.pd.sspcs != "") {
+      //   ssdw = this.pd.sspcs.substr(0, 12);
+      // } else {
+      //   if (this.pd.ssfj == undefined || this.pd.ssfj == null || this.pd.ssfj == ""){
+      //     ssdw = ""
+      //   }else {
+      //     ssdw = this.pd.ssfj.substr(0, 6);
+      //   }
+      // }
       var searchResult = [];
       let p = {
         "gjdqArray": this.pd.gjdqArray,
@@ -623,7 +628,7 @@ export default {
         "zjzl": this.pd.zjzl,
         "jlsyArray": this.pd.jlsyArray,
         "jzztlx": this.pd.jzztlx,
-        "ssfj": ssdw,
+        "ssfj": n,
         "csrqStart": this.pd.csrqStart,
         "csrqEnd": this.pd.csrqEnd,
         "tlyxqStart": this.pd.tlyxqStart,
@@ -654,7 +659,11 @@ export default {
       if (this.pd.sspcs != undefined && this.pd.sspcs != "") {
         ssdw = this.pd.sspcs.substr(0, 12);
       } else {
-        ssdw = this.pd.ssfj.substr(0, 6);
+        if (this.pd.ssfj == undefined || this.pd.ssfj == null || this.pd.ssfj == ""){
+          ssdw = ""
+        }else {
+          ssdw = this.pd.ssfj.substr(0, 6);
+        }
       }
       if (currentPage == 1) {
         this.tableData=[];this.TotalResult=0;

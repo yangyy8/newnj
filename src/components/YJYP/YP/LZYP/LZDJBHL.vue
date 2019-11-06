@@ -176,7 +176,7 @@
       <div class="ak-tab-pane">
         <div class="">
           <span class="t-fr">
-            <i class="iconbtn hand" :class="{'el-icon-open':numChange==true,'el-icon-turn-off':numChange==false}" :title="numChange==true?'展示数字':'关闭数字'" @click="numChange=!numChange;getList()" v-show="page==0&&pageC==true"></i>
+            <i class="iconbtn hand" :class="{'el-icon-open':numChange==true,'el-icon-turn-off':numChange==false}" :title="numChange==true?'关闭数字':'展示数字'" @click="numChange=!numChange;getList()" v-show="page==0&&pageC==true"></i>
             <i class="iconbtn hand" :class="{'el-icon-s-grid':pageC==true,'el-icon-s-data':pageC==false}" :title="pageC==true?'转为列表':'转为图表'" @click="changeTu()" v-show="page==0"></i>
           </span>
           <el-button type="primary" size="small"  @click="downloadC()" v-show="pageC==false&&page==0">导出</el-button>
@@ -492,7 +492,7 @@ import LZXX from '../../../common/lzxx_xq'
       }
       this.$api.post(this.Global.aport4+'/eS_LZ_LZXXController/exportList',p,
        r =>{
-         this.downloadM(r);
+         this.downloadM(r,'临住登记变化量');
        },e=>{},{},'blob')
     },
     pageSizeChange(val) {

@@ -224,16 +224,16 @@
                  </div>
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-                  <span class="input-text">派出所接收时间：</span>
+                  <span class="input-text">社区接收时间：</span>
                   <div class="input-input t-flex t-date">
                     <el-date-picker
-                       v-model="pd.PCSJSSJ_DateRange.begin" format="yyyy-MM-dd"
+                       v-model="pd.SQJSSJ_DateRange.begin" format="yyyy-MM-dd"
                        type="date" size="small" value-format="yyyy/MM/dd"
                        placeholder="开始时间" >
                     </el-date-picker>
                     <span class="septum">-</span>
                     <el-date-picker
-                        v-model="pd.PCSJSSJ_DateRange.end" format="yyyy-MM-dd"
+                        v-model="pd.SQJSSJ_DateRange.end" format="yyyy-MM-dd"
                         type="date" size="small" value-format="yyyy/MM/dd"
                         placeholder="结束时间" >
                     </el-date-picker>
@@ -472,7 +472,7 @@
             CSRQ_DateRange:{begin:'',end:'',dataType:'date'},
             FJJSSJ_DateRange:{begin:'',end:'',dataType:'date'},
             SJXFSJ_DateRange:{begin:'',end:'',dataType:'date'},
-            PCSJSSJ_DateRange:{begin:'',end:'',dataType:'date'},
+            SQJSSJ_DateRange:{begin:'',end:'',dataType:'date'},
             TLYXQ_DateRange:{begin:'',end:'',dataType:'date'},
             JZZT:"1",
             isYXRY:true,

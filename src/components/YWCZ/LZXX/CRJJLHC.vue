@@ -53,9 +53,10 @@
            ref="multipleTable"
            :data="tableData"
            border
-           show-summary
            style="width: 100%"
-           @selection-change="handleSelectionChange">
+           @selection-change="handleSelectionChange"
+           @cell-click="cellClick"
+           @row-click="rowClick">
            <!-- <el-table-column
              type="selection"
              width="55">
@@ -69,14 +70,14 @@
              prop="jsts"
              label="接收数据">
              <template slot-scope="scope">
-             <a class="sb" @click="toLink (scope.row,'jsts')"> {{scope.row.jsts}} </a>
+             <a :class="{'sb':scope.row.fj!='合计'}" @click="toLink (scope.row,'jsts')"> {{scope.row.jsts}} </a>
              </template>
            </el-table-column>
            <el-table-column
              prop="cgts"
              label="无差错上报">
              <template slot-scope="scope">
-             <a class="sb" @click="toLink (scope.row,'cgts')" > {{scope.row.cgts}} </a>
+             <a :class="{'sb':scope.row.fj!='合计'}" @click="toLink (scope.row,'cgts')" > {{scope.row.cgts}} </a>
              </template>
            </el-table-column>
            <!-- <el-table-column
@@ -97,7 +98,7 @@
              prop="rgsbts"
              label="待人工干预">
              <template slot-scope="scope">
-             <a class="sb" @click="toLink (scope.row,'rgsbts')" > {{scope.row.rgsbts}} </a>
+             <a :class="{'sb':scope.row.fj!='合计'}" @click="toLink (scope.row,'rgsbts')" > {{scope.row.rgsbts}} </a>
              </template>
            </el-table-column>
          </el-table>
@@ -195,7 +196,12 @@ export default {
     handleCurrentChange(val) {
       this.getList(val, this.pageSize, this.pd);
     },
-
+    cellClick(row, column, cell, event){
+      console.log(row,column,cell);
+    },
+    rowClick(row,column){
+      console.log(row,column)
+    },
     getList(currentPage, showCount, pd) {
       var btime=this.pd.beginTime;
       var etime=this.pd.endTime;
@@ -251,7 +257,17 @@ export default {
            "operatorId":this.$store.state.uid,
            "operatorNm":this.$store.state.uname,
         }
-        this.$router.push({name: 'LZSJHE',query:{ cdt:p}});
+        if(i.fj=='合计'){
+          if(type=='ygy'){
+            p.ssfjmc='';
+            this.$router.push({name: 'LZSJHE',query:{ cdt:p}});
+          }else{
+
+          }
+        }else{
+          p.ssfjmc=i.fj;
+          this.$router.push({name: 'LZSJHE',query:{ cdt:p}});
+        }
     }
 
   }
@@ -259,8 +275,7 @@ export default {
 </script>
 
 <style scoped>
-a{color: blue}
-.sb{display:block;width:100%;height:100%;cursor:pointer;}
+.sb{display:block;width:100%;height:100%;cursor:pointer;color: blue}
 .sb:hover{color: red}
 .el-carousel__item h3 {
     color: #475669;

@@ -174,37 +174,39 @@
           </div>
       </div>
       <div class="mb-15">
-        <div class="yylbt mb-15">常住居住地信息</div>
+        <div class="yylbt mb-15">常住信息</div>
         <el-table
           :data="tableData1"
           border
           style="width: 100%" class="stu-table">
-          <!-- <el-table-column
-          prop="RYBH"
-          label="人员编号">
-          </el-table-column> -->
           <el-table-column
-          prop="XXDZ"
-          label="详细地址">
+            prop="SFDM_DESC"
+            label="身份">
           </el-table-column>
           <el-table-column
-          prop="RZFS"
-          label="入住方式">
+            prop="FWCS"
+            label="服务处所">
           </el-table-column>
           <el-table-column
-          prop="DJRQ"
-          label="录入日期">
+            label="签证有效期">
+            <template slot-scope="scope">
+              <span>{{scope.row.SSCS=='3201'?scope.row.TLYXQ:scope.row.QZYXQ}}</span>
+            </template>
           </el-table-column>
           <el-table-column
-          prop="ZT_JZZT"
-          label="居住状态类型">
+            prop="SSPCS_DESC"
+            label="所属单位">
           </el-table-column>
-          <!-- <el-table-column
-          label="操作" width="80">
-          <template slot-scope="scope">
-          <el-button type="text"  class="a-btn"  title="详情"  icon="el-icon-document" @click="openTc(0,scope.row.DTID)"></el-button>
-          </template>
-          </el-table-column> -->
+          <el-table-column
+            prop="XXDZ"
+            label="居住地址">
+          </el-table-column>
+          <el-table-column
+            label="操作" width="80">
+            <template slot-scope="scope">
+            <el-button type="text"  class="a-btn"  title="详情"  icon="el-icon-document" @click="getDetails(scope.row)"></el-button>
+            </template>
+          </el-table-column>
         </el-table>
         <div class="middle-foot">
           <div class="page-msg">
@@ -594,6 +596,12 @@
        <el-button @click="asjDialogVisible = false" size="small">取 消</el-button>
      </div>
    </el-dialog>
+   <el-dialog title="常住信息详情" :visible.sync="CZDialogVisible" custom-class="big_dialog" :append-to-body="false" :modal="false">
+     <CZXX :type="type" :xid="xid" :rybh="rybh" :random="new Date().getTime()" :row="allData"></CZXX>
+     <div slot="footer" class="dialog-footer">
+       <el-button @click="CZDialogVisible = false" size="small">取 消</el-button>
+     </div>
+   </el-dialog>
   </div>
 </template>
 <script>
@@ -601,8 +609,9 @@ import XQTC from '../../../GYZJ/XQ_TC'
 import LZXX from '../../../common/lzxx_xq'
 import CRJXX from '../../../common/crjxx_xq'
 import ANSJ from '../../../common/ansj_xq'
+import CZXX from '../../../common/czxx_xq'
 export default {
-  components:{XQTC,LZXX,CRJXX,ANSJ},
+  components:{XQTC,LZXX,CRJXX,ANSJ,CZXX},
   data() {
     return {
       asjDialogVisible:false,
@@ -642,7 +651,9 @@ export default {
       lzxxDialogVisible:false,
       crjDialogVisible:false,
       detailsDialogVisible:false,
+      CZDialogVisible:false,
       type:0,
+      allData:{},
       xid:'',
       form:{},
       baseinfo:{},
@@ -746,6 +757,14 @@ export default {
       this.CurrentPage3=val;
       this.getLZ(this.CurrentPage3, this.pageSize3);
     },
+    getDetails(n){
+      this.xid=n.RGUID;
+      this.rybh=n.RYBH;
+      this.allData=n;
+      this.type=1;
+      this.CZDialogVisible = true;
+      this.czinfo = n;
+    },
     getData0(currentPage,showCount){
       let p = {
         "currentPage": currentPage,
@@ -842,7 +861,7 @@ export default {
         orgCode:this.orgCode,
         token:this.token
       };
-      this.$api.post(this.Global.aport4+'/eS_CZ_JZDXXController/getResultListByParams', pp,
+      this.$api.post(this.Global.aport3+'/ryhx/getczryjbxx', pp,
         r => {
           this.tableData1 = r.data.resultList;
           this.TotalResult=r.data.totalResult;

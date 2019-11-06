@@ -21,6 +21,13 @@
                     </el-date-picker>
                  </div>
                 </el-col>
+                <el-col  :sm="24" :md="12" :lg="8" :offset="2" class="input-item">
+                  <span class="input-text">案件类别：</span>
+                  <el-select v-model="pd.TYPE" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
+                    <el-option value="0" label="0 - 非法居留"></el-option>
+                    <el-option value="1" label="1 - 非法就业"></el-option>
+                  </el-select>
+                </el-col>
           </el-row>
         </el-col>
         <el-col :span="4">
@@ -112,6 +119,10 @@
           :total="TotalResult">
         </el-pagination>
       </div>
+      <div class="totalClass">
+        非法居留：<span>{{num.ffjl}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        非法就业：<span>{{num.ffjy}}</span>
+      </div>
     </div>
   </div>
 
@@ -132,6 +143,10 @@ export default {
       orgName:'',
       token:'',
       juState:'',
+      num:{
+        ffjl:0,
+        ffjy:0,
+      }
     }
   },
     activated(){
@@ -168,6 +183,8 @@ export default {
       this.$api.post(this.Global.aport2+'/ajbbController/gajggzqk', p,
         r => {
           this.tableData = r.data.data;
+          this.num.ffjl = r.data.ffjl;
+          this.num.ffjy = r.data.ffjy;
           this.TotalResult = r.data.totalResult;
         })
     },
