@@ -225,7 +225,6 @@ export default {
            "bzhdzMc":this.bzhid,
            "yf":this.yf,
            "lrdw":this.ssfj,
-
          };
           var url=this.Global.aport+"/zxdt/getLSZSDJXXRYList";
          if(this.type=="C"){
