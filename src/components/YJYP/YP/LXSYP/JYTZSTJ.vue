@@ -602,6 +602,7 @@
                     }
                   });
               }
+              console.log('this.configHeader',this.configHeader);
             })
         },
         details(i) {
