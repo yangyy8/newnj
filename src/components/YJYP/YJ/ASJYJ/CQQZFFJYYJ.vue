@@ -291,6 +291,7 @@ for (var i = 0; i < data.length; i++) {
         "xxdm": dm,
         "xxmc": this.iid,
         "sf":"61",
+        "postType":"ffjy"
       };
       this.$api.post(this.Global.aport + '/ywczdt/getFfjlBzhdz', p,
         r => {
@@ -328,7 +329,7 @@ for (var i = 0; i < data.length; i++) {
         "xxdz": this.bzhid,
         "fwcs": this.iid,
         "sf":"61",
-
+        "postType":"ffjy"
       };
       var url = this.Global.aport + "/ywczdt/getCZDJXXRYList";
       this.$api.post(url, p,

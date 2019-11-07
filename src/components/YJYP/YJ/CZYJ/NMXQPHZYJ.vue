@@ -103,11 +103,22 @@
                       </el-option>
                     </el-select>
                 </el-col>
-                <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
+                <el-col  :sm="24" :md="12" :lg="8"   class="input-item"  v-if="juState=='1'">
                   <span class="input-text">处理状态：</span>
                   <el-select v-model="pd.CLZT" placeholder="请选择"  filterable clearable default-first-option size="small" class="input-input">
                     <el-option
                       v-for="item in $store.state.clzt"
+                      :key="item.dm"
+                      :label="item.dm+' - '+item.mc"
+                      :value="item.dm">
+                    </el-option>
+                  </el-select>
+                </el-col>
+                <el-col  :sm="24" :md="12" :lg="8"   class="input-item"  v-if="juState=='1'||juState=='2'">
+                  <span class="input-text">分局处理状态：</span>
+                  <el-select v-model="pd.FJCLZT" placeholder="请选择"  filterable clearable default-first-option size="small" class="input-input">
+                    <el-option
+                      v-for="item in $store.state.fjclzt"
                       :key="item.dm"
                       :label="item.dm+' - '+item.mc"
                       :value="item.dm">
@@ -182,7 +193,13 @@
            </el-table-column>
            <el-table-column
              prop="CLZT_DESC"
-             label="处理状态">
+             label="处理状态"
+             v-if="juState=='1'">
+           </el-table-column>
+           <el-table-column
+             prop="FJCLZT_DESC"
+             label="分局处理状态"
+             v-if="juState=='1'||juState=='2'">
            </el-table-column>
            <el-table-column
              label="操作" width="120">
@@ -328,6 +345,7 @@ export default {
     this.$store.dispatch('getRjqzzl');
     this.$store.dispatch('getLgyj');
     this.$store.dispatch('getGljb');
+    this.$store.dispatch('getFjclzt');
     this.userCode=this.$store.state.uid;
     this.userName=this.$store.state.uname;
     this.orgName=this.$store.state.orgname;

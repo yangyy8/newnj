@@ -732,11 +732,14 @@
             type="textarea"
             :autosize="{ minRows: 3, maxRows: 3}"
             placeholder="支队处理意见必须填写原因(不超过100个字符)"
-            v-model="pc.ZDYJ">
+            v-model="pc.ZDYJ"
+            :disabled="showXF">
           </el-input>
         </el-col>
         <el-col :span="4"  class="down-btn-area">
-          <el-button type="primary" class="mb-5" size="small" @click="addSaves()">确定</el-button>
+          <el-button type="warning" class="mb-5" size="small" @click="release()" v-if="!showXF" style="width:78px">下发分局</el-button>
+          <el-button type="warning" class="mb-5" size="small" @click="release()" :disabled="showXF" v-if="showXF" style="width:78px;margin-left:0px">已下发</el-button>
+          <el-button type="primary" class="mb-5" size="small" @click="addSaves()" style="width:78px;margin-left:0px">确定</el-button>
         </el-col>
       </el-row>
      </div>
@@ -1169,6 +1172,7 @@ export default {
       jb:1,
       org:this.$store.state.orgid,
       showZD:true,
+      showXF:false,
       showFJ:true,
       showPCS:true,
       userCode:'',
@@ -1202,28 +1206,34 @@ export default {
     this.pc={CHANGE_RESON:'',CLJG:'',FJYJ:'',ZDYJ:''};
     this.qdshow=true;
     this.showZD=true;
+    this.showXF=false;//下发分局
     console.log(this.row.RYBH);
     if(this.row!=undefined && (this.row.CLZT=='0')){
       if(this.$route.query.sh_special){
         this.qdshow=false;
         this.pc.CHANGE_RESON=this.row.CLJG;
-      }else{
-        this.showZD=false;//已处理
-        this.pc.ZDYJ=this.row.ZDYJ;
-        this.pc.FJYJ=this.row.FJYJ;
-        this.pc.CLJG=this.row.CLJG;
       }
+     }
+     //支队已处理  展示分局和支队意见  按钮隐藏
+     if(this.row!=undefined && (this.row.CLZT=='0')){
+       this.showZD=false;//已处理
+       this.pc.ZDYJ=this.row.ZDYJ;
+       this.pc.FJYJ=this.row.FJYJ;
+       this.pc.CLJG=this.row.CLJG;
+     }else if(this.row!=undefined && (this.row.CLZT=='2')){//支队已下发
+       this.showZD=true;//需要支队处理
+       this.showXF=true;//下发分局,且支队不可填写意见
      }
      //分局  详情展示分局和派出所意见
      this.showFJ=true;
-     if(this.row!=undefined && (this.row.CLZT=='0'||this.row.CLZT=='2')){
-       this.showFJ=false;//已处理
+     if(this.row!=undefined && (this.row.CLZT=='0'||this.row.FJCLZT=='3')){//支队已处理||分局已上报
+       this.showFJ=false;//无需填写意见
        this.$set(this.pc,'FJYJ',this.row.FJYJ);
        this.$set(this.pc,'CLJG',this.row.CLJG);
      }
      //派出所
      this.showPCS=true;
-     if(this.row!=undefined && (this.row.CLZT=='0'||this.row.CLZT=='2'||this.row.CLZT=='3')){
+     if(this.row!=undefined && (this.row.CLZT=='0'||this.row.FJCLZT=='3')){
        this.showPCS=false;//已处理
        this.pc.CLJG=this.row.CLJG;
      }
@@ -1785,8 +1795,34 @@ export default {
 
        })
    },
+   release(){//支队下发分局  已下发状态是2
+     let p={
+       pd:{
+         YJID:this.row.YJID,
+         CLZT:'2',
+         FJCLZT:'2',
+       },
+       userCode:this.userCode,
+       userName:this.userName,
+       orgJB:this.juState,
+       orgCode:this.orgCode,
+       token:this.token,
+     }
+     this.$api.post(this.Global.aport4+'/warningInfoController/sentData',p,
+      r =>{
+        if(r.success){
+          this.$message({
+            message: '下发成功！',
+            type: 'success'
+           });
+           this.goBackS();
+        }
+      })
+
+   },
   addSaves(){
-    if(this.jb=="2"){
+    let url="";
+    if(this.jb=="2"){//分局上报
     if(this.pc.FJYJ=="" || this.pc.FJYJ==undefined){
       this.$alert('分局调查意见不能为空！', '提示', {
         confirmButtonText: '确定',
@@ -1794,7 +1830,9 @@ export default {
       return;
     }
    this.pcl.FJYJ=this.pc.FJYJ;
-   this.pcl.CLZT="2";
+   this.pcl.CLZT="3";
+   this.pcl.FJCLZT="3";
+   url="/warningInfoController/uploadData"
  }else if(this.jb=="1"||this.org=='320100060000'){
     if(this.pc.ZDYJ=="" || this.pc.ZDYJ==undefined){
       this.$alert('支队处理意见不能为空！', '提示', {
@@ -1804,6 +1842,8 @@ export default {
     }
     this.pcl.ZDYJ=this.pc.ZDYJ;
     this.pcl.CLZT="0";
+    this.pcl.FJCLZT=this.row.FJCLZT;
+    url="/warningInfoController/saveCLJG"
   }else{
     if(this.pc.CLJG=="" || this.pc.CLJG==undefined){
       this.$alert('处理意见不能为空！', '提示', {
@@ -1825,7 +1865,6 @@ export default {
       orgCode:this.orgCode,
       token:this.token
     };
-    let url='/warningInfoController/saveCLJG';
     this.$api.post(this.Global.aport4+url, p,
       r => {
          if(r.success){

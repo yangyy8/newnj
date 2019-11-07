@@ -272,14 +272,17 @@
                 </el-col>
                 <el-col :span="12" >
                   <span class="yy-input-text">签证种类：</span>
-                  <el-select v-model="form.qzzl" filterable clearable  default-first-option placeholder="请选择"  size="small" class="yy-input-input" :disabled="!edit">
-                    <el-option
-                      v-for="(item,ind6) in qzzl"
-                      :key="ind6"
-                      :label="item.dm+' - '+item.mc"
-                      :value="item.dm">
-                    </el-option>
-                  </el-select>
+                  <el-tooltip class="item" effect="dark" :disabled="!form.qzzl_t" :content="form.qzzl_xgq" placement="top-start">
+                    <el-select v-model="form.qzzl" filterable clearable  :class="{'yy-input-input yyinput':form.qzzl_t == true,'yy-input-input':form.qzzl_t== false}"
+                    default-first-option placeholder="请选择"  size="small" class="yy-input-input" :disabled="!edit">
+                      <el-option
+                        v-for="(item,ind6) in qzzl"
+                        :key="ind6"
+                        :label="item.dm+' - '+item.mc"
+                        :value="item.dm">
+                      </el-option>
+                    </el-select>
+                  </el-tooltip>
                 </el-col>
                 <el-col :span="12" >
                   <span class="yy-input-text" title="签证(注)号码">签证(注)号码：</span>
@@ -370,12 +373,14 @@
             <el-row :gutter="3" >
               <el-col :span="8">
                 <span class="yy-input-text">入境日期：</span>
-                  <el-date-picker class="yy-input-input"
-                     v-model="form.rjrq" format="yyyy-MM-dd"
-                     type="date" size="small" value-format="yyyyMMdd"
-                     placeholder="选择日期"
-                     :disabled="!edit">
-                  </el-date-picker>
+                  <el-tooltip class="item" effect="dark" :disabled="!form.rjrq_t" :content="form.rjrq_xgq" placement="top-start">
+                    <el-date-picker :class="{'yy-input-input yyinput':form.rjrq_t == true,'yy-input-input':form.rjrq_t== false}"
+                       v-model="form.rjrq" format="yyyy-MM-dd"
+                       type="date" size="small" value-format="yyyyMMdd"
+                       placeholder="选择日期"
+                       :disabled="!edit">
+                    </el-date-picker>
+                </el-tooltip>
               </el-col>
               <el-col :span="8">
                 <span class="yy-input-text">入境口岸：</span>
@@ -413,14 +418,17 @@
               </el-col> -->
               <el-col :span="8">
                 <span class="yy-input-text">入境事由：</span>
-                <el-select v-model="form.rjsy" filterable clearable default-first-option placeholder="请选择"  size="small" class="yy-input-input" :disabled="!edit">
-                  <el-option
-                    v-for="(item,ind11) in rjsy"
-                    :key="ind11"
-                    :label="item.dm+' - '+item.mc"
-                    :value="item.dm">
-                  </el-option>
-                </el-select>
+                <el-tooltip class="item" effect="dark" :disabled="!form.rjsy_t" :content="form.rjsy_xgq" placement="top-start">
+                  <el-select v-model="form.rjsy" filterable clearable :class="{'yy-input-input yyinput':form.rjsy_t == true,'yy-input-input':form.rjsy_t== false}"
+                  default-first-option placeholder="请选择"  size="small" :disabled="!edit">
+                    <el-option
+                      v-for="(item,ind11) in rjsy"
+                      :key="ind11"
+                      :label="item.dm+' - '+item.mc"
+                      :value="item.dm">
+                    </el-option>
+                  </el-select>
+                </el-tooltip>
               </el-col>
             </el-row>
 
@@ -442,12 +450,14 @@
               </el-col>
               <el-col :span="8">
                 <span class="yy-input-text">入住日期：</span>
-                <el-date-picker class="yy-input-input"
-                   v-model="form.zsrq" format="yyyy-MM-dd"
-                   type="date" size="small" value-format="yyyyMMdd"
-                   placeholder="选择日期"
-                   :disabled="!edit">
-                </el-date-picker>
+                <el-tooltip class="item" effect="dark" :disabled="!form.zsrq_t" :content="form.zsrq_xgq" placement="top-start">
+                  <el-date-picker class="yy-input-input" :class="{'yy-input-input yyinput':form.zsrq_t == true,'yy-input-input':form.zsrq_t== false}"
+                     v-model="form.zsrq" format="yyyy-MM-dd"
+                     type="date" size="small" value-format="yyyyMMdd"
+                     placeholder="选择日期"
+                     :disabled="!edit">
+                  </el-date-picker>
+                </el-tooltip>
               </el-col>
               <el-col :span="8">
                 <span class="yy-input-text" title="拟离开日期">拟离开日期：</span>
@@ -1234,6 +1244,6 @@ export default {
 </style>
 <style>
 .yyinput input.el-input__inner {
-  color: red;
+  color: red!important;
 }
 </style>

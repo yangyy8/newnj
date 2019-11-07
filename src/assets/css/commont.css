@@ -461,3 +461,7 @@
 .border-bot{
   border-bottom: 1px dotted #dedada;
 }
+.el-dialog__headerbtn .el-dialog__close{
+  color: #e63354!important;
+  font-weight: bolder!important;
+}

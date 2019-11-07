@@ -396,7 +396,8 @@ export default {
           "ssfj":this.ssfjsub,
           "fwcs":this.pd.fwcs,
           "jzzt":this.pd.jzztlx,
-          "pcs":this.sspcs
+          "pcs":this.sspcs,
+          "postType":'sjshm'
         };
         var url=this.Global.aport+"/ywczdt/getCZDJXXPCSList";
         this.$api.post(url, p,
@@ -433,8 +434,7 @@ export default {
           "zflx":this.pd.zflx,
           "jzztlx":this.pd.jzztlx,
           "ssfj":this.ssfjsub,
-
-
+          "postType":'sjshm'
         };
         var url=this.Global.aport+"/ywlz/getLxsSjshmByBzhdzList";
         this.$api.post(url, p,

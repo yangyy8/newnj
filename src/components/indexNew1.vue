@@ -2629,10 +2629,15 @@ export default {
         /* top: -79px!important; */
         overflow: hidden!important;
       }
-    .bgh1 .el-dialog__header{
+    .bgh1 .map-class .el-dialog__header{
         border-bottom: none;
         padding: 0px 20px 10px!important;
       }
+
+      .bgh1 .el-dialog__header{
+          border-bottom: none;
+          padding: 15px 20px 10px!important;
+        }
     .bgh1 .el-dialog__body {
       padding: 10px 20px;
       line-height: 30px!important;

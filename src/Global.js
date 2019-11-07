@@ -80,6 +80,7 @@ const zjxy="/service/getRedisDataByDm?tablename=DM_ZJXY"//宗教信仰
 const sqlb="/service/getRedisDataByDm?tablename=HX_SQLB"//申请类别
 const swdwclzt="/service/getRedisDataByDm?tablename=DM_CLZT_SWDW"//涉外单位处理状态
 const xslb="/service/getRedisDataByDm?tablename=DM_XSLB"//学生类别
+const fjclzt="/service/getRedisDataByDm?tablename=dm_clzt_fj"//分局处理状态
 const tablists=[];
 export default
 {
@@ -102,5 +103,5 @@ export default
   xyaddress,
   gjdq,zjzl,qzzl,rjkn,rjsy,qfjg,pcs,jzlx,zsxz,jzzt,xzqh,jtgx,sflx,xb,rjqzzl,dmall,ssdw,
   dwlb,dwxz,zsbg,tlyxq,sf,tablists,clzt,sjly,rzfs,zflx,jzztlx,xxdm,erxxdm,shzt,tbry,lgyj,gljb,ymzt,ymzl,sldw,ymsqzt,ymqzzl,
-  bzlb,sqsy,rydylb,sqqzzl,jzztcz,hyzt,zjxy,sqlb,swdwclzt,xslb
+  bzlb,sqsy,rydylb,sqqzzl,jzztcz,hyzt,zjxy,sqlb,swdwclzt,xslb,fjclzt
 }

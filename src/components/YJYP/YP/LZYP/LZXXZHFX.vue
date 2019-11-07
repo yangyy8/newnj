@@ -145,8 +145,8 @@
                     <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
                       <span class="input-text">投宿于：</span>
                       <el-select v-model="pd.LB_SFBG" placeholder="请选择" filterable clearable default-first-option  size="small" class="input-input">
-                        <el-option  label="宾馆" value="1"></el-option>
-                        <el-option  label="社会面" value="2"></el-option>
+                        <el-option  label="1 - 社会面" value="1"></el-option>
+                        <el-option  label="2 - 宾馆" value="2"></el-option>
                       </el-select>
                     </el-col>
                     <el-col  :sm="24" :md="12" :lg="8"  class="input-item">

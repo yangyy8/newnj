@@ -381,16 +381,28 @@ export default {
       selectionAll:[],
       yuid:[],
       selectionReal:[],
+
+      userCode:'',
+      userName:'',
+      orgCode:'',
+      orgName:'',
+      juState:'',
+      token:'',
     }
   },
   activated() {
     this.row = this.$route.query.row;
     this.queryPd=this.$route.query.queryPd;
-    console.log('row',this.row);
     this.getList(this.CurrentPage,this.pageSize,this.pd);
   },
   mounted() {
-      this.$store.dispatch('getGjdq');
+    this.userCode=this.$store.state.uid;
+    this.userName=this.$store.state.uname;
+    this.orgName=this.$store.state.orgname;
+    this.orgCode=this.$store.state.orgid;
+    this.juState=this.$store.state.juState;
+    this.token=this.$store.state.token;
+    this.$store.dispatch('getGjdq');
   },
   methods: {
     selectfn(a,b){
@@ -398,9 +410,9 @@ export default {
       this.dataSelection()
     },
     dataSelection(){
-      console.log('this.multipleSelection',this.multipleSelection)
+      // console.log('this.multipleSelection',this.multipleSelection)
       this.selectionReal.splice(this.CurrentPage-1,1,this.multipleSelection);
-      console.log('this.selectionReal',this.selectionReal);
+      // console.log('this.selectionReal',this.selectionReal);
       this.selectionAll=[];
       for(var i=0;i<this.selectionReal.length;i++){
         if(this.selectionReal[i]){
@@ -409,7 +421,7 @@ export default {
           }
         }
       }
-      console.log('this.selectionAll',this.selectionAll);
+      // console.log('this.selectionAll',this.selectionAll);
     },
     download(){
       let p={};
@@ -421,7 +433,12 @@ export default {
         p={
           "pd":this.pd,
           "orderBy":{value:"ZSRQ",dataType:"date"},
-          "orderType":"DESC"
+          "orderType":"DESC",
+          userCode:this.userCode,
+          userName:this.userName,
+          orgJB:this.juState,
+          orgCode:this.orgCode,
+          token:this.token,
         }
       }else{//人员部分导出
         this.yuid=[];
@@ -431,11 +448,15 @@ export default {
         this.pd.DTID=this.yuid;
         p={
           "pd":this.pd,
+          userCode:this.userCode,
+          userName:this.userName,
+          orgJB:this.juState,
+          orgCode:this.orgCode,
+          token:this.token,
         }
       }
       this.$api.post(this.Global.aport5+url,p,
         r =>{
-          console.log(r);
           this.downloadM(r)
         },e=>{},{},'blob')
     },
@@ -454,12 +475,10 @@ export default {
     pageSizeChange(val) {
       this.pageSize=val;
       this.getList(this.CurrentPage, val, this.pd);
-      console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
       this.CurrentPage=val;
       this.getList(val, this.pageSize, this.pd);
-      console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
       this.objCompare(this.row,this.queryPd)
@@ -472,7 +491,12 @@ export default {
         "showCount": showCount,
         "pd": pd,
         "orderBy":{value:"ZSRQ",dataType:"date"},
-        "orderType":"DESC"
+        "orderType":"DESC",
+        userCode:this.userCode,
+        userName:this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token,
       };
       this.$api.post(this.Global.aport5+'/linZhuInfoComprehensiveAnalysisController/getComprehensivePersonList', p,
         r => {

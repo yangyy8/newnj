@@ -56,8 +56,8 @@
                   </el-select>
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-                    <span class="input-text" title="申请签证种类">申请签证种类：</span>
-                    <el-select v-model="pd.SQQZZL" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
+                    <span class="input-text" title="申请签证种类">签证种类：</span>
+                    <el-select v-model="pd.QZZL" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
                       <el-option
                         v-for="item in $store.state.rjqzzl"
                         :key="item.dm"
@@ -353,8 +353,8 @@
               label:'所持签证种类'
             },
             {
-              code:'SQQZZL',
-              label:'申请签证种类'
+              code:'QZZL',
+              label:'签证种类'
             },
             {
               code:'SQSY',
@@ -389,8 +389,8 @@
               label:'所持签证种类'
             },
             {
-              code:'SQQZZL_DESC',
-              label:'申请签证种类'
+              code:'QZZL_DESC',
+              label:'签证种类'
             },
             {
               code:'SQSY_DESC',

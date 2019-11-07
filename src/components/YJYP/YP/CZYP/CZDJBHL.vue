@@ -184,6 +184,9 @@
                       <el-option value="year" label="年"></el-option>
                     </el-select>
                 </el-col>
+                <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
+                  <el-checkbox class="gjcz" v-model="pd.isYXRY">有效常住人员</el-checkbox>
+                </el-col>
           </el-row>
          </el-col>
         <el-col :span="2" class="down-btn-area">
@@ -360,6 +363,7 @@ import CZXX from '../../../common/czxx_xq'
         CSRQ_DateRange:{begin:'',end:'',dataType:"date"},
         TLYXQ_DateRange:{begin:'',end:'',dataType:"date"},
         FJJSSJ_DateRange:{begin:'',end:'',dataType:"date"},
+        isYXRY:true,
         // PCSJSSJ_DateRange:{begin:'',end:'',dataType:"date"},
       },
       pd0:{
