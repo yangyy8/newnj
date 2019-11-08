@@ -192,7 +192,7 @@
           @row-click="getCl"
           style="width: 100%;">
           <el-table-column
-            prop="SJLX"
+            prop="SJLX_DESC"
             label="数据类型">
           </el-table-column>
           <el-table-column
@@ -200,7 +200,7 @@
             label="数据名称">
           </el-table-column>
           <el-table-column
-            prop="SJLY"
+            prop="SJLY_DESC"
             label="数据来源">
           </el-table-column>
           <el-table-column
@@ -245,7 +245,7 @@
           <el-row :gutter="3"  class="mb-6">
             <el-col :span="8" class="input-item">
               <span class="input-text">数据类型：</span>
-              <span class="input-input detailinput">  {{clinfo.SJLX}}</span>
+              <span class="input-input detailinput">  {{clinfo.SJLX_DESC}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
               <span class="input-text">创建时间：</span>
@@ -269,7 +269,7 @@
             </el-col>
             <el-col :span="8" class="input-item">
               <span class="input-text" title="数据来源">数据来源：</span>
-              <span class="input-input detailinput">  {{clinfo.SJLY}}</span>
+              <span class="input-input detailinput">  {{clinfo.SJLY_DESC}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
               <span class="input-text" title="通报编号">通报编号：</span>
@@ -301,24 +301,16 @@
           @row-click="getZj"
           style="width: 100%">
           <el-table-column
-            prop="GZXXBT"
-            label="走访信息">
+            prop="TBBH"
+            label="通报编号">
           </el-table-column>
           <el-table-column
-            prop="GZQKMS"
-            label="工作情况描述">
+            prop="ZJZL_DESC"
+            label="证件种类">
           </el-table-column>
           <el-table-column
-            prop="ZFRQ"
-            label="走访日期">
-          </el-table-column>
-          <el-table-column
-            prop="JJCS"
-            label="解决措施">
-          </el-table-column>
-          <el-table-column
-            prop="ZT"
-            label="状态">
+            prop="ZJHM"
+            label="证件号码">
           </el-table-column>
           <el-table-column
             label="操作" width="80">
@@ -367,7 +359,7 @@
             </el-col>
             <el-col :span="8" class="input-item">
               <span class="input-text" title="证件种类">证件种类：</span>
-              <span class="input-input detailinput">  {{zjinfo.ZJZL}}</span>
+              <span class="input-input detailinput">  {{zjinfo.ZJZL_DESC}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
               <span class="input-text" title="证件号码">证件号码：</span>
@@ -558,7 +550,7 @@ export default {
           }
        })
    },
-   //走访信息
+   //证件信息
    gettableDatazj(currentPage,showCount,pd){
      let pp = {
        "pd": pd,
@@ -571,7 +563,7 @@ export default {
        token:this.token,
      };
 
-      this.$api.post(this.Global.aport3+'/ryhx/getczzfxx', pp,
+      this.$api.post(this.Global.aport3+'/ryhx/gettbryzjxx', pp,
        r => {
          if(r.success){
            this.tableDatazj=r.data.resultList;

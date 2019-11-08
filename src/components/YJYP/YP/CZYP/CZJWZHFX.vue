@@ -239,6 +239,22 @@
                     </el-date-picker>
                  </div>
                 </el-col>
+                <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                  <span class="input-text">查询历史常住：</span>
+                  <div class="input-input t-flex t-date">
+                    <el-date-picker
+                       v-model="pd.HISTORY_DateRange.begin" format="yyyy-MM-dd"
+                       type="date" size="small" value-format="yyyy/MM/dd"
+                       placeholder="开始时间" >
+                    </el-date-picker>
+                    <span class="septum">-</span>
+                    <el-date-picker
+                        v-model="pd.HISTORY_DateRange.end" format="yyyy-MM-dd"
+                        type="date" size="small" value-format="yyyy/MM/dd"
+                        placeholder="结束时间" >
+                    </el-date-picker>
+                 </div>
+                </el-col>
                 <!-- <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                   <span class="input-text">有效常住人员：</span>
                   <el-select v-model="pd.isYXRY" filterable clearable default-first-option  placeholder="请选择"  size="small" class="input-input">
@@ -474,6 +490,7 @@
             SJXFSJ_DateRange:{begin:'',end:'',dataType:'date'},
             SQJSSJ_DateRange:{begin:'',end:'',dataType:'date'},
             TLYXQ_DateRange:{begin:'',end:'',dataType:'date'},
+            HISTORY_DateRange:{begin:'',end:'',dataType:'date'},
             JZZT:"1",
             isYXRY:true,
             YWX:'',

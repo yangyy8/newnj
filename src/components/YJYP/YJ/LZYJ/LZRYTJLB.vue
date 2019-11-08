@@ -339,11 +339,11 @@ export default {
   methods:{
     pageSizeChange(val) {
       this.pageSize=val;
-      this.getList(this.CurrentPage,val,this.pdTu);
+      this.getList(this.CurrentPage,val,this.pd);
     },
     handleCurrentChange(val) {
       this.CurrentPage=val;
-      this.getList(val,this.pageSize,this.pdTu);
+      this.getList(val,this.pageSize,this.pd);
     },
     getImg(id){
       let p={

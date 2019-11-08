@@ -1229,7 +1229,7 @@
 import imgUrl from "../../assets/img/t1.png"
 export default {
   name:'CZXX',
-  props:['type','xid','rybh','random','row'],
+  props:['type','xid','rybh','random','row','jbts'],
   data(){
     return{
       imgURL:imgUrl,
@@ -1447,7 +1447,9 @@ export default {
       }else{
         this.pp.RYBH=this.rybh;
       }
-
+      if(this.jbts=='1'){
+        this.pp.DTID=this.row.DTID;
+      }
       this.pd.DTID=this.row.DTID;
       let p = {
         "pd": this.pp,

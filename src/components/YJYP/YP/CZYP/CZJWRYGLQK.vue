@@ -171,14 +171,14 @@
                prop="wabList"
                label="无安保登记数">
                <template slot-scope="scope">
-                  <span v-html="sjzh(scope.row.clfwwqzaList)"></span>
+                  <span v-html="sjzh(scope.row.wabList)"></span>
                 </template>
              </el-table-column>
              <el-table-column
                prop="wzfList"
                label="无安全走访登记数">
                <template slot-scope="scope">
-                  <span v-html="sjzh(scope.row.dqwtxList)"></span>
+                  <span v-html="sjzh(scope.row.wzfList)"></span>
                 </template>
              </el-table-column>
              <el-table-column
@@ -201,7 +201,7 @@
       </div>
     </div>
     <el-dialog title="常住信息详情" :visible.sync="CZDialogVisible" custom-class="big_dialog" :append-to-body="false" :modal="false">
-      <CZXX :type="type" :xid="xid" :rybh="rybh" :random="new Date().getTime()" :row="allData"></CZXX>
+      <CZXX :type="type" :xid="xid" :rybh="rybh" :random="new Date().getTime()" :row="allData" :jbts="1"></CZXX>
       <div slot="footer" class="dialog-footer">
         <el-button @click="CZDialogVisible = false" size="small">取 消</el-button>
       </div>

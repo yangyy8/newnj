@@ -424,6 +424,12 @@ export default {
           "ssfj":ssfj,
           "tsy":this.pd.tsj
         };
+        if(this.pd.beginTime==''||this.pd.beginTime==null){
+          p.rzsjStart=''
+        }
+        if(this.pd.endTime==''||this.pd.endTime==null){
+          p.rzsjEnd=''
+        }
         var url=this.Global.aport+"/zxdt/getLSZSDJXXBZHDZList";
         this.$api.post(url, p,
           r => {
