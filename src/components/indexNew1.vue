@@ -1091,6 +1091,7 @@ export default {
       drawLine(data,legend,name){
         this.mapCenter = echarts.init(document.getElementById('home_map'));
         var shadowColor='';
+        console.log('legend',legend);
         //x, y, 名称， 数值， symbolSize
         // var seriesData = [
         //     [13, 27, '六合区', 12, 40],
