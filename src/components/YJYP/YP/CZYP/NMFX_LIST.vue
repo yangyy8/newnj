@@ -28,7 +28,7 @@
          </el-col>
             <el-col :span="4" >
               <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)" class="mb-15 t-mr10">查询</el-button>
-              <el-button type="info" size="small" @click="$router.go(-1)" class="mb-15 t-mr10">返回</el-button>
+              <el-button type="info" size="small" @click="$router.push({name:'NMFX'})" class="mb-15 t-mr10">返回</el-button>
               <el-button type="warning" size="small" @click="download" class="mb-15">导出</el-button>
             </el-col>
           </el-row>
@@ -80,7 +80,7 @@
            <el-table-column
              label="操作" width="70">
              <template slot-scope="scope">
-             <el-button type="text"  class="a-btn"  title="详情"  icon="el-icon-document" @click="$router.push({name:'NMFX_XQ',query:{row:scope.row}})"></el-button>
+             <el-button type="text"  class="a-btn"  title="详情"  icon="el-icon-document" @click="$router.push({name:'NMFX_XQ',query:{row:scope.row,queryPd:queryPd,jumpTo:'assist',rows:row}})"></el-button>
              </template>
            </el-table-column>
      </el-table>
@@ -157,7 +157,6 @@ export default {
   activated() {
     this.row = this.$route.query.row;
     this.queryPd=this.$route.query.queryPd;
-    console.log('row',this.row);
     this.getList(this.CurrentPage,this.pageSize,this.pd);
   },
   mounted() {
@@ -185,7 +184,7 @@ export default {
     download(){
       let p={};
       this.objCompare(this.row,this.queryPd)
-      this.pd = Object.assign({},this.pd,this.row,this.queryPd);
+      this.pd = Object.assign({},this.row,this.queryPd,this.pd);
       if(this.selectionAll.length==0){//人员全部导出,无选中的数据
         p={
           "pd":this.pd

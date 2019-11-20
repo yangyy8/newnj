@@ -2,7 +2,7 @@
    <div class="qwjs">
           <el-card shadow="always">
      <div class="top">
-       <i class="el-icon-search"></i>
+       <i class="el-icon-search" style="line-height:2.2;margin-right:5px"></i>
        <el-input placeholder="" v-model="content" class="inputs" @keyup.enter.native="CurrentPage=1;getList(CurrentPage,pageSize)">
           <el-select v-model="type" slot="prepend" placeholder="请选择" max="500" style="width:100px;">
             <el-option label="综合" value="all"></el-option>
@@ -16,11 +16,11 @@
        <el-button type="success" @click="$router.push({name:'RYHX'})">返回</el-button>
      </div>
  <div class="navinfo">
-  <span @click="CurrentPage=1;getList(CurrentPage,pageSize,'lz')"> 临住数据 ( <b>{{info.lz}}</b> 条)  </span>
-  <span @click="CurrentPage=1;getList(CurrentPage,pageSize,'cz')"> 常住数据 ( <b>{{info.cz}}</b>  条)  </span>
-  <span @click="CurrentPage=1;getList(CurrentPage,pageSize,'qz')"> 签证数据 ( <b>{{info.qz}}</b>  条)  </span>
-  <span @click="CurrentPage=1;getList(CurrentPage,pageSize,'ajxx')"> 案件数据 ( <b>{{info.ajxx}}</b>  条)  </span>
-  <span @click="CurrentPage=1;getList(CurrentPage,pageSize,'crj')"> 出入境数据 ( <b>{{info.crj}}</b>  条)  </span>
+  <span :class="{'redy':check==0}" @click="check=0;CurrentPage=1;getList(CurrentPage,pageSize,'lz')"> 临住数据 ( <b>{{info.lz}}</b> 条)  </span>
+  <span :class="{'redy':check==1}" @click="check=1;CurrentPage=1;getList(CurrentPage,pageSize,'cz')"> 常住数据 ( <b>{{info.cz}}</b>  条)  </span>
+  <span :class="{'redy':check==2}" @click="check=2;CurrentPage=1;getList(CurrentPage,pageSize,'qz')"> 签证数据 ( <b>{{info.qz}}</b>  条)  </span>
+  <span :class="{'redy':check==3}" @click="check=3;CurrentPage=1;getList(CurrentPage,pageSize,'ajxx')"> 案件数据 ( <b>{{info.ajxx}}</b>  条)  </span>
+  <span :class="{'redy':check==4}" @click="check=4;CurrentPage=1;getList(CurrentPage,pageSize,'crj')"> 出入境数据 ( <b>{{info.crj}}</b>  条)  </span>
  </div>
   </el-card>
     <div class="main">
@@ -86,7 +86,7 @@ export default {
       infoshow:false,
       info:{lz:0,cz:0,qz:0,ajxx:0,crj:0},
       datatype:'',
-
+      check:7,
     }
   },
     activated(){
@@ -184,7 +184,7 @@ export default {
 .qwjs .top {
   width: 100%;
   height: 40px;
-
+  display: flex;
 }
 .qwjs .inputs{
   width: 480px;

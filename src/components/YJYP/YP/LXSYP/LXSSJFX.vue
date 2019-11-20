@@ -32,7 +32,7 @@
                   </el-col>
                   <el-col :span="24">
                       <span class="yy-input-text">派出所：</span>
-                        <el-select v-model="pd.sspcs" filterable clearable default-first-option placeholder="请输入关键字"  size="small" class="yy-input-input">
+                        <el-select v-model="pd.sspcs" filterable clearable default-first-option placeholder="请输入关键字"  size="small" class="yy-input-input" :no-data-text="pd.ssfj==''||pd.ssfj==undefined?'请先选择所属分局':'无数据'">
                        <el-option
                          v-for="(item,ind1) in sspcs"
                          :key="ind1"

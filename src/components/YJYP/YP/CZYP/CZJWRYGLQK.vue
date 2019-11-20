@@ -111,6 +111,21 @@
                   <span>{{scope.row.dqwtxList.length==0?'0':scope.row.dqwtxList.length}}</span>
                 </template>
                 </el-table-column>
+
+                <el-table-column
+                prop="wabList"
+                label="无安保登记数">
+                <template slot-scope="scope">
+                  <span>{{scope.row.wabList.length==0?'0':scope.row.wabList.length}}</span>
+                </template>
+                </el-table-column>
+                <el-table-column
+                prop="wzfList"
+                label="无安全走访登记数">
+                <template slot-scope="scope">
+                  <span>{{scope.row.wzfList.length==0?'0':scope.row.wzfList.length}}</span>
+                </template>
+                </el-table-column>
              </el-table-column>
              <el-table-column
                prop="djsxyssbfList"
@@ -328,6 +343,11 @@
       this.$api.post(this.Global.aport2+'/czgltb/getgltb',{pd:this.pd,userCode:this.userCode,userName:this.userName,orgJB:this.juState,orgCode:this.orgCode,token:this.token},
        r=>{
          if(r.success){
+           for(var i=0;i<r.data.length;i++){
+             if(r.data[i].fjmc=='合计'){
+               r.data.splice(i,1)
+             }
+           }
            this.tableData1=r.data;
          }
        })

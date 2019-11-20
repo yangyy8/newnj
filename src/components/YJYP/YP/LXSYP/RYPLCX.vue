@@ -8,25 +8,28 @@
              <span class="input-text t-tj">选择组合查询条件：</span>
              <el-select v-model="queryTerm" placeholder="请选择"  filterable clearable default-first-option size="small" class="input-input t-sr" @change="optionChange">
                <el-option value="1" label="证件号码+证件种类+国籍"></el-option>
-               <el-option value="2" label="姓名+性别+出生日期+国籍"></el-option>
+               <el-option value="2" label="姓名+性别+国籍"></el-option>
              </el-select>
            </el-col>
            <el-col :sm="24" :md="12" :lg="2" class="input-item">
             <el-button type="success" size="small"  @click="download">下载模板</el-button>
             </el-col>
            <el-col :sm="24" :md="12" :lg="8" class="input-item">
-
-              <label class="file">
-                上传文件
-                <input type="file" name=""  @change="uploadFile">
-              </label>
-              <div class="t-input input-input">
-                <div class="t-input-content" v-for="(x,ind) in fileData" :key="ind">
-                  <span class="mr-30" style="color: #606266;font-size:15px">{{x.name}}</span>
-                  <!-- <span @click="deleteFile" class="hand redx">删除</span> -->
-                </div>
-              </div>
+             <!-- <div class=""> -->
+               <label class="file">
+                 上传文件
+                 <input type="file" name=""  @change="uploadFile">
+               </label>
+               <div class="t-input input-input">
+                 <div class="t-input-content" v-for="(x,ind) in fileData" :key="ind">
+                   <span class="mr-30" style="color: #606266;font-size:15px">{{x.name}}</span>
+                   <!-- <span @click="deleteFile" class="hand redx">删除</span> -->
+                 </div>
+               </div>
+             <!-- </div>
+              <div>只能上传EXCEL格式</div> -->
           </el-col>
+
           <el-col :sm="24" :md="12" :lg="2" class="input-item">
             <el-button type="primary" size="small"  @click="getList()">&nbsp;&nbsp;查询&nbsp;&nbsp;</el-button>
           </el-col>

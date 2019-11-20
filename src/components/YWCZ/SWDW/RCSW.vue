@@ -1124,7 +1124,7 @@ export default {
     getData(){
       if(this.$route.query.hiType=='gzc'){
         this.gzinfo = this.row;
-        this.getGzcFile();
+        // this.getGzcFile();
         this.getData0(this.asjCurrentPage,this.asjpageSize);
         this.getAllFile();
       }else if(this.$route.query.hiType=='wlj'){
@@ -1348,8 +1348,9 @@ export default {
       this.tbryDialogVisible=true;
     },
     detailsasj(n){
-       this.xid=n.RGUID;
-       this.dtid=n.DTID;
+       // this.xid=n.RGUID;
+       // this.dtid=n.DTID;
+       this.xid=n.RGUID+","+n.DTID;
        this.type=1;
        this.asjDialogVisible=true;
     },

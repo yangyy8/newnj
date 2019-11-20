@@ -84,6 +84,13 @@
                 <span class="sb" @click="toLink (pd,scope.row,'qrxz')">{{scope.row.qrxz}}</span>
              </template>
            </el-table-column>
+           <el-table-column
+             prop="wtx"
+             label="无图像数">
+             <template slot-scope="scope">
+                <span class="sb" @click="toLink (pd,scope.row,'wtx')">{{scope.row.wtx}}</span>
+             </template>
+           </el-table-column>
          </el-table>
     </div>
   </div>
@@ -258,6 +265,9 @@ export default {
         },
         userCode:this.$store.state.uid,
         userName:this.$store.state.uname,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token
       };
       this.$api.post(this.Global.aport3+'/rxtj/exportRxData',p,
         r =>{

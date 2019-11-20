@@ -77,6 +77,9 @@ var store = new Vuex.Store({
     swdwclzt:[],
     xslb:[],
     fjclzt:[],
+    ajlb:[],
+    cqlb:[],
+    ajxz:[],
   },
   mutations: {
     getOne(state,data){
@@ -291,6 +294,18 @@ var store = new Vuex.Store({
     },
     getFjclzt(state,data){
       state.fjclzt=data;
+    },
+    getAjlb(state,data){
+      state.ajlb=data;
+    },
+    getCqlb(state,data){
+      state.cqlb=data;
+    },
+    getAjxz(state,data){
+      state.ajxz=data;
+    },
+    getSszrq(state,data){
+      state.sszrq=data;
     }
   },
   actions: {
@@ -585,7 +600,31 @@ var store = new Vuex.Store({
        r =>{
          context.commit('getFjclzt',ToArray(r.data))
        })
-    }
+    },
+    getAjlb(context){
+      api.get(global_.aport1+global_.ajlb,null,
+       r =>{
+         context.commit('getAjlb',ToArray(r.data))
+       })
+    },
+    getCqlb(context){
+      api.get(global_.aport1+global_.cqlb,null,
+       r =>{
+         context.commit('getCqlb',ToArray(r.data))
+       })
+    },
+    getAjxz(context){
+      api.get(global_.aport1+global_.ajxz,null,
+       r =>{
+         context.commit('getAjxz',ToArray(r.data))
+       })
+    },
+    getSszrq(context){
+      api.get(global_.aport1+global_.sszrq,null,
+       r =>{
+         context.commit('getSszrq',ToArray(r.data))
+       })
+    },
   }
 });
 export default store;

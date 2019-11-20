@@ -5,7 +5,7 @@
       <el-col :sm="24" :md="12" :lg="13" style="min-width:600px;">
           <el-row type="flex" v-for="(rr,indes) in rows"  :key="indes" style="line-height:40px;">
               <el-col :span="6" style="padding-left:30px;min-width:160px;">
-                <el-select v-model="rr.type"  filterable clearable default-first-option @change="getDMB()" placeholder="请选择属性"  size="small">
+                <el-select v-model="rr.type"  filterable clearable default-first-option @change="getDMB(indes)" placeholder="请选择属性"  size="small">
                   <el-option label="英文姓名" value="ywxm">
                   </el-option>
                   <el-option label="中文姓名" value="zwxm">
@@ -44,7 +44,8 @@
                   <el-option label=">=" value=">="></el-option>
                   <el-option label="<=" value="<="></el-option>
                   <el-option label="In" value="In"></el-option>
-                  <el-option label="notIn" value="notIn"></el-option>
+                  <el-option label="like" value="like"></el-option>
+                  <el-option label="not in" value="notIn"></el-option>
                 </el-select>
               </el-col>
               <el-col :span="6" style="padding-left:10px;min-width:150px;">
@@ -205,21 +206,23 @@ export default {
               if(arr.length>=1){
                 this.keywords='';
                   for(var i=0;i<arr.length;i++){
-                    // if(arr[i].type!="" && arr[i].symbol!="" && arr[i].value!=""){
                      this.keywords+=" "+arr[i].type+" "+arr[i].symbol+" "+arr[i].value+" "+arr[i].relation;
-                     // }
                   }
               }
-              return this.keywords.substr(0,this.keywords.length-3);
+              this.keywords = this.keywords.substr(0,this.keywords.length-3);
+              console.log('====',this.keywords)
+              return this.keywords;
           },
           set:function(newVal){
-
             this.keywords = newVal;
           },
       },
   },
   methods: {
-    getDMB(){
+    getDMB(num){
+      console.log('num==',num);
+      this.$set(this.rows[num],'symbol','');
+      this.$set(this.rows[num],'value','');
       var arr=this.rows;
       for(var i=0;i<arr.length;i++){
       if(arr[i].type=="xb"){

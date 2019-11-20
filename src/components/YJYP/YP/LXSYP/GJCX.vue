@@ -30,7 +30,7 @@
           <el-select v-model="pdjb.xb" placeholder="请选择"  filterable clearable  default-first-option size="small" class="input-input">
             <el-option v-for="item in $store.state.xb"
              :key="item.dm"
-             :label="item.mc"
+             :label="item.dm+' - '+item.mc"
              :value="item.dm"
             >
             </el-option>
@@ -42,7 +42,7 @@
               <el-option
                 v-for="item in $store.state.gjdq"
                 :key="item.dm"
-                :label="item.mc"
+                :label="item.dm+' - '+item.mc"
                 :value="item.dm">
               </el-option>
             </el-select>
@@ -63,7 +63,7 @@
                <el-option
                  v-for="item in $store.state.qzzl"
                  :key="item.dm"
-                 :label="item.mc"
+                 :label="item.dm+' - '+item.mc"
                  :value="item.dm">
                </el-option>
              </el-select>
@@ -119,7 +119,7 @@
            <el-select v-model="pdlz.xb" placeholder="请选择"  filterable clearable  default-first-option size="small" class="input-input">
              <el-option v-for="item in $store.state.xb"
               :key="item.dm"
-              :label="item.mc"
+              :label="item.dm+' - '+item.mc"
               :value="item.dm"
              >
              </el-option>
@@ -148,7 +148,7 @@
                <el-option
                  v-for="item in $store.state.zjzl"
                  :key="item.dm"
-                 :label="item.mc"
+                 :label="item.dm+' - '+item.mc"
                  :value="item.dm">
                </el-option>
              </el-select>
@@ -163,7 +163,7 @@
                <el-option
                  v-for="item in $store.state.gjdq"
                  :key="item.dm"
-                 :label="item.mc"
+                 :label="item.dm+' - '+item.mc"
                  :value="item.dm">
                </el-option>
              </el-select>
@@ -186,7 +186,7 @@
                <el-option
                  v-for="(item,ind1) in $store.state.rjsy"
                  :key="ind1"
-                 :label="item.mc"
+                 :label="item.dm+' - '+item.mc"
                  :value="item.dm">
                </el-option>
              </el-select>
@@ -197,7 +197,7 @@
                    <el-option
                      v-for="(item,ind1) in sszrq"
                      :key="ind1"
-                     :label="item.mc"
+                     :label="item.dm+' - '+item.mc"
                      :value="item.dm">
                    </el-option>
                  </el-select>
@@ -208,7 +208,7 @@
                       <el-option
                         v-for="(item,ind1) in lrdw"
                         :key="ind1"
-                        :label="item.mc"
+                        :label="item.dm+' - '+item.mc"
                         :value="item.dm">
                       </el-option>
                     </el-select>
@@ -231,7 +231,7 @@
            <el-select v-model="pdcz.xb" placeholder="请选择"  filterable clearable  default-first-option size="small" class="input-input">
              <el-option v-for="item in $store.state.xb"
               :key="item.dm"
-              :label="item.mc"
+              :label="item.dm+' - '+item.mc"
               :value="item.dm"
              >
              </el-option>
@@ -243,7 +243,7 @@
                <el-option
                  v-for="item in $store.state.zjzl"
                  :key="item.dm"
-                 :label="item.mc"
+                 :label="item.dm+' - '+item.mc"
                  :value="item.dm">
                </el-option>
              </el-select>
@@ -258,7 +258,7 @@
                <el-option
                  v-for="item in $store.state.qzzl"
                  :key="item.dm"
-                 :label="item.mc"
+                 :label="item.dm+' - '+item.mc"
                  :value="item.dm">
                </el-option>
              </el-select>
@@ -273,7 +273,7 @@
                <el-option
                  v-for="item in $store.state.sf"
                  :key="item.dm"
-                 :label="item.mc"
+                 :label="item.dm+' - '+item.mc"
                  :value="item.dm">
                </el-option>
              </el-select>
@@ -288,7 +288,7 @@
                <el-option
                  v-for="item in $store.state.gjdq"
                  :key="item.dm"
-                 :label="item.mc"
+                 :label="item.dm+' - '+item.mc"
                  :value="item.dm">
                </el-option>
              </el-select>
@@ -319,7 +319,7 @@
                <el-option
                  v-for="(item,ind1) in $store.state.rjsy"
                  :key="ind1"
-                 :label="item.mc"
+                 :label="item.dm+' - '+item.mc"
                  :value="item.dm">
                </el-option>
              </el-select>
@@ -330,7 +330,7 @@
                    <el-option
                      v-for="(item,ind1) in sszrq"
                      :key="ind1"
-                     :label="item.mc"
+                     :label="item.dm+' - '+item.mc"
                      :value="item.dm">
                    </el-option>
                  </el-select>
@@ -341,7 +341,7 @@
                       <el-option
                         v-for="(item,ind1) in lrdw1"
                         :key="ind1"
-                        :label="item.mc"
+                        :label="item.dm+' - '+item.mc"
                         :value="item.dm">
                       </el-option>
                     </el-select>
@@ -357,7 +357,7 @@
             <el-option
               v-for="(item,ind) in $store.state.pcs"
               :key="ind"
-              :label="item.mc"
+              :label="item.dm+' - '+item.mc"
               :value="item.dm">
             </el-option>
           </el-select>
@@ -384,7 +384,7 @@
                <el-option
                  v-for="item in $store.state.jzztcz"
                  :key="item.dm"
-                 :label="item.mc"
+                 :label="item.dm+' - '+item.mc"
                  :value="item.dm">
                </el-option>
              </el-select>
@@ -433,11 +433,23 @@
        </el-col>
        <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
           <span class="input-text">案件性质：</span>
-          <el-input placeholder="请输入内容" clearable size="small" v-model="pdaj.ajxz" class="input-input"></el-input>
+          <el-select v-model="pdaj.ajxz" placeholder="请选择"   multiple collapse-tags filterable clearable default-first-option   size="small" class="input-input">
+            <el-option v-for="item in $store.state.ajxz"
+             :key="item.dm"
+             :label="item.dm+' - '+item.mc"
+             :value="item.dm">
+            </el-option>
+          </el-select>
        </el-col>
        <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
           <span class="input-text">案件类型：</span>
-          <el-input placeholder="请输入内容" clearable size="small" v-model="pdaj.ajlb" class="input-input"></el-input>
+          <el-select v-model="pdaj.ajlb" placeholder="请选择"   multiple collapse-tags filterable clearable default-first-option   size="small" class="input-input">
+            <el-option v-for="item in $store.state.ajlb"
+             :key="item.dm"
+             :label="item.dm+' - '+item.mc"
+             :value="item.dm">
+            </el-option>
+          </el-select>
        </el-col>
        <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
           <span class="input-text">受理时间：</span>
@@ -461,7 +473,13 @@
          </el-col>
          <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
              <span class="input-text">所属责任区：</span>
-              <el-input placeholder="请输入内容" clearable size="small" v-model="pdaj.xgdw" class="input-input"></el-input>
+              <el-select v-model="pdaj.xgdw" placeholder="请选择"   multiple collapse-tags filterable clearable default-first-option   size="small" class="input-input">
+                <el-option v-for="item in $store.state.sszrq"
+                 :key="item.dm"
+                 :label="item.dm+' - '+item.mc"
+                 :value="item.dm">
+                </el-option>
+              </el-select>
           </el-col>
           <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
               <span class="input-text">案件地址名称：</span>
@@ -473,7 +491,7 @@
 
 <div style="width:100%; text-align:center; padding-top:30px;">
   <el-button type="primary" size="small" @click="CurrentPage=1;getList(CurrentPage,pageSize)">查 询</el-button>
-  <el-button type="success" size="small" @click="$router.go(-1)">返回</el-button>
+  <el-button type="success" size="small" @click="$router.push({name:'RYHX'})">返回</el-button>
   </div>
 <div class="main">
    <el-row   :gutter="2">
@@ -563,6 +581,9 @@ export default {
     this.$store.dispatch('getSf');
     this.$store.dispatch('getPcs');
     this.$store.dispatch('getJzztcz');
+    this.$store.dispatch("getAjlb");
+    this.$store.dispatch("getAjxz");
+    this.$store.dispatch("getSszrq");
     this.getSsfj();
   },
   methods: {

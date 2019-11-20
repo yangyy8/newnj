@@ -22,18 +22,18 @@
                         <el-option
                           v-for="(item,ind) in ssfj"
                           :key="ind"
-                          :label="item.mc"
+                          :label="item.dm+' - '+item.mc"
                           :value="item.dm">
                         </el-option>
                       </el-select>
                    </el-col>
                    <el-col :span="12">
                        <span class="yy-input-text">所属派出所：</span>
-                       <el-select v-model="pd.sspcs" filterable clearable default-first-option placeholder="请选择"  size="small" class="yy-input-input">
+                       <el-select v-model="pd.sspcs" filterable clearable default-first-option placeholder="请选择"  size="small" class="yy-input-input" :no-data-text="pd.ssfj==''||pd.ssfj==undefined?'请先选择所属分局':'无数据'">
                          <el-option
                            v-for="(item,ind) in sspcs"
                            :key="ind"
-                           :label="item.mc"
+                           :label="item.dm+' - '+item.mc"
                            :value="item.dm">
                          </el-option>
                        </el-select>
@@ -45,7 +45,7 @@
                        <el-option
                          v-for="(item,ind1) in $store.state.xb"
                          :key="ind1"
-                         :label="item.mc"
+                         :label="item.dm+' - '+item.mc"
                          :value="item.dm">
                        </el-option>
                      </el-select>
@@ -61,7 +61,7 @@
                      <el-option
                        v-for="(item,ind) in $store.state.zjzl"
                        :key="ind"
-                       :label="item.mc"
+                       :label="item.dm+' - '+item.mc"
                        :value="item.dm">
                      </el-option>
                    </el-select>
@@ -72,7 +72,7 @@
                      <el-option
                        v-for="(item,indj) in $store.state.jzztlx"
                        :key="indj"
-                       :label="item.mc"
+                       :label="item.dm+' - '+item.mc"
                        :value="item.dm">
                      </el-option>
                    </el-select>
@@ -84,7 +84,7 @@
                           <el-option
                             v-for="(item,ind1) in $store.state.gjdq"
                             :key="ind1"
-                            :label="item.mc"
+                            :label="item.dm+' - '+item.mc"
                             :value="item.dm">
                           </el-option>
                         </el-select>
@@ -95,7 +95,7 @@
                           <el-option
                             v-for="(item,ind) in $store.state.sf"
                             :key="ind"
-                            :label="item.mc"
+                            :label="item.dm+' - '+item.mc"
                             :value="item.dm">
                           </el-option>
                         </el-select>
@@ -167,7 +167,7 @@
                         <el-option
                           v-for="(item,ind) in $store.state.rjsy"
                           :key="ind"
-                          :label="item.mc"
+                          :label="item.dm+' - '+item.mc"
                           :value="item.dm">
                         </el-option>
                       </el-select>

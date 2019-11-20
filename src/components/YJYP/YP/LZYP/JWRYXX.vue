@@ -428,7 +428,7 @@ export default {
       let url="";
       url="/linZhuInfoComprehensiveAnalysisController/exportPersonList";
       this.objCompare(this.row,this.queryPd)
-      this.pd = Object.assign({},this.pd,this.row,this.queryPd);
+      this.pd = Object.assign({},this.row,this.queryPd,this.pd);
       if(this.selectionAll.length==0){//人员全部导出
         p={
           "pd":this.pd,
@@ -482,7 +482,7 @@ export default {
     },
     getList(currentPage, showCount, pd) {
       this.objCompare(this.row,this.queryPd)
-      pd = Object.assign({},pd,this.row,this.queryPd);
+      pd = Object.assign({},this.row,this.queryPd,pd);
       if(pd.hasOwnProperty('DTID')){
         delete pd['DTID']
       }

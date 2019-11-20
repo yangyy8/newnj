@@ -187,7 +187,6 @@ export default {
   activated() {
     this.row = this.$route.query.row;
     this.queryPd = this.$route.query.queryPd;
-    console.log('row',this.row);
     this.getList(this.CurrentPage,this.pageSize,this.pd);
   },
   mounted() {
@@ -214,7 +213,8 @@ export default {
     },
     download(){
       this.objCompare(this.row,this.queryPd)
-      this.pd = Object.assign({},this.pd,this.row,this.queryPd);
+      this.pd = Object.assign({},this.row,this.queryPd,this.pd);
+      let p={};
       if(this.selectionAll.length==0){//人员全部导出
         p={
           "pd":this.pd,
@@ -261,7 +261,7 @@ export default {
     },
     getList(currentPage, showCount, pd) {
       this.objCompare(this.row,this.queryPd)
-      pd = Object.assign({},pd,this.row,this.queryPd);
+      pd = Object.assign({},this.row,this.queryPd,pd);
       if(pd.hasOwnProperty('RGUID')){
         delete pd['RGUID']
       }

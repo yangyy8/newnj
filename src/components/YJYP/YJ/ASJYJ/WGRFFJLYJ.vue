@@ -94,7 +94,7 @@
                     </el-col>
                     <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                         <span class="input-text" title="所属派出所">所属派出所：</span>
-                        <el-select v-model="pd.PCS" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input" :disabled="juState=='3'">
+                        <el-select v-model="pd.PCS" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input" :disabled="juState=='3'" :no-data-text="pd.FJ==''||pd.FJ==undefined?'请先选择所属分局':'无数据'">
                           <el-option
                             v-for="item in PSC"
                             :key="item.DM"
@@ -206,7 +206,7 @@
                  <template slot-scope="scope">
                    <div>
                       <el-button type="text"  class="a-btn"  title="编辑"  icon="el-icon-edit-outline" @click="$router.push({name:'WGRFFJLYJ_XQ',query:{yjType:1,row:scope.row}})"></el-button>
-                      <el-button type="text"  class="a-btn"  title="设为重点人员"  icon="iconfont el-icon-yy-jiaoseyonghu" @click="adds(scope.row);form={};"></el-button>
+                      <el-button type="text"  class="a-btn"  title="设为关注人员"  icon="iconfont el-icon-yy-jiaoseyonghu" @click="adds(scope.row);form={};"></el-button>
                    </div>
                  </template>
                </el-table-column>
@@ -242,7 +242,7 @@
             </el-pagination>
           </div>
         </div>
-        <el-dialog title="设为重点人员" :visible.sync="addsDialogVisible" width="600px" >
+        <el-dialog title="设为关注人员" :visible.sync="addsDialogVisible" width="600px" >
           <el-form :model="form" ref="addForm">
             <el-row :gutter="1"  class="mb-6">
                 <el-col :span="24" class="input-item" data-scope="demo" data-name="RULE" data-type="input" v-validate-easy="[['required']]">

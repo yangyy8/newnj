@@ -197,8 +197,9 @@
             </el-option>
           </el-select>
         </el-col>
-        <el-col :span="12" class="input-item">
-          <span class="input-text">证件号码：</span>
+        <el-col :span="12" class="input-item yzform" data-scope="demo" data-name="ZJHM" data-type="input"
+         v-validate-easy="[['required']]">
+          <span class="input-text"><font class="redx">*</font>证件号码：</span>
           <el-input placeholder="请输入内容" size="small" v-model="editform.ZJHM"  class="input-input"></el-input>
         </el-col>
         <el-col :span="12" class="input-item">
@@ -213,8 +214,9 @@
              placeholder="选择时间" >
           </el-date-picker>
         </el-col>
-        <el-col :span="12" class="input-item">
-          <span class="input-text">国家地区：</span>
+        <el-col :span="12" class="input-item yzform" data-scope="demo" data-name="GJDQDM" data-type="select"
+         v-validate-easy="[['required']]">
+          <span class="input-text"><font class="redx">*</font>国家地区：</span>
           <el-select v-model="editform.GJDQDM" filterable clearable default-first-option @change="getLable(2,editform.GJDQDM)" placeholder="请选择"  size="small" class="input-input">
             <el-option
               v-for="(item,ind3) in $store.state.gjdq"
@@ -317,7 +319,7 @@ export default {
       uploadDialogVisible: false,
       detailsDialogVisible:false,
       editsDialogVisible:false,
-      editform:{},
+      editform:{CSRQ:""},
       uploadIconData:{token:this.$store.state.token},
       mapForm:{},
       options:this.pl.options,
@@ -354,11 +356,9 @@ export default {
     },
     pageSizeChange(val) {
       this.getList(this.CurrentPage, val, this.pd);
-      console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
       this.getList(val, this.pageSize, this.pd);
-      console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
 
@@ -383,7 +383,6 @@ export default {
       this.mapForm=n;
     },
     edits(t,n){
-      console.log('n-----',n);
       this.editsDialogVisible=true;
       if(t==1){
       this.isadd=1;
@@ -393,37 +392,39 @@ export default {
       this.isadd=0;
       this.dialogText="新增";
     }
-
+    this.V.$reset('demo');
 
     },
-    editsItem(formName)
-    {
-      this.editform.token=this.$store.state.token;
-      var url=this.Global.aport3+'/drlzbk/addLZBK';
-      if(this.isadd==1){
-        url=this.Global.aport3+'/drlzbk/updateLZBK';
-      }
-      this.$api.post(url, this.editform,
-      r => {
-        if(r.code=="1000001"){
-            window.location.href ="#/";
+    editsItem(formName){
+      this.V.$submit('demo',(canSumit,data) =>{
+        if(!canSumit) return;
+        this.editform.token=this.$store.state.token;
+        var url=this.Global.aport3+'/drlzbk/addLZBK';
+        if(this.isadd==1){
+          url=this.Global.aport3+'/drlzbk/updateLZBK';
         }
-        if (r.success) {
-          this.$message({
-            message: '保存成功！',
-            type: 'success'
-          });
-          this.editsDialogVisible = false;
-          this.getList(this.CurrentPage,this.pageSize,this.pd);
-        } else {
-          this.$message.error(r.Message);
-        }
-        this.$refs[afrom].resetFields();
+        this.$api.post(url, this.editform,
+        r => {
+          if(r.code=="1000001"){
+              window.location.href ="#/";
+          }
+          if (r.success) {
+            this.$message({
+              message: '保存成功！',
+              type: 'success'
+            });
+            this.editsDialogVisible = false;
+            this.getList(this.CurrentPage,this.pageSize,this.pd);
+          } else {
+            this.$message.error(r.Message);
+          }
+          this.$refs[afrom].resetFields();
 
 
-      }, e => {
-        this.$message.error('失败了');
-      });
+        }, e => {
+          this.$message.error('失败了');
+        });
+      })
     },
     deletes(i) {
     let p = {

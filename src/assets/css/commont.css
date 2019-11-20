@@ -1,6 +1,12 @@
 .green{
   color: green;
 }
+.redy{
+  color: #e6a23c;
+}
+.el-input.is-disabled .el-input__inner{
+  color: #787a7d!important;
+}
 .el-textarea.is-disabled .el-textarea__inner{
   color: #a7aab1!important;
 }

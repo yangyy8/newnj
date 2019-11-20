@@ -94,7 +94,7 @@
                     </el-col>
                     <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                         <span class="input-text" title="所属派出所">所属派出所：</span>
-                        <el-select v-model="pd.PCS" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input" :disabled="juState=='3'">
+                        <el-select v-model="pd.PCS" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input" :disabled="juState=='3'" :no-data-text="pd.FJ==''||pd.FJ==undefined?'请先选择所属分局':'无数据'">
                           <el-option
                             v-for="item in PSC"
                             :key="item.DM"
@@ -128,7 +128,7 @@
           </el-row>
          </el-col>
         <el-col :span="2" class="down-btn-area">
-          <el-button type="success" size="small" class="t-mb"  @click="CurrentPage=1;getList(CurrentPage,pageSize,pd)">查询</el-button>
+          <el-button type="success" size="small" class="t-mb"  @click="CurrentPage=1;getList(CurrentPage,pageSize,pd,1)">查询</el-button>
           <el-button type="primary" size="small"  class="t-ml0" @click="download">导出</el-button>
         </el-col>
       </el-row>
@@ -205,7 +205,7 @@
              <template slot-scope="scope">
                <div>
                   <el-button type="text"  class="a-btn"  title="编辑"  icon="el-icon-edit-outline" @click="$router.push({name:'DQQZFFJYYJ_XQ',query:{yjType:2,row:scope.row}})"></el-button>
-                  <el-button type="text"  class="a-btn"  title="设为重点人员"  icon="iconfont el-icon-yy-jiaoseyonghu" @click="adds(scope.row);form={};"></el-button>
+                  <el-button type="text"  class="a-btn"  title="设为关注人员"  icon="iconfont el-icon-yy-jiaoseyonghu" @click="adds(scope.row);form={};"></el-button>
                </div>
              </template>
            </el-table-column>
@@ -241,7 +241,7 @@
         </el-pagination>
       </div>
     </div>
-    <el-dialog title="设为重点人员" :visible.sync="addsDialogVisible" width="600px" >
+    <el-dialog title="设为关注人员" :visible.sync="addsDialogVisible" width="600px" >
       <el-form :model="form" ref="addForm">
         <el-row :gutter="1"  class="mb-6">
             <el-col :span="24" class="input-item" data-scope="demo" data-name="RULE" data-type="input" v-validate-easy="[['required']]">
@@ -435,7 +435,7 @@ export default {
       this.CurrentPage=val;
       this.getList(this.CurrentPage, this.pageSize, this.pd);
     },
-    getList(currentPage, showCount, pd) {
+    getList(currentPage, showCount, pd,type) {
       this.pd.MXLX='ASJ_DQQZFFJY';
       this.pd.BJSJ_DateRange.begin=this.pd0.beginBJSJ;
       this.pd.BJSJ_DateRange.end=this.pd0.endBJSJ;
@@ -462,16 +462,20 @@ export default {
           if(this.selectionReal.length==0){//声明一个数组对象
             this.selectionReal=new Array(Math.ceil(this.TotalResult/showCount))
           }
-          this.$nextTick(()=>{
-            this.multipleSelection=[]
-            for(var i=0;i<this.tableData.length;i++){
-              for(var j=0;j<this.selectionAll.length;j++){
-                if(this.tableData[i].YJID==this.selectionAll[j].YJID){
-                  this.$refs.multipleTable.toggleRowSelection(this.tableData[i],true);
+          if(type==1){
+            this.selectionAll=[];
+          }else{
+            this.$nextTick(()=>{
+              this.multipleSelection=[]
+              for(var i=0;i<this.tableData.length;i++){
+                for(var j=0;j<this.selectionAll.length;j++){
+                  if(this.tableData[i].YJID==this.selectionAll[j].YJID){
+                    this.$refs.multipleTable.toggleRowSelection(this.tableData[i],true);
+                  }
                 }
               }
-            }
-          })
+            })
+          }
         })
     },
     getXM(zw,yw){

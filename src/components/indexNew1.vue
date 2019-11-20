@@ -32,7 +32,7 @@
         </div>
       </div>
     </div>
-    <div class="" @mouseover="navShow=false">
+    <div class="" @mouseover="navShow=false" ref="contentS" style="">
       <div class="banner">
         <!-- <img src="../assets/img/sg/tc_nor.png" alt="链至大屏" class="toScreen" @click="$router.push({name:'Screen',query:{mtype:mapList.type,year:lzyear,month:lzmonth,day:lzdate}})"> -->
         <div class="common-report hand" @click="shortMenu">
@@ -78,10 +78,10 @@
       <div class="time">
         {{realTime}}
       </div>
-      <div class="main">
-      <el-row :gutter="3">
-        <el-col :span="6"  style="">
-             <div class="bgline1 tu4">
+      <div class="main" style="height:90%">
+      <el-row :gutter="3" style="height:100%">
+        <el-col :span="6"  style="height:100%">
+             <div class="bgline1 tu4" ref="ban1">
                 <img src="../assets/img/sg/frame_1.png" class="img1" ref="ajC"/>
                 <div class="title gradient-text-one">
                   案件6个月变化量
@@ -91,7 +91,7 @@
                 </div>
              </div>
 
-             <div class="bgline1 tu4 tu-mt">
+             <div class="bgline1 tu4 tu-mt" ref="ban2">
                 <img src="../assets/img/sg/frame_2.png" class="img1">
                 <div class="title gradient-text-one">
                   常住人员身份分析
@@ -103,7 +103,7 @@
                    </ul>
                 </div>
              </div>
-             <div class="bgline11 tu3 tu-mt">
+             <div class="bgline11 tu3 tu-mt" ref="ban3">
                 <img src="../assets/img/sg/frame_21.png" class="img4">
                 <div class="title gradient-text-one">
                   重点国家人员
@@ -227,8 +227,8 @@
               </ul>
           </div>
         </el-col>
-        <el-col :span="6">
-          <div class="bgline2 tu4">
+        <el-col :span="6" style="height:100%">
+          <div class="bgline2 tu4" ref="ban4">
              <img src="../assets/img/sg/frame_2.png" class="img4" ref="lzC"/>
              <div class="title gradient-text-one">
                临住6个月变化量
@@ -237,7 +237,7 @@
                <div id = "lzecharts" style = "width: 100%" class="tu4-4"></div>
              </div>
           </div>
-          <div class="bgline2 tu4 tu-mt">
+          <div class="bgline2 tu4 tu-mt" ref="ban5">
              <img src="../assets/img/sg/frame_2.png" class="img4" ref='zgC'/>
              <div class="title gradient-text-one">
                中管6个月办理量
@@ -246,7 +246,7 @@
                <div id = "zgecharts" style = "width: 100%"></div>
              </div>
           </div>
-          <div class="bgline21 tu3 tu-mt">
+          <div class="bgline21 tu3 tu-mt" ref="ban6">
              <img src="../assets/img/sg/frame_21.png" class="img4" ref='jtC'/>
              <div class="title gradient-text-one">
                居留、停留6个月签发量
@@ -559,6 +559,7 @@ export default {
             that.screenWidth = window.screenWidth;
             window.fullHeight = document.documentElement.clientHeight
             that.fullHeight = window.fullHeight;
+            // console.log('window.fullHeight',document.documentElement.clientHeight);
             that.imgHeightOne=that.$refs.ajC.offsetHeight;
             that.$store.commit('getOne',that.imgHeightOne);
         })()
@@ -570,8 +571,9 @@ export default {
      }
      if(this.fullHeight>800){
        // this.isFull = true
-       // console.log('this.fullHeight',this.fullHeight)
+       console.log('this.fullHeight',this.fullHeight)
        this.$refs.fullS.style.height = this.fullHeight +'px';
+       this.$refs.contentS.style.height = this.fullHeight +'px';
      }
     if(this.screenWidth<1600){
       this.seriesData=[
@@ -589,7 +591,7 @@ export default {
                         [[8.4, 23.5, '江北新区', 10, 20]],
                         [[12.5, 22.5, '经济技术开发区', 10, 8]],
                     ];
-      this.yjl='370px';
+      this.yjl='350px';
       this.ajyjl="155px";
     }else if(this.screenWidth>=1600&&this.screenWidth<1700){
       this.seriesData=[
@@ -646,15 +648,32 @@ export default {
        //     that.timer = false
        //    },400)
        // }
+       console.log('window.fullHeight==val',document.documentElement.clientHeight,val);
        if(val>=657&&val<=768){
          this.isFullM = true;
        }else{
          this.isFullM = false;
        }
-       if(val>800){
+       if(val>1000||val<=925){
+         this.$refs.ban1.style.height = '30%';
+         this.$refs.ban2.style.height = '30%';
+         this.$refs.ban3.style.height = '28%';
+         this.$refs.ban4.style.height = '30%';
+         this.$refs.ban5.style.height = '30%';
+         this.$refs.ban6.style.height = '28%';
+       }else{
+         this.$refs.ban1.style.height = '33%';
+         this.$refs.ban2.style.height = '33%';
+         this.$refs.ban3.style.height = '29%';
+         this.$refs.ban4.style.height = '33%';
+         this.$refs.ban5.style.height = '33%';
+         this.$refs.ban6.style.height = '29%';
+       }
+       // if(val>800){
          // this.isFull = true
          this.$refs.fullS.style.height = val+'px';
-       }
+         this.$refs.contentS.style.height = val +'px';
+       // }
        // else{
        //   this.isFull = false
        // }
@@ -677,7 +696,7 @@ export default {
                               [[8.4, 23.5, '江北新区', 10, 20]],
                               [[12.5, 22.5, '经济技术开发区', 10, 8]],
                           ];
-            this.yjl='370px';
+            this.yjl='350px';
             this.ajyjl="155px";
           }else if(this.screenWidth>=1600&&this.screenWidth<1700){
             this.seriesData=[

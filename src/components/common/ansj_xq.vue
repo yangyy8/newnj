@@ -1408,7 +1408,6 @@ export default {
     base5() {
       this.page = 5;
     },
-
     getData(xid) {
 
       var arr=xid.split(',');

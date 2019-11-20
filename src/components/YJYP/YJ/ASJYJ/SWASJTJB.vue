@@ -66,6 +66,10 @@
               label="猥亵" width="70px">
               </el-table-column>
               <el-table-column
+              prop="pc"
+              label="嫖娼" width="70px">
+              </el-table-column>
+              <el-table-column
               prop="qtzaaj"
               label="其他" width="70px">
               </el-table-column>

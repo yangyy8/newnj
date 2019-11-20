@@ -40,7 +40,7 @@
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                     <span class="input-text">派出所：</span>
-                    <el-select v-model="pd.PCS" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input" :disabled="juState=='3'">
+                    <el-select v-model="pd.PCS" @change="getZrq(pd.PCS)" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input" :disabled="juState=='3'" :no-data-text="pd.FJ==''||pd.FJ==undefined?'请先选择所属分局':'无数据'">
                       <el-option
                         v-for="item in PSC"
                         :key="item.DM"
@@ -51,9 +51,10 @@
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                     <span class="input-text">责任区：</span>
-                    <el-select v-model="pd.JWZRQ" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
+                    <el-select v-model="pd.JWZRQ" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input" 
+                    :no-data-text="pd.FJ==''||pd.FJ==undefined?'请先选择所属分局':pd.PCS==''||pd.PCS==undefined?'请先选择派出所':'无数据'">
                       <el-option
-                        v-for="item in $store.state.gjdq"
+                        v-for="item in zrq"
                         :key="item.dm"
                         :label="item.dm+' - '+item.mc"
                         :value="item.dm">
@@ -227,6 +228,7 @@ export default {
       options: this.pl.ps,
       tableData: [],
       pd0:{},
+      zrq: [],
       multipleSelection:[],
       selectionAll:[],
       yuid:[],
@@ -266,6 +268,7 @@ export default {
     this.token=this.$store.state.token;
     // this.getFJ();
     this.getFj();
+    this.getZrq();
     this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
 
@@ -280,6 +283,18 @@ export default {
     //       this.ssfj = r.data.SSFJ;
     //     })
     // },
+    getZrq(arr) {
+      let p = {
+        "operatorId": this.$store.state.uid,
+        "operatorNm": this.$store.state.uname,
+        "pcsdm":[arr]
+      };
+      var url = this.Global.aport2 + "/data_report/selectZrqDm";
+      this.$api.post(url, p,
+        r => {
+          this.zrq = r.data.ZRQ;
+        })
+    },
     getFj(){
       this.$api.post(this.Global.aport5+'/djbhl/getallfj',{},
        r =>{

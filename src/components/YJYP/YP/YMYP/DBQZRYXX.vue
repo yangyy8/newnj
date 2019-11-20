@@ -223,7 +223,7 @@ export default {
     },
     getList(currentPage, showCount, pd) {
       this.objCompare(this.row,this.queryPd)
-      pd = Object.assign({},pd,this.row,this.queryPd);
+      pd = Object.assign({},this.row,this.queryPd,pd);
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,

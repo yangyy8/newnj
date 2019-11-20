@@ -18,7 +18,7 @@
             </el-col>
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                 <span class="input-text">派出所：</span>
-                <el-select v-model="pd.PCS" filterable clearable @change="getZrq(pd.PCS)" default-first-option placeholder="请选择"  size="small" class="input-input" :disabled="juState=='3'">
+                <el-select v-model="pd.PCS" filterable clearable @change="getZrq(pd.PCS)" default-first-option placeholder="请选择"  size="small" class="input-input" :disabled="juState=='3'" :no-data-text="pd.FJ==''||pd.FJ==undefined?'请先选择所属分局':'无数据'">
                   <el-option
                     v-for="item in PSC"
                     :key="item.DM"
@@ -29,7 +29,8 @@
             </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                     <span class="input-text">责任区：</span>
-                    <el-select v-model="pd.JWZRQ" filterable clearable  default-first-option placeholder="请选择"  size="small" class="input-input">
+                    <el-select v-model="pd.JWZRQ" filterable clearable  default-first-option placeholder="请选择"  size="small" class="input-input"
+                    :no-data-text="pd.FJ==''||pd.FJ==undefined?'请先选择所属分局':pd.PCS==''||pd.PCS==undefined?'请先选择派出所':'无数据'">
                       <el-option
                         v-for="item in zrq"
                         :key="item.dm"

@@ -136,7 +136,6 @@ export default {
     },
     getData1(){
       this.pp.RGUID=this.xid;
-      console.log(this.pp.RGUID);
       let p = {
         "pd": this.pp
       };
@@ -146,7 +145,6 @@ export default {
       })
     },
     getData2(){//人员画像
-      console.log('ewnewnewnenwnewnn');
       this.crjinfo=this.xid;
     },
   },

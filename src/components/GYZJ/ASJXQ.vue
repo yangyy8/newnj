@@ -82,10 +82,75 @@
 
       </div>
        <div class="yylbt yt-16 mb-15">预警原因 <span class="yyf ycolor">{{baseData.ZBXDATADESC}}</span></div>
-      <!--yjType 1.外国人visa  2.持短期签证  4.违临预判  5.临住布控-->
+      <!--yjType 1.外国人visa  2.持短期签证  4.违临预判  5.临住布控  20.公务护照预警  3.处罚人员未办证预警-->
       <!-- <div class="yylbt yt-16">预警原因 <span class="yyf ycolor">出入境过多，签证过期</span></div> -->
-      <!-- 1  签证信息详情  2 出入境信息   3 境外人员住宿登记信息  4 境外人员常住信息-->
-      <div class="mb-15" v-if="yjType==1||yjType==2||yjType==5">
+      <!-- 1  签证信息详情  2 出入境信息   3 境外人员住宿登记信息  4 境外人员常住信息  5 案事件信息-->
+      <div class="mb-15" v-if="yjType==3">
+        <div class="stru-lal">案事件信息</div>
+        <el-table
+             :data="asjData"
+             border
+             style="width: 100%" class="stu-table"
+             >
+             <el-table-column
+               prop="ASJBH"
+               label="案事件编号">
+             </el-table-column>
+             <el-table-column
+               prop="AJMC"
+               label="案件名称">
+             </el-table-column>
+             <el-table-column
+               prop="AJLB"
+               label="案件类别">
+             </el-table-column>
+             <el-table-column
+               prop="AJZT"
+               label="案件状态">
+             </el-table-column>
+             <el-table-column
+               prop="FXSJ"
+               label="发现时间">
+             </el-table-column>
+             <el-table-column
+               label="操作" width="80">
+               <template slot-scope="scope">
+               <el-button type="text"  class="a-btn"  title="详情"  icon="el-icon-document" @click="getDetails(scope.row,6)"></el-button>
+               </template>
+             </el-table-column>
+         </el-table>
+         <div class="middle-foot mt-10">
+            <div class="page-msg">
+              <div class="">
+            共{{asjTotalResult}}条记录
+              </div>
+              <div class="">
+                每页显示
+                <el-select v-model="asjpageSize" @change="asjpageSizeChange(asjpageSize)" placeholder="10" size="mini" class="page-select">
+                  <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+                条
+              </div>
+              <div class="">
+                共{{Math.ceil(asjTotalResult/asjpageSize)}}页
+              </div>
+            </div>
+            <el-pagination
+              background
+              @current-change="asjhandleCurrentChange"
+              :page-size="asjpageSize"
+              layout="prev, pager, next"
+              :total="asjTotalResult"
+              :current-page.sync="asjCurrentPage">
+            </el-pagination>
+          </div>
+      </div>
+      <div class="mb-15" v-if="yjType==1||yjType==2||yjType==5||yjType==3">
         <div class="stru-lal">签证信息</div>
         <el-table
            :data="tableData1"
@@ -145,7 +210,7 @@
             </el-pagination>
           </div>
       </div>
-      <div class="mb-15" v-if="yjType==2||yjType==4||yjType==5||yjType==20">
+      <div class="mb-15" v-if="yjType==1||yjType==2||yjType==4||yjType==5||yjType==20||yjType==3">
         <div class="stru-lal">出入境信息</div>
         <el-table
              :data="tableData2"
@@ -265,7 +330,7 @@
             </el-pagination>
           </div>
       </div>
-      <div class="mb-15" v-if="yjType==1">
+      <div class="mb-15" v-if="yjType==1||yjType==3">
         <div class="stru-lal">常住信息</div>
         <el-table
              :data="tableData4"
@@ -860,6 +925,13 @@
             <el-button @click="CZDialogVisible = false" size="small">取 消</el-button>
           </div>
         </el-dialog>
+
+        <el-dialog title="案事件信息详情" :visible.sync="asjDialogVisible" custom-class="big_dialog" :append-to-body="false" :modal="false">
+          <ANSJ :type="type" :xid="xid" :dtid="dtid" :random="(new Date()).getTime()"></ANSJ>
+          <div slot="footer" class="dialog-footer">
+            <el-button @click="asjDialogVisible = false" size="small">取 消</el-button>
+          </div>
+        </el-dialog>
   </div>
 
 </template>
@@ -868,11 +940,13 @@ import LZXX from '../common/lzxx_xq'
 import CZXX from '../common/czxx_xq'
 import CRJXX from '../common/crjxx_xq'
 import QZ from '../common/qz_xq'
+import ANSJ from '../common/ansj_xq'
 export default {
-  components:{LZXX,CZXX,CRJXX,QZ},
+  components:{LZXX,CZXX,CRJXX,QZ,ANSJ},
   data() {
     return {
       rybh:'',
+      dtid:'',
       yjType: 0,
       baseData: {},
       baseDatazj: {},
@@ -902,6 +976,7 @@ export default {
       lzinfo: {},
       CZDialogVisible: false,
       czinfo: {},
+      asjDialogVisible:false,
       row:{},
       pd:{
         CLJG:'',
@@ -931,6 +1006,11 @@ export default {
       pageSize5: 10,
       TotalResult5: 0,
 
+      asjData:[],
+      asjCurrentPage: 1,
+      asjpageSize: 10,
+      asjTotalResult: 0,
+
       options: this.pl.ps,
       url0:this.Global.aport4 + '/warningInfoController/getEntityByYJID',//人员基本信息
       url1:this.Global.aport4 + '/eS_FNVISASController/getResultListByParams',//签证信息
@@ -938,6 +1018,7 @@ export default {
       url3:this.Global.aport4 + '/eS_LZ_LZXXController/getResultListByParams',////临住信息
       url4:this.Global.aport3 + '/ryhx/getczryjbxx',//常住信息
       url5:this.Global.aport4 + '/illegalEmploymentWarningController/getInfoByRybh',//非法就业
+      url6:this.Global.aport4 + '/eS_AJ_GroupController/getAnJianInfoByRYBH',//案事件
 
       url61:this.Global.aport4 + '/eS_JT_MH_JGDPXX_NController/getResultListByParams',//民航进出港订票信息
       url62:this.Global.aport4 + '/eS_JT_MH_JGXX_NController/getResultListByParams',//民航进出港信息
@@ -976,6 +1057,7 @@ export default {
     this.CurrentPage3=1;//临住信息
     this.CurrentPage4=1;//临住信息
     this.CurrentPage5=1;//临住信息
+    this.asjCurrentPage=1;
     this.yjType = this.$route.query.yjType;
     this.row = this.$route.query.row;
     this.org=this.$store.state.orgid;
@@ -1032,7 +1114,12 @@ export default {
             // this.getList(this.url10, 10); //预警信息
         this.getList(this.CurrentPage5,this.pageSize5,this.url5, 5); //非法就业
       }
-
+      if(this.yjType==3){
+        this.getList(this.asjCurrentPage,this.asjpageSize,this.url6, 6);//案事件
+        this.getList(this.CurrentPage2,this.pageSize2,this.url2, 2); //出入境信息
+        this.getList(this.CurrentPage4,this.pageSize4,this.url4, 4); //常住信息
+        this.getList(this.CurrentPage1,this.pageSize1,this.url1, 1); //签证信息
+      }
   },
   mounted() {
    this.getJB();
@@ -1042,6 +1129,7 @@ export default {
       if(this.yjType==2){this.$router.push({name:'DQQZFFJYYJ'})}//持短期签证非法就业
       if(this.yjType==1){this.$router.push({name:'WGRFFJLYJ'})}//外国人非法居留预警
       if(this.yjType==20){this.$router.push({name:'GWHZYJ'})}//公务护照预警
+      if(this.yjType==3){this.$router.push({name:'CFRYWBZYJ'})}//处罚人员未办证预警
     },
     getJB(){
       let p = {
@@ -1053,6 +1141,14 @@ export default {
         r => {
           this.jb=r.data[0].JB
         })
+    },
+    asjpageSizeChange(val) {
+      this.asjpageSize=val;
+      this.getList(this.asjCurrentPage,val,this.url6, 6);
+    },
+    asjhandleCurrentChange(val) {
+      this.asjCurrentPage=val;
+      this.getList(val,this.asjpageSize,this.url6, 6);
     },
     pageSizeChange1(val) {
       this.pageSize1=val;
@@ -1141,6 +1237,7 @@ export default {
           };
           break;
         case 4:
+        case 6:
           p={
             "currentPage": currentPage,
             "showCount": showCount,
@@ -1217,7 +1314,10 @@ export default {
           }
           else if (type == 65) {
            this.tableData63=r.data.resultList;
-          }
+         }else if(type == 6){
+           this.asjData=r.data.resultList;
+           this.asjTotalResult=r.data.totalResult;
+         }
         })
 
     },
@@ -1245,6 +1345,11 @@ export default {
           this.type=1;
           this.CZDialogVisible = true;
           this.czinfo = n;
+          break;
+        case 6:
+          this.xid=n.RGUID+","+n.DTID;
+          this.type=1;
+          this.asjDialogVisible=true;
           break;
         default:
       }

@@ -28,7 +28,7 @@
                   </el-col>
                   <el-col :span="24">
                       <span class="yy-input-text">派出所：</span>
-                        <el-select v-model="pd.sspcs" filterable clearable default-first-option placeholder="请输入关键字" @change="getZrq(pd.sspcs)" size="small" class="yy-input-input">
+                        <el-select v-model="pd.sspcs" filterable clearable default-first-option placeholder="请输入关键字" @change="getZrq(pd.sspcs)" size="small" class="yy-input-input" :no-data-text="pd.ssfj==''||pd.ssfj==undefined?'请先选择所属分局':'无数据'">
                        <el-option
                          v-for="(item,ind1) in sspcs"
                          :key="ind1"
@@ -39,7 +39,7 @@
                   </el-col>
                   <el-col :span="24">
                       <span class="yy-input-text">责任区：</span>
-                      <el-select v-model="pd.zrq" filterable clearable default-first-option placeholder="请选择"  size="small" class="yy-input-input">
+                      <el-select v-model="pd.zrq" filterable clearable default-first-option placeholder="请选择"  size="small" class="yy-input-input" :no-data-text="pd.ssfj==''||pd.ssfj==undefined?'请先选择所属分局':pd.sspcs==''||pd.sspcs==undefined?'请先选择派出所':'无数据'">
                         <el-option
                           v-for="(item,ind) in zrq"
                           :key="ind"
@@ -446,14 +446,11 @@ export default {
   },
   methods: {
     pageSizeChange(val) {
-      console.log(`每页 ${val} 条`);
       this.getRyxx(this.CurrentPage, val, this.bzhid, this.mc);
-
     },
     handleCurrentChange(val) {
       this.CurrentPage = val;
       this.getRyxx(this.CurrentPage, this.pageSize, this.bzhid, this.mc);
-      console.log(`当前页: ${val}`);
     },
     // pageSizeChange1(val) {
     //   this.getRYinfo(this.CurrentPage1, val, this.rybh, 1);
@@ -490,7 +487,6 @@ export default {
       this.tshow1 = false;
       this.tshow2 = true;
       this.rybh = n.rybh;
-      console.log(n.rybh);
       this.getRYinfo(this.CurrentPage1, this.pageSize1, n.rybh, 1);
       this.getRYinfo(this.CurrentPage2, this.pageSize2, n.rybh, 2);
       this.getRYinfo(this.CurrentPage3, this.pageSize3, n.rybh, 3);
@@ -572,9 +568,9 @@ export default {
     },
     getSSPCS(arr) {
       this.$set(this.pd, "sspcs", '');
+      this.$set(this.pd,"zrq",'');
       var srr = [];
       srr.push(arr);
-      console.log(srr);
       let p = {
         "fjdmList": srr
       }

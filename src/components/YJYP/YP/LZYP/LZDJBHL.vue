@@ -109,7 +109,7 @@
                 <el-col  :sm="24" :md="12" :lg="12"  class="input-item">
                     <span class="input-text">派出所：</span>
                     <div class="input-input t-fuzzy-12 t-flex">
-                      <el-select v-model="pd.LRDW" multiple :multiple-limit="5"  collapse-tags filterable clearable default-first-option placeholder="请选择"  size="small" :disabled="juState=='3'">
+                      <el-select v-model="pd.LRDW" multiple :multiple-limit="5"  collapse-tags filterable clearable default-first-option placeholder="请选择"  size="small" :disabled="juState=='3'" :no-data-text="pd.LRDW_Like==''||pd.LRDW_Like==undefined?'请先选择所属分局':'无数据'">
                         <el-option
                           v-for="item in pcslist"
                           :key="item.dm"
@@ -702,6 +702,7 @@ import LZXX from '../../../common/lzxx_xq'
         that.pdTu=p;
         that.page=1;
         that.CurrentPage=1;
+        that.selectionAll=[];
         that.getListTu(that.CurrentPage,that.pageSize,that.pdTu);
       })
       that.lineChart.resize();
@@ -734,7 +735,9 @@ import LZXX from '../../../common/lzxx_xq'
         link.href = url
         link.setAttribute('download', name+this.format(new Date(),'yyyyMMddhhmmss')+'.xls')
         document.body.appendChild(link)
-        link.click()
+        link.click();
+        this.$refs.multipleTable.clearSelection();
+        this.selectionAll=[];
     },
   }
 }

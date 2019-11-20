@@ -264,6 +264,18 @@ export default new Router({
           meta:{title:['预警研判','预警信息','难民和需求庇护者预警']},
           component: resolve => require(['@/components/YJYP/YJ/CZYJ/NMXQPHZYJ'], resolve),
         },
+        {
+          path: 'CFRYWBZYJ',
+          name: 'CFRYWBZYJ',
+          meta:{title:['预警研判','预警信息','处罚人员未办证预警']},
+          component: resolve => require(['@/components/YJYP/YJ/CZYJ/CFRYWBZYJ'], resolve),
+        },
+        {
+          path: 'CFRYWBZYJ_XQ',
+          name: 'CFRYWBZYJ_XQ',
+          meta:{title:['预警研判','预警信息','处罚人员未办证预警']},
+          component: resolve => require(['@/components/GYZJ/ASJXQ'], resolve),
+        },
         // {
         //   path: 'NMXQPHZYJ_X',
         //   name: 'NMXQPHZYJ_X',
@@ -379,6 +391,18 @@ export default new Router({
           name: 'NJSFWGRZLGZ',
           meta:{title:['数据分析','案件分析','南京“三非”外国人治理工作情况统计表']},
           component: resolve => require(['@/components/YJYP/YJ/ASJYJ/NJSFWGRZLGZ'], resolve),
+        },
+        {
+          path: 'AJZHFX',
+          name: 'AJZHFX',
+          meta:{title:['数据分析','案件分析','案件综合分析']},
+          component: resolve => require(['@/components/YJYP/YJ/ASJYJ/AJZHFX'], resolve),
+        },
+        {
+          path: 'AJRYXX',
+          name: 'AJRYXX',
+          meta:{title:['数据分析','案件分析','案件综合分析'],father:'AJZHFX'},
+          component: resolve => require(['@/components/YJYP/YJ/ASJYJ/AJRYXX'], resolve),
         },
         {
           path: 'SLQFXXYJ_XQ',

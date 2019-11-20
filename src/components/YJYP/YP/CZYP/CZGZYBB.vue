@@ -6,17 +6,17 @@
         <el-col :span="22" class="br pr-20">
           <el-row align="center"   :gutter="2">
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-              <el-radio v-model="radio" label="1" class="input-text">时间点：</el-radio>
+              <el-radio v-model="radio" label="1" class="input-text" title="时间点">时间点：</el-radio>
               <!-- <span class="input-text">时间点：</span> -->
               <el-date-picker
                  v-model="pd0.TLYXQ_Begin.begin" format="yyyy-MM-dd"
                  type="date" size="small" value-format="yyyy/MM/dd"
-                 placeholder="开始时间" class="input-input"
+                 placeholder="请选择时间" class="input-input"
                  :disabled="radio!='1'">
               </el-date-picker>
             </el-col>
-            <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-              <el-radio v-model="radio" label="2" class="input-text">时间范围：</el-radio>
+            <el-col  :sm="24" :md="12" :lg="12"  class="input-item">
+              <el-radio v-model="radio" label="2" class="input-text" title="时间范围">时间范围：</el-radio>
               <!-- <span class="input-text">时间范围：</span> -->
               <div class="input-input t-flex t-date">
                 <el-date-picker
@@ -262,18 +262,31 @@
             </el-col>
             <el-col :span="12">
               <div class = "chart" style="width:100%">
-                <div id = "echartspiesk" style = "width: 100%;height: 300px"></div>
+                <div id = "echartspiesk" style = "width: 100%;height: 400px"></div>
               </div>
             </el-col>
           </el-row>
         </div>
       </div>
     </div>
-    <el-dialog title="列表" :visible.sync="listDialogVisible"  width="900px">
+    <el-dialog title="列表" :visible.sync="listDialogVisible"  width="1100px">
       <el-table
          :data="tableDataD"
          border
-         style="width: 100%">
+         style="width: 100%"
+         >
+         <el-table-column
+           prop="ZWXM"
+           label="中文姓名">
+         </el-table-column>
+         <el-table-column
+           prop="YWXM"
+           label="英文姓名">
+         </el-table-column>
+         <el-table-column
+           prop="XB_DESC"
+           label="性别">
+         </el-table-column>
          <el-table-column
            prop="CSRQ"
            label="出生日期">
@@ -287,27 +300,17 @@
            label="身份">
          </el-table-column>
          <el-table-column
-           prop="XB_DESC"
-           label="性别">
-         </el-table-column>
-         <el-table-column
-           prop="YWXM"
-           label="英文姓名">
-         </el-table-column>
-         <el-table-column
-           prop="ZWXM"
-           label="中文姓名">
-         </el-table-column>
-         <el-table-column
            prop="SJXFSJ"
            label="市局下发时间">
          </el-table-column>
          <el-table-column
            prop="SSPCS_DESC"
-           label="所属派出所">
+           label="所属派出所"
+           width="150">
          </el-table-column>
          <el-table-column
-           label="操作">
+           label="操作"
+           width="70">
            <template slot-scope="scope">
              <el-button type="text"  class="a-btn" title="详情" size="mini" icon="el-icon-tickets" @click="details(scope.row)"></el-button>
            </template>
@@ -755,12 +758,14 @@ import CZXX from '../../../common/czxx_xq'
               trigger: 'item',
               formatter: "{a} <br/>{b} : {c} ({d}%)"
           },
+          grid:{y:100},
           legend:legend,
           series: [{
             type:series[0].type,
             name:series[0].name,
             data:series[0].data,
             radius: [0, '70%'],
+            center:['50%','55%'],
             itemStyle:{
             normal:{
                   label:{
@@ -793,6 +798,7 @@ import CZXX from '../../../common/czxx_xq'
               color: '#606266',
             }
           },
+          grid:{y2:150},
           xAxis: {
               type: 'category',
               dataZoom: [{

@@ -285,7 +285,7 @@
           </el-col>
           <el-col :span="8" class="input-item">
             <span class="input-text">房主性别：</span>
-            <span class="input-input detailinput">  {{jzinfo.FZXB}}</span>
+            <span class="input-input detailinput">  {{jzinfo.FZXB_DESC}}</span>
           </el-col>
           <el-col :span="8" class="input-item">
             <span class="input-text">房主证件号码：</span>
@@ -443,7 +443,7 @@
             label="工作单位人员身份">
           </el-table-column>
           <el-table-column
-            prop="GZD_PCSMC"
+            prop="GZD_PCS_DESC"
             label="工作单位所属派出所名称">
           </el-table-column>
           <el-table-column
@@ -504,7 +504,7 @@
             </el-col>
             <el-col :span="8" class="input-item">
               <span class="input-text" title="工作单位所属派出所">工作单位所属派出所：</span>
-              <span class="input-input detailinput">  {{gzinfo.GZD_PCSMC}}</span>
+              <span class="input-input detailinput">  {{gzinfo.GZD_PCS_DESC}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
               <span class="input-text" title="工作单位名称">工作单位名称：</span>
@@ -1348,6 +1348,7 @@ export default {
       }
     },
     getData2(){
+      this.page=0;
       this.gzshow=false;
       this.jzshow=false;
       this.zfshow=false;

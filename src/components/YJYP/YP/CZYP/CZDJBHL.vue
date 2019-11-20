@@ -166,7 +166,7 @@
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                     <span class="input-text" title="所属派出所">所属派出所：</span>
-                    <el-select v-model="pd.SSPCS" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input" :disabled="juState=='3'">
+                    <el-select v-model="pd.SSPCS" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input" :disabled="juState=='3'" :no-data-text="pd.SSFJ==''||pd.SSFJ==undefined?'请先选择所属分局':'无数据'">
                       <el-option
                         v-for="item in PSC"
                         :key="item.DM"
@@ -197,7 +197,7 @@
 
     <div class="yycontent">
       <div class="ak-tabs">
-        <div class="ak-tab-item hand" :class="{'ak-checked':page==0}" @click="page=0;getList()">
+        <div class="ak-tab-item hand" :class="{'ak-checked':page==0}" @click="page=0;getListTu(pd0,pd);">
           图表
         </div>
         <div class="ak-tab-item hand" :class="{'ak-checked':page==1}" @click="page=1">
@@ -246,6 +246,18 @@
                width="55">
              </el-table-column>
              <el-table-column
+               prop="ZWXM"
+               label="中文姓名">
+             </el-table-column>
+             <el-table-column
+               prop="YWXM"
+               label="英文姓名">
+             </el-table-column>
+             <el-table-column
+               prop="XB_DESC"
+               label="性别">
+             </el-table-column>
+             <el-table-column
                prop="CSRQ"
                label="出生日期">
              </el-table-column>
@@ -256,18 +268,6 @@
              <el-table-column
                prop="SFDM_DESC"
                label="身份">
-             </el-table-column>
-             <el-table-column
-               prop="XB_DESC"
-               label="性别">
-             </el-table-column>
-             <el-table-column
-               prop="YWXM"
-               label="英文姓名">
-             </el-table-column>
-             <el-table-column
-               prop="ZWXM"
-               label="中文姓名">
              </el-table-column>
              <el-table-column
                prop="SJXFSJ"
@@ -565,7 +565,9 @@ import CZXX from '../../../common/czxx_xq'
         link.href = url
         link.setAttribute('download', '常住登记变化量列表'+this.format(new Date(),'yyyyMMddhhmmss')+'.xls')
         document.body.appendChild(link)
-        link.click()
+        link.click();
+        this.$refs.multipleTable.clearSelection();
+        this.selectionAll=[];
     },
 
     getList(currentPage,pageSize,pd){
@@ -710,6 +712,7 @@ import CZXX from '../../../common/czxx_xq'
              that.pdTu=p;
              that.page=1;
              that.CurrentPage=1;
+             that.selectionAll=[];
              that.getList(that.CurrentPage,that.pageSize,that.pdTu);
            })
            that.lineChart.resize();

@@ -1697,8 +1697,9 @@ export default {
     },
 
     detailsasj(n){
-       this.xid=n.RGUID;
-       this.dtid=n.DTID;
+       // this.xid=n.RGUID;
+       // this.dtid=n.DTID;
+       this.xid=n.RGUID+","+n.DTID;
        this.type=1;
        this.asjDialogVisible=true;
     },

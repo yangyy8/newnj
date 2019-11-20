@@ -158,6 +158,14 @@
                   width="55">
                 </el-table-column>
                 <el-table-column
+                  prop="XM"
+                  label="姓名">
+                </el-table-column>
+                <el-table-column
+                  prop="XBDM_DESC"
+                  label="性别">
+                </el-table-column>
+                <el-table-column
                   prop="GJDQ_DESC"
                   label="国家地区">
                 </el-table-column>
@@ -168,14 +176,6 @@
                 <el-table-column
                   prop="ZCRQ"
                   label="注册时间">
-                </el-table-column>
-                <el-table-column
-                  prop="XM"
-                  label="姓名">
-                </el-table-column>
-                <el-table-column
-                  prop="XBDM_DESC"
-                  label="性别">
                 </el-table-column>
                 <el-table-column
                   prop="HZHM"
@@ -196,7 +196,7 @@
                 <el-table-column
                   label="操作" width="100">
                   <template slot-scope="scope">
-                  <el-button type="text"  class="a-btn"  title="详情"  icon="el-icon-document" @click="$router.push({name:'NMFX_XQ',query:{row:scope.row}})"></el-button>
+                  <el-button type="text"  class="a-btn"  title="详情"  icon="el-icon-document" @click="$router.push({name:'NMFX_XQ',query:{row:scope.row,jumpTo:'main'}})"></el-button>
                   </template>
                 </el-table-column>
               </el-table>

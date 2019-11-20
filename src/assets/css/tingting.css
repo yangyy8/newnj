@@ -46,7 +46,28 @@
     height: 300px;
     overflow: auto
   }
+
   /* 非地图 */
+  .bgline1{
+    position: relative;
+    width: 100%;
+    height: 30%
+  }
+  .bgline2{
+    position: relative;
+    width: 100%;
+    height: 30%;
+  }
+  .bgline21{
+    position: relative;
+    width: 100%;
+    height: 28%
+  }
+  .bgline11{
+    position: relative;
+    width: 100%;
+    height: 28%;
+  }
   .ts-judge{
     width: 16%!important;
     margin-right: 1.5%;
@@ -425,7 +446,7 @@
   .t-screen .ci{margin-left: 6px;font-size: 12px;}
 
   .center-map{
-    padding: 20px 50px!important;
+    padding: 20px 50px 0px!important;
   }
   .gjTs{
     margin-left: 40px;
@@ -445,6 +466,26 @@
     width: 52.4%!important;
   }
   /* 首页 */
+  .bgline1{
+    position: relative;
+    width: 100%;
+    height: 33%
+  }
+  .bgline2{
+    position: relative;
+    width: 100%;
+    height: 33%;
+  }
+  .bgline21{
+    position: relative;
+    width: 100%;
+    height: 29%
+  }
+  .bgline11{
+    position: relative;
+    width: 100%;
+    height: 29%;
+  }
   .content .map-img{
     width: 48%;
     margin-left: -28%;
@@ -506,7 +547,7 @@
     margin-right: 10px!important
   }
   .t-screen .banner{
-    padding-top: 90px;
+    padding-top: 4.5%;
     background: url('../../assets/img/sg/logo.png') no-repeat;
     background-size: 100%;
     position: relative;
@@ -552,7 +593,7 @@
     font-size: 24px;
   }
   .center-map{
-    padding: 25px 62px!important;
+    padding: 25px 62px 0px!important;
   }
   .huan-font{
     font-size: 14px;
@@ -885,6 +926,26 @@
     width: 50.4%!important;
   }
   /* 首页 */
+  .bgline1{
+    position: relative;
+    width: 100%;
+    height: 30%
+  }
+  .bgline2{
+    position: relative;
+    width: 100%;
+    height: 30%;
+  }
+  .bgline21{
+    position: relative;
+    width: 100%;
+    height: 28%
+  }
+  .bgline11{
+    position: relative;
+    width: 100%;
+    height: 28%;
+  }
   .content .map-img{
     width: 46%;
     margin-left: -28%;
@@ -1314,7 +1375,7 @@
   .t-screen .ci{margin-left: 6px;font-size: 12px;}
   /* .t-screen .content{margin-top: 10px} */
   .center-map{
-    padding: 10px 30px!important;
+    padding: 10px 30px 0px!important;
   }
   .gjTs{
     margin-left: 1px;
@@ -1327,6 +1388,7 @@
 font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
 background: url('../../assets/img/sg/bg1.jpg') no-repeat;
 background-size:100% auto;
+overflow: hidden;
 }
 .tt-screent{
   min-height: 1080px;
@@ -1350,13 +1412,8 @@ background-size:100% auto;
 }
 
 
-.bgline1{
-  position: relative;
-  width: 100%;
-}
-.bgline1 .img1{
-  width: 100%;
-}
+
+
 .tb1{
   position: absolute;
   top: 10%;
@@ -1370,6 +1427,10 @@ background-size:100% auto;
   left: 49%;
   top: 10%;
 }
+.bgline1 .img1{
+  width: 100%;
+  height: 100%;
+}
 .bgline1 .title{
   position: absolute;
   top: 0%;
@@ -1380,13 +1441,9 @@ background-size:100% auto;
   top: 8%;
   left: 0%;
 }
-
-.bgline2{
-  position: relative;
-  width: 100%;
-}
 .bgline2 .img4{
   width: 100%;
+  height: 100%;
 }
 .bgline2 .title{
   position: absolute;
@@ -1399,12 +1456,9 @@ background-size:100% auto;
   left: 0%;
 }
 
-.bgline21{
-  position: relative;
-  width: 100%;
-}
 .bgline21 .img4{
   width: 100%;
+  height: 100%;
 }
 .bgline21 .title{
   position: absolute;
@@ -1412,10 +1466,6 @@ background-size:100% auto;
   left: 31%;
 }
 
-.bgline11{
-  position: relative;
-  width: 100%;
-}
 .bgline11 .zdgj{
   width: 100%;
   position: absolute;
@@ -1423,6 +1473,7 @@ background-size:100% auto;
 }
 .bgline11 .img4{
   width: 100%;
+  height: 100%
 }
 .bgline11 .title{
   position: absolute;
