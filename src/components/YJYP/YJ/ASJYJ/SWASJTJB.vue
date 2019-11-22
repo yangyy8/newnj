@@ -259,7 +259,7 @@ export default {
         orgCode:this.orgCode,
         token:this.token
       }
-        this.$api.post(this.Global.aport2+'/ajbbController/exportNjsf',p,
+        this.$api.post(this.Global.aport2+'/ajbbController/exportSwasjtj',p,
          r =>{
            this.downloadM(r)
          },e=>{},{},'blob')

@@ -420,6 +420,10 @@
             label:'所属派出所'
           },
           {
+            code:'SSZRQ',
+            label:'所属责任区'
+          },
+          {
             code:'XB',
             label:'性别'
           },
@@ -469,6 +473,10 @@
           {
             code:'SSPCS_DESC',
             label:'所属派出所'
+          },
+          {
+            code:'SSZRQ_DESC',
+            label:'所属责任区'
           },
           {
             code:'XB_DESC',

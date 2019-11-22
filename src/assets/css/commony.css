@@ -289,3 +289,5 @@ background-size: 100%  100%;}
 .screen .mapdwbg6{width: 130px; height: 55px;position: absolute; background-color: rgba(9,41,95,1); border-radius: 10px; border: 1px solid #0A86CC;right: 32%;top:38%;}
 .screen .mapdwbg7{width: 130px; height: 55px;position: absolute; background-color: rgba(9,41,95,1); border-radius: 10px; border: 1px solid #0A86CC;right: 34%;top:50%;}
 /* end */
+
+.el-input__suffix{right:10px!important;}

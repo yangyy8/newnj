@@ -952,6 +952,12 @@ export default new Router({
         meta:{title:['日常管理','涉外单位','背景审查']},
         component: resolve => require(['@/components/XTGL/XTSZ/BJSC'], resolve),
         },
+        {
+        path: 'DJPD',
+        name: 'DJPD',
+        meta:{title:['日常管理','涉外单位','等级评定']},
+        component: resolve => require(['@/components/XTGL/XTSZ/DJPD'], resolve),
+        },
         /* 数据上报 */
         {
         path: 'SJSB',

@@ -233,7 +233,18 @@ export default {
   },
   methods: {
     uploadFile(event){//获取上传的文件
-       this.fileData=event.target.files;
+      if(event.target.files.length>0){
+
+
+           var arr=event.target.files[0].name.split('.');
+           var srr=arr[arr.length-1];
+              console.log(srr);
+           if(srr.toLowerCase()!="xls" && srr.toLowerCase()!="xlsx"){
+             this.$message.error("只能上传EXCEL格式！");return;
+           }
+           this.fileData=event.target.files;
+
+       }
      },
      upload(){//上传文件
        var formData = new FormData();

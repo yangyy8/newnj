@@ -206,7 +206,9 @@
       </div>
       <div class="ak-tab-pane">
         <div class="">
-          <span class="t-fr"><i class="iconbtn hand" :class="{'el-icon-s-grid':pageC==true,'el-icon-s-data':pageC==false}" :title="pageC==true?'转为列表':'转为图表'" @click="changeTu()" v-show="page==0"></i></span>
+            <span class="t-fr">
+          <i class="iconbtn hand" :class="{'el-icon-open':numChange==true,'el-icon-turn-off':numChange==false}" :title="numChange==true?'关闭数字':'展示数字'" @click="numChange=!numChange;getListTu(pd0,pd);" v-show="page==0&&pageC==true"></i>
+          <i class="iconbtn hand" :class="{'el-icon-s-grid':pageC==true,'el-icon-s-data':pageC==false}" :title="pageC==true?'转为列表':'转为图表'" @click="changeTu()" v-show="page==0"></i></span>
           <el-button type="primary" size="small"  @click="downloadC(pd0,pd)" v-show="pageC==false&&page==0">导出</el-button>
           <div style="clear:both"></div>
         </div>
@@ -332,7 +334,9 @@ import CZXX from '../../../common/czxx_xq'
   components:{CZXX},
   data() {
     return {
+
       pageC:true,
+      numChange:true,
       tableDataC:[],
       CZDialogVisible:false,
       type:3,
@@ -646,7 +650,7 @@ import CZXX from '../../../common/czxx_xq'
       window.onresize = echarts.init(document.getElementById('echarts')).resize;
       let label={
           normal: {
-              show: true,
+              show: this.numChange,
               position: 'top'
           }
        }
