@@ -174,6 +174,7 @@ export default {
                     this.$store.commit('getUname',r.data.mc)
                     this.$store.commit('getOrgname',r.data.ssdw.mc)
                     this.$store.commit('getOrgid',r.data.ssdw.dm)
+                    this.$store.commit('getJb',r.data.ssdw.jb)
                     this.$store.commit('getType','99')
                     this.Global.hasEnter="1";
                     this.$router.push({name: 'Index'});
@@ -219,6 +220,7 @@ export default {
             this.$store.commit('getUname',r.data.mc)
             this.$store.commit('getOrgname',r.data.ssdw.mc)
             this.$store.commit('getOrgid',r.data.ssdw.dm)
+            this.$store.commit('getJb',r.data.ssdw.jb)
             this.$store.commit('getType','99')
             // this.$store.state.token=r.data.token;
             this.Global.hasEnter="1";

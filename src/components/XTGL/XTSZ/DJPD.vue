@@ -1,5 +1,6 @@
 <template>
-  <div v-loading="loading">
+  <div v-loading="loading" style="min-height:700px; background:#ffffff">
+    <div class="mmsg">{{msg}}</div>
   </div>
 </template>
 <script scoped>
@@ -9,11 +10,13 @@
 
        loading: true,
        tabList:[],
+       msg:'',
      }
    },
    activated()
    {
-    this.getinit();
+  //  setInterval(this.getinit, 10000);
+  this.getinit();
    },
    mounted(){
 
@@ -21,7 +24,27 @@
     methods:{
       getinit(){
         var url="http://218.94.87.2/njswdw/auth/indexAction.do?token=";
-        this.tabList=this.Global.tabLists;
+
+
+        let p={
+             'token':this.$store.state.token,
+        };
+          this.$api.post(this.Global.aport4+"/SWDWXYDJPDController/getSwdwxydjpd",p,
+          r => {
+                 var tt='';
+                 if(r.data.success=="0"){
+                   this.msg=r.data.msg;
+                   this.loading=false;return;
+                 }
+                 tt=r.data.data;
+                 this.getcc();
+                 this.loading=false;
+
+                 window.open(url+tt, '_blank');
+          });
+      },
+      getcc(){
+          this.tabList=this.Global.tabLists;
         if(this.Global.tabLists==undefined){
           this.close1(0);
         }else {
@@ -31,15 +54,6 @@
             this.close1(this.Global.tabLists.length-1);
           }
         }
-        let p={
-             'token':this.$store.state.token,
-        };
-          this.$api.post(this.Global.aport3+"/SWDWXYDJPDController/getSwdwxydjpd",p,
-          r => {
-                 var tt=r.data;
-                 this.loading=false;
-                 window.open(url+tt, '_blank');
-          });
       },
       tabClick(i){
         this.$router.push({name:i.name})
@@ -59,9 +73,11 @@
             this.$router.push({name:'Home'})
             this.routeList=[]
           }
-
         }
       },
     },
  }
 </script>
+<style>
+.mmsg{text-align:center;padding-top: 100px;font-size: 25px;color: red;font-weight: bold;}
+</style>

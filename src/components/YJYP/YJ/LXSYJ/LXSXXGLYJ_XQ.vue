@@ -695,7 +695,7 @@
       </el-col>
     </el-row>
     <el-row type="flex">
-      <el-col :span="24" class="czfont">处理人：{{withname}}</el-col>
+      <el-col :span="24" class="czfont">处理人： {{ZDCLR==''?$store.state.uname:ZDCLR}}</el-col>
     </el-row>
    </div>
 
@@ -724,15 +724,40 @@
      </div>
      <div v-if="(org=='320100060000'||jb=='1') && showZD">
        <div class="stu-title">分局调查意见：{{pc.FJYJ}}</div>
+       <div class="czfont" style="line-height:50px;" v-if="FJCLR!=''">
+         分局处理人: {{FJCLR==''?$store.state.uname:FJCLR}}
+       </div>
        <!-- <div class="stu-title">处理结果：{{pc.CLJG}}</div> -->
        <div class="stu-title">支队处理意见</div>
+       <el-row  class="mb-15">
+           <el-col :span="20"  v-if='hcdmb'>
+             <span  style="text-align:left;font-size:12px;">处理意见：</span>
+             <el-select v-model="pc.ZDYJ" placeholder="请选择"  filterable clearable default-first-option   size="small">
+               <el-option v-for="item in $store.state.yjcl3"
+                :key="item.dm"
+                :label="item.mc"
+                :value="item.dm">
+               </el-option>
+             </el-select>
+           </el-col>
+           <el-col :span="20" v-else>
+             <span  style="text-align:left;font-size:12px;">处理意见：</span>
+             <el-select v-model="pc.ZDYJ" placeholder="请选择"  filterable clearable default-first-option   size="small">
+               <el-option v-for="item in $store.state.yjcl1"
+                :key="item.dm"
+                :label="item.mc"
+                :value="item.dm">
+               </el-option>
+             </el-select>
+           </el-col>
+       </el-row>
        <el-row type="flex" class="mb-15">
         <el-col :span="20">
           <el-input
             type="textarea"
             :autosize="{ minRows: 3, maxRows: 3}"
-            placeholder="支队处理意见必须填写原因(不超过100个字符)"
-            v-model="pc.ZDYJ"
+            placeholder="处理详情必须填写原因(不超过100个字符)"
+            v-model="pc.CLXQ"
             :disabled="showXF">
           </el-input>
         </el-col>
@@ -744,7 +769,8 @@
       </el-row>
      </div>
      <div v-if="(org=='320100060000'||jb=='1') && !showZD">
-       <div class="stu-title">支队处理意见：{{pc.ZDYJ}}</div>
+       <div class="stu-title">支队处理意见：{{pc.ZDYJ_DESC}} </div>
+        <div class="stu-title">支队处理详情：{{pc.CLXQ}}</div>
        <div class="stu-title">分局调查意见：{{pc.FJYJ}}</div>
        <!-- <div class="stu-title">处理结果：{{pc.CLJG}}</div> -->
      </div>
@@ -768,7 +794,7 @@
        <div class="stu-title">处理结果：{{pc.CLJG}}</div>
      </div>
      <div class="czfont">
-       处理人: {{$store.state.uname}}
+       处理人: {{ZDCLR==''?$store.state.uname:ZDCLR}}
      </div>
    </div>
 
@@ -1181,6 +1207,9 @@ export default {
       orgName:'',
       juState:'',
       token:'',
+      hcdmb:false,
+      FJCLR:'',//分局处理人
+      ZDCLR:'',//支队处理人
     }
   },
   activated(){
@@ -1203,9 +1232,13 @@ export default {
     this.lzxxDialogVisible=false;
     this.crjDialogVisible=false;
     this.row=this.$route.query.row;
+    console.log(this.row,this.row.FJCLR,this.row.ZDCLR);
+    this.FJCLR=this.row.FJCLR==undefined?'':this.row.FJCLR;
+    this.ZDCLR=this.row.ZDCLR==undefined?'':this.row.ZDCLR;
     this.pc={CHANGE_RESON:'',CLJG:'',FJYJ:'',ZDYJ:''};
     this.qdshow=true;
     this.showZD=true;
+    this.hcdmb=false;
     this.showXF=false;//下发分局
     console.log(this.row.RYBH);
     if(this.row!=undefined && (this.row.CLZT=='0')){
@@ -1217,7 +1250,8 @@ export default {
      //支队已处理  展示分局和支队意见  按钮隐藏
      if(this.row!=undefined && (this.row.CLZT=='0')){
        this.showZD=false;//已处理
-       this.pc.ZDYJ=this.row.ZDYJ;
+       this.pc.ZDYJ_DESC=this.row.ZDYJ_DESC;
+       this.pc.CLXQ=this.row.CLXQ;
        this.pc.FJYJ=this.row.FJYJ;
        this.pc.CLJG=this.row.CLJG;
      }else if(this.row!=undefined && (this.row.CLZT=='2')){//支队已下发
@@ -1275,6 +1309,7 @@ export default {
             this.tbshow=true;
             this.skshow=true;
             this.nmshow=true;
+            this.hcdmb=true;
             this.pp={};
             this.getTBRY(this.pm);
             this.pp.RYBH=this.row.RYBH;
@@ -1313,6 +1348,8 @@ export default {
   },
   mounted() {
       this.$store.dispatch('getShzt');
+      this.$store.dispatch("getYjcl1");
+      this.$store.dispatch("getYjcl3");
       this.getJB();
   },
   methods: {
@@ -1830,6 +1867,7 @@ export default {
       });
       return;
     }
+   this.pcl.FJCLR=this.withname;
    this.pcl.FJYJ=this.pc.FJYJ;
    this.pcl.CLZT="3";
    this.pcl.FJCLZT="3";
@@ -1841,7 +1879,15 @@ export default {
       });
       return;
     }
+    if(this.pc.CLXQ=="" || this.pc.CLXQ==undefined){
+      this.$alert('处理详情不能为空！', '提示', {
+        confirmButtonText: '确定',
+      });
+      return;
+    }
+    this.pcl.ZDCLR=this.withname;
     this.pcl.ZDYJ=this.pc.ZDYJ;
+    this.pcl.CLXQ=this.pc.CLXQ;
     this.pcl.CLZT="0";
     this.pcl.FJCLZT=this.row.FJCLZT;
     url="/warningInfoController/saveCLJG"
@@ -1852,6 +1898,7 @@ export default {
       });
       return;
     }
+   this.pcl.ZDCLR=this.withname;
    this.pcl.CLJG=this.pc.CLJG;
    this.pcl.CLZT="3";
   }

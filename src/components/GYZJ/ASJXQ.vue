@@ -670,15 +670,15 @@
       </el-col>
     </el-row>
     <div class="czfont">
-      处理人: {{$store.state.uname}}
+      处理人: {{FJCLR==''?$store.state.uname:FJCLR}}
     </div>
    </div>
    <!-- 分局级别是2且是已处理状态  展示两个详情 -->
    <div class="stu-footer" v-if="jb=='2' && !showFJ">
      <!-- <div class="stu-title">处理结果：{{pd.CLJG}}</div> -->
      <div class="stu-title">分局调查意见：{{pd.FJYJ}}</div>
-     <div class="czfont">
-       处理人: {{$store.state.uname}}
+     <div class="czfont" v-if="FJCLR!=''">
+       处理人: {{FJCLR==''?$store.state.uname:FJCLR}}
      </div>
    </div>
 
@@ -687,13 +687,26 @@
      <div class="stu-title">分局调查意见：{{pd.FJYJ}}</div>
      <!-- <div class="stu-title">处理结果：{{pd.CLJG}}</div> -->
      <div class="stu-title">支队处理意见</div>
-     <el-row type="flex" class="mb-15">
+     <el-row  class="mb-15">
+         <el-col :span="20" style="">
+           <span  style="text-align:left;font-size:12px;">处理意见：</span>
+           <el-select v-model="pd.ZDYJ" placeholder="请选择"  filterable clearable default-first-option   size="small">
+             <el-option v-for="item in $store.state.yjcl2"
+              :key="item.dm"
+              :label="item.mc"
+              :value="item.dm">
+             </el-option>
+           </el-select>
+         </el-col>
+     </el-row>
+     <el-row  class="mb-15">
       <el-col :span="20">
+
         <el-input
           type="textarea"
           :autosize="{ minRows: 3, maxRows: 3}"
-          placeholder="支队处理意见必须填写原因(不超过100个字符)"
-          v-model="pd.ZDYJ"
+          placeholder="处理详情必须填写原因(不超过100个字符)"
+          v-model="pd.CLXQ"
           :disabled="showXF">
         </el-input>
       </el-col>
@@ -704,16 +717,17 @@
       </el-col>
     </el-row>
     <div class="czfont">
-      处理人: {{$store.state.uname}}
+      处理人: {{ZDCLR==''?$store.state.uname:ZDCLR}}
     </div>
    </div>
    <!-- 市局和支队 已处理状态 展示三个详情 -->
    <div class="stu-footer" v-if="(org=='320100060000'||jb=='1') && !showZD">
-     <div class="stu-title">支队处理意见：{{pd.ZDYJ}}</div>
+     <div class="stu-title">支队处理意见：{{pd.ZDYJ_DESC}}</div>
+     <div class="stu-title">支队处理详情：{{pd.CLXQ}}</div>
      <div class="stu-title">分局调查意见：{{pd.FJYJ}}</div>
      <!-- <div class="stu-title">处理结果：{{pd.CLJG}}</div> -->
      <div class="czfont">
-       处理人: {{$store.state.uname}}
+       处理人: {{ZDCLR==''?$store.state.uname:ZDCLR}}
      </div>
    </div>
 
@@ -721,6 +735,7 @@
    <div class="stu-footer" v-if="jb=='3' && showPCS">
      <div class="stu-title">处理结果</div>
      <el-row type="flex" class="mb-15">
+
       <el-col :span="20">
         <el-input
           type="textarea"
@@ -734,14 +749,14 @@
       </el-col>
     </el-row>
     <div class="czfont">
-      处理人: {{$store.state.uname}}
+      处理人: {{FJCLR==''?$store.state.uname:FJCLR}}
     </div>
    </div>
    <!-- 派出所级别是3 且是已处理状态 展示处理结果详情 -->
    <div class="stu-footer" v-if="jb=='3' && !showPCS">
      <div class="stu-title">处理结果：{{pd.CLJG}}</div>
      <div class="czfont">
-       处理人: {{$store.state.uname}}
+       处理人: {{FJCLR==''?$store.state.uname:FJCLR}}
      </div>
    </div>
 
@@ -754,9 +769,6 @@
            <el-button @click="QZDialogVisible = false" size="small">取 消</el-button>
          </div>
      </el-dialog>
-
-
-
 
     <el-dialog title="出入境信息详情" :visible.sync="CRJDialogVisible"  custom-class="big_dialog" :append-to-body="false" :modal="false">
                 <CRJXX :type="type" :xid="xid" :random="(new Date()).getTime()"></CRJXX>
@@ -1042,6 +1054,9 @@ export default {
       orgName:'',
       juState:'',
       token:'',
+      withname:this.$store.state.uname,
+      FJCLR:'',//分局处理人
+      ZDCLR:'',//支队处理人
     }
   },
   activated() {
@@ -1051,6 +1066,7 @@ export default {
     this.orgCode=this.$store.state.orgid;
     this.juState=this.$store.state.juState;
     this.token=this.$store.state.token;
+
     this.getJB();
     this.CurrentPage1=1;//临住信息
     this.CurrentPage2=1;//临住信息
@@ -1061,6 +1077,9 @@ export default {
     this.yjType = this.$route.query.yjType;
     this.row = this.$route.query.row;
     this.org=this.$store.state.orgid;
+    console.log(this.row,this.row.FJCLR,this.row.ZDCLR);
+    this.FJCLR=this.row.FJCLR==undefined?'':this.row.FJCLR;
+    this.ZDCLR=this.row.ZDCLR==undefined?'':this.row.ZDCLR;
     //支队  详情展示支队 分局 派出所意见
     this.showZD=true;
     this.showXF=false;//下发分局
@@ -1070,7 +1089,8 @@ export default {
    //支队已处理  展示分局和支队意见  按钮隐藏
     if(this.row!=undefined && (this.row.CLZT=='0')){
       this.showZD=false;//已处理
-      this.pd.ZDYJ=this.row.ZDYJ;
+      this.pd.ZDYJ_DESC=this.row.ZDYJ_DESC;
+      this.pd.CLXQ=this.row.CLXQ;
       this.pd.FJYJ=this.row.FJYJ;
       this.pd.CLJG=this.row.CLJG;
     }else if(this.row!=undefined && (this.row.CLZT=='2')){//支队已下发
@@ -1122,6 +1142,7 @@ export default {
       }
   },
   mounted() {
+   this.$store.dispatch("getYjcl2");
    this.getJB();
   },
   methods: {
@@ -1355,6 +1376,10 @@ export default {
       }
     },
     release(){//支队下发分局  已下发状态是2
+
+      // if(this.pd.ZDYJ==undefined || this.pd.ZDYJ==''){
+      //   this.$message.error("请选择处理意见 ！");return ;
+      // }
       let p={
         pd:{
           YJID:this.row.YJID,
@@ -1390,18 +1415,28 @@ export default {
             return;
           }
          this.pcl.FJYJ=this.pd.FJYJ;
+         this.pcl.FJCLR=this.withname;
          this.pcl.CLZT="3";
          this.pcl.FJCLZT="3";
          url="/warningInfoController/uploadData"
        }else if(this.jb=="1"||this.org=='320100060000'){
           if(this.pd.ZDYJ=="" || this.pd.ZDYJ==undefined)
           {
-            this.$alert('支队处理意见不能为空！', '提示', {
+            this.$alert('处理意见不能为空！', '提示', {
               confirmButtonText: '确定',
             });
             return;
           }
+          if(this.pd.CLXQ=="" || this.pd.CLXQ==undefined)
+          {
+            this.$alert('处理详情不能为空！', '提示', {
+              confirmButtonText: '确定',
+            });
+            return;
+          }
+          this.pcl.ZDCLR=this.withname;
           this.pcl.ZDYJ=this.pd.ZDYJ;
+          this.pcl.CLXQ=this.pd.CLXQ;
           this.pcl.CLZT="0";
           this.pcl.FJCLZT=this.row.FJCLZT;
           url="/warningInfoController/saveCLJG"
@@ -1413,6 +1448,7 @@ export default {
             });
             return;
           }
+         this.pcl.ZDCLR=this.withname;
          this.pcl.CLJG=this.pd.CLJG;
          this.pcl.CLZT="3";
       }
@@ -1421,6 +1457,8 @@ export default {
       this.pcl.CLDW=this.$store.state.orgid;
       this.pcl.CLR=this.withname;
       this.pcl.CLRID=this.$store.state.uid;
+
+      console.log(this.pcl);
       let p = {
         "pd":this.pcl,
         userCode:this.userCode,

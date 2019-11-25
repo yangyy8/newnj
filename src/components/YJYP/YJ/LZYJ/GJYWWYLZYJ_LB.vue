@@ -10,21 +10,20 @@
            border
            style="width: 100%">
            <el-table-column
-             prop="ZSRQ"
-             label="住宿日期">
+             prop="DDRQ"
+             label="住宿时间">
            </el-table-column>
-           <el-table-column
+           <!-- <el-table-column
              prop="LKRQ"
              label="离开日期">
-           </el-table-column>
-
+           </el-table-column> -->
            <el-table-column
-             prop="GJ"
-             label="住宿地点">
+             prop="LSDWDZ"
+             label="住宿地址">
            </el-table-column>
            <el-table-column
-             prop="ZJZL"
-             label="停留事由">
+             prop="LRDW_DESC"
+             label="登记单位">
            </el-table-column>
            <el-table-column
              label="操作" width="120">
@@ -64,12 +63,12 @@
         </el-pagination>
       </div>
 
-      <div class="yylbt mb-15 stu-footerd">通报人员信息</div>
+    <div class="yylbt mb-15 stu-footerd" v-if='isshow'>通报人员信息</div>
 
      <el-table
           :data="tableData1"
           border
-          style="width: 100%">
+          style="width: 100%"  v-if='isshow'>
           <el-table-column
             prop="TBRYZL"
             label="通报人员类别">
@@ -217,6 +216,7 @@ export default {
       lzxxDialogVisible:false,
       tbryDialogVisible:false,
       page:0,
+      isshow:false,
     }
   },
   activated(){

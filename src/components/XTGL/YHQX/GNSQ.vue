@@ -87,7 +87,6 @@
           <el-col :span="8">
             <el-tree
               :data="menudata"
-
               show-checkbox
               default-expand-all
               node-key="dm"
@@ -246,6 +245,8 @@ export default {
               type: 'success',
               message: '保存成功'
             });
+            this.getList(this.CurrentPage,this.pageSize,this.pd);
+this.menudata=[];
           }else{
 
             this.$message.error('保存失败');

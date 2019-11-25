@@ -164,6 +164,14 @@
                prop="localizeReason.value"
                label="居留许可事由">
              </el-table-column>
+             <el-table-column
+               label="操作" width="120">
+               <template slot-scope="scope">
+                 <div>
+                    <el-button type="text"  class="a-btn"  title="详情"  icon="el-icon-document" @click="getqz(scope.row)"></el-button>
+                 </div>
+               </template>
+             </el-table-column>
              </el-table>
         </div>
       </div>
@@ -297,22 +305,36 @@
               :data="tableData3.length==0?tableData3:tableData3.slice((CurrentPage3-1)*pageSize3,CurrentPage3*pageSize3)"
               border
               style="width: 100%" class="stu-table t-mt10">
-              <el-table-column
-                prop="inhabiDetailAddr"
-                label="居住地详细地址">
-              </el-table-column>
-              <el-table-column
+
+              <!-- <el-table-column
                 prop="assignmentOrg_desc"
                 label="签发机关">
-              </el-table-column>
+              </el-table-column> -->
+
               <el-table-column
                 prop="degreeCode_desc"
                 label="身份">
               </el-table-column>
               <el-table-column
+                prop="workplaceName"
+                label="服务处所">
+              </el-table-column>
+              <el-table-column
+                prop="inhabiPoliceStation_desc"
+                label="所属单位">
+              </el-table-column>
+              <el-table-column
+                prop="residePermitExpiredDay"
+                label="停留有效期">
+              </el-table-column>
+              <el-table-column
+                prop="inhabiDetailAddr"
+                label="居住地址">
+              </el-table-column>
+              <!-- <el-table-column
                 prop="inhabiState_desc"
                 label="居住状态">
-              </el-table-column>
+              </el-table-column> -->
               <el-table-column
                 label="操作" width="120">
                 <template slot-scope="scope">
@@ -756,6 +778,97 @@
                   <el-button @click="tbDialogVisible = false" size="small">取 消</el-button>
                 </div>
    </el-dialog>
+   <!-- 签证信息 -->
+   <el-dialog title="签证信息详情" :visible.sync="qzDialogVisible"  custom-class="big_dialog" :append-to-body="false" :modal="false">
+     <el-form :model="qzinfo">
+       <el-row :gutter="2"  class="mb-6">
+           <el-col :span="12" class="input-item">
+            <span class="input-text">英文姓：</span>
+            <span class="input-input detailinput">  {{qzinfo.surnameEN}}</span>
+           </el-col>
+           <el-col :span="12" class="input-item">
+             <span class="input-text">英文名：</span>
+             <span class="input-input detailinput">  {{qzinfo.firstnameEN}}</span>
+           </el-col>
+           <el-col :span="12" class="input-item">
+             <span class="input-text">英文姓名：</span>
+             <span class="input-input detailinput">  {{qzinfo.nameEN}}</span>
+           </el-col>
+           <el-col :span="12" class="input-item">
+             <span class="input-text">中文姓名：</span>
+             <span class="input-input detailinput">  {{qzinfo.nameCH}}</span>
+           </el-col>
+           <el-col :span="12" class="input-item">
+             <span class="input-text">性别：</span>
+             <span class="input-input detailinput">  {{qzinfo.gender!=undefined?qzinfo.gender.value:''}}</span>
+           </el-col>
+           <el-col :span="12" class="input-item">
+             <span class="input-text">出生日期：</span>
+             <span class="input-input detailinput">  {{qzinfo.birthday}}</span>
+           </el-col>
+           <el-col :span="12" class="input-item">
+             <span class="input-text">国家/地区：</span>
+             <span class="input-input detailinput">  {{qzinfo.nationality!=undefined?qzinfo.nationality.value:''}}</span>
+           </el-col>
+           <el-col :span="12" class="input-item">
+            <span class="input-text">身份：</span>
+            <span class="input-input detailinput">  {{qzinfo.identity!=undefined?qzinfo.identity.value:''}}</span>
+           </el-col>
+           <el-col :span="12" class="input-item">
+             <span class="input-text">签证种类：</span>
+             <span class="input-input detailinput">  {{qzinfo.visaType!=undefined?qzinfo.visaType.value:''}}</span>
+           </el-col>
+           <el-col :span="12" class="input-item">
+            <span class="input-text">签证号码：</span>
+            <span class="input-input detailinput">  {{qzinfo.visaNo}}</span>
+           </el-col>
+           <el-col :span="12" class="input-item">
+             <span class="input-text">签证有效期截止日期：</span>
+             <span class="input-input detailinput">  {{qzinfo.visaExpiredDay}}</span>
+           </el-col>
+           <el-col :span="12" class="input-item">
+             <span class="input-text">签证签发单位：</span>
+             <span class="input-input detailinput">  {{qzinfo.visaAssignmentOrg!=undefined?qzinfo.visaAssignmentOrg.value:''}}</span>
+           </el-col>
+           <el-col :span="12" class="input-item">
+             <span class="input-text">签证签发日期：</span>
+             <span class="input-input detailinput">  {{qzinfo.visaAssignDay}}</span>
+           </el-col>
+           <el-col :span="12" class="input-item">
+             <span class="input-text">签证有效次数：</span>
+             <span class="input-input detailinput">  {{qzinfo.visaAvailableTime!=undefined?qzinfo.visaAvailableTime.value:''}}</span>
+           </el-col>
+           <el-col :span="12" class="input-item">
+             <span class="input-text" title="签证居留许可事由">签证居留许可事由：</span>
+             <span class="input-input detailinput">  {{qzinfo.localizeReason!=undefined?qzinfo.localizeReason.value:''}}</span>
+           </el-col>
+           <el-col :span="12" class="input-item">
+             <span class="input-text" title="原签证/居留许可种类">原签证/居留许可种类：</span>
+             <span class="input-input detailinput">  {{qzinfo.originPaperType!=undefined?qzinfo.originPaperType.value:''}}</span>
+           </el-col>
+           <el-col :span="12" class="input-item">
+             <span class="input-text" title="原签证/居留许可号码">原签证/居留许可号码：</span>
+             <span class="input-input detailinput">  {{qzinfo.originPaperNo}}</span>
+           </el-col>
+           <el-col :span="12" class="input-item">
+             <span class="input-text" title="制证单位">制证单位：</span>
+             <span class="input-input detailinput">  {{qzinfo.makeVisaOrg!=undefined?qzinfo.makeVisaOrg.value:''}}</span>
+           </el-col>
+           <el-col :span="12" class="input-item">
+             <span class="input-text" title="签证有效期">签证有效期：</span>
+             <span class="input-input detailinput">  {{qzinfo.visaAvailablePeriod!=undefined?qzinfo.visaAvailablePeriod.value:''}}</span>
+           </el-col>
+           <el-col :span="12" class="input-item">
+             <span class="input-text" title="受理机关">受理机关：</span>
+             <span class="input-input detailinput">  {{qzinfo.acceptOrg!=undefined?qzinfo.acceptOrg.value:''}}</span>
+           </el-col>
+
+       </el-row>
+     </el-form>
+               <div slot="footer" class="dialog-footer">
+                 <el-button @click="qzDialogVisible = false" size="small">取 消</el-button>
+               </div>
+  </el-dialog>
        </div>
       </div>
 <!-- 弹出小的窗口 -->
@@ -944,6 +1057,8 @@ export default{
        gjdq:'',
        gjdqxq:'',
        token:'',
+       qzinfo:{},
+       qzDialogVisible:false,
     }
   },
   activated(){
@@ -983,8 +1098,7 @@ export default{
     this.getDWJBXX(this.CurrentPage6,this.pageSize6,this.pd);
     this.getLXSXX(this.CurrentPage7,this.pageSize7,this.pd);
     this.getLXSXXZXXX(this.CurrentPage8,this.pageSize8,this.pd);
-    this.getTbxx(this.CurrentPage9,this.pageSize9
-      ,this.pd);
+    this.getTbxx(this.CurrentPage9,this.pageSize9,this.pd);
     this.getQZXX(this.pd);
     // this.getZJXX(this.pd);
   },
@@ -1007,6 +1121,10 @@ export default{
     this.lxsZXDialogVisible=false;
   },
   methods:{
+    getqz(t){
+      this.qzinfo=t;
+      this.qzDialogVisible=true;
+    },
     toTegional(id){
       document.querySelector('#'+id).scrollIntoView(true);
     },
@@ -1082,6 +1200,7 @@ export default{
     },
     //最新照片
     getZXZP(){
+      console.log(this.pd);
       let p = {
         "pd": this.pd,
         "token":this.token,
@@ -1383,7 +1502,7 @@ export default{
       this.$api.post(this.Global.aport3+'/ryhxhx/getwgrzjxx', p,
         r => {
           this.tabLength = r.data.paperInfo;
-          this.tableDataQ = r.data.wgrqzxxs;
+          // this.tableDataQ = r.data.wgrqzxxs;
         })
     },
     //通报信息

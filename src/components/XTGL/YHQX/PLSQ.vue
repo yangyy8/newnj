@@ -417,6 +417,10 @@ export default {
               type: 'success',
               message: '保存成功'
             });
+            this.getMenu();
+            this.getList(this.CurrentPage, this.pageSize, this.pd);
+            this.getList1(this.CurrentPage1, this.pageSize1, this.pd1);
+
           } else {
 
             this.$message.error('保存失败');

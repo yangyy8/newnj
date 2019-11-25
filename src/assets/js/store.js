@@ -19,6 +19,7 @@ var store = new Vuex.Store({
     orgname: localStorage.getItem('ORGNAME') || '',
     orgid: localStorage.getItem('ORGID') || '',
     type: localStorage.getItem('Type') || '',
+    jb: localStorage.getItem('JB') || '',
     juState:localStorage.getItem('juState') || '',
     imgHeightOne:localStorage.getItem('imgHeightOne') || 0,
     imgHeightTwo:localStorage.getItem('imgHeightTwo') || 0,
@@ -80,6 +81,9 @@ var store = new Vuex.Store({
     ajlb:[],
     cqlb:[],
     ajxz:[],
+    yjcl1:[],
+    yjcl2:[],
+    yjcl3:[]
   },
   mutations: {
     getOne(state,data){
@@ -143,6 +147,10 @@ var store = new Vuex.Store({
     getType(state, data) {
       localStorage.setItem('Type', data)
       state.type = data;
+    },
+    getJb(state, data) {
+      localStorage.setItem('JB', data)
+      state.jb = data;
     },
     getKey(state, data) {
       // localStorage.setItem('Key', data)
@@ -306,6 +314,15 @@ var store = new Vuex.Store({
     },
     getSszrq(state,data){
       state.sszrq=data;
+    },
+    getYjcl1(state,data){
+      state.yjcl1=data;
+    },
+    getYjcl2(state,data){
+      state.yjcl2=data;
+    },
+    getYjcl3(state,data){
+      state.yjcl3=data;
     }
   },
   actions: {
@@ -623,6 +640,24 @@ var store = new Vuex.Store({
       api.get(global_.aport1+global_.sszrq,null,
        r =>{
          context.commit('getSszrq',ToArray(r.data))
+       })
+    },
+    getYjcl1(context){
+      api.get(global_.aport1+global_.yjcl1,null,
+       r =>{
+         context.commit('getYjcl1',ToArray(r.data))
+       })
+    },
+    getYjcl2(context){
+      api.get(global_.aport1+global_.yjcl2,null,
+       r =>{
+         context.commit('getYjcl2',ToArray(r.data))
+       })
+    },
+    getYjcl3(context){
+      api.get(global_.aport1+global_.yjcl3,null,
+       r =>{
+         context.commit('getYjcl3',ToArray(r.data))
        })
     },
   }

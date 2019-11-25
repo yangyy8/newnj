@@ -4,13 +4,13 @@
       <div class="index_nav_1" style="z-index:1000">
         <div class="nav_1" :class="{'nav_1_check':nav1Id==a.dm}" v-for="(a,ind) in nav1" @mouseover="getNav(a,ind)">
           <i :class="a.icon" :style="{'color':color[ind]}"></i>
-          <span>{{a.mc}}</span>
+          <span>{{a.mc!=undefined?a.mc:''}}</span>
         </div>
       </div>
       <div class="index_nav" v-if="navShow" style="z-index:1000">
         <div class="index_nav2">
           <div class="index_nav2_box" :class="{'nav_2_check':nav2Id==b.dm}" v-for="(b,ind2) in nav2" @click="getNav2(b)" style="font-size:15px;">
-            ● {{b.mc}}
+            ● {{b.mc!=undefined?b.mc:''}}
           </div>
         </div>
         <div class="index_nav3">
@@ -19,11 +19,11 @@
               <router-link class="h3_2" :class="{'h3_2check':menuPath==c.url}" :to="{ name: c.url }"><i class="el-icon-caret-right" style="color:#a3a7a8"></i>{{c.mc}}</router-link>
             </div>
             <div v-if="c.children">
-              <div class="h3_1" >{{c.mc}}</div>
+              <div class="h3_1" >{{c.mc!=undefined?c.mc:''}}</div>
               <el-row  :gutter="2">
                 <router-link :to="{ name: d.url }" class="h3_2" :class="{'h3_2check':menuPath==d.url}" v-for="(d,ind4) in c.children" :key="ind4">
                     <el-col :span="12">
-                    <i class="el-icon-caret-right" style="color:#a3a7a8"></i>{{d.mc}}
+                    <i class="el-icon-caret-right" style="color:#a3a7a8"></i>{{d.mc!=undefined?d.mc:''}}
                     </el-col>
                 </router-link>
              </el-row>
@@ -67,7 +67,7 @@
                   <div v-for="(item,index) in dataList" class="menuClass">
                     <div class="arrow_title">{{item.parentName}}</div>
                     <el-checkbox-group v-model="checkedList">
-                      <el-checkbox v-for="val in item.child" :label="val.id" :key="val.id">{{val.mc}}</el-checkbox>
+                      <el-checkbox v-for="val in item.child" :label="val.id" :key="val.id">{{val.mc!=undefined?val.mc:''}}</el-checkbox>
                     </el-checkbox-group>
                   </div>
                 </div>
@@ -985,6 +985,7 @@ export default {
         this.$api.post(url, p,
          r => {
            if(r.success){
+
              this.nav1=r.data;
            }
          });

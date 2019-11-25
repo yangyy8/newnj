@@ -260,6 +260,7 @@ export default {
   },
   mounted() {
     window.lzvm=this;
+    console.log(this.$store.state.jb);
     this.$store.dispatch('getGjdq');
     this.$store.dispatch('getRjsy');
     this.$store.dispatch('getZjzl');
@@ -307,6 +308,10 @@ export default {
       this.$api.post(this.Global.aport2 + '/data_report/selectSsfjDm', p,
         r => {
           this.ssfj = sortByKey(r.data.SSFJ,'dm');
+
+          if(this.$store.state.jb=='2'){
+             this.pd.ssfj=this.$store.state.orgname;
+          }
 
         })
     },
@@ -403,14 +408,16 @@ export default {
       getSearh(this.centers);
 
     },
-
-
     //得到标准化地址
     getBZHDZ(callback){
       var searchResult = [];
       var ssfj="";
-      if(this.pd.ssfj!=undefined && this.pd.ssfj!=""){
-        ssfj=this.pd.ssfj.substr(0,6);
+      if(this.pd.ssfj!=this.$store.state.orgname){
+          if(this.pd.ssfj!=undefined && this.pd.ssfj!=""){
+            ssfj=this.pd.ssfj.substr(0,6);
+          }
+      }else {
+           ssfj=this.$store.state.orgid.substr(0,6);
       }
         let p={
           "zjzl":this.pd.zjzl,

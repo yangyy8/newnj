@@ -442,6 +442,13 @@ export default {
       this.$api.post(this.Global.aport2 + '/data_report/selectSsfjDm', p,
         r => {
           this.ssfj = sortByKey(r.data.SSFJ,'dm');
+              if(this.$store.state.jb=='2'){
+                  this.pd.ssfj=this.$store.state.orgname;
+                  this.getSSPCS(this.$store.state.orgid);
+             }
+             else if(this.$store.state.jb=='3'){
+                 this.pd.sspcs=this.$store.state.orgname;
+             }
         })
     },
     getSSPCS(arr) {
@@ -456,6 +463,7 @@ export default {
         r => {
           if (r.success) {
             this.sspcs = r.data.PCS;
+
           }
         })
     },
@@ -556,15 +564,29 @@ export default {
     getPCS(callback) {
       this.show!=this.show;
       var ssdw = "";
-      if (this.pd.sspcs != undefined && this.pd.sspcs != "") {
-        ssdw = this.pd.sspcs.substr(0, 12);
-      } else {
-        if (this.pd.ssfj == undefined || this.pd.ssfj == null || this.pd.ssfj == ""){
-          ssdw = ""
-        }else {
-          ssdw = this.pd.ssfj.substr(0, 6);
+
+        if (this.pd.sspcs != undefined && this.pd.sspcs != "") {
+          if(this.pd.sspcs!=this.$store.state.orgname){
+                ssdw = this.pd.sspcs.substr(0, 12);
+          }else {
+                ssdw=this.$store.state.orgid.substr(0,12);
+          }
+
+        } else {
+
+          if (this.pd.ssfj == undefined || this.pd.ssfj == null || this.pd.ssfj == ""){
+            ssdw = ""
+          }else {
+
+                if(this.pd.ssfj!=this.$store.state.orgname){
+                      ssdw = this.pd.ssfj.substr(0, 6);
+                }else {
+                      ssdw=this.$store.state.orgid.substr(0,6);
+                }
+
+          }
+
         }
-      }
       console.log(ssdw);
       var searchResult = [];
       let p = {

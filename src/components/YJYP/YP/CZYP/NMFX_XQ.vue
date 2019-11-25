@@ -16,7 +16,7 @@
       <el-row type="flex">
         <el-col :span="3" style="">
          <div class="photo-content">
-           <img :src="imgdm" @click="getZP()" style="height:160px;width:128px;">
+           <img :src="imgdm" @click="getZP()" style="height:160px;width:128px;cursor:pointer">
            <div class="hisPhoto">
              查看历史照片
            </div>
@@ -366,6 +366,7 @@ export default {
     this.getList(this.CurrentPage,this.pageSize);
     this.getCZXX();
     this.getCrj();
+    this.getZXZP();
   },
   mounted() {
       this.$store.dispatch('getGjdq');
@@ -409,6 +410,8 @@ export default {
       }else{
         this.pd.RYBH=""
       }
+      pd.GJDQ=this.row.GJDQDM
+      console.log('----',pd);
       let p = {
         "pd": pd,
         "token":this.token,

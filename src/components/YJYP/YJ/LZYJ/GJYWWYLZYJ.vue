@@ -57,18 +57,20 @@
            <el-table-column
              prop="ZWXM"
              label="姓名">
+             <template slot-scope="scope">
+                <span>{{getXM(scope.row.ZWXM,scope.row.YWXM)}}</span>
+             </template>
            </el-table-column>
            <el-table-column
-             prop="XB"
+             prop="XB_DESC"
              label="性别">
            </el-table-column>
-
            <el-table-column
-             prop="GJ"
+             prop="GJDQ_DESC"
              label="国家地区">
            </el-table-column>
            <el-table-column
-             prop="ZJZL"
+             prop="ZJZL_DESC"
              label="证件种类">
            </el-table-column>
            <el-table-column
@@ -76,7 +78,7 @@
              label="证件号码">
            </el-table-column>
            <el-table-column
-             prop="QZZL"
+             prop="QZZL_DESC"
              label="签证种类">
            </el-table-column>
            <el-table-column
@@ -181,6 +183,18 @@ export default {
           this.tableData = r.data.resultList;
           this.TotalResult = r.data.totalResult;
         })
+    },
+    getXM(zw,yw){
+        if(zw!=undefined && yw!=undefined){
+          return yw+"("+zw+")";
+        }else {
+          if(zw!=undefined){
+            return zw;
+          }
+          if(yw!=undefined){
+            return yw;
+           }
+          }
     },
   }
 }

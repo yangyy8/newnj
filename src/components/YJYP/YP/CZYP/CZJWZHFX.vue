@@ -584,7 +584,7 @@
               label:'居住类型状态'
             },
             {
-              code:'JZD_ZRQ',
+              code:'JZD_ZRQ_DESC',
               label:'居住地责任区'
             },
             {

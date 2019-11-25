@@ -75,7 +75,7 @@
         <el-button type="primary"  size="small" @click="showUpload">批量核查</el-button>
         <el-button type="warning" size="small" @click="downcontent">模板下载</el-button>
         <el-button type="success" size="small" @click="download">列表导出</el-button>
-
+        <el-button type="danger" size="small" @click="delbjsc" :disabled="bnt">批量删除</el-button>
         </el-row>
       <el-table
            :data="tableData"
@@ -625,7 +625,7 @@ export default {
       randomasj:'',
       px:{},
       crjinfo:{},
-
+      bnt:true,
       multipleSelection:[],
       selectionAll:[],
       yuid:[],
@@ -651,6 +651,51 @@ export default {
     this.token=this.$store.state.token;
   },
   methods: {
+    delbjsc(){
+
+      if(this.multipleSelection.length>0){
+        this.$confirm('您是否确认删除？', '提示', {
+                       confirmButtonText: '确定',
+                       cancelButtonText: '取消',
+                       type: 'warning'
+                   }).then(() => {
+                        var rybh=[];
+                        var array=this.multipleSelection;
+                        for (var i = 0; i < array.length; i++) {
+                           rybh.push(array[i].RYBH);
+                        }
+                      let p={
+                        'pd':{
+                          'RYBH':rybh
+                        },
+                        userCode:this.userCode,
+                        userName:this.userName,
+                        orgCode:this.orgCode,
+                        orgJB:this.juState,
+                        token:this.token,
+                      }
+                      this.$api.post(this.Global.aport2+'/bjsc/deletebjsc',p,
+                       r =>{
+                              if(r.success){
+                                this.$message({
+                                  type: 'success',
+                                  message: '删除成功'
+                                });
+                                this.getList(this.CurrentPage, this.pageSize, this.pd,this.type);
+                              }else {
+                                this.$message.error("删除失败！");
+                              }
+                       });
+                }).catch(() => {
+                   this.$message({
+                   type: 'info',
+                   message: '已取消删除'
+                   });
+               });
+      }else {
+        this.$message.error("请至少选择一条数据!");return ;
+      }
+    },
     pageSizeChange4(val) {
     this.pageSize4=val;
     },
@@ -679,7 +724,12 @@ export default {
     },
     selectfn(a,b){
       this.multipleSelection = a;
-      this.dataSelection()
+      if(this.multipleSelection.length>0){
+        this.bnt=false;
+      }else {
+        this.bnt=true;
+      }
+      this.dataSelection();
     },
     dataSelection(){
       // console.log('this.multipleSelection',this.multipleSelection)

@@ -103,6 +103,17 @@
                       </el-option>
                     </el-select>
                 </el-col>
+                <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                    <span class="input-text" title="所属学校">所属学校：</span>
+                    <el-select v-model="pd.XXID" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input" :disabled="juState=='3'" :no-data-text="pd.FJ==''||pd.FJ==undefined?'请先选择所属学校':'无数据'">
+                      <el-option
+                        v-for="item in $store.state.xxdm"
+                        :key="item.dm"
+                        :label="item.mc"
+                        :value="item.dm">
+                      </el-option>
+                    </el-select>
+                </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"   class="input-item"  v-if="juState=='1'">
                   <span class="input-text">处理状态：</span>
                   <el-select v-model="pd.CLZT" placeholder="请选择"  filterable clearable default-first-option size="small" class="input-input">
@@ -190,6 +201,10 @@
            <el-table-column
              prop="PCS_DESC"
              label="所属派出所">
+           </el-table-column>
+           <el-table-column
+             prop="XXID_DESC"
+             label="所属学校">
            </el-table-column>
            <el-table-column
              prop="CLZT_DESC"
@@ -342,6 +357,7 @@ export default {
     this.$store.dispatch('getLgyj');
     this.$store.dispatch('getGljb');
     this.$store.dispatch('getFjclzt');
+    this.$store.dispatch('getXxdm');
     this.userCode=this.$store.state.uid;
     this.userName=this.$store.state.uname;
     this.orgName=this.$store.state.orgname;
