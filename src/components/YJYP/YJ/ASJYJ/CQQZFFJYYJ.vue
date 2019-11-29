@@ -180,11 +180,9 @@ export default {
   methods: {
     pageSizeChange(val) {
       this.getRyxx(this.CurrentPage, val, this.bzhid, this.mc, this.lrdw);
-      console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
       this.getRyxx(val, this.pageSize, this.bzhid, this.mc, this.lrdw);
-      console.log(`当前页: ${val}`);
     },
     changtab() {
       this.show = !this.show;
@@ -278,7 +276,7 @@ export default {
 var srr=[];
 for (var i = 0; i < data.length; i++) {
   srr.push(nextfun(data[i].DZXQ))
-  console.log(nextfun(data[i].DZXQ));
+  // console.log(nextfun(data[i].DZXQ));
 }
 
     callback && callback(srr);

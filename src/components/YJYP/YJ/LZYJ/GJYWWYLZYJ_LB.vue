@@ -107,7 +107,7 @@
            </el-col>
            <el-col :span="4"  class="down-btn-area">
              <el-button type="primary"  class="mb-5" size="small" @click="chuli()" >确定</el-button>
-             <!-- <el-button type="warning"  class="m0" size="small" @click="$router.go(-1)">返回</el-button> -->
+             <el-button type="warning"  class="m0" size="small" @click="$router.push({name:'GJYWWYLZYJ'})">返回</el-button>
            </el-col>
          </el-row>
            <el-row type="flex">

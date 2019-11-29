@@ -127,7 +127,7 @@
                       </el-select>
                     </el-col>
                     <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-                      <span class="input-text">停留有效期：</span>
+                      <span class="input-text" title="停留有效期">停留有效期：</span>
                       <div class="input-input t-flex t-date">
                         <el-date-picker
                            v-model="pd0.beginTLYXQZ" format="yyyy-MM-dd"
@@ -197,7 +197,8 @@
                :data="tableData"
                border
                style="width: 100%"
-               @select="selectfn">
+               @select="selectfn"
+               @header-click="titleShow">
                <el-table-column
                  type="selection"
                  width="55">
@@ -260,7 +261,8 @@
                :data="tableData"
                border
                style="width: 100%"
-               @select="selectfn">
+               @select="selectfn"
+               @header-click="titleShow">
                <el-table-column
                  type="selection"
                  width="55">
@@ -568,6 +570,9 @@
         }
       },
       methods: {
+        titleShow(e,el){
+          el.target.title = e.label;
+        },
         getSsfj() {
           let p = {
             "operatorId": this.$store.state.uid,

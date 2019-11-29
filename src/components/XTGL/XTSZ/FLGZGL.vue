@@ -282,6 +282,7 @@ export default {
           this.dialogText="编辑";
         } else {
         this.dialogText="新增";
+        this.form={};
         this.tp = 0;
         }
         /* this.V.$reset("demo"); */
@@ -303,8 +304,8 @@ export default {
     addItem(addForm){
        this.V.$submit('demo', (canSumit,data) =>{
          if(!canSumit) return;
-         this.form.userCode = this.userCode;
-         this.form.userName = this.userName;
+         this.form.CREATE_USER_ID = this.userCode;
+         this.form.CREATE_USER_NAME = this.userName;
          this.form.orgCode = this.orgCode;
          this.form.token = this.token;
          this.$api.post(this.Global.aport4+'/warningSortRuleController/saveOrUpdate', this.form,

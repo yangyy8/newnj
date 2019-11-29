@@ -123,7 +123,8 @@
                :data="tableData"
                border
                style="width: 100%"
-               @select="selectfn">
+               @select="selectfn"
+               @header-click="titleShow">
                <el-table-column
                  type="selection"
                  width="55">
@@ -152,7 +153,8 @@
                 :data="tableData"
                 border
                 style="width: 100%;"
-                @select="selectfn">
+                @select="selectfn"
+                @header-click="titleShow">
                 <el-table-column
                   type="selection"
                   width="55">
@@ -355,6 +357,9 @@ export default {
     }
   },
   methods: {
+    titleShow(e,el){
+      el.target.title = e.label;
+    },
     handleChange(val){
       // console.log(val);
     },

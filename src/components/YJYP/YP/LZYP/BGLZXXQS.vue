@@ -188,7 +188,8 @@
             <el-table
                :data="tableDataC"
                border
-               style="width: 100%">
+               style="width: 100%"
+               @header-click="titleShow">
                <el-table-column
                  prop="rq"
                  label="日期">
@@ -208,7 +209,8 @@
           <el-table
              :data="tableData"
              border
-             style="width: 100%">
+             style="width: 100%"
+             @header-click="titleShow">
              <el-table-column
                prop="YWXM"
                label="英文姓名">
@@ -390,6 +392,9 @@ import LZXX from '../../../common/lzxx_xq'
 
   },
   methods:{
+    titleShow(e,el){
+      el.target.title = e.label;
+    },
     changeTu(){
       this.pageC=!this.pageC;
       if(this.pageC==true){

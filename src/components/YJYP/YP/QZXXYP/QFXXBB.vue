@@ -60,10 +60,10 @@
                   </el-select>
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-                    <span class="input-text" title="申请证件种类">申请证件种类：</span>
-                    <el-select v-model="pd.XCZJZL" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
+                    <span class="input-text">申请类别：</span>
+                    <el-select v-model="pd.SQLB" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
                       <el-option
-                        v-for="item in $store.state.zjzl"
+                        v-for="item in $store.state.sqlb"
                         :key="item.dm"
                         :label="item.dm+' - '+item.mc"
                         :value="item.dm">
@@ -374,6 +374,7 @@
          this.$store.dispatch("getZsxz");
          this.$store.dispatch("getSjly");
          this.$store.dispatch("getPcs");
+         this.$store.dispatch("getSqlb");
          this.userCode=this.$store.state.uid;
          this.userName=this.$store.state.uname;
          this.orgName=this.$store.state.orgname;

@@ -105,16 +105,17 @@ export default {
 
   },
   methods:{
-    getJuState(){
+    getJuState(name){
       let p={
         "currentPage":1,
         "showCount":10,
-        "pd":{"DM":this.$store.state.orgid}
+        "pd":{"DM":name}
       }
       this.$api.post(this.Global.aport4+'/LRDWController/getMCAndJBByDM',p,
        r =>{
          if(r.success){
            this.$store.commit('getJuS',r.data[0].JB);
+           console.log('f方法==',this.$store.state.juState,r.data[0].JB);
            if(this.$store.state.juState=='3'){
              this.$api.post(this.Global.aport4+'/LRDWController/getParentByDM',p,
               r =>{
@@ -178,7 +179,6 @@ export default {
                     this.$store.commit('getType','99')
                     this.Global.hasEnter="1";
                     this.$router.push({name: 'Index'});
-                    this.getJuState();
                   }
               }else {
                   this.$message.error(r.message);return;
@@ -200,7 +200,6 @@ export default {
          window.location.href =n;
     },
     getLogin(){
-
       this.V.$submit('demo2', (canSumit,data) => {
         if(!canSumit) return;
         var ff=new FormData();
@@ -225,7 +224,6 @@ export default {
             // this.$store.state.token=r.data.token;
             this.Global.hasEnter="1";
             this.$router.push({name: 'Index',params:{ id:'1'}});
-            this.getJuState();
           }else {
               this.$message.error("用户名或者密码输入错误！");return;
           }

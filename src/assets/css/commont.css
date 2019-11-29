@@ -4,6 +4,9 @@
 .redy{
   color: #e6a23c;
 }
+.t-tags .el-tag{
+  margin-bottom: 10px;
+}
 .el-input.is-disabled .el-input__inner{
   color: #787a7d!important;
 }

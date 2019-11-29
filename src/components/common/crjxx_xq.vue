@@ -85,10 +85,10 @@
           <span class="input-text">旅游团号：</span>
           <span class="input-input detailinput">  {{crjinfo.TOURGROUPNO}}</span>
         </el-col>
-        <el-col :span="8" class="input-item">
+        <!-- <el-col :span="8" class="input-item">
           <span class="input-text">入库时间：</span>
           <span class="input-input detailinput">  {{crjinfo.INTIME}}</span>
-        </el-col>
+        </el-col> -->
         <el-col :span="8" class="input-item">
           <span class="input-text">境内外标识：</span>
           <span class="input-input detailinput">  {{crjinfo.JNWBS}}</span>

@@ -25,6 +25,7 @@ var store = new Vuex.Store({
     imgHeightTwo:localStorage.getItem('imgHeightTwo') || 0,
     imgHeightThr:localStorage.getItem('imgHeightThr') || 0,
     imgHeightFor:localStorage.getItem('imgHeightFor') || 0,
+    pcsToju:localStorage.getItem('pcsToju') || '',
     key: {},
     key2:'',
     ssdw: [],
@@ -73,7 +74,7 @@ var store = new Vuex.Store({
     zjxy:[],
     tabList:[],
     currentKey:null,
-    pcsToju:'',
+
     sqlb:[],
     swdwclzt:[],
     xslb:[],
@@ -107,6 +108,7 @@ var store = new Vuex.Store({
       state.juState = data;
     },
     PcsToJu(state,data){
+      localStorage.setItem('pcsToju',data);
       state.pcsToju = data;
     },
     getActiveTab(state,data){

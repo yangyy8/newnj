@@ -234,7 +234,7 @@
           </el-col>
           <el-col :span="8" class="input-item">
             <span class="input-text">申请签证种类：</span>
-            <span class="input-input detailinput">  {{zjinfo.SQQZZL_DESC}}</span>
+            <span class="input-input detailinput">  {{zjinfo.QZZL_DESC}}</span>
           </el-col>
           <el-col :span="8" class="input-item">
             <span class="input-text">居留许可事由：</span>

@@ -66,7 +66,7 @@
                       </el-option>
                     </el-select>
                 </el-col>
-                <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                <!-- <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                     <span class="input-text">办证类别：</span>
                     <el-select v-model="pd.BZLX" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
                       <el-option
@@ -76,7 +76,7 @@
                         :value="item.dm">
                       </el-option>
                     </el-select>
-                </el-col>
+                </el-col> -->
 
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                     <span class="input-text">申请类别：</span>
@@ -100,7 +100,7 @@
                       </el-option>
                     </el-select>
                 </el-col>
-                <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                <!-- <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                     <span class="input-text" title="人员地域类别">人员地域类别：</span>
                     <el-select v-model="pd.RYDYLB" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
                       <el-option
@@ -110,7 +110,7 @@
                         :value="item.dm">
                       </el-option>
                     </el-select>
-                </el-col>
+                </el-col> -->
                 <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
                    <span class="input-text">证件号码：</span>
                    <el-input placeholder="请输入内容" size="small" v-model="pd.XCZJHM" class="input-input"></el-input>

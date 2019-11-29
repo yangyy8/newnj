@@ -126,7 +126,7 @@
                   </el-select>
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"   class="input-item"  v-if="juState=='1'||juState=='2'">
-                  <span class="input-text">分局处理状态：</span>
+                  <span class="input-text" title="分局处理状态">分局处理状态：</span>
                   <el-select v-model="pd.FJCLZT" placeholder="请选择"  filterable clearable default-first-option size="small" class="input-input">
                     <el-option
                       v-for="item in $store.state.fjclzt"
@@ -154,7 +154,8 @@
            :highlight-current-row="true"
            style="width: 100%"
            @select="selectfn"
-           @selection-change="handleSelectionChange">
+           @selection-change="handleSelectionChange"
+           @header-click="titleShow">
            <el-table-column
              type="selection"
              width="55">
@@ -389,6 +390,9 @@ export default {
           this.PSC=r.data;
         }
       })
+    },
+    titleShow(e,el){
+      el.target.title = e.label;
     },
     handleSelectionFilter(arrReal,arr,mul) {
       // console.log('this.multipleSelection',mul)

@@ -1232,7 +1232,6 @@ export default {
     this.lzxxDialogVisible=false;
     this.crjDialogVisible=false;
     this.row=this.$route.query.row;
-    console.log(this.row,this.row.FJCLR,this.row.ZDCLR);
     this.FJCLR=this.row.FJCLR==undefined?'':this.row.FJCLR;
     this.ZDCLR=this.row.ZDCLR==undefined?'':this.row.ZDCLR;
     this.pc={CHANGE_RESON:'',CLJG:'',FJYJ:'',ZDYJ:''};
@@ -1240,7 +1239,8 @@ export default {
     this.showZD=true;
     this.hcdmb=false;
     this.showXF=false;//下发分局
-    console.log(this.row.RYBH);
+    this.$set(this.pc,'SHZT',this.row.SHZT);
+    console.log('====',this.row.SHZT);
     if(this.row!=undefined && (this.row.CLZT=='0')){
       if(this.$route.query.sh_special){
         this.qdshow=false;

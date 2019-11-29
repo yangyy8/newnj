@@ -21,7 +21,8 @@
          </el-col>
             <el-col :span="4" >
               <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)" class="mb-15">查询</el-button>
-              <!-- <el-button type="info" size="small" @click="$router.go(-1)" class="mb-15">返回</el-button> -->
+              <el-button type="info" size="small" @click="$router.go(-1)" class="mb-15">返回</el-button>
+              <el-button type="warning" size="small" @click="download" class="mb-15">导出</el-button>
             </el-col>
           </el-row>
     </div>
@@ -31,7 +32,12 @@
          ref="multipleTable"
          :data="tableData"
          border
-         style="width: 100%">
+         style="width: 100%"
+         @select="selectfn">
+         <el-table-column
+           type="selection"
+           width="55">
+         </el-table-column>
          <el-table-column
            prop="XM"
            label="姓名">
@@ -103,7 +109,7 @@
       </div>
     </div>
       <div class="bj">
-        <el-dialog title="代办签证信息详情" :visible.sync="crjDialogVisible"  custom-class="big_dialog" :append-to-body="false" :modal="false">
+        <el-dialog title="因私出入境信息详情" :visible.sync="crjDialogVisible"  custom-class="big_dialog" :append-to-body="false" :modal="false">
           <el-row :gutter="3"  class="mb-6">
             <el-col :span="8" class="input-item">
               <span class="input-text">姓名：</span>
@@ -212,12 +218,16 @@ export default {
       row:[],
       czinfo:{},
       queryPd:{},
+
+      multipleSelection:[],
+      selectionAll:[],
+      yuid:[],
+      selectionReal:[],
     }
   },
   activated() {
     this.row = this.$route.query.row;
     this.queryPd = this.$route.query.queryPd;
-    console.log('row',this.row);
     this.getList(this.CurrentPage,this.pageSize,this.pd);
   },
   mounted() {
@@ -228,16 +238,72 @@ export default {
       this.multipleSelection = val;
     },
     pageSizeChange(val) {
+      this.pageSize=val;
       this.getList(this.CurrentPage, val, this.pd);
-      console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
+      this.CurrentPage=val;
       this.getList(val, this.pageSize, this.pd);
-      console.log(`当前页: ${val}`);
+    },
+    selectfn(a,b){
+      this.multipleSelection = a;
+      this.dataSelection()
+    },
+    dataSelection(){
+      // console.log('this.multipleSelection',this.multipleSelection)
+      this.selectionReal.splice(this.CurrentPage-1,1,this.multipleSelection);
+      // console.log('this.selectionReal',this.selectionReal);
+      this.selectionAll=[];
+      for(var i=0;i<this.selectionReal.length;i++){
+        if(this.selectionReal[i]){
+          for(var j=0;j<this.selectionReal[i].length;j++){
+            this.selectionAll.push(this.selectionReal[i][j])
+          }
+        }
+      }
+      // console.log('this.selectionAll',this.selectionAll);
+    },
+    download(){
+      let p={};
+      this.objCompare(this.row,this.queryPd)
+      this.pd = Object.assign({},this.row,this.queryPd,this.pd);
+      if(this.selectionAll.length==0){//人员全部导出,无选中的数据
+        p={
+          "pd":this.pd
+        }
+      }else{//人员部分导出
+        this.yuid=[];
+        for(var i in this.selectionAll){
+          this.yuid.push(this.selectionAll[i].RGUID)
+        }
+        this.pd.RGUID=this.yuid;
+        p={
+          "pd":this.pd,
+        }
+      }
+      this.$api.post(this.Global.aport5+'/esYmController/exportYm',p,
+        r =>{
+          this.downloadM(r)
+        },e=>{},{},'blob')
+    },
+    downloadM (data) {
+        if (!data) {
+            return
+        }
+        let url = window.URL.createObjectURL(new Blob([data],{type:"application/xls"}))
+        let link = document.createElement('a')
+        link.style.display = 'none'
+        link.href = url
+        link.setAttribute('download', '因私出入境中介分析人员列表'+this.format(new Date(),'yyyyMMddhhmmss')+'.xls')
+        document.body.appendChild(link)
+        link.click()
     },
     getList(currentPage, showCount, pd) {
       this.objCompare(this.row,this.queryPd)
       pd = Object.assign({},this.row,this.queryPd,pd);
+      if(pd.hasOwnProperty('RGUID')){
+        delete pd['RGUID']
+      }
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
@@ -247,6 +313,19 @@ export default {
         r => {
           this.tableData = r.data.resultList;
           this.TotalResult = r.data.totalResult;
+          if(this.selectionReal.length==0){//声明一个数组对象
+            this.selectionReal=new Array(Math.ceil(this.TotalResult/showCount))
+          }
+          this.$nextTick(()=>{
+            this.multipleSelection=[]
+            for(var i=0;i<this.tableData.length;i++){
+              for(var j=0;j<this.selectionAll.length;j++){
+                if(this.tableData[i].RGUID==this.selectionAll[j].RGUID){
+                  this.$refs.multipleTable.toggleRowSelection(this.tableData[i],true);
+                }
+              }
+            }
+          })
         })
     },
     details(i) {

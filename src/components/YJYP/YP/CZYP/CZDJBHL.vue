@@ -221,7 +221,8 @@
             <el-table
                :data="tableDataC"
                border
-               style="width: 100%">
+               style="width: 100%"
+               @header-click="titleShow">
                <el-table-column
                  prop="rq"
                  label="日期">
@@ -242,7 +243,8 @@
              border
              style="width: 100%"
              @select="selectfn"
-             ref="multipleTable">
+             ref="multipleTable"
+             @header-click="titleShow">
              <el-table-column
                type="selection"
                width="55">
@@ -424,6 +426,9 @@ import CZXX from '../../../common/czxx_xq'
     this.getListTu(this.pd0,this.pd);
   },
   methods:{
+    titleShow(e,el){
+      el.target.title = e.label;
+    },
     selectfn(a,b){
       this.multipleSelection = a;
       this.dataSelection()

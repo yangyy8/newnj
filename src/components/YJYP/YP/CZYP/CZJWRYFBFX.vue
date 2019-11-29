@@ -391,7 +391,7 @@ export default {
       pageSize: 5,
       TotalResult: 0,
       tableData: [],
-      pd: {jzztlx:'1'},
+      pd: {jzztlx:'1',ssfj:'',sspcs:''},
       swdw: [],
       show: true,
       bzhshow: false,
@@ -407,6 +407,12 @@ export default {
       centers: [31.910376, 118.525718],
       ccshow:false,
       count:0,
+
+      juState:'',
+      userCode:'',
+      userName:'',
+      orgCode:'',
+      orgName:'',
     }
   },
 
@@ -421,18 +427,37 @@ export default {
     this.$store.dispatch('getSf');
     // this.$store.dispatch('getSsdw');
     //this.getGX();
-    createMapL(this.centers);
+    this.juState=this.$store.state.juState;
+    this.userCode=this.$store.state.uid;
+    this.userName=this.$store.state.uname;
+    this.orgName=this.$store.state.orgname;
+    this.orgCode=this.$store.state.orgid;
+    console.log('==========changzhu');
     this.getFJ();
-
+    createMapL(this.centers);
+  },
+  activated(){
+    if(this.juState=='2'){//分局登录
+      // console.log('进来分局',this.orgCode,this.orgName)
+      // this.pd.ssfj = this.orgCode;
+      this.$set(this.pd,'ssfj',this.orgCode)
+      this.getSSPCS(this.pd.ssfj);
+    }
+    if(this.juState=='3'){//派出所登录
+      // console.log('进来派出所级别','')
+      // this.pd.ssfj = this.$store.state.pcsToju;
+      this.$set(this.pd,'ssfj',this.$store.state.pcsToju);
+      this.getSSPCS(this.pd.ssfj);
+      this.$set(this.pd,'sspcs',this.orgCode)
+      // this.pd.sspcs = this.orgCode;
+    }
   },
   methods: {
     pageSizeChange(val) {
       this.getRyxx(this.CurrentPage, val, this.bzhid, this.mc);
-      console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
       this.getRyxx(val, this.pageSize, this.bzhid, this.mc);
-      console.log(`当前页: ${val}`);
     },
     getFJ() {
       let p = {
@@ -442,13 +467,13 @@ export default {
       this.$api.post(this.Global.aport2 + '/data_report/selectSsfjDm', p,
         r => {
           this.ssfj = sortByKey(r.data.SSFJ,'dm');
-              if(this.$store.state.jb=='2'){
-                  this.pd.ssfj=this.$store.state.orgname;
-                  this.getSSPCS(this.$store.state.orgid);
-             }
-             else if(this.$store.state.jb=='3'){
-                 this.pd.sspcs=this.$store.state.orgname;
-             }
+             //  if(this.$store.state.jb=='2'){
+             //      this.pd.ssfj=this.$store.state.orgname;
+             //      this.getSSPCS(this.$store.state.orgid);
+             // }
+             // else if(this.$store.state.jb=='3'){
+             //     this.pd.sspcs=this.$store.state.orgname;
+             // }
         })
     },
     getSSPCS(arr) {
@@ -463,7 +488,6 @@ export default {
         r => {
           if (r.success) {
             this.sspcs = r.data.PCS;
-
           }
         })
     },

@@ -22,7 +22,7 @@
                  </div>
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8" :offset="2" class="input-item">
-                  <span class="input-text">案件类别：</span>
+                  <span class="input-text">违法种类：</span>
                   <el-select v-model="pd.TYPE" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
                     <el-option value="0" label="0 - 非法居留"></el-option>
                     <el-option value="1" label="1 - 非法就业"></el-option>

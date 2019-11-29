@@ -842,7 +842,7 @@ export default {
         } else {
           this.$message.error(r.Message);
         }
-        this.$refs[afrom].resetFields();
+        // this.$refs[afrom].resetFields();
         this.editsDialogVisible = false;
         this.getList(this.CurrentPage,this.pageSize,this.pd);
       }, e => {

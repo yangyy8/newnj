@@ -190,7 +190,8 @@
             <el-table
                :data="tableDataC"
                border
-               style="width: 100%">
+               style="width: 100%"
+               @header-click="titleShow">
                <el-table-column
                  prop="rq"
                  label="日期">
@@ -211,7 +212,8 @@
              :data="tableData"
              border
              @select="selectfn"
-             style="width: 100%">
+             style="width: 100%"
+             @header-click="titleShow">
              <!-- <el-table-column
                type="selection"
                width="55">
@@ -405,6 +407,9 @@ import LZXX from '../../../common/lzxx_xq'
   //   this.seriesT=[];
   // },
   methods:{
+    titleShow(e,el){
+      el.target.title = e.label;
+    },
     changeTu(){
       this.pageC=!this.pageC;
       if(this.pageC==true){

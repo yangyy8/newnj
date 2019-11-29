@@ -256,21 +256,40 @@ export default {
        ccshow:false,
        count:0,
        centers:[32.03613281, 118.78211975],
+       juState:'',
+       userCode:'',
+       userName:'',
+       orgCode:'',
+       orgName:'',
     }
   },
   mounted() {
     window.lzvm=this;
-    console.log(this.$store.state.jb);
     this.$store.dispatch('getGjdq');
     this.$store.dispatch('getRjsy');
     this.$store.dispatch('getZjzl');
     this.$store.dispatch('getRjqzzl');
-
+    this.juState=this.$store.state.juState;
+    this.userCode=this.$store.state.uid;
+    this.userName=this.$store.state.uname;
+    this.orgName=this.$store.state.orgname;
+    this.orgCode=this.$store.state.orgid;
     this.pd.beginTime=getServerDate();
     this.pd.endTime=getServerDate();
-    createMapL();
     this.getFJ();
+    console.log('==========linzhu');
+    createMapL();
     this.getUserWhiteList();
+  },
+  activated(){
+    if(this.juState=='2'){//分局登录
+      // this.pd.ssfj = this.orgCode;
+      this.$set(this.pd,'ssfj',this.orgCode)
+    }
+    if(this.juState=='3'){//派出所登录
+      // this.pd.ssfj = this.$store.state.pcsToju;
+      this.$set(this.pd,'ssfj',this.$store.state.pcsToju);
+    }
   },
   methods:{
     userFilter(query = '') {
@@ -294,11 +313,9 @@ export default {
         },
     pageSizeChange(val) {
       this.getRyxx(this.CurrentPage,val,this.bzhid,this.mc);
-      console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
         this.getRyxx(val,this.pageSize,this.bzhid,this.mc);
-      console.log(`当前页: ${val}`);
     },
     getFJ() {
       let p = {
@@ -308,11 +325,9 @@ export default {
       this.$api.post(this.Global.aport2 + '/data_report/selectSsfjDm', p,
         r => {
           this.ssfj = sortByKey(r.data.SSFJ,'dm');
-
-          if(this.$store.state.jb=='2'){
-             this.pd.ssfj=this.$store.state.orgname;
-          }
-
+          // if(this.$store.state.jb=='2'){
+          //    this.pd.ssfj=this.$store.state.orgname;
+          // }
         })
     },
 

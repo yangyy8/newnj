@@ -500,10 +500,10 @@
             </el-col>
 
 
-            <el-col :span="8" class="input-item">
+            <!-- <el-col :span="8" class="input-item">
               <span class="input-text">出入境时间：</span>
               <span class="input-input detailinput">  {{crjinfo.IO_TIME}}</span>
-            </el-col>
+            </el-col> -->
             <el-col :span="8" class="input-item">
               <span class="input-text">出入口岸：</span>
               <span class="input-input detailinput">  {{crjinfo.IO_PORT_DESC}}</span>
@@ -514,7 +514,7 @@
             </el-col>
             <el-col :span="8" class="input-item">
               <span class="input-text">交通方式：</span>
-              <span class="input-input detailinput">  {{crjinfo.TRAFFIC_MODE}}</span>
+              <span class="input-input detailinput">  {{crjinfo.TRAFFIC_MODE_DESC}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
               <span class="input-text">交通工具：</span>
@@ -544,10 +544,10 @@
               <span class="input-text">旅游团号：</span>
               <span class="input-input detailinput">  {{crjinfo.TOUR_GROUPNO}}</span>
             </el-col>
-            <el-col :span="8" class="input-item">
+            <!-- <el-col :span="8" class="input-item">
               <span class="input-text">入库时间：</span>
               <span class="input-input detailinput">  {{crjinfo.IN_TIME}}</span>
-            </el-col>
+            </el-col> -->
             <!-- <el-col :span="8" class="input-item">
               <span class="input-text">境内外标识：</span>
               <span class="input-input detailinput">  {{crjinfo.id}}</span>

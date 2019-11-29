@@ -41,7 +41,7 @@
                         <el-option
                           v-for="(item,ind1) in $store.state.gjdq"
                           :key="ind1"
-                          :label="item.mc"
+                          :label="item.dm+' - '+item.mc"
                           :value="item.dm">
                         </el-option>
                       </el-select>
@@ -53,7 +53,7 @@
                         <el-option
                           v-for="(item,ind) in $store.state.qzzl"
                           :key="ind"
-                          :label="item.mc"
+                          :label="item.dm+' - '+item.mc"
                           :value="item.dm">
                         </el-option>
                       </el-select>

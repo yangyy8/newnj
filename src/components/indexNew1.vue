@@ -545,7 +545,7 @@ export default {
      this.userName=this.$store.state.uname;
      this.orgName=this.$store.state.orgname;
      this.orgCode=this.$store.state.orgid;
-     this.juState=this.$store.state.juState;
+     this.getJuState();
      this.token=this.$store.state.token;
      if(this.Global.indexstate!=0){
        this.Global.indexstate=0;
@@ -637,7 +637,9 @@ export default {
     this.pdjhFun();
 
   },
-  activated(){},
+  activated(){
+
+  },
   watch: {
     fullHeight (val) {
        // if(!this.timer) {
@@ -777,6 +779,29 @@ export default {
       setInterval(this.realTimeFun,1000);
   },
   methods:{
+    getJuState(){
+      let p={
+        "currentPage":1,
+        "showCount":10,
+        "pd":{"DM":this.orgCode}
+      }
+      this.$api.post(this.Global.aport4+'/LRDWController/getMCAndJBByDM',p,
+       r =>{
+         if(r.success){
+           this.$store.commit('getJuS',r.data[0].JB);
+           this.juState=this.$store.state.juState;
+           this.yjFun();
+           if(this.$store.state.juState=='3'){
+             this.$api.post(this.Global.aport4+'/LRDWController/getParentByDM',p,
+              r =>{
+                if(r.success){
+                  this.$store.commit('PcsToJu',r.data.DM);
+                }
+              })
+           }
+         }
+       })
+    },
       loginOut(){
           if(this.$store.state.wtoken!='' && this.$store.state.wtoken!=undefined && this.$store.state.serverip!='' && this.$store.state.serverip!=undefined){
            window.location.href='http://tymh.gaj.nkg.js:908/loginOperate/toUserLogin';return ;
@@ -1036,7 +1061,8 @@ export default {
         this.timer=setInterval(this.scrollYj,2000);
       },
       yjFun(){
-        this.$api.post(this.Global.aport+'/home/getWaringData',{userCode:this.userCode,userName:this.userName,orgJB:this.juState,orgCode:this.orgCode,token:this.token},
+        console.log('预警',this.$store.state.juState)
+        this.$api.post(this.Global.aport+'/home/getWaringData',{userCode:this.userCode,userName:this.userName,orgJB:this.$store.state.juState,orgCode:this.orgCode,token:this.token},
          r =>{
            this.yjList = r.data
          })
@@ -2482,7 +2508,7 @@ export default {
         })
       },
       allEcharts(){
-        this.yjFun();
+        // this.yjFun();
         this.zdFun();
         this.czFun();
         this.ajFun();

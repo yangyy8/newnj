@@ -44,7 +44,8 @@
          </el-col>
 
             <el-col :span="2" class="down-btn-area">
-              <el-button type="success" size="small" @click="CurrentPage=1;getList(CurrentPage,pageSize,pd)">查询</el-button>
+              <el-button type="success" size="small" class="t-mb" @click="CurrentPage=1;getList(CurrentPage,pageSize,pd)">查询</el-button>
+              <el-button type="primary" size="small" class="t-ml0" @click="download">导出</el-button>
             </el-col>
           </el-row>
     </div>
@@ -201,6 +202,48 @@ export default {
     },
     rowClick(row,column){
       console.log(row,column)
+    },
+    download(){
+      var btime=this.pd.beginTime;
+      var etime=this.pd.endTime;
+
+      if(this.pd.beginTime!='' && this.pd.beginTime!=undefined)
+      {
+        btime=this.pd.beginTime+"000000";
+      }
+      if(this.pd.endTime!='' && this.pd.endTime!=undefined)
+      {
+        etime=this.pd.endTime+"235959";
+      }
+
+      let p = {
+        "beginTime": btime,
+        "endTime":etime,
+        'zjhm':this.pd.zjhm,
+        'type':this.pd.type,
+        'gjdqList':this.pd.gjdq,
+        "operatorId":this.$store.state.uid,
+        "operatorNm":this.$store.state.uname,
+         token:this.token,
+         orgJB:this.juState,
+         orgCode:this.orgCode,
+      };
+      this.$api.post(this.Global.aport2+'/data_report/exportSbList',p,
+       r =>{
+         this.downloadM(r)
+       },e=>{},{},'blob')
+    },
+    downloadM (data) {
+        if (!data) {
+            return
+        }
+        let url = window.URL.createObjectURL(new Blob([data],{type:"application/octet-stream"}))
+        let link = document.createElement('a')
+        link.style.display = 'none'
+        link.href = url
+        link.setAttribute('download', '临住核查统计报表.xls')
+        document.body.appendChild(link)
+        link.click()
     },
     getList(currentPage, showCount, pd) {
       var btime=this.pd.beginTime;

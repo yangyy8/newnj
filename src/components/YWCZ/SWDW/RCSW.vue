@@ -976,7 +976,7 @@ export default {
     this.shpc.SHBZ='';
     if(this.row.CLZT=='0'){
       this.hcShow=false;
-      // this.pc.HCZT = this.row.HCZT;
+      this.pc.HCZT = this.row.HCZT;
       this.pc.HCBZ = this.row.HCBZ;
     }
     if(this.row.SFYX=='1'){

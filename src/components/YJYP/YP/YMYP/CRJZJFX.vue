@@ -236,7 +236,7 @@
         </div>
      <div class="bj">
        <!-- 留学生信息详情 -->
-       <el-dialog title="代办签证信息详情" :visible.sync="crjDialogVisible"  custom-class="big_dialog" :append-to-body="false" :modal="false">
+       <el-dialog title="因私出入境信息详情" :visible.sync="crjDialogVisible"  custom-class="big_dialog" :append-to-body="false" :modal="false">
          <el-row :gutter="3"  class="mb-6">
            <el-col :span="8" class="input-item">
              <span class="input-text">姓名：</span>
@@ -431,9 +431,9 @@
           this.dataSelection()
         },
         dataSelection(){
-          console.log('this.multipleSelection',this.multipleSelection)
+          // console.log('this.multipleSelection',this.multipleSelection)
           this.selectionReal.splice(this.CurrentPage-1,1,this.multipleSelection);
-          console.log('this.selectionReal',this.selectionReal);
+          // console.log('this.selectionReal',this.selectionReal);
           this.selectionAll=[];
           for(var i=0;i<this.selectionReal.length;i++){
             if(this.selectionReal[i]){
@@ -442,7 +442,7 @@
               }
             }
           }
-          console.log('this.selectionAll',this.selectionAll);
+          // console.log('this.selectionAll',this.selectionAll);
         },
         download(){
           let p={};

@@ -21,7 +21,7 @@
                         <el-option
                           v-for="(item,ind1) in ssfj"
                           :key="ind1"
-                          :label="item.mc"
+                          :label="item.dm+' - '+item.mc"
                           :value="item.dm">
                         </el-option>
                       </el-select>
@@ -32,7 +32,7 @@
                        <el-option
                          v-for="(item,ind1) in sspcs"
                          :key="ind1"
-                         :label="item.mc"
+                         :label="item.dm+' - '+item.mc"
                          :value="item.dm">
                        </el-option>
                      </el-select>
@@ -43,7 +43,7 @@
                         <el-option
                           v-for="(item,ind) in zrq"
                           :key="ind"
-                          :label="item.mc"
+                          :label="item.dm+' - '+item.mc"
                           :value="item.dm">
                         </el-option>
                       </el-select>
@@ -589,6 +589,7 @@ export default {
         })
     },
     getZrq(arr) {
+      this.$set(this.pd,"zrq",'');
       let p = {
         "operatorId": this.$store.state.uid,
         "operatorNm": this.$store.state.uname,

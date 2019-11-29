@@ -19,9 +19,9 @@
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                   <span class="input-text">国家地区：</span>
-                  <el-select v-model="pd.gjdq" @visible-change="gjdq=gjdq0" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
+                  <el-select v-model="pd.gjdq" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
                     <el-option
-                      v-for="(item,ind3) in gjdq"
+                      v-for="(item,ind3) in $store.state.gjdq"
                       :key="ind3"
                       :label="item.dm+' - '+item.mc"
                       :value="item.dm">
@@ -56,7 +56,7 @@
                    <span class="input-text">宾馆名称：</span>
                    <el-select v-model="pd.bgmc" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
                      <el-option
-                       v-for="(item,indb) in bgmc"
+                       v-for="(item,indb) in $store.state.zsbg"
                        :key="indb"
                        :label="item.dm+' - '+item.mc"
                        :value="item.dm">
@@ -68,11 +68,12 @@
 
             <el-col :span="2" class="down-btn-area">
               <el-button type="success" size="small" @click="CurrentPage=1;getList(CurrentPage,pageSize,pd)">查询</el-button>
-              <el-button  size="small" @click="$router.push({name:'CRJJLHC'})">返回</el-button>
+              <el-button type="primary" size="small" @click="$router.push({name:'CRJJLHC'})">返回</el-button>
             </el-col>
           </el-row>
     </div>
     <div class="yycontent">
+          <el-button type="primary" size="small" @click="download" class="t-mb">导出</el-button>
           <el-table
            ref="multipleTable"
            :data="tableData"
@@ -232,9 +233,9 @@
                 <el-col :span="12">
                   <span class="yy-input-text">国家地区：</span>
                   <el-tooltip class="item" effect="dark" :disabled="!form.gjdq_t" :content="form.gjdq_xgq" placement="top-start">
-                    <el-select v-model="form.gjdq" @visible-change="gjdq=gjdq0" filterable clearable default-first-option placeholder="请选择"  size="small" :class="{'yy-input-input yyinput':form.gjdq_t == true,'yy-input-input':form.gjdq_t== false}" :disabled="!edit">
+                    <el-select v-model="form.gjdq"  filterable clearable default-first-option placeholder="请选择"  size="small" :class="{'yy-input-input yyinput':form.gjdq_t == true,'yy-input-input':form.gjdq_t== false}" :disabled="!edit">
                       <el-option
-                        v-for="(item,ind5) in gjdq"
+                        v-for="(item,ind5) in $store.state.gjdq"
                         :key="ind5"
                         :label="item.dm+' - '+item.mc"
                         :value="item.dm">
@@ -753,11 +754,9 @@ export default {
     },
     pageSizeChange(val) {
       this.getList(this.CurrentPage, val, this.pd);
-      console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
       this.getList(val, this.pageSize, this.pd);
-      console.log(`当前页: ${val}`);
     },
     getAll() {
       this.$api.get(this.Global.aport2 + this.Global.dmall, null,
@@ -848,7 +847,38 @@ export default {
           this.tableData = r.data.pdList;
           this.TotalResult = r.data.totalResult;
         })
-
+    },
+    download(){
+      let p = {
+        "currentPage": this.CurrentPage,
+        "showCount": 1000000,
+        "beginTime": this.cdt.beginTime,
+        "endTime": this.cdt.endTime,
+        "ssfjmc": this.cdt.ssfjmc,
+        "sblx": this.cdt.sblx,
+        'zjhm':this.cdt.zjhm,
+        'type':this.cdt.type,
+        'gjdqList':this.cdt.gjdqList,
+        "pd": this.pd,
+        "operatorId":this.$store.state.uid,
+        "operatorNm":this.$store.state.uname,
+      };
+      this.$api.post(this.Global.aport2 + '/data_report/exportAll',p,
+       r =>{
+         this.downloadM(r)
+       },e=>{},{},'blob')
+    },
+    downloadM (data) {
+        if (!data) {
+            return
+        }
+        let url = window.URL.createObjectURL(new Blob([data],{type:"application/octet-stream"}))
+        let link = document.createElement('a')
+        link.style.display = 'none'
+        link.href = url
+        link.setAttribute('download', '临住人员报表.xls')
+        document.body.appendChild(link)
+        link.click()
     },
     getTS(n) {
       if (n == "1") {

@@ -32,29 +32,19 @@
                    证件号码：{{baseinfo.zjhm}}
                  </el-col>
                </el-row>
-               <el-row class="mb-10">
+               <el-row class="mb-10 t-tags">
                  <el-col :span="22">
                    <el-tag
                     v-for="(item,i) in labs"
-                    :key="item.BQBH"
+                    :key="i"
                     closable
-                    :type="suc[i]"
-                    @close="delLable(item.BQBH)">
-                    {{item.MC}}
+                    :type="item.type"
+                    @close="delLable(item.tagBm)">
+                    {{item.tagMc}}
                   </el-tag>
                   <el-button type="primary" plain  size="small" icon="el-icon-plus" @click="addLable" style="margin-left: 10px;">添加标签</el-button>
-
-                   <!-- <span v-for="(item,i) in labs">
-                   <el-button :type="suc[i]" size="small" @click="delid(item.BQBH)">{{item.MC}}</el-button>  &nbsp;
-                   </span> -->
-                   <!-- <span>&nbsp; -->
-
-                     <!-- <el-button type="warning" plain  size="small" icon="el-icon-delete" @click="delLable">删除标签</el-button> -->
-                   <!-- </span> -->
-
                  </el-col>
                  <el-col :span="2">
-                   <!-- <el-button type="primary" size="small" @click="ggo()" style="margin-left:15px;">返 回</el-button> -->
                  </el-col>
                </el-row>
            </el-col>
@@ -881,8 +871,8 @@
                 <el-option
                   v-for="(item,ind) in labels"
                   :key="ind"
-                  :label="item.MC"
-                  :value="item.BM+','+item.MC">
+                  :label="item.mc"
+                  :value="item.bm+','+item.mc">
                 </el-option>
               </el-select>
            </el-col>
@@ -1059,6 +1049,54 @@ export default{
        token:'',
        qzinfo:{},
        qzDialogVisible:false,
+       aaaa:[
+          {
+            tagBm : "1111",
+            tagMc : "常住人员"
+          },
+          {
+            tagBm : "1112",
+            tagMc : "频繁出入境(3次)"
+          },
+          {
+            tagBm : "1113",
+            tagMc : "地域类别次数:北京(3);南京(4)"
+          },
+          {
+            tagBm : "1111",
+            tagMc : "常住人员"
+          },
+          {
+            tagBm : "1112",
+            tagMc : "频繁出入境(3次)"
+          },
+          {
+            tagBm : "1113",
+            tagMc : "地域类别次数:北京(3);南京(4)"
+          },{
+            tagBm : "1111",
+            tagMc : "常住人员"
+          },
+          {
+            tagBm : "1112",
+            tagMc : "频繁出入境(3次)"
+          },
+          {
+            tagBm : "1113",
+            tagMc : "地域类别次数:北京(3);南京(4)"
+          },{
+            tagBm : "1111",
+            tagMc : "常住人员"
+          },
+          {
+            tagBm : "1112",
+            tagMc : "频繁出入境(3次)"
+          },
+          {
+            tagBm : "1113",
+            tagMc : "地域类别次数:北京(3);南京(4)"
+          }
+        ],
     }
   },
   activated(){
@@ -1232,32 +1270,35 @@ export default{
     //获取标签
     getLable(){
       let p = {
-        "pd": this.pd,
+        // "pd": this.pd,
+        "gjdq":this.gjdq,
+        "zjhm":this.zjhm,
         "token":this.token,
       };
-      this.$api.post(this.Global.aport3+'/ryhx/getrybqxx', p,
+      this.$api.post(this.Global.aport6+'/api/es/rytag/getRyTag', p,
         r => {
-          var arrAfter=[];
-          var arrReal=[];
-          for(var i=0;i<r.data.resultList.length;i++){
-            if(arrAfter.indexOf(r.data.resultList[i].MC)==-1){
-              arrAfter.push(r.data.resultList[i].MC);
-              arrReal.push(r.data.resultList[i])
-            }
+          if(r.success){
+            this.labs = r.respondResult;
+            // this.labs = this.aaaa;
           }
-          this.labs = arrReal;
+          // var arrAfter=[];
+          // var arrReal=[];
+          // for(var i=0;i<r.data.resultList.length;i++){
+          //   if(arrAfter.indexOf(r.data.resultList[i].MC)==-1){
+          //     arrAfter.push(r.data.resultList[i].MC);
+          //     arrReal.push(r.data.resultList[i])
+          //   }
+          // }
+          // this.labs = arrReal;
         })
     },
      //获取标签标签
     addLable(){
       this.bqDialogVisible=true;
       this.labmc='';
-      this.$api.post(this.Global.aport3+'/ryhx/getreslab',{},
+      this.$api.get(this.Global.aport6+'/api/es/rytag/getLabBmMc',{},
         r => {
-          this.labels = r.data.resultList;
-          // let rand = Math.floor( Math.random() * this.suc.length );
-          // console.log('rand',rand)
-          // this.colorType = this.suc.slice(rand, 1)[0];
+          this.labels = r.respondResult;
           this.getLable();
         })
         this.V.$reset('demo1')
@@ -1269,18 +1310,18 @@ export default{
         var srr=this.labmc.split(',');
         let p={
           // "RYBH":this.row.RYBH||this.rybh,
-          "BM":srr[0],
-          "MC":srr[1],
+          "tagBm":srr[0],
+          // "MC":srr[1],
         };
         if(this.row){
-          p.RYBH=this.row.RYBH
+          p.rybh=this.row.RYBH
         }else if(this.rybh){
-          p.RYBH=this.rybh
+          p.rybh=this.rybh
         }else{
-          p.RYBH=''
+          p.rybh=''
         }
         p.token=this.token;
-        this.$api.post(this.Global.aport3+'/ryhx/addrybqbyrybh', p,
+        this.$api.post(this.Global.aport6+'/api/es/rytag/addRyTag', p,
           r => {
             if(r.success){
               this.$message({
@@ -1307,17 +1348,17 @@ export default{
         return;
       }
       let p={
-        "BQBH":i,
+        "tagBm":i,
       };
       if(this.row){
-        p.RYBH=this.row.RYBH
+        p.rybh=this.row.RYBH
       }else if(this.rybh){
-        p.RYBH=this.rybh
+        p.rybh=this.rybh
       }else{
-        p.RYBH=''
+        p.rybh=''
       }
       p.token = this.token
-      this.$api.post(this.Global.aport3+'/ryhx/deleterybqbyrybh', p,
+      this.$api.post(this.Global.aport6+'/api/es/rytag/delRyTag', p,
         r => {
           if(r.success){
             this.$message({

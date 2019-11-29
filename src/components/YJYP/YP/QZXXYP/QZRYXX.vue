@@ -63,7 +63,7 @@
            label="证件号码">
          </el-table-column>
          <el-table-column
-           prop="SQQZZL_DESC"
+           prop="QZZL_DESC"
            label="签证种类">
          </el-table-column>
          <el-table-column

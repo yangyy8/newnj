@@ -690,7 +690,7 @@
      <el-row  class="mb-15">
          <el-col :span="20" style="">
            <span  style="text-align:left;font-size:12px;">处理意见：</span>
-           <el-select v-model="pd.ZDYJ" placeholder="请选择"  filterable clearable default-first-option   size="small">
+           <el-select v-model="pd.ZDYJ" placeholder="请选择"  filterable clearable default-first-option   size="small" :disabled="showXF">
              <el-option v-for="item in $store.state.yjcl2"
               :key="item.dm"
               :label="item.mc"

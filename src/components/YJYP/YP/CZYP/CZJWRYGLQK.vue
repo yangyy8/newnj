@@ -6,7 +6,7 @@
          <el-col :span="16" class="br pr-20">
           <el-row align="center"   :gutter="2">
                 <el-col  :sm="24" :md="12" :lg="12" :offset="6"  class="input-item">
-                  <span class="input-text">市局下发时间：</span>
+                  <span class="input-text" title="市局下发时间" style="width:30%">市局下发时间：</span>
                   <div class="input-input t-flex t-date">
                     <el-date-picker
                        v-model="pd1.SJXFSJ_DateRange.begin" format="yyyy-MM-dd"
@@ -44,7 +44,8 @@
           <el-table
              :data="tableData"
              border
-             style="width: 100%">
+             style="width: 100%"
+             @header-click="titleShow">
              <el-table-column
                prop="fjmc"
                label="分局名称">

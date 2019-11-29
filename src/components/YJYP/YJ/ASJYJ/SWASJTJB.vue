@@ -6,7 +6,7 @@
         <el-col :span="20" class="br pr-20">
           <el-row align="center"   :gutter="2">
                 <el-col  :sm="24" :md="12" :lg="8" :offset="2" class="input-item">
-                  <span class="input-text">查询时间：</span>
+                  <span class="input-text">受理时间：</span>
                   <div class="input-input t-flex t-date">
                     <el-date-picker
                        v-model="pd.BASJ_DateRange.begin" format="yyyy-MM-dd"

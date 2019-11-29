@@ -50,7 +50,7 @@
                   <el-input placeholder="请输入内容" size="small" v-model="pd.ZJHM"   class="input-input"></el-input>
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-                  <span class="input-text">停留有效期：</span>
+                  <span class="input-text" title="停留有效期">停留有效期：</span>
                   <div class="input-input t-flex t-date">
                     <el-date-picker
                        v-model="pd.TLYXQ_DateRange.begin" format="yyyy-MM-dd"
@@ -192,7 +192,7 @@
                   <el-input placeholder="请输入内容" size="small" v-model="pd.FWCS"   class="input-input"></el-input>
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-                  <span class="input-text">市局下发时间：</span>
+                  <span class="input-text" title="市局下发时间">市局下发时间：</span>
                   <div class="input-input t-flex t-date">
                     <el-date-picker
                        v-model="pd.SJXFSJ_DateRange.begin" format="yyyy-MM-dd"
@@ -208,7 +208,7 @@
                  </div>
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-                  <span class="input-text">分局接收时间：</span>
+                  <span class="input-text" title="分局接收时间">分局接收时间：</span>
                   <div class="input-input t-flex t-date">
                     <el-date-picker
                        v-model="pd.FJJSSJ_DateRange.begin" format="yyyy-MM-dd"
@@ -224,7 +224,7 @@
                  </div>
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-                  <span class="input-text">社区接收时间：</span>
+                  <span class="input-text" title="社区接收时间">社区接收时间：</span>
                   <div class="input-input t-flex t-date">
                     <el-date-picker
                        v-model="pd.SQJSSJ_DateRange.begin" format="yyyy-MM-dd"
@@ -240,7 +240,7 @@
                  </div>
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-                  <span class="input-text">查询历史常住：</span>
+                  <span class="input-text" title="查询历史常住">查询历史常住：</span>
                   <div class="input-input t-flex t-date">
                     <el-date-picker
                        v-model="pd.HISTORY_DateRange.begin" format="yyyy-MM-dd"
@@ -302,7 +302,8 @@
                border
                style="width: 100%"
                @select="selectfn"
-               @selection-change="handleSelectionChange">
+               @selection-change="handleSelectionChange"
+               @header-click="titleShow">
                <el-table-column
                  type="selection"
                  width="55">
@@ -365,7 +366,8 @@
              border
              style="width: 100%"
              @select="selectfn"
-             @selection-change="handleSelectionChange">
+             @selection-change="handleSelectionChange"
+             @header-click="titleShow">
              <el-table-column
                type="selection"
                width="55">
@@ -681,6 +683,9 @@
         }
       },
       methods: {
+        titleShow(e,el){
+          el.target.title = e.label;
+        },
         getSsfj() {
           let p = {
             "operatorId": this.$store.state.uid,
