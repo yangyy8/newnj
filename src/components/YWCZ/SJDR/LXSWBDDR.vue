@@ -230,8 +230,6 @@
             <span class="input-text">出生日期：</span>
             <span class="input-input detailinput">  {{mapForm.CSRQ}}</span>
           </el-col>
-      </el-row>
-      <el-row :gutter="2">
           <el-col :span="12" class="input-item">
             <span class="input-text">操作人：</span>
             <span class="input-input detailinput">  {{mapForm.CZR}}</span>
@@ -241,6 +239,9 @@
             <span class="input-input detailinput">  {{mapForm.CZSJ}}</span>
           </el-col>
       </el-row>
+      <!-- <el-row :gutter="2">
+
+      </el-row> -->
 
     </el-form>
     <div slot="footer" class="dialog-footer">

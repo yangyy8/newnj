@@ -1296,7 +1296,7 @@ export default{
     addLable(){
       this.bqDialogVisible=true;
       this.labmc='';
-      this.$api.get(this.Global.aport6+'/api/es/rytag/getLabBmMc',{},
+      this.$api.get(this.Global.aport6+'/api/es/rytag/getLabBmMc',{"token":this.token},
         r => {
           this.labels = r.respondResult;
           this.getLable();

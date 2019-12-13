@@ -20,7 +20,7 @@
                         <el-option
                           v-for="(item,ind) in ssfj"
                           :key="ind"
-                          :label="item.mc"
+                          :label="item.dm+' - '+item.mc"
                           :value="item.dm">
                         </el-option>
                       </el-select>

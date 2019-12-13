@@ -277,18 +277,26 @@
     download(){
       this.getPd();
       if(this.page==0){
+        if(this.tableData.length==0){
+           this.$message.error('无可导出数据！');
+           return
+        }
         this.$api.post(this.Global.aport2+'/czgltb/exportglqktbb',{pd:this.pd,userCode:this.userCode,userName:this.userName,orgJB:this.juState,orgCode:this.orgCode,token:this.token},
          r =>{
-           this.downloadM(r)
+           this.downloadM(r,'境外人员管理情况')
          },e=>{},{},'blob')
       }else{
+        if(this.tableData1.length==0){
+           this.$message.error('无可导出数据！');
+           return
+        }
         this.$api.post(this.Global.aport2+'/czgltb/exportcwxxmd',{pd:this.pd,userCode:this.userCode,userName:this.userName,orgJB:this.juState,orgCode:this.orgCode,token:this.token},
          r =>{
-           this.downloadM(r)
+           this.downloadM(r,'各分局错误信息名单')
          },e=>{},{},'blob')
       }
     },
-    downloadM (data) {
+    downloadM (data,name) {
         if (!data) {
             return
         }
@@ -296,7 +304,7 @@
         let link = document.createElement('a')
         link.style.display = 'none'
         link.href = url
-        link.setAttribute('download', '报表.xls')
+        link.setAttribute('download', name+'报表.xls')
         document.body.appendChild(link)
         link.click()
     },

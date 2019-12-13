@@ -79,7 +79,8 @@
            :data="tableData"
            border
            style="width: 100%"
-           @selection-change="handleSelectionChange">
+           @selection-change="handleSelectionChange"
+           @header-click="titleShow">
            <!-- <el-table-column
              type="selection"
              width="55">
@@ -749,6 +750,9 @@ export default {
            this.deg = 0
        }
    },
+   titleShow(e,el){
+     el.target.title = e.label;
+   },
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
@@ -849,6 +853,10 @@ export default {
         })
     },
     download(){
+      if(this.tableData.length==0){
+         this.$message.error('无可导出数据！');
+         return
+      }
       let p = {
         "currentPage": this.CurrentPage,
         "showCount": 1000000,

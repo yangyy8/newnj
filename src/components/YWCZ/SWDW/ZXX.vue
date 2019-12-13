@@ -40,7 +40,7 @@
                     </el-select>
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-                  <span class="input-text">停留有效期：</span>
+                  <span class="input-text" title="停留有效期">停留有效期：</span>
                   <div class="input-input t-flex t-date">
                     <el-date-picker
                        v-model="pd0.begin" format="yyyy-MM-dd"
@@ -122,11 +122,11 @@
                    <el-input placeholder="请输入内容" size="small" v-model="pd.DZYX" class="input-input"></el-input>
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
-                   <span class="input-text">境内联系人：</span>
+                   <span class="input-text" title="境内联系人">境内联系人：</span>
                    <el-input placeholder="请输入内容" size="small" v-model="pd.JNLXR" class="input-input"></el-input>
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
-                   <span class="input-text">联系人手机号码：</span>
+                   <span class="input-text" title="联系人手机号码">联系人手机号码：</span>
                    <el-input placeholder="请输入内容" size="small" v-model="pd.LXRSJHM" class="input-input"></el-input>
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
@@ -179,7 +179,8 @@
            ref="multipleTable"
            :highlight-current-row="true"
            style="width: 100%"
-           @select="selectfn">
+           @select="selectfn"
+           @header-click="titleShow">
            <!-- <el-table-column
              type="selection"
              width="55">
@@ -223,7 +224,7 @@
              </template> -->
            </el-table-column>
            <el-table-column
-             label="操作" width="120">
+             label="操作" width="70">
              <template slot-scope="scope">
                <div>
                   <el-button type="text"  class="a-btn"  title="处理"  icon="el-icon-edit" @click="$router.push({name:'ZXX_XQ',query:{hiType:'zxx',row:scope.row}})"></el-button>
@@ -319,6 +320,9 @@ export default {
     this.getDw();
   },
   methods: {
+    titleShow(e,el){
+      el.target.title = e.label;
+    },
     getDw(){
       this.$api.post(this.Global.aport4+'/SWDW_SJSBController/getAllDW',{},
         r =>{

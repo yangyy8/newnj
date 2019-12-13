@@ -277,7 +277,7 @@
                 <el-col :span="2" class="down-btn-area">
                   <el-button type="success" size="small" @click="CurrentPage=1;getList(CurrentPage,pageSize,pd)" class="mb-15">查询</el-button>
                   <!-- <el-button type="" size="small" @click="" class="mb-15"> 重置</el-button> -->
-                  <el-button type="primary"  size="small" @click="download">导出</el-button>
+                  <el-button type="primary"  size="small" class="t-ml0" @click="download">导出</el-button>
                 </el-col>
               </el-row>
         </div>
@@ -734,6 +734,10 @@
           // console.log('this.selectionAll',this.selectionAll);
         },
         download(){
+          if(this.tableData.length==0){
+             this.$message.error('无可导出数据！');
+             return
+          }
           let p={};
           let url="";
           this.pd.YWX = (this.pd.YWX).toUpperCase();
@@ -799,7 +803,7 @@
             let link = document.createElement('a')
             link.style.display = 'none'
             link.href = url
-            link.setAttribute('download', '常住信息综合分析人员列表'+this.format(new Date(),'yyyyMMddhhmmss')+'.xls')
+            link.setAttribute('download', '常住境外人员综合分析列表'+this.format(new Date(),'yyyyMMddhhmmss')+'.xls')
             document.body.appendChild(link)
             link.click()
         },
@@ -973,7 +977,7 @@
 
     </style>
     <style>
-      .el-button+.el-button{margin-left: 0!important;}
+      /* .el-button+.el-button{margin-left: 0!important;} */
       .t-tjCheck .el-checkbox{margin-left: 20px!important; line-height: 30px;}
       .t-tjCheck .el-checkbox+.el-checkbox{margin-left: 20px!important;}
       .bj .el-dialog__wrapper {

@@ -26,7 +26,7 @@
                   </el-select>
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
-                  <span class="input-text">移民签证种类：</span>
+                  <span class="input-text" title="移民签证种类">移民签证种类：</span>
                   <el-select v-model="pd.YMQZZLDM" filterable clearable  default-first-option placeholder="请选择"  size="small" class="input-input">
                     <el-option
                       v-for="(item,ind1) in $store.state.ymqzzl"
@@ -173,7 +173,7 @@
       </el-row>
     </el-form>
   </el-dialog>
-  <el-dialog title="编辑" :visible.sync="editsDialogVisible">
+  <el-dialog title="编辑" :visible.sync="editsDialogVisible" width="850px">
     <el-form   ref="editForm">
       <el-row :gutter="3"  class="mb-6">
         <el-col :span="12" class="input-item">
@@ -204,7 +204,7 @@
          </el-date-picker>
         </el-col>
         <el-col :span="12" class="input-item">
-          <span class="input-text">移民签证种类：</span>
+          <span class="input-text" title="移民签证种类">移民签证种类：</span>
           <el-select v-model="editForm.YMQZZLDM" @change="getLable(2,editForm.YMQZZLDM)"  filterable clearable  default-first-option placeholder="请选择"  size="small" class="input-input">
             <el-option
               v-for="(item,ind1) in $store.state.ymqzzl"
@@ -246,7 +246,7 @@
       <el-button @click="editsDialogVisible = false" size="small">取 消</el-button>
     </div>
   </el-dialog>
-  <el-dialog title="详情" :visible.sync="detailsDialogVisible">
+  <el-dialog title="详情" :visible.sync="detailsDialogVisible" width="900px">
     <el-form   ref="mapForm">
       <el-row :gutter="3"  class="mb-6">
         <el-col :span="12" class="input-item">
@@ -266,7 +266,7 @@
           <span class="input-input detailinput">  {{mapForm.CSRQ}}</span>
         </el-col>
         <el-col :span="12" class="input-item">
-          <span class="input-text">移民签证种类：</span>
+          <span class="input-text" title="移民签证种类">移民签证种类：</span>
           <span class="input-input detailinput">  {{mapForm.YMQZZLMC}}</span>
         </el-col>
         <el-col :span="12" class="input-item">

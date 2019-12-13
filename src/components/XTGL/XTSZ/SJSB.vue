@@ -3,7 +3,7 @@
   <div class="yymain">
     <div class="yytitle">
       <el-row type="flex">
-        <el-col :span="21" class="br pr-20">
+        <el-col :span="22" class="br pr-20">
           <el-row align="center"   :gutter="2">
                 <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
                    <span class="input-text">标题：</span>
@@ -22,7 +22,7 @@
                 </el-col>
           </el-row>
          </el-col>
-        <el-col :span="3">
+        <el-col :span="2">
           <el-button type="success" size="small"  class="t-mb" @click="CurrentPage=1;getList(CurrentPage,pageSize,pd)">查询</el-button>
         </el-col>
       </el-row>
@@ -35,7 +35,8 @@
            ref="multipleTable"
            :highlight-current-row="true"
            style="width: 100%"
-           @select="selectfn">
+           @select="selectfn"
+           @header-click="titleShow">
            <!-- <el-table-column
              type="selection"
              width="55">
@@ -57,7 +58,7 @@
              label="上报时间">
            </el-table-column>
            <el-table-column
-             label="操作" width="120">
+             label="操作" width="70">
              <template slot-scope="scope">
                <div>
                   <el-button type="text"  class="a-btn"  title="详情"  icon="el-icon-tickets" @click="details(scope.row)"></el-button>
@@ -112,7 +113,7 @@
         </el-row>
         <el-row class="mb-6" style="margin-top:10px">
           <el-col :span="8" class="input-item">
-            <span class="input-text" style="width:70px!important;text-align:left">上报单位：</span>
+            <span class="input-text" style="width:85px!important;text-align:left">上报单位：</span>
             <span class="review-span" style="padding-left:13px">{{dform.CJDWMC}}</span>
           </el-col>
           <el-col :span="8" class="input-item">
@@ -198,6 +199,9 @@ export default {
     this.getDw();
   },
   methods: {
+    titleShow(e,el){
+      el.target.title = e.label;
+    },
     getDw(){
       this.$api.post(this.Global.aport4+'/SWDW_SJSBController/getAllDW',{},
         r =>{

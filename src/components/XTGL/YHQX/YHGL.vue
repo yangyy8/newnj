@@ -66,7 +66,7 @@
              </template>
            </el-table-column>
            <el-table-column
-             label="操作" width="260">
+             label="操作" width="200">
              <template slot-scope="scope">
              <el-button type="text"  class="a-btn"  title="详情"  icon="el-icon-document" @click="details(scope.row)"></el-button>
              <el-button type="text"  class="a-btn"  title="编辑"  icon="el-icon-edit-outline" @click="adds(1,scope.row);"></el-button>
@@ -197,7 +197,7 @@
 <div class="mnus">
     <el-dialog title="临时赋权" :visible.sync="menuDialogVisible" width="600px">
       <el-row  :gutter="1">
-        <el-col :span="24">
+        <!-- <el-col :span="24">
           <span class="yy-input-text">所属单位：</span>
            <el-select v-model="pd2.org"  filterable clearable  default-first-option class="yy-input-input" @change="getMnus(pd2.org)" placeholder="请选择"  size="small">
              <el-option
@@ -207,30 +207,58 @@
               :value="item.dm">
             </el-option>
            </el-select>
+        </el-col> -->
+
+        <el-col :span="24">
+          <span class="yy-input-text">所属单位：</span>
+           <el-select v-model="pd2.org"  filterable clearable  default-first-option class="yy-input-input" placeholder="请选择"  size="small">
+             <el-option
+              v-for="item in ssdw"
+              :key="item.dm"
+              :label="item.mc"
+              :value="item.dm">
+            </el-option>
+           </el-select>
         </el-col>
 
-      <el-col :span="24">
+        <el-col :span="24">
           <span class="yy-input-text">单位赋权：</span>
+          <!-- <el-tree
+            :data="menudata"
+            show-checkbox
+            default-expand-all
+            node-key="dm"
+            :default-checked-keys="defaultChecked"
+            ref="tree"
+            highlight-current
+            class="yy-input-input"
+            style="padding-left:20%;"
+            :props="defaultProps">
+          </el-tree> -->
 
-      <el-tree
-        :data="menudata"
-        show-checkbox
-        default-expand-all
-        node-key="dm"
-        :default-checked-keys="defaultChecked"
-        ref="tree"
-        highlight-current
-        class="yy-input-input"
-        style="padding-left:20%;"
-        :props="defaultProps">
-      </el-tree>
-    </el-col>
-   </el-row>
-      <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="menuItem" size="small">保 存</el-button>
-        <el-button @click="menuDialogVisible = false" size="small">取 消</el-button>
-      </div>
-    </el-dialog>
+
+          <div v-for="(item,ind) in ssdw">
+            <el-tree
+              :data="menudata"
+              show-checkbox
+              default-expand-all
+              node-key="dm"
+              :default-checked-keys="deNode['defaultChecked'+item.dm]"
+              :ref="deC[item.dm]"
+              highlight-current
+              class="yy-input-input"
+              style="padding-left:20%;"
+              :props="defaultProps"
+              v-show="item.dm==pd2.org">
+            </el-tree>
+          </div>
+      </el-col>
+       </el-row>
+          <div slot="footer" class="dialog-footer">
+            <el-button type="primary" @click="menuItem" size="small">保 存</el-button>
+            <el-button @click="menuDialogVisible = false" size="small">取 消</el-button>
+          </div>
+        </el-dialog>
 </div>
 
   <el-dialog title="关联到角色" :visible.sync="jsDialogVisible">
@@ -371,11 +399,15 @@ export default {
         children: 'children',
         label: 'mc'
       },
+      deC:{},
+      deNode:{},
       defaultChecked: [],
       userid: '',
       org: '',
       ssdw: [],
       menurr: [],
+
+      menuArr:[],
 
     }
   },
@@ -661,7 +693,34 @@ export default {
       this.$api.post(this.Global.aport1 + '/user/getSsdwByUserId', p,
         rr => {
           this.ssdw = rr.data;
+          for(var i=0;i<this.ssdw.length;i++){
+            this.$set(this.deC,this.ssdw[i].dm,'');
+            console.log('sai==',this.deC)
+            this.$set(this.deNode,'defaultChecked'+this.ssdw[i].dm,[]);
+            console.log('jin==',this.deNode)
+          }
         });
+      this.getCheck()
+    },
+    getCheck(){
+      var ff = new FormData();
+      ff.append("token", this.$store.state.token);
+      ff.append("userid", this.userid);
+      this.$api.post(this.Global.aport1 + '/fun/getFunTreeByUserID',ff,
+       r =>{
+         if(r.success){
+           this.menudata = r.data.all;
+           for(var i=0;i<r.data.checked.length;i++){
+             for(var j=0;j<this.ssdw.length;j++){
+               if(this.ssdw[j].dm == r.data.checked[i].org.dm){
+                 this.deNode['defaultChecked'+this.ssdw[j].dm] = r.data.checked[i].funids
+                 // console.log(this.deNode['defaultChecked'+this.ssdw[j].dm],r.data.checked[i].funids,this.deNode)
+                 // (this.$refs[`${this.deC[this.ssdw[j].dm]}`][j]).setCheckedKeys(r.data.checked[i].funids);
+               }
+             }
+           }
+         }
+       })
     },
     getMnus(v) {
       var ff = new FormData();
@@ -717,35 +776,39 @@ export default {
     },
     //保存赋权
     menuItem() {
-
       if (this.pd2.org == undefined || this.pd2.org == '') {
         this.open("请选择所属单位！");
         return;
       }
-
-      let checkList = this.$refs.tree.getCheckedNodes();
-
-      if (checkList.length == 0) {
+      this.menuArr=[];
+      let checkedNodeAll=[];
+      for(var i=0;i<this.ssdw.length;i++){
+        let obj={};
+        let currentDw = this.ssdw[i].dm;
+        // this.$refs[`${this.uploadName}`]; //通过模板字符串的方式
+        let currentNode = (this.$refs[`${this.deC[currentDw]}`][i]).getCheckedKeys(true);
+        // let currentHN = (this.$refs[`${this.deC[currentDw]}`][i]).getHalfCheckedKeys();
+        // console.log('====',currentNode,currentHN);
+        // let checkedNode = Object.assign([],currentNode,currentHN);
+        // console.log('合并后',currentNode);
+        checkedNodeAll = checkedNodeAll.concat(currentNode);
+        obj={
+          org:currentDw,
+          funids:currentNode
+        }
+        this.menuArr.push(obj)
+      }
+      console.log('this.menuArr',this.menuArr,checkedNodeAll);
+      if (checkedNodeAll.length == 0) {
         this.open("请选择权限！");
         return;
       }
-      var array = checkList;
-      var childrenlist = new Array();
-      // for (var i = 0; i < array.length; i++) {
-      //
-      //   childrenlist.push(array[i].dm);
-      // }
-      childrenlist = this.$refs.tree.getHalfCheckedKeys().concat(this.$refs.tree.getCheckedKeys());
       var ff = new FormData();
-      ff.append("token", this.$store.state.token);
-      ff.append("userid", this.userid);
-      if (this.pd2.org != undefined) {
-        ff.append("org", this.pd2.org);
-      }
-      ff.append("funids", childrenlist);
-      let p = ff;
+      ff.append('token',this.$store.state.token)
+      ff.append('userid',this.userid)
+      ff.append('funids',JSON.stringify(this.menuArr))
       var url = this.Global.aport1 + '/fun/updateFunsToUser';
-      this.$api.post(url, p,
+      this.$api.post(url, ff,
         r => {
           if (r.success) {
             this.$message({
@@ -753,7 +816,6 @@ export default {
               message: '保存成功'
             });
           } else {
-
             this.$message.error('保存失败');
           }
         })

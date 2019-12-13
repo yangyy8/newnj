@@ -167,7 +167,7 @@
                         :value="item">
                       </el-option>
                     </el-select>
-                    <el-select v-model="lzmonth" size="small" placeholder="月" style="z-index: 999" @visible-change='monthFun' clearable @change="mapFun">
+                    <el-select v-model="lzmonth" size="small" placeholder="月" style="z-index: 999" @visible-change='monthFun' clearable @change="monthChange">
                       <el-option
                         v-for="(item,ind) in months"
                         :key="ind"
@@ -175,7 +175,7 @@
                         :value="item">
                       </el-option>
                     </el-select>
-                    <el-select v-model="lzdate" size="small" placeholder="日" @visible-change='dayFun' style="z-index: 999" clearable @change="mapFun">
+                    <el-select v-model="lzdate" size="small" placeholder="日" @visible-change='dayFun' style="z-index: 999" clearable @change="dayChange">
                       <el-option
                         v-for="(item,ind) in dates"
                         :key="ind"
@@ -530,6 +530,9 @@ export default {
 
       allLzNum:0,
       allCzNum:0,
+
+      currentMonth:'',
+      currentYear:'',
 
       userCode:'',
       userName:'',
@@ -1083,9 +1086,14 @@ export default {
          r =>{
            if(r.success){
              this.months = r.data.MONTH;
-             if(this.lzyear==''){this.lzyear = r.data.YEAR;}
+             this.currentYear = r.data.YEAR
+
            }
          })
+      },
+      monthChange(){
+        if(this.lzyear==''){this.lzyear = this.currentYear;}
+        this.mapFun();
       },
       dayFun(){
         let p={
@@ -1096,10 +1104,15 @@ export default {
          r =>{
            if(r.success){
              this.dates = r.data.DAY;
-             if(this.lzmonth==''){this.lzmonth = r.data.MONTH;}
-             if(this.lzyear==''){this.lzyear = r.data.YEAR;}
+             this.currentMonth = r.data.MONTH;
+             this.currentYear = r.data.YEAR;
            }
          })
+      },
+      dayChange(){
+        if(this.lzmonth==''){this.lzmonth = this.currentMonth;}
+        if(this.lzyear==''){this.lzyear = this.currentYear;}
+        this.mapFun();
       },
       czFun(){
         this.$api.post(this.Global.aport+'/home/getCzsfdata',{},

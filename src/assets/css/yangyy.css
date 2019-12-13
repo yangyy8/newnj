@@ -51,5 +51,5 @@
 
 /* 1366*/
 @media screen and (max-width: 1440px) {
- .newlogo{background: url('../../assets/img/1366/logo.png') no-repeat;width: 362px;height: 44px;margin-top: 10px;}
+ .newlogo{background: url('../../assets/img/logon.png') no-repeat;width: 440px;height: 44px;margin-top: 10px;background-size: 100%}
 }

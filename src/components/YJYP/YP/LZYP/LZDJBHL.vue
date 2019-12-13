@@ -95,7 +95,7 @@
                 <el-col  :sm="24" :md="12" :lg="12"  class="input-item">
                     <span class="input-text">所属分局：</span>
                     <div class="input-input t-fuzzy-12 t-flex">
-                      <el-select v-model="pd.LRDW_Like" multiple :multiple-limit="5" @change="getPCS(pd.LRDW_Like)"  collapse-tags  filterable clearable default-first-option placeholder="请选择"  size="small" :disabled="juState=='1'?false:true">
+                      <el-select v-model="pd.LRDW_Like" multiple :multiple-limit="5" @change="getFJ()"  collapse-tags  filterable clearable default-first-option placeholder="请选择"  size="small" :disabled="juState=='1'?false:true">
                         <el-option
                           v-for="item in fjlist"
                           :key="item.dm"
@@ -109,11 +109,11 @@
                 <el-col  :sm="24" :md="12" :lg="12"  class="input-item">
                     <span class="input-text">派出所：</span>
                     <div class="input-input t-fuzzy-12 t-flex">
-                      <el-select v-model="pd.LRDW" multiple :multiple-limit="5"  collapse-tags filterable clearable default-first-option placeholder="请选择"  size="small" :disabled="juState=='3'" :no-data-text="pd.LRDW_Like==''||pd.LRDW_Like==undefined?'请先选择所属分局':'无数据'">
+                      <el-select v-model="pd.LRDW" multiple :multiple-limit="5" @visible-change="getPCS(pd.LRDW_Like)" collapse-tags filterable clearable default-first-option placeholder="请选择"  size="small" :disabled="juState=='3'" :no-data-text="pd.LRDW_Like==''||pd.LRDW_Like==undefined?'请先选择所属分局':'无数据'">
                         <el-option
                           v-for="item in pcslist"
                           :key="item.dm"
-                          :label="item.mc"
+                          :label="item.dm+' - '+item.mc"
                           :value="item.dm">
                         </el-option>
                       </el-select>&nbsp;&nbsp;
@@ -148,7 +148,7 @@
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="12"  class="input-item">
                   <span class="input-text">快速预览：</span>
-                  <div class="">
+                  <div class="alone-flex">
                     <el-button type="primary" size="mini" @click="pd.TYPE='YN';page=0;tableData=[];CurrentPage=1;TotalResult=0;getList()">年</el-button>
                     <el-button type="primary" size="mini" @click="pd.TYPE='BN';page=0;tableData=[];CurrentPage=1;TotalResult=0;getList()">半年</el-button>
                     <el-button type="primary" size="mini" @click="pd.TYPE='JD';page=0;tableData=[];CurrentPage=1;TotalResult=0;getList()">季度</el-button>
@@ -509,6 +509,7 @@ import LZXX from '../../../common/lzxx_xq'
       this.getListTu(val,this.pageSize,this.pdTu);
     },
     getFJ(){
+      this.$set(this.pd,'LRDW',[]);
       let p={
         "operatorId":this.$store.state.uid,
         "operatorNm":this.$store.state.uname,
@@ -713,6 +714,10 @@ import LZXX from '../../../common/lzxx_xq'
       that.lineChart.resize();
     },
     exportexcel(){
+      if(this.tableData.length==0){
+         this.$message.error('无可导出数据');
+         return
+      }
       let p={
         'currentPage':1,
         'showCount':10000,

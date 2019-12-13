@@ -258,7 +258,6 @@ export default {
          formData.append("type",this.checkList2);
        }
        let p=formData;
-       console.log('formData',formData)
        this.$api.post(this.Global.aport2+'/ryhxhx/gettjxx',p,
         r =>{
           if(r.success){

@@ -6,7 +6,7 @@
         <el-col :span="20" class="br pr-20">
           <el-row align="center"   :gutter="2">
                 <el-col  :sm="24" :md="12" :lg="8" :offset="2" class="input-item">
-                  <span class="input-text">受理时间：</span>
+                  <span class="input-text" style="width:25%">受理时间：</span>
                   <div class="input-input t-flex t-date">
                     <el-date-picker
                        v-model="pd.BASJ_DateRange.begin" format="yyyy-MM-dd"
@@ -218,7 +218,7 @@
 
             </el-table-column>
          </el-table>
-     <div class="middle-foot">
+     <!-- <div class="middle-foot">
         <div class="page-msg">
           <div class="">
         共{{TotalResult}}条记录
@@ -247,7 +247,7 @@
           layout="prev, pager, next"
           :total="TotalResult">
         </el-pagination>
-      </div>
+      </div> -->
     </div>
   </div>
 
@@ -308,6 +308,10 @@ export default {
         })
     },
     download(){
+      if(this.tableData.length==0){
+         this.$message.error('无可导出数据！');
+         return
+      }
       let p={
         pd:this.pd,
         userCode:this.userCode,

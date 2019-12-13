@@ -711,7 +711,7 @@
             </div>
             <div class="t-check" v-if="$route.query.hiType!='rysh'">
                <div class="aImg-title t-mb10">核查处理</div>
-               <el-row v-if="$route.query.hiType=='slry'||$route.query.hiType=='jlxk'">
+               <el-row v-if="$route.query.hiType=='jlxk'">
                  <el-col :span="20" class="input-item t-mb10">
                    <span class="input-text t-mb10" style="width:70px!important">核查状态：</span>
                    <el-select v-model="pc.HCZT" placeholder="请选择"  filterable clearable default-first-option class="input-input t-width31 inputInner" :disabled="!hcShow">
@@ -738,7 +738,7 @@
                 </el-col>
               </el-row>
               <el-row type="flex">
-                <el-col :span="24" class="czfont t-ml70">处理人：{{withname}}</el-col>
+                <el-col :span="24" class="czfont t-ml70">处理人：{{row.CLR}}</el-col>
               </el-row>
              </div>
              <div class="t-footer" v-if="$route.query.hiType=='rysh'">
@@ -974,7 +974,7 @@ export default {
     this.shShow=true;
     this.pc={HCBZ:''};
     this.shpc.SHBZ='';
-    if(this.row.CLZT=='0'){
+    if(this.row.CLZT=='0'||(this.row.CLZT=='2'&&this.row.HCZT=='0')){
       this.hcShow=false;
       this.pc.HCZT = this.row.HCZT;
       this.pc.HCBZ = this.row.HCBZ;
@@ -1106,7 +1106,9 @@ export default {
           orgJB:this.juState,
           token:this.token,
         }
-        this.$api.post(this.Global.aport4+'/JLXKXBZFWarningInfoController/exportZFGSByDTIDs',p,
+        // let url="http://10.0.30.40:9440/JLXKXBZFWarningInfoController/exportZFGSByDTIDs"
+        let url=this.Global.aport4+'/JLXKXBZFWarningInfoController/exportZFGSByDTIDs'
+        this.$api.post(url,p,
          r =>{
            if (!r) {
                return

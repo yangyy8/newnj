@@ -374,11 +374,11 @@
                 <span class="input-input detailinput">  {{mapForm.QZHM}}</span>
               </el-col>
               <el-col :span="12" class="input-item">
-                <span class="input-text">签证签发日期：</span>
+                <span class="input-text" title="签证签发日期">签证签发日期：</span>
                 <span class="input-input detailinput">  {{mapForm.QZQFRQ}}</span>
               </el-col>
               <el-col :span="12" class="input-item">
-                <span class="input-text">签证有效日期：</span>
+                <span class="input-text" title="签证有效日期">签证有效日期：</span>
                 <span class="input-input detailinput">  {{mapForm.QZYXRQ}}</span>
               </el-col>
               <el-col :span="12" class="input-item">
@@ -393,35 +393,37 @@
                 <span class="input-text">邀请单位：</span>
                 <span class="input-input detailinput">  {{mapForm.YQDW}}</span>
               </el-col>
-              <el-col :span="12" class="input-item">
-                <span class="input-text">住址：</span>
-                <span class="input-input detailinput">  {{mapForm.DZ}}</span>
+              <el-col :span="24" class="input-item">
+                <span class="input-text" style="width:11.5%!important">住址：</span>
+                <span class="input-input detailinput" style="width:80%!important">  {{mapForm.DZ}}</span>
               </el-col>
               <el-col :span="12" class="input-item">
                 <span class="input-text">联系电话：</span>
                 <span class="input-input detailinput">  {{mapForm.LXDH}}</span>
               </el-col>
+              <el-col :span="12" class="input-item">
+                <span class="input-text">操作人：</span>
+                <span class="input-input detailinput">  {{mapForm.CZR}}</span>
+              </el-col>
+              <el-col :span="12" class="input-item">
+                <span class="input-text">操作日期：</span>
+                <span class="input-input detailinput">  {{mapForm.CZSJ}}</span>
+              </el-col>
+              <el-col :span="12" class="input-item">
+                <span class="input-text">修改人：</span>
+                <span class="input-input detailinput">  {{mapForm.XGR}}</span>
+              </el-col>
+              <el-col :span="12" class="input-item">
+                <span class="input-text">修改日期：</span>
+                <span class="input-input detailinput">  {{mapForm.XGSJ}}</span>
+              </el-col>
           </el-row>
-          <el-row :gutter="2" style="border-top:1px solid #eee; padding-top:10px;">
-            <el-col :span="12" class="input-item">
-              <span class="input-text">操作人：</span>
-              <span class="input-input detailinput">  {{mapForm.CZR}}</span>
-            </el-col>
-            <el-col :span="12" class="input-item">
-              <span class="input-text">操作日期：</span>
-              <span class="input-input detailinput">  {{mapForm.CZSJ}}</span>
-            </el-col>
+          <!-- <el-row :gutter="2" style="border-top:1px solid #eee; padding-top:10px;">
+          
           </el-row>
           <el-row :gutter="2">
-            <el-col :span="12" class="input-item">
-              <span class="input-text">修改人：</span>
-              <span class="input-input detailinput">  {{mapForm.XGR}}</span>
-            </el-col>
-            <el-col :span="12" class="input-item">
-              <span class="input-text">修改日期：</span>
-              <span class="input-input detailinput">  {{mapForm.XGSJ}}</span>
-            </el-col>
-          </el-row>
+
+          </el-row> -->
 
         </el-form>
         <div slot="footer" class="dialog-footer">

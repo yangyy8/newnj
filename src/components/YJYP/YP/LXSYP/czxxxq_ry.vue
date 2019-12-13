@@ -118,7 +118,7 @@
           <span class="input-input detailinput">  {{czinfo.personType_desc}}</span>
         </el-col>
           <el-col :span="8" class="input-item">
-            <span class="input-text">境外人员身份证号：</span>
+            <span class="input-text" title="境外人员身份证号">境外人员身份证号：</span>
             <span class="input-input detailinput">  {{czinfo.foreignerId}}</span>
           </el-col>
           <el-col :span="8" class="input-item">
@@ -126,15 +126,15 @@
             <span class="input-input detailinput">  {{czinfo.resideReason_desc}}</span>
           </el-col>
           <el-col :span="8" class="input-item">
-            <span class="input-text">居留证许可号码：</span>
+            <span class="input-text" title="居留证许可号码">居留证许可号码：</span>
             <span class="input-input detailinput">  {{czinfo.residePermitNO}}</span>
           </el-col>
           <el-col :span="8" class="input-item">
-            <span class="input-text">居留许可发证日期：</span>
+            <span class="input-text" title="居留许可发证日期">居留许可发证日期：</span>
             <span class="input-input detailinput">  {{czinfo.residePermitAssignDay}}</span>
           </el-col>
           <el-col :span="8" class="input-item">
-            <span class="input-text">居留许可有效期：</span>
+            <span class="input-text" title="居留许可有效期">居留许可有效期：</span>
             <span class="input-input detailinput"> {{czinfo.residePermitExpiredDay}}</span>
           </el-col>
           <el-col :span="8" class="input-item">
@@ -146,35 +146,35 @@
             <span class="input-input detailinput">  {{czinfo.assignmentOrg_desc}}</span>
           </el-col>
           <el-col :span="8" class="input-item">
-            <span class="input-text">常住人员联系电话：</span>
+            <span class="input-text" title="常住人员联系电话">常住人员联系电话：</span>
             <span class="input-input detailinput">  {{czinfo.resideContactTel}}</span>
           </el-col>
           <el-col :span="8" class="input-item">
-            <span class="input-text">当前居住地所在区县：</span>
+            <span class="input-text" title="当前居住地所在区县">当前居住地所在区县：</span>
             <span class="input-input detailinput">  {{czinfo.inhabiResidence}}</span>
           </el-col>
           <el-col :span="8" class="input-item">
-            <span class="input-text">所属派出所：</span>
+            <span class="input-text" title="所属派出所">所属派出所：</span>
             <span class="input-input detailinput">  {{czinfo.inhabiPoliceStationName}}</span>
           </el-col>
           <el-col :span="8" class="input-item">
-            <span class="input-text">当前居住地详细地址：</span>
+            <span class="input-text" title="当前居住地详细地址">当前居住地详细地址：</span>
             <span class="input-input detailinput">  {{czinfo.inhabiDetailAddr}}</span>
           </el-col>
           <el-col :span="8" class="input-item">
-            <span class="input-text">居住状态类型：</span>
+            <span class="input-text" title="居住状态类型">居住状态类型：</span>
             <span class="input-input detailinput">  {{czinfo.inhabiState_desc}}</span>
           </el-col>
           <el-col :span="8" class="input-item">
-            <span class="input-text">当前居住初始状态产生时间：</span>
+            <span class="input-text" title="当前居住初始状态产生时间">当前居住初始状态产生时间：</span>
             <span class="input-input detailinput">  {{czinfo.inhabiOriStateTime}}</span>
           </el-col>
           <el-col :span="8" class="input-item">
-            <span class="input-text">当前工作单位所在区县：</span>
+            <span class="input-text" title="当前工作单位所在区县">当前工作单位所在区县：</span>
             <span class="input-input detailinput">  {{czinfo.workplaceResidence}}</span>
           </el-col>
           <el-col :span="8" class="input-item">
-            <span class="input-text">当前工作单位所在地派出所：</span>
+            <span class="input-text" title="当前工作单位所在地派出所">当前工作单位所在地派出所：</span>
             <span class="input-input detailinput">  {{czinfo.workplacePoliceStationName}}</span>
           </el-col>
           <el-col :span="8" class="input-item">
@@ -184,19 +184,19 @@
 
 
           <el-col :span="8" class="input-item">
-            <span class="input-text">当前工作单位组织机构代码：</span>
+            <span class="input-text" title="当前工作单位组织机构代码">当前工作单位组织机构代码：</span>
             <span class="input-input detailinput">  {{czinfo.workplaceOrgCode}}</span>
           </el-col>
           <el-col :span="8" class="input-item">
-            <span class="input-text">当前工作单位：</span>
+            <span class="input-text" title="当前工作单位">当前工作单位：</span>
             <span class="input-input detailinput">  {{czinfo.workplaceName}}</span>
           </el-col>
           <el-col :span="8" class="input-item">
-            <span class="input-text">当前工作身份：</span>
+            <span class="input-text" title="当前工作身份">当前工作身份：</span>
             <span class="input-input detailinput">  {{czinfo.workDegree}}</span>
           </el-col>
           <el-col :span="8" class="input-item">
-            <span class="input-text">当前工作任职起始时间：</span>
+            <span class="input-text" title="当前工作任职起始时间">当前工作任职起始时间：</span>
             <span class="input-input detailinput">  {{czinfo.workingBeginTime}}</span>
           </el-col>
       </el-row>
@@ -206,7 +206,8 @@
           :data="tableDatajz"
           @row-click="getJZ"
           border
-          style="width: 100%">
+          style="width: 100%"
+          @header-click="titleShow">
           <el-table-column
             prop="JZD_PCSMC"
             label="居住地所属派出所">
@@ -272,7 +273,7 @@
             <span class="input-input detailinput">  {{jzinfo.JZD_PCS}}</span>
           </el-col>
           <el-col :span="8" class="input-item">
-            <span class="input-text">派出所中文名称：</span>
+            <span class="input-text" title="派出所中文名称">派出所中文名称：</span>
             <span class="input-input detailinput"> {{jzinfo.JZD_PCSMC}}</span>
           </el-col>
           <el-col :span="8" class="input-item">
@@ -288,15 +289,15 @@
             <span class="input-input detailinput">  {{jzinfo.FZXB_DESC}}</span>
           </el-col>
           <el-col :span="8" class="input-item">
-            <span class="input-text">房主证件号码：</span>
+            <span class="input-text" title="房主证件号码">房主证件号码：</span>
             <span class="input-input detailinput">  {{jzinfo.FZZJHM}}</span>
           </el-col>
             <el-col :span="8" class="input-item">
-              <span class="input-text">房主工作单位：</span>
+              <span class="input-text" title="房主工作单位">房主工作单位：</span>
               <span class="input-input detailinput">  {{jzinfo.FZGZDW}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
-              <span class="input-text">房主联系电话：</span>
+              <span class="input-text" title="房主联系电话">房主联系电话：</span>
               <span class="input-input detailinput">  {{jzinfo.FZLXDH}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
@@ -313,7 +314,7 @@
               <span class="input-input detailinput">  {{jzinfo.JZZTCSSJ}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
-              <span class="input-text">居住状态确认时间：</span>
+              <span class="input-text" title="居住状态确认时间">居住状态确认时间：</span>
               <span class="input-input detailinput">  {{jzinfo.JZZTQRSJ}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
@@ -385,11 +386,11 @@
               <span class="input-input detailinput">  {{jzinfo.ZT_SFYX}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
-              <span class="input-text">居住地责任区：</span>
+              <span class="input-text" title="居住地责任区">居住地责任区：</span>
               <span class="input-input detailinput">  {{jzinfo.JZD_ZRQ}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
-              <span class="input-text">居住地社区：</span>
+              <span class="input-text" title="居住地社区">居住地社区：</span>
               <span class="input-input detailinput">  {{jzinfo.JZD_SQ}}</span>
             </el-col>
 
@@ -398,7 +399,7 @@
               <span class="input-input detailinput">  {{jzinfo.RQ_RZRQ}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
-              <span class="input-text">入住确认日期：</span>
+              <span class="input-text" title="入住确认日期">入住确认日期：</span>
               <span class="input-input detailinput">  {{jzinfo.RQ_RZQRRQ}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
@@ -433,7 +434,8 @@
           :data="tableDatagz"
           border
           @row-click="getGZ"
-          style="width: 100%;">
+          style="width: 100%;"
+          @header-click="titleShow">
           <el-table-column
             prop="GZD_MC"
             label="工作单位名称">
@@ -635,11 +637,11 @@
               <span class="input-input detailinput">  {{gzinfo.BZ}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
-              <span class="input-text" title="注销日期">地址X坐标：</span>
+              <span class="input-text" title="地址X坐标">地址X坐标：</span>
               <span class="input-input detailinput">  {{gzinfo.DZXZB}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
-              <span class="input-text" title="备注">地址Y坐标：</span>
+              <span class="input-text" title="地址Y坐标">地址Y坐标：</span>
               <span class="input-input detailinput">  {{gzinfo.DZYZB}}</span>
             </el-col>
           </el-row>
@@ -650,7 +652,8 @@
           :data="tableDatazf"
           border
           @row-click="getZF"
-          style="width: 100%">
+          style="width: 100%"
+          @header-click="titleShow">
           <el-table-column
             prop="GZXXBT"
             label="走访信息">
@@ -788,7 +791,8 @@
           :data="tableDataab"
           border
           @row-click="getAB"
-          style="width: 100%">
+          style="width: 100%"
+          @header-click="titleShow">
           <el-table-column
             prop="FFBM_DESC"
             label="防范部门">
@@ -902,7 +906,8 @@
           :data="tableDatalg"
           border
           @row-click="getLG"
-          style="width: 100%">
+          style="width: 100%"
+          @header-click="titleShow">
           <el-table-column
             prop="YWX"
             label="英文姓">
@@ -1036,7 +1041,8 @@
           :data="tableDatath"
           border
           @row-click="getTH"
-          style="width: 100%">
+          style="width: 100%"
+          @header-click="titleShow">
           <el-table-column
             prop="YWX"
             label="英文姓">
@@ -1146,12 +1152,12 @@
             <span class="input-input detailinput">  {{thinfo.ZJHM}}</span>
           </el-col>
           <el-col :span="8" class="input-item">
-            <span class="input-text">停留有效期：</span>
+            <span class="input-text" title="停留有效期">停留有效期：</span>
             <span class="input-input detailinput">  {{thinfo.TLYXQ}}</span>
           </el-col>
 
           <el-col :span="8" class="input-item">
-            <span class="input-text">所属责任区：</span>
+            <span class="input-text" title="所属责任区">所属责任区：</span>
             <span class="input-input detailinput">  {{thinfo.SSZRQ}}</span>
           </el-col>
           <el-col :span="8" class="input-item">
@@ -1263,6 +1269,9 @@ export default {
     },
 
   methods:{
+    titleShow(e,el){
+      el.target.title = e.label;
+    },
     rotate(){
       this.deg += 90;
       if(this.deg >= 360){
@@ -1553,7 +1562,7 @@ export default {
 
 </style>
 <style>
-  .el-button+.el-button{margin-left: 0!important;}
+  /* .el-button+.el-button{margin-left: 0!important;} */
   .yycontent .el-checkbox{margin-left: 20px!important; line-height: 30px;}
   .yycontent .el-checkbox+.el-checkbox{margin-left: 20px!important;}
   .bj .el-dialog__wrapper {

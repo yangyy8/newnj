@@ -138,7 +138,8 @@
                :data="tableData"
                border
                style="width: 100%"
-               @select="selectfn">
+               @select="selectfn"
+               @header-click="titleShow">
                <el-table-column
                  type="selection"
                  width="55">
@@ -200,7 +201,8 @@
                :data="tableData"
                border
                style="width: 100%"
-               @select="selectfn">
+               @select="selectfn"
+               @header-click="titleShow">
                <el-table-column
                  type="selection"
                  width="55">
@@ -398,6 +400,9 @@
         }
       },
       methods: {
+        titleShow(e,el){
+          el.target.title = e.label;
+        },
         getGJDQ(){
           this.$api.post(this.Global.aport5+'/GJDQController/getGJDQFromFZ',{},
            r =>{
@@ -437,6 +442,10 @@
           // console.log('this.selectionAll',this.selectionAll);
         },
         download(){
+          if(this.tableData.length==0){
+             this.$message.error('无可导出数据！');
+             return
+          }
           let p={};
           let url="/ajController/exportFnvisas";
           this.pd.YWM_Like = (this.pd.YWM_Like).toUpperCase();
@@ -647,7 +656,7 @@
     }
     </style>
     <style>
-      .el-button+.el-button{margin-left: 0!important;}
+      /* .el-button+.el-button{margin-left: 0!important;} */
       .t-tjCheck .el-checkbox{margin-left: 20px!important; line-height: 30px;}
       .t-tjCheck .el-checkbox+.el-checkbox{margin-left: 20px!important;}
       .bj .el-dialog__wrapper {

@@ -98,7 +98,7 @@
                           <el-option
                             v-for="item in PSC"
                             :key="item.DM"
-                            :label="item.MC"
+                            :label="item.DM+' - '+item.MC"
                             :value="item.DM">
                           </el-option>
                         </el-select>
@@ -203,11 +203,11 @@
              v-if="juState=='1'||juState=='2'">
            </el-table-column>
            <el-table-column
-             label="操作" width="120">
+             label="操作" width="70">
              <template slot-scope="scope">
                <div>
                   <el-button type="text"  class="a-btn"  title="编辑"  icon="el-icon-edit-outline" @click="$router.push({name:'GWHZYJ_XQ',query:{yjType:20,row:scope.row}})"></el-button>
-                  <el-button type="text"  class="a-btn"  title="设为关注人员"  icon="iconfont el-icon-yy-jiaoseyonghu" @click="adds(scope.row);form={};"></el-button>
+                  <el-button type="text"  class="a-btn"  title="设为关注人员"  icon="el-icon-user" @click="adds(scope.row);form={};"></el-button>
                </div>
              </template>
            </el-table-column>
@@ -355,7 +355,7 @@ export default {
     },
     getPSC(i){
       this.$set(this.pd,'PCS','');
-      this.$api.post(this.Global.aport5+'/djbhl/getpcsbyfjdm',{fjdm:i,userCode:this.userCode,userName:this.userName,orgJB:this.juState,orgCode:this.orgCode,token:this.token},
+      this.$api.post(this.Global.aport5+'/djbhl/getpcsbyfjdm',{pd:{fjdm:i},userCode:this.userCode,userName:this.userName,orgJB:this.juState,orgCode:this.orgCode,token:this.token},
       r =>{
         if(r.success){
           this.PSC=r.data;
@@ -385,6 +385,10 @@ export default {
       // console.log('this.selectionAll',this.selectionAll);
     },
     download(){
+      if(this.tableData.length==0){
+         this.$message.error('无可导出数据');
+         return
+      }
       let p={};
       this.pd.YWXM_Like = (this.pd.YWXM_Like).toUpperCase();
       if(this.selectionAll.length==0){//全部导出

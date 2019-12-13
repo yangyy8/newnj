@@ -18,11 +18,11 @@
           <span class="input-input detailinput">  {{qzinfo.QZTLQ}}</span>
         </el-col>
         <el-col :span="12" class="input-item">
-          <span class="input-text">签证委托书号：</span>
+          <span class="input-text" title="签证委托书号">签证委托书号：</span>
           <span class="input-input detailinput">  {{qzinfo.QZWTSH}}</span>
         </el-col>
         <el-col :span="12" class="input-item">
-          <span class="input-text">个人签证详细类别：</span>
+          <span class="input-text" title="个人签证详细类别">个人签证详细类别：</span>
           <span class="input-input detailinput">  {{qzinfo.QZXXLB}}</span>
         </el-col>
         <el-col :span="12" class="input-item">
@@ -30,7 +30,7 @@
           <span class="input-input detailinput">  {{qzinfo.QZYXCS}}</span>
         </el-col>
         <el-col :span="12" class="input-item">
-         <span class="input-text">签证有效期至：</span>
+         <span class="input-text" title="签证有效期至">签证有效期至：</span>
          <span class="input-input detailinput">  {{qzinfo.QZYXQZ}}</span>
         </el-col>
         <el-col :span="12" class="input-item">
@@ -46,15 +46,15 @@
           <span class="input-input detailinput">  {{qzinfo.SPJG}}</span>
         </el-col>
         <el-col :span="12" class="input-item">
-          <span class="input-text">申请签证种类：</span>
+          <span class="input-text" title="申请签证种类">申请签证种类：</span>
           <span class="input-input detailinput">  {{qzinfo.SQQZZL_DESC}}</span>
         </el-col>
         <el-col :span="12" class="input-item">
-          <span class="input-text">填表单位编号：</span>
+          <span class="input-text" title="填表单位编号">填表单位编号：</span>
           <span class="input-input detailinput">  {{qzinfo.TBDWBH}}</span>
         </el-col>
         <el-col :span="12" class="input-item">
-          <span class="input-text">停留有效期至：</span>
+          <span class="input-text" title="停留有效期至">停留有效期至：</span>
           <span class="input-input detailinput">  {{qzinfo.TLYXQZ}}</span>
         </el-col>
         <el-col :span="12" class="input-item">
@@ -82,19 +82,19 @@
           <span class="input-input detailinput">  {{qzinfo.GZDWSZDXZQH_DESC}}</span>
         </el-col>
         <el-col :span="12" class="input-item">
-          <span class="input-text">居留许可事由：</span>
+          <span class="input-text" title="居留许可事由">居留许可事由：</span>
           <span class="input-input detailinput">  {{qzinfo.JLSY_DESC}}</span>
         </el-col>
         <el-col :span="12" class="input-item">
-          <span class="input-text">境内居住地派出所：</span>
+          <span class="input-text" title="境内居住地派出所">境内居住地派出所：</span>
           <span class="input-input detailinput">  {{qzinfo.JNJZDPCS_TEXT}}</span>
         </el-col>
         <el-col :span="12" class="input-item">
-          <span class="input-text">境内居住地详细地址：</span>
+          <span class="input-text" title="境内居住地详细地址">境内居住地详细地址：</span>
           <span class="input-input detailinput">  {{qzinfo.JNJZDXXDZ}}</span>
         </el-col>
         <el-col :span="12" class="input-item">
-          <span class="input-text">境内居住地行政区划：</span>
+          <span class="input-text" title="境内居住地行政区划">境内居住地行政区划：</span>
           <span class="input-input detailinput">  {{qzinfo.JNJZDXZQH_TEXT}}</span>
         </el-col>
         <el-col :span="12" class="input-item">
@@ -106,7 +106,7 @@
           <span class="input-input detailinput">  {{qzinfo.ZZRQ}}</span>
         </el-col>
         <el-col :span="12" class="input-item">
-          <span class="input-text">代办单位编号：</span>
+          <span class="input-text" title="代办单位编号">代办单位编号：</span>
           <span class="input-input detailinput">  {{qzinfo.DBDW}}</span>
         </el-col>
         <el-col :span="12" class="input-item">

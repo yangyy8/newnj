@@ -619,6 +619,10 @@
           // console.log('this.selectionAll',this.selectionAll);
         },
         download(){
+          if(this.tableData.length==0){
+             this.$message.error('无可导出数据');
+             return
+          }
           let p={};
           let url="";
           this.pd.YWXM = (this.pd.YWXM).toUpperCase();
@@ -891,7 +895,7 @@
     }
     </style>
     <style>
-      .el-button+.el-button{margin-left: 0!important;}
+      /* .el-button+.el-button{margin-left: 0!important;} */
       .t-tjCheck .el-checkbox{margin-left: 20px!important; line-height: 30px;}
       .t-tjCheck .el-checkbox+.el-checkbox{margin-left: 20px!important;}
       .bj .el-dialog__wrapper {

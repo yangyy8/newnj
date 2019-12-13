@@ -457,7 +457,7 @@ export default {
 }
 </style>
 <style>
-  .el-button+.el-button{margin-left: 0!important;}
+  /* .el-button+.el-button{margin-left: 0!important;} */
   .yycontent .el-checkbox{margin-left: 20px!important; line-height: 30px;}
   .yycontent .el-checkbox+.el-checkbox{margin-left: 20px!important;}
   .bj .el-dialog__wrapper {

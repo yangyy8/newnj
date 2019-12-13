@@ -29,11 +29,11 @@
                    <el-input placeholder="请输入内容" size="small" v-model="pd.HZHM" class="input-input"></el-input>
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
-                   <span class="input-text">曾持护照号码：</span>
+                   <span class="input-text" title="曾持护照号码">曾持护照号码：</span>
                    <el-input placeholder="请输入内容" size="small" v-model="pd.CCHZHM" class="input-input"></el-input>
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-                  <span class="input-text">数据上报时间：</span>
+                  <span class="input-text" title="数据上报时间">数据上报时间：</span>
                   <div class="input-input t-flex t-date">
                     <el-date-picker
                        v-model="pd.SBSJ.begin" format="yyyy-MM-dd"
@@ -94,7 +94,8 @@
            ref="multipleTable"
            :highlight-current-row="true"
            style="width: 100%"
-           @select="selectfn">
+           @select="selectfn"
+           @header-click="titleShow">
            <!-- <el-table-column
              type="selection"
              width="55">
@@ -142,7 +143,7 @@
              </template> -->
            </el-table-column>
            <el-table-column
-             label="操作" width="120">
+             label="操作" width="70">
              <template slot-scope="scope">
                <div>
                   <el-button type="text"  class="a-btn"  title="处理"  icon="el-icon-edit" @click="$router.push({name:'GZC_XQ',query:{hiType:'gzc',row:scope.row}})"></el-button>
@@ -235,6 +236,9 @@ export default {
     this.getDw();
   },
   methods: {
+    titleShow(e,el){
+      el.target.title = e.label;
+    },
     getDw(){
       this.$api.post(this.Global.aport4+'/SWDW_SJSBController/getAllDW',{userCode:this.userCode,userName:this.userName,orgJB:this.juState,orgCode:this.orgCode,token:this.token},
         r =>{

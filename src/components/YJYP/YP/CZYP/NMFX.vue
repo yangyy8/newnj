@@ -347,7 +347,6 @@ export default {
     },
     checkedList:{
       handler(newVal, oldVal) {
-        console.log(newVal,oldVal);
         if(!(newVal.toString()==oldVal.toString())){
           this.multipleSelection=[];
           this.selectionAll=[];
@@ -361,7 +360,7 @@ export default {
       el.target.title = e.label;
     },
     handleChange(val){
-      // console.log(val);
+
     },
     selectfn(a,b){
       this.multipleSelection = a;
@@ -382,6 +381,10 @@ export default {
       // console.log('this.selectionAll',this.selectionAll);
     },
     download(){
+      if(this.tableData.length==0){
+         this.$message.error('无可导出数据！');
+         return
+      }
       let p={};
       if(this.checkedList.length==0){//人员导出
         if(this.selectionAll.length==0){//人员全部导出,无选中的数据
@@ -444,7 +447,7 @@ export default {
         let link = document.createElement('a')
         link.style.display = 'none'
         link.href = url
-        link.setAttribute('download', '难民综合分析列表'+this.format(new Date(),'yyyyMMddhhmmss')+'.xls')
+        link.setAttribute('download', '难民和寻求庇护者分析列表'+this.format(new Date(),'yyyyMMddhhmmss')+'.xls')
         document.body.appendChild(link)
         link.click()
     },
@@ -462,28 +465,6 @@ export default {
       });
     },
     getList(currentPage, showCount, pd) {
-   // if(this.pd.XM!=undefined || this.pd.XBDM!=undefined || this.pd.HZHM!=undefined){
-   //   this.falg=false;
-   //   this.disa=true;
-   // }else {
-   //    this.disa=false;
-   // }
-     //  if(this.pd0.beginCS!=undefined && this.pd0.endCS!=undefined && this.pd0.beginCS!=null && this.pd0.endCS!=null){
-     //    this.pd.CSRQ_DateRange.begin=this.pd0.beginCS;
-     //    this.pd.CSRQ_DateRange.end=this.pd0.endCS;
-     //  }else if(this.pd0.beginCS==null && this.pd0.endCS==null){
-     //      this.pd.ZCRQ_DateRange={};
-     //   }else{
-     //      this.open("出生日期开始时间和结束时间都不能为空！");return ;
-     //  }
-     //  if(this.pd0.beginZC!=undefined && this.pd0.endZC!=undefined && this.pd0.beginZC!=null && this.pd0.endZC!=null){
-     //    this.pd.ZCRQ_DateRange.begin=this.pd0.beginZC;
-     //    this.pd.ZCRQ_DateRange.end=this.pd0.endZC;
-     //  }else if(this.pd0.beginZC==null && this.pd0.endZC==null){
-     //    this.pd.ZCRQ_DateRange={};
-     // }else{
-     //      this.open("注册日期的开始时间和结束时间都不能为空！");return ;
-     //  }
       this.pd.CSRQ_DateRange.begin=this.pd0.beginCS;
       this.pd.CSRQ_DateRange.end=this.pd0.endCS;
       this.pd.ZCRQ_DateRange.begin=this.pd0.beginZC;
@@ -583,30 +564,6 @@ export default {
           }
         })
     },
-    getInfo(key){
-      switch (key) {
-        case 'count_DESC':
-          return  "分析结果";
-          break;
-        case 'GJDQ_DESC':
-          return  "国家地区";
-          break;
-        case 'RS':
-          return  "户室人数";
-          break;
-        case 'SFDM_DESC':
-          return  "身份类型";
-          break;
-        case 'XBDM_DESC':
-          return  "性别";
-          break;
-        default:
-        break;
-
-      }
-
-    },
-
   }
 }
 </script>

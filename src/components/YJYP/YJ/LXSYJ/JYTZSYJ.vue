@@ -70,7 +70,7 @@
                   <span class="input-text">处理状态：</span>
                   <el-select v-model="pd.CLZT" placeholder="请选择"  filterable clearable default-first-option size="small" class="input-input">
                     <el-option
-                      v-for="item in $store.state.clzt"
+                      v-for="item in $store.state.clzt1"
                       :key="item.dm"
                       :label="item.dm+' - '+item.mc"
                       :value="item.dm">
@@ -108,7 +108,8 @@
            border
            :highlight-current-row="true"
            style="width: 100%"
-           @select="selectfn">
+           @select="selectfn"
+           @header-click="titleShow">
            <el-table-column
              type="selection"
              width="50">
@@ -165,7 +166,7 @@
              label="处理状态">
            </el-table-column>
            <el-table-column
-             label="操作" width="120">
+             label="操作" width="70">
              <template slot-scope="scope">
              <el-button type="text"  class="a-btn"  title="编辑"  icon="el-icon-edit-outline" @click="$router.push({name:'LXSXXGLYJ_XQ',query:{row:scope.row,sh_special:true}})"></el-button>
              </template>
@@ -249,6 +250,7 @@ export default {
     this.$store.dispatch('getGjdq');
     this.$store.dispatch('getClzt');
     this.$store.dispatch('getShzt');
+    this.$store.dispatch('getClzt1');
     this.userCode=this.$store.state.uid;
     this.userName=this.$store.state.uname;
     this.orgName=this.$store.state.orgname;
@@ -258,6 +260,9 @@ export default {
     this.getFj();
   },
   methods: {
+    titleShow(e,el){
+      el.target.title = e.label;
+    },
     getFj(){
       this.$api.post(this.Global.aport5+'/djbhl/getallfj',{},
        r =>{
@@ -294,6 +299,10 @@ export default {
       // console.log('this.selectionAll',this.selectionAll);
     },
     download(){
+      if(this.tableData.length==0){
+         this.$message.error('无可导出数据！');
+         return
+      }
       let p={};
       if(this.selectionAll.length==0){//全部导出
          p={
@@ -342,11 +351,11 @@ export default {
     },
     pageSizeChange(val) {
       this.pageSize=val;
-      this.getList(this.CurrentPage, this.pageSize, this.pd);
+      this.getList(this.CurrentPage,val, this.pd);
     },
     handleCurrentChange(val) {
       this.CurrentPage=val;
-      this.getList(this.CurrentPage, this.pageSize, this.pd);
+      this.getList(val, this.pageSize, this.pd);
     },
     getList(currentPage, showCount, pd) {
       this.pd.MXLX='LXS_ZSYJ';

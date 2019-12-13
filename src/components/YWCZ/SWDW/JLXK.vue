@@ -26,7 +26,7 @@
                 </el-col>
 
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-                  <span class="input-text">签证有效期：</span>
+                  <span class="input-text" title="签证有效期">签证有效期：</span>
                   <div class="input-input t-flex t-date">
                     <el-date-picker
                        v-model="pd0.beginqz" format="yyyy-MM-dd"
@@ -42,7 +42,7 @@
                  </div>
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
-                   <span class="input-text">申请作废原因：</span>
+                   <span class="input-text" title="申请作废原因">申请作废原因：</span>
                    <el-input placeholder="请输入内容" size="small" v-model="pd.SQZFYY" class="input-input"></el-input>
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
@@ -107,7 +107,8 @@
            ref="multipleTable"
            :highlight-current-row="true"
            style="width: 100%"
-           @select="selectfn">
+           @select="selectfn"
+           @header-click="titleShow">
            <!-- <el-table-column
              type="selection"
              width="55">
@@ -155,7 +156,7 @@
              </template> -->
            </el-table-column>
            <el-table-column
-             label="操作" width="120">
+             label="操作" width="70">
              <template slot-scope="scope">
                <div>
                   <el-button type="text"  class="a-btn"  title="处理"  icon="el-icon-edit" @click="$router.push({name:'JLXK_XQ',query:{hiType:'jlxk',row:scope.row}})"></el-button>
@@ -248,6 +249,9 @@ export default {
     this.getDw();
   },
   methods: {
+    titleShow(e,el){
+      el.target.title = e.label;
+    },
     getDw(){
       this.$api.post(this.Global.aport4+'/SWDW_SJSBController/getAllDW',{},
         r =>{

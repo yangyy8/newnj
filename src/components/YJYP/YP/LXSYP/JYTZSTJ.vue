@@ -48,7 +48,7 @@
                    <el-input placeholder="请输入内容" size="small" v-model="pd.PASSNO" class="input-input"></el-input>
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
-                   <span class="input-text">学习开始时间：</span>
+                   <span class="input-text" title="学习开始时间">学习开始时间：</span>
                    <el-date-picker
                       v-model="pd.STASTUDY_Begin.begin" format="yyyy-MM-dd"
                       type="date" size="small" value-format="yyyy/MM/dd"
@@ -56,7 +56,7 @@
                    </el-date-picker>
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
-                   <span class="input-text">学习结束时间：</span>
+                   <span class="input-text" title="学习结束时间">学习结束时间：</span>
                    <el-date-picker
                       v-model="pd.ENDSTUDY_End.end" format="yyyy-MM-dd"
                       type="date" size="small" value-format="yyyy/MM/dd"
@@ -112,7 +112,8 @@
                :data="tableData"
                border
                style="width: 100%"
-               @select="selectfn">
+               @select="selectfn"
+               @header-click="titleShow">
                <el-table-column
                  type="selection"
                  width="55">
@@ -171,7 +172,7 @@
              :data="tableData"
              border
              style="width: 100%"
-             @header-click="headerClick"
+             @header-click="titleShow"
              @select="selectfn">
              <el-table-column
                type="selection"
@@ -401,6 +402,9 @@
          this.$store.dispatch("getSjly");
       },
       methods: {
+        titleShow(e,el){
+          el.target.title = e.label;
+        },
         selectfn(a,b){
           this.multipleSelection = a;
           this.dataSelection()
@@ -420,6 +424,10 @@
           // console.log('this.selectionAll',this.selectionAll);
         },
         download(){
+          if(this.tableData.length==0){
+             this.$message.error('无可导出数据！');
+             return
+          }
           let p={};
           if(this.checkedList.length==0){//人员导出
             if(this.selectionAll.length==0){//人员全部导出,无选中的数据
@@ -485,9 +493,6 @@
             link.setAttribute('download', '教育厅综合分析列表'+this.format(new Date(),'yyyyMMddhhmmss')+'.xls')
             document.body.appendChild(link)
             link.click()
-        },
-        headerClick(column,event){
-          event.target.title=column.label
         },
         handleSelectionChange(val) {
           this.multipleSelection = val;
@@ -646,7 +651,7 @@
     }
     </style>
     <style>
-      .el-button+.el-button{margin-left: 0!important;}
+      /* .el-button+.el-button{margin-left: 0!important;} */
       .t-tjCheck .el-checkbox{margin-left: 20px!important; line-height: 30px;}
       .t-tjCheck .el-checkbox+.el-checkbox{margin-left: 20px!important;}
       .bj .el-dialog__wrapper {

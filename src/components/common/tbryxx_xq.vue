@@ -78,10 +78,10 @@
             <span class="input-text" title="导入文件路径">导入文件路径：</span>
             <span class="input-input detailinput">  {{jbinfo.PATHFILE}}</span>
           </el-col>
-          <el-col :span="8" class="input-item">
+          <!-- <el-col :span="8" class="input-item">
             <span class="input-text">人员编号：</span>
             <span class="input-input detailinput">  {{jbinfo.RYBH}}</span>
-          </el-col>
+          </el-col> -->
           <el-col :span="8" class="input-item">
             <span class="input-text">创建时间：</span>
             <span class="input-input detailinput">  {{jbinfo.CJSJ}}</span>
@@ -90,10 +90,10 @@
             <span class="input-text">修改时间：</span>
             <span class="input-input detailinput">  {{jbinfo.XGSJ}}</span>
           </el-col>
-          <el-col :span="8" class="input-item">
+          <!-- <el-col :span="8" class="input-item">
             <span class="input-text">入表日期：</span>
             <span class="input-input detailinput">  {{jbinfo.RQRB}}</span>
-          </el-col>
+          </el-col> -->
       </el-row>
     </div>
     <div v-show="page==1" style="padding:0 15px;">
@@ -170,10 +170,10 @@
             <span class="input-text">是否有效：</span>
             <span class="input-input detailinput">  {{gjinfo.SFYX}}</span>
           </el-col>
-          <el-col :span="8" class="input-item">
+          <!-- <el-col :span="8" class="input-item">
             <span class="input-text">人员编号：</span>
             <span class="input-input detailinput">  {{gjinfo.RYBH}}</span>
-          </el-col>
+          </el-col> -->
           <el-col :span="8" class="input-item">
             <span class="input-text">创建时间：</span>
             <span class="input-input detailinput">  {{gjinfo.CJSJ}}</span>
@@ -240,7 +240,7 @@
             :total="TotalResult2">
           </el-pagination>
         </div>
-        <div v-if="clshow" class="mt-10">
+        <div v-if="clshow&&clshowOth" class="mt-10">
           <hr/>
           <el-row :gutter="3"  class="mb-6">
             <el-col :span="8" class="input-item">
@@ -251,10 +251,10 @@
               <span class="input-text">创建时间：</span>
               <span class="input-input detailinput">  {{clinfo.CREATETIME}}</span>
             </el-col>
-            <el-col :span="8" class="input-item">
+            <!-- <el-col :span="8" class="input-item">
               <span class="input-text">内容：</span>
               <span class="input-input detailinput">  {{clinfo.NR}}</span>
-            </el-col>
+            </el-col> -->
             <el-col :span="8" class="input-item">
               <span class="input-text" title="数据材料类型">数据材料类型：</span>
               <span class="input-input detailinput">  {{clinfo.SJPAPERTYPE}}</span>
@@ -279,10 +279,10 @@
               <span class="input-text" title="MD5加密串">MD5加密串：</span>
               <span class="input-input detailinput">  {{clinfo.MD5STREAM}}</span>
             </el-col>
-            <el-col :span="8" class="input-item">
+            <!-- <el-col :span="8" class="input-item">
               <span class="input-text" title="人员编号">人员编号：</span>
               <span class="input-input detailinput">  {{clinfo.RYBH}}</span>
-            </el-col>
+            </el-col> -->
             <el-col :span="8" class="input-item">
               <span class="input-text" title="创建时间">创建时间：</span>
               <span class="input-input detailinput">  {{clinfo.CJSJ}}</span>
@@ -290,6 +290,71 @@
             <el-col :span="8" class="input-item">
               <span class="input-text" title="更新时间">更新时间：</span>
               <span class="input-input detailinput">  {{clinfo.GXSJ}}</span>
+            </el-col>
+            <el-col :span="8" class="input-item">
+              <span class="input-text" title="更新时间">PDF查看：</span>
+              <!-- <span class="input-input detailinput">  {{clinfo.GXSJ}}</span> -->
+              <el-button type="primary" size="small"  class="t-ml0" @click="downLoad(clinfo.RGUID,clinfo.NR)">下载查看</el-button>
+            </el-col>
+          </el-row>
+        </div>
+        <div v-if="clshow&&(!clshowOth)" class="mt-10">
+          <hr/>
+          <el-row type="flex" class="mb-6">
+            <el-col :span="20">
+              <el-row :gutter="3">
+                <el-col :span="12" class="input-item">
+                  <span class="input-text">数据类型：</span>
+                  <span class="input-input detailinput">  {{clinfo.SJLX_DESC}}</span>
+                </el-col>
+                <el-col :span="12" class="input-item">
+                  <span class="input-text">创建时间：</span>
+                  <span class="input-input detailinput">  {{clinfo.CREATETIME}}</span>
+                </el-col>
+                <!-- <el-col :span="12" class="input-item">
+                  <span class="input-text">内容：</span>
+                  <span class="input-input detailinput">  {{clinfo.NR}}</span>
+                </el-col> -->
+                <el-col :span="12" class="input-item">
+                  <span class="input-text" title="数据材料类型">数据材料类型：</span>
+                  <span class="input-input detailinput">  {{clinfo.SJPAPERTYPE}}</span>
+                </el-col>
+                <el-col :span="12" class="input-item">
+                  <span class="input-text">是否编辑：</span>
+                  <span class="input-input detailinput">  {{clinfo.CANEDIT}}</span>
+                </el-col>
+                <el-col :span="12" class="input-item">
+                  <span class="input-text" title="数据名称">数据名称：</span>
+                  <span class="input-input detailinput">  {{clinfo.SJNAME}}</span>
+                </el-col>
+                <el-col :span="12" class="input-item">
+                  <span class="input-text" title="数据来源">数据来源：</span>
+                  <span class="input-input detailinput">  {{clinfo.SJLY_DESC}}</span>
+                </el-col>
+                <el-col :span="12" class="input-item">
+                  <span class="input-text" title="通报编号">通报编号：</span>
+                  <span class="input-input detailinput">  {{clinfo.TBBH}}</span>
+                </el-col>
+                <el-col :span="12" class="input-item">
+                  <span class="input-text" title="MD5加密串">MD5加密串：</span>
+                  <span class="input-input detailinput">  {{clinfo.MD5STREAM}}</span>
+                </el-col>
+                <!-- <el-col :span="8" class="input-item">
+                  <span class="input-text" title="人员编号">人员编号：</span>
+                  <span class="input-input detailinput">  {{clinfo.RYBH}}</span>
+                </el-col> -->
+                <el-col :span="12" class="input-item">
+                  <span class="input-text" title="创建时间">创建时间：</span>
+                  <span class="input-input detailinput">  {{clinfo.CJSJ}}</span>
+                </el-col>
+                <el-col :span="12" class="input-item">
+                  <span class="input-text" title="更新时间">更新时间：</span>
+                  <span class="input-input detailinput">  {{clinfo.GXSJ}}</span>
+                </el-col>
+              </el-row>
+            </el-col>
+            <el-col :span="4">
+              <img :src="imgURL" @click="opentp(imgURL)" style="width:100%">
             </el-col>
           </el-row>
         </div>
@@ -365,14 +430,14 @@
               <span class="input-text" title="证件号码">证件号码：</span>
               <span class="input-input detailinput">  {{zjinfo.ZJHM}}</span>
             </el-col>
-            <el-col :span="8" class="input-item">
+            <!-- <el-col :span="8" class="input-item">
               <span class="input-text" title="业务DTID">业务DTID：</span>
               <span class="input-input detailinput">  {{zjinfo.YWDTID}}</span>
-            </el-col>
-            <el-col :span="8" class="input-item">
+            </el-col> -->
+            <!-- <el-col :span="8" class="input-item">
               <span class="input-text" title="人员编号">人员编号：</span>
               <span class="input-input detailinput">  {{zjinfo.RYBH}}</span>
-            </el-col>
+            </el-col> -->
             <el-col :span="8" class="input-item">
               <span class="input-text" title="创建时间">创建时间：</span>
               <span class="input-input detailinput">  {{zjinfo.CJSJ}}</span>
@@ -385,14 +450,25 @@
           </div>
     </div>
   </div>
+  <el-dialog  title="放大显示" :visible.sync="tcDialogVisible" style="text-align:center" custom-class="big_dialog" :append-to-body="false" :modal="false" >
+    <div style="text-align:right;">
+      <el-button  size="small" type="primary"  @click="rotate" title="旋转图片" icon="iconfont el-icon-yy-icon_rotate"></el-button>
+    </div>
+    <img :src="imgs" :style="{transform:'rotateZ('+deg+'deg)'}" v-drag>
+  </el-dialog>
 </div>
 </template>
 <script>
+import imgUrl from "../../assets/img/t1.png"
 export default {
   name:'TBRYXX',
   props:['xid','random'],
   data(){
     return{
+      imgURL:imgUrl,
+      imgs:'',
+      tcDialogVisible:false,
+      deg:0,
       pd:{},
       page:0,
       jbinfo:{},
@@ -403,6 +479,7 @@ export default {
 
       tableDatacl:[],
       clshow:false,
+      clshowOth:false,
       clinfo:{},
 
       tableDatazj:[],
@@ -462,6 +539,49 @@ export default {
   },
 
   methods:{
+    opentp(item){
+      this.imgs=item;
+      this.tcDialogVisible=true;
+    },
+    rotate(){
+      this.deg += 90;
+      if(this.deg >= 360){
+          this.deg = 0
+      }
+    },
+    downLoad(item,isP){
+      if(this.isP==undefined||this.isP==''){
+        this.$message({
+          message: '没有可查看的PDF',
+          type: 'warning'
+        });
+        return
+      }
+      let p={
+        "pd":{RGUID:item},
+        userCode:this.userCode,
+        userName:this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token,
+      }
+      this.$api.post(this.Global.aport3+'/ryhx/exporttbrypaper',p,
+       r =>{
+          this.downloadM(r)
+       },e=>{},{},'blob')
+    },
+    downloadM (data) {
+        if (!data) {
+            return
+        }
+        let url = window.URL.createObjectURL(new Blob([data],{type:"application/pdf"}))
+        let link = document.createElement('a')
+        link.style.display = 'none'
+        link.href = url
+        link.setAttribute('download', '通报人员.pdf')
+        document.body.appendChild(link)
+        link.click()
+    },
     getDetails(){},
     pageSizeChange1(val) {
       this.gettableDatagj(this.CurrentPage1,val,this.pd);
@@ -506,6 +626,7 @@ export default {
     getData(){
       this.jbinfo = this.xid;
       this.pd.YWDTID=this.xid.DTID;
+      // this.pd.YWDTID='90b5b2d1dbd046c4861e9909d3d174d5';
       this.gettableDatagj(this.CurrentPage1,this.pageSize1,this.pd);
       this.gettableDatacl(this.CurrentPage2,this.pageSize2,this.pd);
       this.gettableDatazj(this.CurrentPage3,this.pageSize3,this.pd);
@@ -579,6 +700,12 @@ export default {
     getCl(row,event,column){
       // console.log(row,event,column);
       this.clinfo=row;
+      if(row.SJPAPERTYPE=='pdf'){
+        this.clshowOth = true;
+      }else{
+        this.clshowOth = false;
+        this.imgURL=row.NR||imgUrl;
+      }
       this.clshow=true;
     },
     getZj(row,event,column){

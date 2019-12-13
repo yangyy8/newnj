@@ -56,8 +56,7 @@
            border
            style="width: 100%"
            @selection-change="handleSelectionChange"
-           @cell-click="cellClick"
-           @row-click="rowClick">
+           @header-click="titleShow">
            <!-- <el-table-column
              type="selection"
              width="55">
@@ -188,6 +187,9 @@ export default {
   //  this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   methods: {
+    titleShow(e,el){
+      el.target.title = e.label;
+    },
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
@@ -197,13 +199,11 @@ export default {
     handleCurrentChange(val) {
       this.getList(val, this.pageSize, this.pd);
     },
-    cellClick(row, column, cell, event){
-      console.log(row,column,cell);
-    },
-    rowClick(row,column){
-      console.log(row,column)
-    },
     download(){
+      if(this.tableData.length==0){
+         this.$message.error('无可导出数据！');
+         return
+      }
       var btime=this.pd.beginTime;
       var etime=this.pd.endTime;
 

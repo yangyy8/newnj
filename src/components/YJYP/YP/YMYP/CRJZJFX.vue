@@ -79,13 +79,13 @@
                 <el-col :span="2" class="down-btn-area">
                   <el-button type="success" size="small" @click="CurrentPage=1;getList(CurrentPage,pageSize,pd)" class="mb-10">查询</el-button>
                   <!-- <el-button type="" size="small" @click="" class="mb-15"> 重置</el-button> -->
-                  <el-button type="primary"  size="small" @click="download">导出</el-button>
+                  <el-button type="primary"  size="small" class="t-ml0" @click="download">导出</el-button>
                 </el-col>
               </el-row>
         </div>
         <div class="yycontent">
           <div class="yylbt mb-15">统计类别</div>
-          <div class="mb-15">
+          <div class="mb-15 t-tjCheck">
             <el-checkbox-group v-model="checkedList">
               <el-checkbox v-for="item in checkItem" :label="item.code" :key="item.code">{{item.label}}</el-checkbox>
             </el-checkbox-group>
@@ -96,7 +96,8 @@
                :data="tableData"
                border
                @select="selectfn"
-               style="width: 100%">
+               style="width: 100%"
+               @header-click="titleShow">
                <el-table-column
                  type="selection"
                  width="55">
@@ -158,7 +159,8 @@
              :data="tableData"
              border
              @select="selectfn"
-             style="width: 100%">
+             style="width: 100%"
+             @header-click="titleShow">
              <el-table-column
                type="selection"
                width="55">
@@ -247,15 +249,15 @@
              <span class="input-input detailinput">  {{czinfo.SFZH}}</span>
            </el-col>
            <el-col :span="8" class="input-item">
-             <span class="input-text">移民签证种类名称：</span>
+             <span class="input-text" title="移民签证种类名称">移民签证种类名称：</span>
              <span class="input-input detailinput">  {{czinfo.YMQZZLMC}}</span>
            </el-col>
            <el-col :span="8" class="input-item">
-             <span class="input-text">前往国名称：</span>
+             <span class="input-text" title="前往国名称">前往国名称：</span>
              <span class="input-input detailinput">  {{czinfo.QWGMC}}</span>
            </el-col>
            <el-col :span="8" class="input-item">
-             <span class="input-text">移民种类名称：</span>
+             <span class="input-text" title="移民种类名称">移民种类名称：</span>
              <span class="input-input detailinput">  {{czinfo.QWGMC}}</span>
            </el-col>
            <el-col :span="8" class="input-item">
@@ -267,7 +269,7 @@
              <span class="input-input detailinput">  {{czinfo.YXZT}}</span>
            </el-col>
            <el-col :span="8" class="input-item">
-             <span class="input-text">同行人姓名：</span>
+             <span class="input-text" title="同行人姓名">同行人姓名：</span>
              <span class="input-input detailinput">  {{czinfo.TXRXM}}</span>
            </el-col>
            <el-col :span="8" class="input-item">
@@ -426,6 +428,9 @@
         }
       },
       methods: {
+        titleShow(e,el){
+          el.target.title = e.label;
+        },
         selectfn(a,b){
           this.multipleSelection = a;
           this.dataSelection()
@@ -445,6 +450,10 @@
           // console.log('this.selectionAll',this.selectionAll);
         },
         download(){
+          if(this.tableData.length==0){
+             this.$message.error('无可导出数据！');
+             return
+          }
           let p={};
           if(this.checkedList.length==0){//人员导出
             if(this.selectionAll.length==0){//人员全部导出,无选中的数据
@@ -496,11 +505,9 @@
         },
         pageSizeChange(val) {
           this.getList(this.CurrentPage, val, this.pd);
-          console.log(`每页 ${val} 条`);
         },
         handleCurrentChange(val) {
           this.getList(val, this.pageSize, this.pd);
-          console.log(`当前页: ${val}`);
         },
         open(content) {
           this.$alert(content, '提示', {
@@ -637,11 +644,12 @@
     .yy-input-text {
       text-align: left !important;
     }
+
     </style>
     <style>
-      .el-button+.el-button{margin-left: 0!important;}
-      .yycontent .el-checkbox{margin-left: 20px!important; line-height: 30px;}
-      .yycontent .el-checkbox+.el-checkbox{margin-left: 20px!important;}
+      /* .el-button+.el-button{margin-left: 0!important;} */
+      .t-tjCheck .el-checkbox{margin-left: 20px!important; line-height: 30px;}
+      .t-tjCheck .el-checkbox+.el-checkbox{margin-left: 20px!important;}
       .bj .el-dialog__wrapper {
         background: #000;
         background: rgba(0, 0, 0, 0.3);

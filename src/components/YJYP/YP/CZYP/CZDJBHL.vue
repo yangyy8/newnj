@@ -170,7 +170,7 @@
                       <el-option
                         v-for="item in PSC"
                         :key="item.DM"
-                        :label="item.MC"
+                        :label="item.DM+' - '+item.MC"
                         :value="item.DM">
                       </el-option>
                     </el-select>
@@ -282,7 +282,8 @@
                label="所属派出所">
              </el-table-column>
              <el-table-column
-               label="操作">
+               label="操作"
+               width="70">
                <template slot-scope="scope">
                  <el-button type="text"  class="a-btn" title="详情" size="mini" icon="el-icon-tickets" @click="details(scope.row)"></el-button>
                </template>
@@ -448,6 +449,10 @@ import CZXX from '../../../common/czxx_xq'
       // console.log('this.selectionAll',this.selectionAll);
     },
     exportexcel(){
+      if(this.tableData.length==0){
+         this.$message.error('无可导出数据！');
+         return
+      }
       let p={};
       if(this.selectionAll.length==0){//全部导出
          p={

@@ -53,7 +53,7 @@
                  </div>
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-                    <span class="input-text">移民申请状态：</span>
+                    <span class="input-text" title="移民申请状态">移民申请状态：</span>
                     <el-select v-model="pd.YMSQZTDM" filterable clearable  default-first-option placeholder="请选择"  size="small" class="input-input">
                       <el-option
                         v-for="(item,ind) in $store.state.ymsqzt"
@@ -173,7 +173,7 @@
       </el-row>
     </el-form>
   </el-dialog>
-  <el-dialog title="编辑" :visible.sync="editsDialogVisible">
+  <el-dialog title="编辑" :visible.sync="editsDialogVisible" width="900px">
     <el-form   ref="editForm">
       <el-row :gutter="3"  class="mb-6">
         <el-col :span="12" class="input-item">
@@ -259,7 +259,7 @@
       <el-button @click="editsDialogVisible = false" size="small">取 消</el-button>
     </div>
   </el-dialog>
-  <el-dialog title="详情" :visible.sync="detailsDialogVisible">
+  <el-dialog title="详情" :visible.sync="detailsDialogVisible" width="900px">
     <el-form   ref="mapForm">
       <el-row :gutter="3"  class="mb-6">
         <el-col :span="12" class="input-item">
@@ -276,7 +276,7 @@
          <span class="input-input detailinput">  {{mapForm.QYSJ}}</span>
         </el-col>
         <el-col :span="12" class="input-item">
-          <span class="input-text">移民申请状态：</span>
+          <span class="input-text" title="移民申请状态">移民申请状态：</span>
           <span class="input-input detailinput">  {{mapForm.YMSQZTMC}}</span>
         </el-col>
         <el-col :span="12" class="input-item">
@@ -309,10 +309,10 @@
         </el-col>
         <el-col :span="12" class="input-item">
          <span class="input-text">操作时间：</span>
-         <span class="input-input detailinput">  {{mapForm.CZS}}</span>
+         <span class="input-input detailinput">  {{mapForm.CZSJ}}</span>
         </el-col>
         <el-col :span="12" class="input-item">
-          <span class="input-text">数据有效状态：</span>
+          <span class="input-text" title="数据有效状态">数据有效状态：</span>
          <span class="input-input detailinput">{{mapForm.YXZT=="0"?"删除":"有效"}}</span>
         </el-col>
         <el-col :span="12" class="input-item">

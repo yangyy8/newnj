@@ -141,7 +141,8 @@ export default {
         this.name2 = mc;
         this.cities2 = [];
         let p = {
-          "args": n
+          "args": n,
+          "token":this.$store.state.token
         };
         this.$api.get(this.Global.aport7 + '/drools/getRules', p,
           r => {
@@ -159,7 +160,8 @@ export default {
         this.name3 = mc;
         this.cities3 = [];
         let p = {
-          "args": n
+          "args": n,
+          "token":this.$store.state.token
         };
         this.$api.get(this.Global.aport7 + '/drools/getLable', p,
           r => {
@@ -224,7 +226,8 @@ export default {
           alist.push(list);
         }
         let p = {
-          "args": alist
+          "args": alist,
+          "token":this.$store.state.token
         };
         this.$api.post(this.Global.aport7 + '/drools/updateModel', p,
           r => {
@@ -256,7 +259,8 @@ export default {
           alist.push(list);
         }
         let p = {
-          "args": alist
+          "args": alist,
+          "token":this.$store.state.token
         };
         this.$api.post(this.Global.aport7 + '/drools/updateRules', p,
           r => {
@@ -287,7 +291,8 @@ export default {
         }
         // console.log(alist);
         let p = {
-          "args": alist
+          "args": alist,
+          "token":this.$store.state.token
         };
         this.$api.post(this.Global.aport7 + '/drools/updateLable', alist,
           r => {

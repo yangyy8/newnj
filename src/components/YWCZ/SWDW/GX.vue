@@ -107,7 +107,7 @@
              label="处理状态">
            </el-table-column>
            <el-table-column
-             label="操作" width="120">
+             label="操作" width="70">
              <template slot-scope="scope">
                <div>
                   <el-button type="text"  class="a-btn"  title="处理"  icon="el-icon-edit" @click="$router.push({name:'GX_XQ',query:{hiType:'gx',row:scope.row}})"></el-button>

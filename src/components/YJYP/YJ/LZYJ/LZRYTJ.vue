@@ -34,7 +34,7 @@
                 </el-col>
          </el-row>
          </el-col>
-         <el-col :span="5" >
+         <el-col :span="5">
            <el-button type="success" size="small" @click="getList(pd,deepCli,1)" class="mb-15 tt-mr10">查询</el-button>
            <el-button type="info" size="small" @click="goBack" class="mb-15 tt-mr10">返回</el-button>
            <el-button type="warning" size="small" @click="download(pd,deepCli)" class="mb-15">导出</el-button>
@@ -47,7 +47,8 @@
            :data="tableData"
            border
            style="width: 100%"
-           @selection-change="handleSelectionChange">
+           @selection-change="handleSelectionChange"
+           @header-click="titleShow">
            <el-table-column
              prop="dw"
              label="单位">
@@ -164,6 +165,9 @@ export default {
   methods: {
     handleSelectionChange(val) {
       this.multipleSelection = val;
+    },
+    titleShow(e,el){
+      el.target.title = e.label;
     },
     getList(pd,deepCli,type) {
       let p={};

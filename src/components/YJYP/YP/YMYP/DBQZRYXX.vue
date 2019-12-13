@@ -19,9 +19,9 @@
                 </el-col>
           </el-row>
          </el-col>
-            <el-col :span="4" >
-              <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)" class="mb-15">查询</el-button>
-              <el-button type="info" size="small" @click="$router.go(-1)" class="mb-15">返回</el-button>
+            <el-col :span="4" class="alone-flex">
+              <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)" class="mb-15 tt-mr10">查询</el-button>
+              <el-button type="info" size="small" @click="$router.go(-1)" class="mb-15 tt-mr10">返回</el-button>
               <el-button type="warning" size="small" @click="download" class="mb-15">导出</el-button>
             </el-col>
           </el-row>
@@ -33,7 +33,8 @@
          :data="tableData"
          border
          style="width: 100%"
-         @select="selectfn">
+         @select="selectfn"
+         @header-click="titleShow">
          <el-table-column
            type="selection"
            width="55">
@@ -128,11 +129,11 @@
               <span class="input-input detailinput">  {{czinfo.SFZH}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
-              <span class="input-text">移民签证种类名称：</span>
+              <span class="input-text" title="移民签证种类名称">移民签证种类名称：</span>
               <span class="input-input detailinput">  {{czinfo.YMQZZLMC}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
-              <span class="input-text">签证国家名称：</span>
+              <span class="input-text" title="签证国家名称">签证国家名称：</span>
               <span class="input-input detailinput">  {{czinfo.QZGJMC}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
@@ -228,6 +229,9 @@ export default {
       this.$store.dispatch('getGjdq');
   },
   methods: {
+    titleShow(e,el){
+      el.target.title = e.label;
+    },
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
@@ -258,6 +262,10 @@ export default {
       // console.log('this.selectionAll',this.selectionAll);
     },
     download(){
+      if(this.tableData.length==0){
+         this.$message.error('无可导出数据！');
+         return
+      }
       let p={};
       this.objCompare(this.row,this.queryPd)
       this.pd = Object.assign({},this.row,this.queryPd,this.pd);

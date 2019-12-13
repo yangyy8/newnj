@@ -736,7 +736,7 @@ export default new Router({
         {
           path: 'YMDR',
           name: 'YMDR',
-          meta:{title:['日常管理','数据导入','移民数据导入']},
+          meta:{title:['日常管理','数据导入','移民导入']},
           component: resolve => require(['@/components/YWCZ/SJDR/YMDR'], resolve),
         },
         {
@@ -969,7 +969,7 @@ export default new Router({
         {
         path: 'FLGZGL',
         name: 'FLGZGL',
-        meta:{title:['系统管理','系统设置','分类规则管理']},
+        meta:{title:['系统管理','系统设置','临住核查分类配置']},
         component: resolve => require(['@/components/XTGL/XTSZ/FLGZGL'], resolve),
         },
 
