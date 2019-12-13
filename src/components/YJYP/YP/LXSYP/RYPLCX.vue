@@ -22,7 +22,7 @@
                </label>
                <div class="t-input input-input">
                  <div class="t-input-content" v-for="(x,ind) in fileData" :key="ind">
-                   <span class="mr-30" style="color: #606266;font-size:15px">{{x.name}}</span>
+                   <span class="mr-30" style="color: #606266;font-size:12px">{{x.name}}</span>
                    <!-- <span @click="deleteFile" class="hand redx">删除</span> -->
                  </div>
                </div>
