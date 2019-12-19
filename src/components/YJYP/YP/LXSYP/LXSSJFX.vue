@@ -274,12 +274,9 @@ export default {
   methods:{
     pageSizeChange(val) {
         this.getRyxx(this.CurrentPage,val,this.bzhid,this.mc);
-      console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
-
         this.getRyxx(val,this.pageSize,this.bzhid,this.mc);
-      console.log(`当前页: ${val}`);
     },
     changtab(){
       this.show=!this.show;
@@ -288,8 +285,7 @@ export default {
         this.reload();
     },
     doset(){
-
-       this.$set(this.pd,"gjdq",'');
+        this.$set(this.pd,"gjdq",'');
         this.$set(this.pd,"fwcs",'');
         this.$set(this.pd,"zjzl",'');
         this.$set(this.pd,"qzzl",'');
@@ -302,7 +298,6 @@ export default {
     getGX(){
       this.$api.get(this.Global.aport1+'/servicemap/getUniversity',null,
          r=>{
-
           this.xxmc=r.data;
          });
     },

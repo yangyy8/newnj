@@ -16,7 +16,7 @@
                 <el-row :gutter="1">
                   <el-col :span="24">
                       <span class="yy-input-text">所属分局：</span>
-                      <el-select v-model="pd.ssfj" filterable clearable default-first-option  placeholder="请选择"  size="small" class="yy-input-input">
+                      <el-select v-model="pd.ssfj" filterable clearable default-first-option  placeholder="请选择"  size="small" class="yy-input-input" :disabled="juState=='1'?false:true">
                         <el-option
                           v-for="(item,ind) in ssfj"
                           :key="ind"
@@ -277,7 +277,6 @@ export default {
     this.pd.beginTime=getServerDate();
     this.pd.endTime=getServerDate();
     this.getFJ();
-    console.log('==========linzhu');
     createMapL();
     this.getUserWhiteList();
   },

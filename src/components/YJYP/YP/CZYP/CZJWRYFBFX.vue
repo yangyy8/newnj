@@ -18,7 +18,7 @@
                       <span class="yy-input-text">
                         <!-- <font color="red">*</font>  -->
                         所属分局：</span>
-                      <el-select v-model="pd.ssfj" filterable clearable default-first-option @change="getSSPCS(pd.ssfj)" placeholder="请选择"  size="small" class="yy-input-input">
+                      <el-select v-model="pd.ssfj" filterable clearable default-first-option @change="getSSPCS(pd.ssfj)" placeholder="请选择"  size="small" class="yy-input-input" :disabled="juState=='1'?false:true">
                         <el-option
                           v-for="(item,ind) in ssfj"
                           :key="ind"
@@ -29,7 +29,7 @@
                    </el-col>
                    <el-col :span="12">
                        <span class="yy-input-text">所属派出所：</span>
-                       <el-select v-model="pd.sspcs" filterable clearable default-first-option placeholder="请选择"  size="small" class="yy-input-input" :no-data-text="pd.ssfj==''||pd.ssfj==undefined?'请先选择所属分局':'无数据'">
+                       <el-select v-model="pd.sspcs" filterable clearable default-first-option placeholder="请选择"  size="small" class="yy-input-input"  :disabled="juState=='3'" :no-data-text="pd.ssfj==''||pd.ssfj==undefined?'请先选择所属分局':'无数据'">
                          <el-option
                            v-for="(item,ind) in sspcs"
                            :key="ind"
@@ -432,7 +432,6 @@ export default {
     this.userName=this.$store.state.uname;
     this.orgName=this.$store.state.orgname;
     this.orgCode=this.$store.state.orgid;
-    console.log('==========changzhu');
     this.getFJ();
     createMapL(this.centers);
   },

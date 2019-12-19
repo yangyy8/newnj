@@ -156,7 +156,7 @@
 
                 <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
                       <span class="input-text"> 所属分局：</span>
-                      <el-select v-model="pd.SSFJ" filterable clearable default-first-option @change="getSSPCS(pd.SSFJ)" placeholder="请选择"  size="small" class="input-input">
+                      <el-select v-model="pd.SSFJ" filterable clearable default-first-option @change="getSSPCS(pd.SSFJ)" placeholder="请选择"  size="small" class="input-input" :disabled="juState=='1'?false:true">
                         <el-option
                           v-for="(item,ind1) in ssfj"
                           :key="ind1"
@@ -167,7 +167,7 @@
                   </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
                       <span class="input-text">派出所：</span>
-                        <el-select v-model="pd.SSPCS" filterable clearable default-first-option placeholder="请输入关键字"  size="small" class="input-input" :no-data-text="pd.SSFJ==''||pd.SSFJ==undefined?'请先选择所属分局':'无数据'">
+                        <el-select v-model="pd.SSPCS" filterable clearable default-first-option placeholder="请输入关键字"  size="small" class="input-input" :disabled="juState=='3'" :no-data-text="pd.SSFJ==''||pd.SSFJ==undefined?'请先选择所属分局':'无数据'">
                        <el-option
                          v-for="(item,ind1) in sspcs"
                          :key="ind1"
