@@ -36,12 +36,11 @@
            :data="tableData"
            border
            style="width: 100%"
-            :default-sort = "{prop: 'cjsj', order: 'descending'}"
-           @selection-change="handleSelectionChange">
-           <el-table-column
+            :default-sort = "{prop: 'cjsj', order: 'descending'}">
+           <!-- <el-table-column
              type="selection"
              width="55">
-           </el-table-column>
+           </el-table-column> -->
            <el-table-column
              prop="mc"
              label="角色名">
@@ -242,6 +241,7 @@
              class="stu-table"
              style="width: 100%"
              @select="selectfn"
+             @select-all="selectfn"
              @selection-change="handleSelectionChange1">
              <el-table-column
                type="selection"
@@ -376,9 +376,9 @@ export default {
       }
       // console.log('this.selectionAll',this.selectionAll);
     },
-    handleSelectionChange(val) {
-      this.multipleSelection = val;
-    },
+    // handleSelectionChange(val) {
+    //   this.multipleSelection = val;
+    // },
     handleSelectionChange1(val) {
       // this.multipleSelection1 = val;
     },
@@ -654,7 +654,7 @@ export default {
 
        yhItem()
        {
-         console.log(this.multipleSelection)
+         console.log(this.multipleSelection);
          var formData = new FormData();
          if (this.multipleSelection.length == 0) {
                this.$message.error('请选择用户列表内容！');

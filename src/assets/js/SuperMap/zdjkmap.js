@@ -82,17 +82,18 @@ export function doSearch(className) {
     polygonLayer.addTo(map);
 
     var geometryParam = new SuperMap.GetFeaturesByGeometryParameters({
-      datasetNames: ['ORCL_gt8:dz_mlp'],
-      geometry: polygonLayer,
+      datasetNames: ['ORCL_gt8:dz_mlp'],//数据集集合中的数据集名称列表
+      geometry: polygonLayer,//用于查询的稽核对象
       spatialQueryMode: 'INTERSECT',
       maxFeatures:300000,
       fromIndex: 0,
       toIndex: 300000
     });
+    console.log(geometryParam)
     L.supermap.featureService("http://10.33.66.183:2333/iserver/services/data-gt8/rest/data").getFeaturesByGeometry(geometryParam, function(serviceResult) {
-
+      // console.log(serviceResult)
       var resultdata = serviceResult.result.features.features;
-      console.log('resultdata.length',resultdata.length);
+      // console.log('resultdata.length',resultdata.length);
       var markers = [];
       var ids = [];
 

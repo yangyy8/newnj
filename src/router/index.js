@@ -99,7 +99,7 @@ export default new Router({
         {
           path: 'GJYWWYLZYJ',
           name: 'GJYWWYLZYJ',
-          meta:{title:['日常管理','临住信息','重点国家境外人员统计']},
+          meta:{title:['日常管理','临住信息','重点国家境外人员临住统计']},
           component: resolve => require(['@/components/YJYP/YJ/LZYJ/GJYWWYLZYJ'], resolve),
         },
         {
@@ -359,6 +359,12 @@ export default new Router({
           name: 'ZDQYJKFX',
           meta:{title:['数据分析','案件分析','重点区域监控分析']},
           component: resolve => require(['@/components/YJYP/YJ/ASJYJ/ZDQYJKFX'], resolve),
+        },
+        {
+          path: 'AA',
+          name: 'AA',
+          meta:{title:['数据分析','案件分析','重点区域监控分析']},
+          component: resolve => require(['@/components/YJYP/YJ/ASJYJ/AA'], resolve),
         },
         /* 19.07添加 */
         {
