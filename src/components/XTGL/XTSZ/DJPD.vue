@@ -23,9 +23,7 @@
    },
     methods:{
       getinit(){
-        var url="http://218.94.87.2/njswdw/auth/indexAction.do?token=";
-
-
+        var url="http://10.33.72.147:8080/njswdw/auth/indexAction.do?token=";
         let p={
              'token':this.$store.state.token,
         };

@@ -87,7 +87,7 @@
     top: -3%;left:24%;
   }
   .tt-mr10{
-    margin-right: 10px!important
+    margin-left: 10px!important
   }
   .huan-font{
     font-size: 14px;
@@ -544,7 +544,7 @@
     overflow: auto
   }
   .tt-mr10{
-    margin-right: 10px!important
+    margin-left: 10px!important
   }
   .t-screen .banner{
     padding-top: 4.5%;
@@ -1004,7 +1004,7 @@
     overflow: auto
   }
   .tt-mr10{
-    margin-right: 5px!important
+    margin-left: 5px!important
   }
   .t-screen .banner{padding-top: 73px;background: url('../../assets/img/sg/logo.png') no-repeat;background-size: 100%;position: relative;}
   .t-screen .time{text-align: center;color: #FFFFFF;margin-top: -20px;font-size: 16px;}

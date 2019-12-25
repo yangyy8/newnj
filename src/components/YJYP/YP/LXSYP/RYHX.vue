@@ -203,6 +203,7 @@ export default {
           this.$message.error("请输入内容再进行查询！");return ;
         }
        // this.$router.push({name:'RYHX_XQ',query:{zjhm:this.zjhm}})   //人员画像
+      this.$store.state.queryType='' ;
       this.$router.push({name:'QWJS',query:{zjhmes:this.zjhm,stype:this.selecttype}})    //全文检索
 
     },

@@ -668,7 +668,7 @@
      <div class="stu-title">处理意见</div>
      <el-row>
        <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
-         <span class="input-text" style="width:13%!important">审核状态：</span>
+         <span class="input-text" style="width:71px!important">审核状态：</span>
          <el-select v-model="pc.SHZT" placeholder="请选择"  filterable clearable default-first-option size="small" class="input-input" :disabled="!qdshow">
            <el-option
              v-for="item in $store.state.shzt"
@@ -699,10 +699,12 @@
     </el-row>
    </div>
 
-   <div class="stu-footer" v-else>
+   <div :class="jb=='3'?'':'stu-footer'" v-else>
      <!-- 分局级别是2并且是未处理状态   展示派出所详情和分局意见输入框-->
      <div v-if="jb=='2' && showFJ">
        <!-- <div class="stu-title">处理结果：{{pc.CLJG}}</div> -->
+       <div class="stu-title">支队处理意见：{{pc.ZDYJ_DESC}} </div>
+        <div class="stu-title">支队处理详情：{{pc.CLXQ}}</div>
        <div class="stu-title">分局调查意见</div>
        <el-row type="flex" class="mb-15">
         <el-col :span="20">
@@ -720,7 +722,9 @@
      </div>
      <div v-if="jb=='2' && !showFJ">
        <!-- <div class="stu-title">处理结果：{{pc.CLJG}}</div> -->
-       <div class="stu-title">分局调查意见：{{pc.FJYJ}}</div>
+       <div class="stu-title">支队处理意见：{{pc.ZDYJ_DESC}} </div>
+        <div class="stu-title">支队处理详情：{{pc.CLXQ}}</div>
+        <div class="stu-title">分局调查意见：{{pc.FJYJ}}</div>
      </div>
      <div v-if="(org=='320100060000'||jb=='1') && showZD">
        <div class="stu-title">分局调查意见：{{pc.FJYJ}}</div>
@@ -732,7 +736,7 @@
        <el-row  class="mb-15">
            <el-col :span="20"  v-if='hcdmb'>
              <span  style="text-align:left;font-size:12px;">处理意见：</span>
-             <el-select v-model="pc.ZDYJ" placeholder="请选择"  filterable clearable default-first-option   size="small">
+             <el-select v-model="pc.ZDYJ" placeholder="请选择"  filterable clearable default-first-option   size="small" @change="isXF(pc.ZDYJ)">
                <el-option v-for="item in $store.state.yjcl3"
                 :key="item.dm"
                 :label="item.mc"
@@ -742,7 +746,7 @@
            </el-col>
            <el-col :span="20" v-else>
              <span  style="text-align:left;font-size:12px;">处理意见：</span>
-             <el-select v-model="pc.ZDYJ" placeholder="请选择"  filterable clearable default-first-option   size="small">
+             <el-select v-model="pc.ZDYJ" placeholder="请选择"  filterable clearable default-first-option   size="small" @change="isXF(pc.ZDYJ)">
                <el-option v-for="item in $store.state.yjcl1"
                 :key="item.dm"
                 :label="item.mc"
@@ -758,11 +762,12 @@
             :autosize="{ minRows: 3, maxRows: 3}"
             placeholder="处理详情必须填写原因(不超过100个字符)"
             v-model="pc.CLXQ"
-            :disabled="showXF">
+            :disabled="showXF"
+            @input="isXF(pc.CLXQ)">
           </el-input>
         </el-col>
         <el-col :span="4"  class="down-btn-area">
-          <el-button type="warning" class="mb-5" size="small" @click="release()" v-if="!showXF" style="width:78px">下发分局</el-button>
+          <el-button type="warning" class="mb-5" size="small" @click="release()" v-if="!showXF" style="width:78px" :disabled="isXf">下发分局</el-button>
           <el-button type="warning" class="mb-5" size="small" @click="release()" :disabled="showXF" v-if="showXF" style="width:78px;margin-left:0px">已下发</el-button>
           <el-button type="primary" class="mb-5" size="small" @click="addSaves()" style="width:78px;margin-left:0px">确定</el-button>
         </el-col>
@@ -774,7 +779,7 @@
        <div class="stu-title">分局调查意见：{{pc.FJYJ}}</div>
        <!-- <div class="stu-title">处理结果：{{pc.CLJG}}</div> -->
      </div>
-     <div v-if="jb=='3' && showPCS">
+     <!-- <div v-if="jb=='3' && showPCS">
        <div class="stu-title">处理结果</div>
        <el-row type="flex" class="mb-15">
         <el-col :span="20">
@@ -789,13 +794,13 @@
           <el-button type="primary" class="mb-5" size="small" @click="addSaves()">确定</el-button>
         </el-col>
       </el-row>
-     </div>
-     <div v-if="jb=='3' && !showPCS">
+     </div> -->
+     <!-- <div v-if="jb=='3' && !showPCS">
        <div class="stu-title">处理结果：{{pc.CLJG}}</div>
      </div>
      <div class="czfont">
        处理人: {{ZDCLR==''?$store.state.uname:ZDCLR}}
-     </div>
+     </div> -->
    </div>
 
    <el-dialog
@@ -805,32 +810,32 @@
          <el-button @click="QZDialogVisible = false" size="small">取 消</el-button>
        </div>
    </el-dialog>
-   <el-dialog title="临住信息详情" :visible.sync="lzxxDialogVisible" custom-class="big_dialog" :append-to-body="false" :modal="false">
+   <el-dialog title="临住信息详情" :visible.sync="lzxxDialogVisible" custom-class="big_dialog combine" :append-to-body="true" :modal="false">
      <LZXX :type="type" :xid="xid" :rybh="rybh" :random="(new Date()).getTime()"></LZXX>
      <div slot="footer" class="dialog-footer">
        <el-button @click="lzxxDialogVisible = false" size="small">取 消</el-button>
      </div>
    </el-dialog>
-   <el-dialog title="通报人员详情" :visible.sync="tbryDialogVisible" custom-class="big_dialog" :append-to-body="false" :modal="false">
+   <el-dialog title="通报人员详情" :visible.sync="tbryDialogVisible" custom-class="big_dialog combine" :append-to-body="true" :modal="false">
      <TBRY :type="type" :xid="xid" :rybh="rybh" :random="(new Date()).getTime()"></TBRY>
      <div slot="footer" class="dialog-footer">
        <el-button @click="tbryDialogVisible = false" size="small">取 消</el-button>
      </div>
    </el-dialog>
-   <el-dialog title="案事件信息详情" :visible.sync="asjDialogVisible" custom-class="big_dialog" :append-to-body="false" :modal="false">
+   <el-dialog title="案事件信息详情" :visible.sync="asjDialogVisible" custom-class="big_dialog combine" :append-to-body="true" :modal="false">
      <ANSJ :type="type" :xid="xid" :dtid="dtid" :random="(new Date()).getTime()"></ANSJ>
      <div slot="footer" class="dialog-footer">
        <el-button @click="asjDialogVisible = false" size="small">取 消</el-button>
      </div>
    </el-dialog>
-   <el-dialog title="警综涉警信息详情" :visible.sync="sjDialogVisible" custom-class="big_dialog" :append-to-body="false" :modal="false">
+   <el-dialog title="警综涉警信息详情" :visible.sync="sjDialogVisible" custom-class="big_dialog combine" :append-to-body="true" :modal="false">
      <JZSJ :type="type" :xid="xid"></JZSJ>
      <div slot="footer" class="dialog-footer">
        <el-button @click="sjDialogVisible = false" size="small">取 消</el-button>
      </div>
    </el-dialog>
    <!-- 出入境信息 -->
-  <el-dialog title="出入境信息详情" :visible.sync="crjDialogVisible"  custom-class="big_dialog" :append-to-body="false" :modal="false">
+  <el-dialog title="出入境信息详情" :visible.sync="crjDialogVisible"  custom-class="big_dialog combine" :append-to-body="true" :modal="false">
         <CRJXX :type="type" :xid="xid" :random="(new Date()).getTime()"></CRJXX>
          <div slot="footer" class="dialog-footer">
            <el-button @click="crjDialogVisible = false" size="small">取 消</el-button>
@@ -1201,6 +1206,7 @@ export default {
       showXF:false,
       showFJ:true,
       showPCS:true,
+      isXf:false,
       userCode:'',
       userName:'',
       orgCode:'',
@@ -1353,6 +1359,13 @@ export default {
       this.getJB();
   },
   methods: {
+    isXF(item){
+      if(item!=''){
+        this.isXf=true;
+      }else{
+        this.isXf=false;
+      }
+    },
     goBackS(){
       if(this.row.MXLX=="BKYJ"){this.$router.push({name:'ZBKYJ'})}//布控预警
       if(this.row.MXLX=="LZ_HC"){this.$router.push({name:'LZHCYJ'})}//临住核查预警

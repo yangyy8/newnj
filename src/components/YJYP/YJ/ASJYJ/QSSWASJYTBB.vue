@@ -156,6 +156,10 @@ export default {
         })
     },
     download(){
+      if(this.tableData.length==0){
+         this.$message.error('无可导出数据！');
+         return
+      }
       let p={
         pd:this.pd,
         userCode:this.userCode,

@@ -84,7 +84,9 @@ var store = new Vuex.Store({
     ajxz:[],
     yjcl1:[],
     yjcl2:[],
-    yjcl3:[]
+    yjcl3:[],
+    clzt1:[],
+    queryType:'',
   },
   mutations: {
     getOne(state,data){
@@ -113,6 +115,9 @@ var store = new Vuex.Store({
     },
     getActiveTab(state,data){
       state.currentKey = data;
+    },
+    getQueryType(state,data){
+      state.queryType = data;
     },
     getTabList(state,data){
       // localStorage.setItem('tabList', data)
@@ -325,7 +330,10 @@ var store = new Vuex.Store({
     },
     getYjcl3(state,data){
       state.yjcl3=data;
-    }
+    },
+    getClzt1(state,data){
+      state.clzt1=data;
+    },
   },
   actions: {
     getZjxy(context){
@@ -662,6 +670,12 @@ var store = new Vuex.Store({
          context.commit('getYjcl3',ToArray(r.data))
        })
     },
+    getClzt1(context){
+      api.get(global_.aport1+global_.clzt1,null,
+       r =>{
+         context.commit('getClzt1',ToArray(r.data))
+       })
+    }
   }
 });
 export default store;

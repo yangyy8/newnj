@@ -450,8 +450,12 @@
             label:'外国人和四种人分布'
           },
           {
-            code:'LB_SFBG',
-            label:'投宿于'
+            code:'DJDWMC',
+            label:'宾馆名称'
+          },
+          {
+            code:'BZHDZMC',
+            label:'散居社会面地址'
           },
           {
             code:'LSDWDZ',
@@ -493,8 +497,12 @@
             label:'停留事由'
           },
           {
-            code:'LB_SFBG_DESC',
-            label:'投宿于'
+            code:'DJDWMC',
+            label:'宾馆名称'
+          },
+          {
+            code:'BZHDZMC',
+            label:'散居社会面地址'
           },
           {
             code:'LSDWDZ',
@@ -619,6 +627,10 @@
           // console.log('this.selectionAll',this.selectionAll);
         },
         download(){
+          if(this.tableData.length==0){
+             this.$message.error('无可导出数据');
+             return
+          }
           let p={};
           let url="";
           this.pd.YWXM = (this.pd.YWXM).toUpperCase();
@@ -891,7 +903,7 @@
     }
     </style>
     <style>
-      .el-button+.el-button{margin-left: 0!important;}
+      /* .el-button+.el-button{margin-left: 0!important;} */
       .t-tjCheck .el-checkbox{margin-left: 20px!important; line-height: 30px;}
       .t-tjCheck .el-checkbox+.el-checkbox{margin-left: 20px!important;}
       .bj .el-dialog__wrapper {

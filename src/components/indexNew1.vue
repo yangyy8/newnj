@@ -167,7 +167,7 @@
                         :value="item">
                       </el-option>
                     </el-select>
-                    <el-select v-model="lzmonth" size="small" placeholder="月" style="z-index: 999" @visible-change='monthFun' clearable @change="mapFun">
+                    <el-select v-model="lzmonth" size="small" placeholder="月" style="z-index: 999" @visible-change='monthFun' clearable @change="monthChange">
                       <el-option
                         v-for="(item,ind) in months"
                         :key="ind"
@@ -175,7 +175,7 @@
                         :value="item">
                       </el-option>
                     </el-select>
-                    <el-select v-model="lzdate" size="small" placeholder="日" @visible-change='dayFun' style="z-index: 999" clearable @change="mapFun">
+                    <el-select v-model="lzdate" size="small" placeholder="日" @visible-change='dayFun' style="z-index: 999" clearable @change="dayChange">
                       <el-option
                         v-for="(item,ind) in dates"
                         :key="ind"
@@ -530,6 +530,9 @@ export default {
 
       allLzNum:0,
       allCzNum:0,
+
+      currentMonth:'',
+      currentYear:'',
 
       userCode:'',
       userName:'',
@@ -1038,6 +1041,9 @@ export default {
          },0)
       },
       scrollYj(){
+        if(this.yjList.length<3){
+          return
+        }
         this.animate=true;    // 因为在消息向上滚动的时候需要添加css3过渡动画，所以这里需要设置true
         setTimeout(()=>{      //  这里直接使用了es6的箭头函数，省去了处理this指向偏移问题，代码也比之前简化了很多
                 this.yjList.push(this.yjList[0]);  // 将数组的第一个元素添加到数组的
@@ -1083,9 +1089,14 @@ export default {
          r =>{
            if(r.success){
              this.months = r.data.MONTH;
-             if(this.lzyear==''){this.lzyear = r.data.YEAR;}
+             this.currentYear = r.data.YEAR
+
            }
          })
+      },
+      monthChange(){
+        if(this.lzyear==''){this.lzyear = this.currentYear;}
+        this.mapFun();
       },
       dayFun(){
         let p={
@@ -1096,10 +1107,15 @@ export default {
          r =>{
            if(r.success){
              this.dates = r.data.DAY;
-             if(this.lzmonth==''){this.lzmonth = r.data.MONTH;}
-             if(this.lzyear==''){this.lzyear = r.data.YEAR;}
+             this.currentMonth = r.data.MONTH;
+             this.currentYear = r.data.YEAR;
            }
          })
+      },
+      dayChange(){
+        if(this.lzmonth==''){this.lzmonth = this.currentMonth;}
+        if(this.lzyear==''){this.lzyear = this.currentYear;}
+        this.mapFun();
       },
       czFun(){
         this.$api.post(this.Global.aport+'/home/getCzsfdata',{},

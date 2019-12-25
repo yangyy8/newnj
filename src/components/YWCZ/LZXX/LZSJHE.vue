@@ -79,7 +79,8 @@
            :data="tableData"
            border
            style="width: 100%"
-           @selection-change="handleSelectionChange">
+           @selection-change="handleSelectionChange"
+           @header-click="titleShow">
            <!-- <el-table-column
              type="selection"
              width="55">
@@ -105,8 +106,8 @@
              label="国家地区">
            </el-table-column>
            <el-table-column
-             prop="lsdwhz"
-             label="留宿单位(户主)">
+             prop="zsrq"
+             label="入住日期">
            </el-table-column>
            <el-table-column
              prop="lsdwhzdz"
@@ -158,7 +159,7 @@
       </div>
     </div>
     <div class="bj">
-      <el-dialog title="编辑" :visible.sync="eidtsDialogVisible" custom-class="big_dialog" :append-to-body="false" :modal="false">
+      <el-dialog title="编辑" :visible.sync="eidtsDialogVisible" custom-class="big_dialog combine" :append-to-body="true" :modal="false">
         <el-form :model="form" ref="addForm" class="crcolor" style="padding:10px">
           <el-row>
             <el-col :span="16">
@@ -749,6 +750,9 @@ export default {
            this.deg = 0
        }
    },
+   titleShow(e,el){
+     el.target.title = e.label;
+   },
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
@@ -849,6 +853,10 @@ export default {
         })
     },
     download(){
+      if(this.tableData.length==0){
+         this.$message.error('无可导出数据！');
+         return
+      }
       let p = {
         "currentPage": this.CurrentPage,
         "showCount": 1000000,

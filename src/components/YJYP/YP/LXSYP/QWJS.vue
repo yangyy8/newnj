@@ -15,7 +15,7 @@
       <el-button type="primary"  @click="CurrentPage=1;getList(CurrentPage,pageSize)" style="margin-left:-10px;">查询</el-button>
        <el-button type="success" @click="$router.push({name:'RYHX'})">返回</el-button>
      </div>
- <div class="navinfo">
+ <div class="navinfo" v-if="type=='all'||type=='user'">
   <span :class="{'redy':check==0}" @click="check=0;CurrentPage=1;getList(CurrentPage,pageSize,'lz')"> 临住数据 ( <b>{{info.lz}}</b> 条)  </span>
   <span :class="{'redy':check==1}" @click="check=1;CurrentPage=1;getList(CurrentPage,pageSize,'cz')"> 常住数据 ( <b>{{info.cz}}</b>  条)  </span>
   <span :class="{'redy':check==2}" @click="check=2;CurrentPage=1;getList(CurrentPage,pageSize,'qz')"> 签证数据 ( <b>{{info.qz}}</b>  条)  </span>
@@ -24,41 +24,51 @@
  </div>
   </el-card>
     <div class="main">
-       <el-row v-for="(item,index) in items" :key="index">
-         <el-card class="box-card" style="margin:5px 0;">
-           <el-row type="flex">
-           <el-col :span="2" style="padding:10px;width:120px;">
-             <div class="shover"  @click="$router.push({name:'RYHX_XQ',query:{zjhm:item.zjhm,zjhmes:content,stype:type,gjdq:item.gjdq}})">
-             <img :src="item.photo" v-if="item.photo!=''" width="100" height="120">
-             <img src="../../../../assets/img/mrzp.png" width="100" height="120" v-else >
-            </div>
-           </el-col>
-           <el-col :span="22">
-             <div class="shover" @click="$router.push({name:'RYHX_XQ',query:{zjhm:item.zjhm,zjhmes:content,stype:type,gjdq:item.gjdq}})">
-               <div class="list">
-                 <p style="margin-bottom:15px!important"><b>{{item.ywxm}}</b></p>
-                 <el-row type="flex"  class="t-detail">
-                   <el-col :span="22">
-                     <el-row class="t-mb15">
-                       <el-col :span="6" class="t-el-content"><div class="t-el-text">性别：</div><div class="t-el-sub">{{item.xb}}</div></el-col>
-                       <el-col :span="6" class="t-el-content"><div class="t-el-text">出生日期：</div><div class="t-el-sub">{{item.csrq}}</div></el-col>
-                       <el-col :span="6" class="t-el-content"><div class="t-el-text">国家地区：</div><div class="t-el-sub">{{item.gjdqmc}}</div></el-col>
-                       <el-col :span="6" class="t-el-content"><div class="t-el-text">证件号码：</div><div class="t-el-sub">{{item.zjhm}}</div></el-col>
-                     </el-row>
-                     <el-row>
-                       <el-col :span="24" class="t-el-content"><div class="t-el-text">命中信息：</div><div class="t-el-sub"><span v-html='item.cusHighlight'></span></div></el-col>
-                     </el-row>
-                   </el-col>
-                   <el-col :span="2">
-                     <!-- <el-button type="text" title="详情">详情</el-button> -->
-                   </el-col>
-                 </el-row>
-               </div>
+      <div v-if="!tipShow">
+        <el-row v-for="(item,index) in items" :key="index">
+          <el-card class="box-card" style="margin:5px 0;">
+            <el-row type="flex">
+            <el-col :span="2" style="padding:10px;width:120px;">
+              <div class="shover"  @click="$router.push({name:'RYHX_XQ',query:{zjhm:item.zjhm,zjhmes:content,stype:type,gjdq:item.gjdq}})">
+              <img :src="item.photo" v-if="item.photo!=''" width="100" height="120">
+              <img src="../../../../assets/img/mrzp.png" width="100" height="120" v-else >
              </div>
-           </el-col>
-           </el-row>
-           </el-card>
-       </el-row>
+            </el-col>
+            <el-col :span="22">
+              <div class="shover" @click="$router.push({name:'RYHX_XQ',query:{zjhm:item.zjhm,zjhmes:content,stype:type,gjdq:item.gjdq}})">
+                <div class="list">
+                  <p style="margin-bottom:15px!important"><b>{{item.ywxm}}</b></p>
+                  <el-row type="flex"  class="t-detail">
+                    <el-col :span="22">
+                      <el-row class="t-mb15">
+                        <el-col :span="6" class="t-el-content"><div class="t-el-text">性别：</div><div class="t-el-sub">{{item.xb}}</div></el-col>
+                        <el-col :span="6" class="t-el-content"><div class="t-el-text">出生日期：</div><div class="t-el-sub">{{item.csrq}}</div></el-col>
+                        <el-col :span="6" class="t-el-content"><div class="t-el-text">国家地区：</div><div class="t-el-sub">{{item.gjdqmc}}</div></el-col>
+                        <el-col :span="6" class="t-el-content"><div class="t-el-text">证件号码：</div><div class="t-el-sub">{{item.zjhm}}</div></el-col>
+                      </el-row>
+                      <el-row>
+                        <el-col :span="24" class="t-el-content"><div class="t-el-text">命中信息：</div><div class="t-el-sub"><span v-html='item.cusHighlight'></span></div></el-col>
+                      </el-row>
+                    </el-col>
+                    <el-col :span="2">
+                      <!-- <el-button type="text" title="详情">详情</el-button> -->
+                    </el-col>
+                  </el-row>
+                </div>
+              </div>
+            </el-col>
+            </el-row>
+            </el-card>
+        </el-row>
+      </div>
+      <div v-if="tipShow">
+        <el-row>
+          <div class="redx text-center t-mt20">
+            没有查询到相关数据！
+          </div>
+        </el-row>
+      </div>
+
        <div class="middle-foot" style="margin-top:10px;" v-if="TotalResult!=0">
           <el-pagination
             background
@@ -83,20 +93,19 @@ export default {
       items:[],
       type:'',
       content:'',
-      infoshow:false,
       info:{lz:0,cz:0,qz:0,ajxx:0,crj:0},
       datatype:'',
       check:7,
+      tipShow:false,
     }
   },
     activated(){
       this.type=this.$route.query.stype;
       this.content=this.$route.query.zjhmes;
-      // console.log(this.type,this.content);
-      this.getList(this.CurrentPage, this.pageSize);
+      this.getList(this.CurrentPage, this.pageSize,this.$store.state.queryType);
     },
   mounted() {
-
+    // this.getList(this.CurrentPage, this.pageSize);
   },
   methods: {
     pageSizeChange(val) {
@@ -108,6 +117,11 @@ export default {
       console.log(`当前页: ${val}`);
     },
     getListType(currentPage,showCount,type){
+      if(type=='lz'){this.check=0}
+      if(type=='cz'){this.check=1}
+      if(type=='qz'){this.check=2}
+      if(type=='ajxx'){this.check=3}
+      if(type=='crj'){this.check=4}
       let p={
         "keywords":this.content,
         "type":type,
@@ -119,24 +133,41 @@ export default {
       };
       this.$api.post(this.Global.aport6+"/api/es/search/generalCountSearch",p,r=>{
         if(r.success){
-          this.items=r.respondResult.respondData;
+          (r.respondResult.respondData==null||r.respondResult.respondData.length==0)?this.items=[]:this.items=r.respondResult.respondData;
+          this.items.length==0?this.tipShow=true:this.tipShow=false;
           this.TotalResult=r.respondResult.totalSize;
         }
       })
     },
 
     getList(currentPage,showCount,type){
-
+      this.check=7;
+      this.tipShow=false;
       if(this.content!=this.$route.query.zjhmes || this.type!=this.$route.query.stype)
       {
         this.$router.push({name:'QWJS',query:{zjhmes:this.content,stype:this.type}});
       }
       this.items=[];
       this.TotalResult=0;
-
+      let p={
+        "keywords":this.content,
+        "type":this.type,
+        "pageSize":showCount,
+        "page":currentPage,
+        "token":this.$store.state.token,
+        "userCode":this.$store.state.uid,
+        "userName":this.$store.state.uname
+      };
       if(type!="" && type!=undefined){
          this.datatype=type;
          this.getListType(currentPage,showCount,type);
+         this.$api.post(this.Global.aport6+"/api/es/search/generalSearch",p,r=>{
+           if(r.success){
+             if(r.respondResult.respondCount!=undefined){
+              this.info=r.respondResult.respondCount;
+             }
+           }
+         })
       }else {
         this.datatype="";
       if(this.content==undefined || this.content==""){
@@ -145,36 +176,18 @@ export default {
       if(this.type==undefined || this.type==""){
         this.$message.error("请选择类型!");return ;
       }
-     let p={
-       "keywords":this.content,
-       "type":this.type,
-       "pageSize":showCount,
-       "page":currentPage,
-       "token":this.$store.state.token,
-       "userCode":this.$store.state.uid,
-       "userName":this.$store.state.uname
-     };
-     // var formData = new FormData();
-     // formData.append("keywords", this.content);
-     // formData.append("type", this.type);
-     // formData.append("page", currentPage);
-     // formData.append("pageSize", showCount);
-     // let p = formData;
      this.$api.post(this.Global.aport6+"/api/es/search/generalSearch",p,r=>{
        if(r.success){
-         this.items=r.respondResult.respondData;
-         if(r.respondResult.respondCount!=undefined)
-        {
-          this.infoshow=true;
-          this.info=r.respondResult.respondCount;
-        }
-        else {
-          this.infoshow=false;
-        }
+         (r.respondResult.respondData==null||r.respondResult.respondData.length==0)?this.items=[]:this.items=r.respondResult.respondData;
+         this.items.length==0?this.tipShow=true:this.tipShow=false;
+         (r.respondResult.respondCount==null||r.respondResult.respondCount=={})?this.info={lz:0,cz:0,qz:0,ajxx:0,crj:0}:this.info=r.respondResult.respondCount;
          this.TotalResult=r.respondResult.totalSize;
+       }else{
+         this.info={lz:0,cz:0,qz:0,ajxx:0,crj:0}
        }
      })
        }
+      this.$store.commit('getQueryType',this.datatype);
     },
   },
 }

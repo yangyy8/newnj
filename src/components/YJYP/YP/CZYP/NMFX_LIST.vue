@@ -26,9 +26,9 @@
                 </el-col>
           </el-row>
          </el-col>
-            <el-col :span="4" >
-              <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)" class="mb-15 t-mr10">查询</el-button>
-              <el-button type="info" size="small" @click="$router.push({name:'NMFX'})" class="mb-15 t-mr10">返回</el-button>
+            <el-col :span="4" class="alone-flex">
+              <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)" class="mb-15 tt-mr10">查询</el-button>
+              <el-button type="info" size="small" @click="$router.push({name:'NMFX'})" class="mb-15 tt-mr10">返回</el-button>
               <el-button type="warning" size="small" @click="download" class="mb-15">导出</el-button>
             </el-col>
           </el-row>
@@ -40,7 +40,8 @@
            border
            ref="multipleTable"
            style="width: 100%"
-           @select="selectfn">
+           @select="selectfn"
+           @header-click="titleShow">
            <el-table-column
              type="selection"
              width="55">
@@ -163,6 +164,9 @@ export default {
       this.$store.dispatch('getGjdq');
   },
   methods: {
+    titleShow(e,el){
+      el.target.title = e.label;
+    },
     selectfn(a,b){
       this.multipleSelection = a;
       this.dataSelection()
@@ -182,6 +186,10 @@ export default {
       // console.log('this.selectionAll',this.selectionAll);
     },
     download(){
+      if(this.tableData.length==0){
+         this.$message.error('无可导出数据！');
+         return
+      }
       let p={};
       this.objCompare(this.row,this.queryPd)
       this.pd = Object.assign({},this.row,this.queryPd,this.pd);
@@ -212,7 +220,7 @@ export default {
         let link = document.createElement('a')
         link.style.display = 'none'
         link.href = url
-        link.setAttribute('download', '难民综合分析列表'+this.format(new Date(),'yyyyMMddhhmmss')+'.xls')
+        link.setAttribute('download', '难民和寻求庇护者分析列表'+this.format(new Date(),'yyyyMMddhhmmss')+'.xls')
         document.body.appendChild(link)
         link.click()
     },

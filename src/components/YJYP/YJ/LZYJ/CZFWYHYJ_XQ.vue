@@ -178,7 +178,7 @@
          </el-row>
       </div>
     </div>
-  <el-dialog title="案件信息详情" :visible.sync="lzxxDialogVisible"  custom-class="big_dialog" :append-to-body="false" :modal="false">
+  <el-dialog title="临住信息详情" :visible.sync="lzxxDialogVisible"  custom-class="big_dialog" :append-to-body="false" :modal="false">
        <LZXX :type="type" :xid="xid" :rybh="rybh" :random="new Date().getTime()"></LZXX>
        <div v-if='flag'>
        <div class="yylbt mt-10">案件信息</div>

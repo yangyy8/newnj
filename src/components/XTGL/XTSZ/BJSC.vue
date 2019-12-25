@@ -83,7 +83,8 @@
            ref="multipleTable"
            :highlight-current-row="true"
            @select="selectfn"
-           style="width: 100%">
+           style="width: 100%"
+           @header-click="titleShow">
            <el-table-column
              type="selection"
              width="55">
@@ -696,6 +697,9 @@ export default {
         this.$message.error("请至少选择一条数据!");return ;
       }
     },
+    titleShow(e,el){
+      el.target.title = e.label;
+    },
     pageSizeChange4(val) {
     this.pageSize4=val;
     },
@@ -774,6 +778,7 @@ export default {
             this.uploadDialogVisible=false;
             this.fileData=[];
             this.tableData=r.data.resultList;
+            this.TotalResult = r.data.totalResult;
             this.$message({
               type: 'info',
               message: '导入成功'

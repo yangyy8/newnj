@@ -36,12 +36,11 @@
            :data="tableData"
            border
            style="width: 100%"
-            :default-sort = "{prop: 'cjsj', order: 'descending'}"
-           @selection-change="handleSelectionChange">
-           <el-table-column
+            :default-sort = "{prop: 'cjsj', order: 'descending'}">
+           <!-- <el-table-column
              type="selection"
              width="55">
-           </el-table-column>
+           </el-table-column> -->
            <el-table-column
              prop="mc"
              label="角色名">
@@ -71,7 +70,7 @@
            </el-table-column>
 
            <el-table-column
-             label="操作" width="180">
+             label="操作" width="150">
              <template slot-scope="scope">
                <el-button type="text"  class="a-btn"  title="详情"  icon="el-icon-document" @click="details(scope.row)"></el-button>
              <el-button type="text"  class="a-btn"  title="编辑"  icon="el-icon-edit-outline" @click="adds(1,scope.row);"></el-button>
@@ -242,6 +241,7 @@
              class="stu-table"
              style="width: 100%"
              @select="selectfn"
+             @select-all="selectfn"
              @selection-change="handleSelectionChange1">
              <el-table-column
                type="selection"
@@ -376,9 +376,9 @@ export default {
       }
       // console.log('this.selectionAll',this.selectionAll);
     },
-    handleSelectionChange(val) {
-      this.multipleSelection = val;
-    },
+    // handleSelectionChange(val) {
+    //   this.multipleSelection = val;
+    // },
     handleSelectionChange1(val) {
       // this.multipleSelection1 = val;
     },
@@ -392,6 +392,7 @@ export default {
     },
     pageSizeChange1(val) {
       this.pageSize1=val;
+      this.CurrentPage1=1;
       this.getList1(this.CurrentPage1, val, this.pd1);
       console.log(`每页 ${val} 条`);
     },
@@ -654,12 +655,12 @@ export default {
 
        yhItem()
        {
-         console.log(this.multipleSelection)
+         // console.log(this.multipleSelection);
          var formData = new FormData();
-         if (this.multipleSelection.length == 0) {
-               this.$message.error('请选择用户列表内容！');
-              return;
-         }
+         // if (this.multipleSelection.length == 0) {
+         //       this.$message.error('请选择用户列表内容！');
+         //      return;
+         // }
          var checkeds=[];var userids=[];
          for (var i = 0; i < this.selectionAll.length; i++)
          {  var s = this.selectionAll[i].id;

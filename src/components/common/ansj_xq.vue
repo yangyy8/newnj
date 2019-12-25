@@ -1133,7 +1133,7 @@
                         <span class="input-input detailinput">  {{aForm6.JDFS}}</span>
                       </el-col>
                       <el-col :span="8" class="input-item">
-                        <span class="input-text" >协作具体事项：</span>
+                        <span class="input-text" title="协作具体事项">协作具体事项：</span>
                         <span class="input-input detailinput">  {{aForm6.XZSX}}</span>
                       </el-col>
 

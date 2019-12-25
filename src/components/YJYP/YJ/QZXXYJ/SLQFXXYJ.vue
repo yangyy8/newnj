@@ -204,11 +204,11 @@
              v-if="juState=='1'||juState=='2'">
            </el-table-column>
            <el-table-column
-             label="预警详情" width="120">
+             label="操作" width="70">
              <template slot-scope="scope">
                 <div>
                   <el-button type="text"  class="a-btn"  title="编辑"  icon="el-icon-edit-outline" @click="getEdit(scope.row)"></el-button>
-                  <el-button type="text"  class="a-btn"  title="设为关注人员"  icon="iconfont el-icon-yy-jiaoseyonghu" @click="adds(scope.row);form={};"></el-button>
+                  <el-button type="text"  class="a-btn"  title="设为关注人员"  icon="el-icon-user" @click="adds(scope.row);form={};"></el-button>
                 </div>
              </template>
            </el-table-column>
@@ -390,6 +390,10 @@ export default {
       // console.log('this.selectionAll',this.selectionAll);
     },
     download(){
+      if(this.tableData.length==0){
+         this.$message.error('无可导出数据');
+         return
+      }
       let p={};
       this.pd.YWXM_Like = (this.pd.YWXM_Like).toUpperCase();
       if(this.selectionAll.length==0){//全部导出

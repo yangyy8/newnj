@@ -2,35 +2,35 @@
 <el-form :model="sjinfo">
   <el-row :gutter="3"  class="mb-6">
       <el-col :span="8" class="input-item">
-       <span class="input-text">涉警人员登记单位：</span>
+       <span class="input-text" title="涉警人员登记单位">涉警人员登记单位：</span>
        <span class="input-input detailinput">  {{sjinfo.SJRYDJDW}}</span>
       </el-col>
       <el-col :span="8" class="input-item">
-        <span class="input-text">涉警人员登记单位名称：</span>
+        <span class="input-text" title="涉警人员登记单位名称">涉警人员登记单位名称：</span>
         <span class="input-input detailinput">  {{sjinfo.SJRYDJDWMC}}</span>
       </el-col>
       <el-col :span="8" class="input-item">
-       <span class="input-text">涉警人员登记人：</span>
+       <span class="input-text" title="涉警人员登记人">涉警人员登记人：</span>
        <span class="input-input detailinput">  {{sjinfo.SJRYDJR}}</span>
       </el-col>
       <el-col :span="8" class="input-item">
-       <span class="input-text">涉警人员登记人姓名：</span>
+       <span class="input-text" title="涉警人员登记人姓名">涉警人员登记人姓名：</span>
        <span class="input-input detailinput">  {{sjinfo.SJRYDJRXM}}</span>
       </el-col>
       <el-col :span="8" class="input-item">
-        <span class="input-text">涉警人员登记时间：</span>
+        <span class="input-text" title="涉警人员登记时间">涉警人员登记时间：</span>
         <span class="input-input detailinput">  {{sjinfo.SJRYDJSJ}}</span>
       </el-col>
       <el-col :span="8" class="input-item">
-        <span class="input-text">涉警人员接警编号：</span>
+        <span class="input-text" title="涉警人员接警编号">涉警人员接警编号：</span>
         <span class="input-input detailinput">  {{sjinfo.SJRYJJBH}}</span>
       </el-col>
       <el-col :span="8" class="input-item">
-        <span class="input-text">涉警人员记录编号：</span>
+        <span class="input-text" title="涉警人员记录编号">涉警人员记录编号：</span>
         <span class="input-input detailinput">  {{sjinfo.SJRYJLBH}}</span>
       </el-col>
       <el-col :span="8" class="input-item">
-        <span class="input-text">涉警人员关联标识：</span>
+        <span class="input-text" title="涉警人员关联标识">涉警人员关联标识：</span>
         <span class="input-input detailinput">  {{sjinfo.SJRYGLBH}}</span>
       </el-col>
       <el-col :span="8" class="input-item">
@@ -38,51 +38,51 @@
         <span class="input-input detailinput">  {{sjinfo.RYBH}}</span>
       </el-col>
       <el-col :span="8" class="input-item">
-        <span class="input-text">涉警人员涉警类别：</span>
+        <span class="input-text" title="涉警人员涉警类别">涉警人员涉警类别：</span>
         <span class="input-input detailinput">  {{sjinfo.SJRYSJLB}}</span>
       </el-col>
       <el-col :span="8" class="input-item">
-        <span class="input-text">涉警人员修改单位：</span>
+        <span class="input-text" title="涉警人员修改单位">涉警人员修改单位：</span>
         <span class="input-input detailinput">  {{sjinfo.SJRYXGDW}}</span>
       </el-col>
       <el-col :span="8" class="input-item">
-        <span class="input-text">涉警人员修改单位名称：</span>
+        <span class="input-text" title="涉警人员修改单位名称">涉警人员修改单位名称：</span>
         <span class="input-input detailinput">  {{sjinfo.SJRYXGDWMC}}</span>
       </el-col>
       <el-col :span="8" class="input-item">
-        <span class="input-text">涉警人员修改人：</span>
+        <span class="input-text" title="涉警人员修改人">涉警人员修改人：</span>
         <span class="input-input detailinput">  {{sjinfo.SJRYXGR}}</span>
       </el-col>
       <el-col :span="8" class="input-item">
-        <span class="input-text">涉警人员修改人姓名：</span>
+        <span class="input-text" title="涉警人员修改人姓名">涉警人员修改人姓名：</span>
         <span class="input-input detailinput">  {{sjinfo.SJRYXGRXM}}</span>
       </el-col>
       <el-col :span="8" class="input-item">
-        <span class="input-text">涉警人员修改时间：</span>
+        <span class="input-text" title="涉警人员修改时间">涉警人员修改时间：</span>
         <span class="input-input detailinput">  {{sjinfo.SJRYXGSJ}}</span>
       </el-col>
       <el-col :span="8" class="input-item">
-        <span class="input-text">涉警人员现住址：</span>
+        <span class="input-text" title="涉警人员现住址">涉警人员现住址：</span>
         <span class="input-input detailinput">  {{sjinfo.SJRYXZZ}}</span>
       </el-col>
       <el-col :span="8" class="input-item">
-        <span class="input-text">涉警人员中文姓名：</span>
+        <span class="input-text" title="涉警人员中文姓名">涉警人员中文姓名：</span>
         <span class="input-input detailinput">  {{sjinfo.SJRYZWXM}}</span>
       </el-col>
       <el-col :span="8" class="input-item">
-        <span class="input-text">涉警人员英文姓名：</span>
+        <span class="input-text" title="涉警人员英文姓名">涉警人员英文姓名：</span>
         <span class="input-input detailinput">  {{sjinfo.SJRYYWXM}}</span>
       </el-col>
       <el-col :span="8" class="input-item">
-        <span class="input-text">涉警人员证件号码：</span>
+        <span class="input-text" title="涉警人员证件号码">涉警人员证件号码：</span>
         <span class="input-input detailinput">  {{sjinfo.SJRYZJHM}}</span>
       </el-col>
       <el-col :span="8" class="input-item">
-        <span class="input-text">涉警人员证件有效期至：</span>
+        <span class="input-text" title="涉警人员证件有效期至">涉警人员证件有效期至：</span>
         <span class="input-input detailinput">  {{sjinfo.SJRYZJYXQZ}}</span>
       </el-col>
       <el-col :span="8" class="input-item">
-        <span class="input-text">涉警人员证件种类：</span>
+        <span class="input-text" title="涉警人员证件种类">涉警人员证件种类：</span>
         <span class="input-input detailinput">  {{sjinfo.SJRYZJZL}}</span>
       </el-col>
   </el-row>

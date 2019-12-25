@@ -6,7 +6,7 @@
         <el-col :span="20" class="br pr-20">
           <el-row align="center"   :gutter="2">
                 <el-col  :sm="24" :md="12" :lg="8" :offset="2" class="input-item">
-                  <span class="input-text">受理日期：</span>
+                  <span class="input-text" style="width:25%">受理日期：</span>
                   <div class="input-input t-flex t-date">
                     <el-date-picker
                        v-model="pd.BASJ_DateRange.begin" format="yyyy-MM-dd"
@@ -22,7 +22,7 @@
                  </div>
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8" :offset="2" class="input-item">
-                  <span class="input-text">违法种类：</span>
+                  <span class="input-text" style="width:25%">违法种类：</span>
                   <el-select v-model="pd.TYPE" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
                     <el-option value="0" label="0 - 非法居留"></el-option>
                     <el-option value="1" label="1 - 非法就业"></el-option>
@@ -42,7 +42,8 @@
            :data="tableData"
            border
            :highlight-current-row="true"
-           style="width: 100%">
+           style="width: 100%"
+           @header-click="titleShow">
            <el-table-column
              prop="wfzl"
              label="违法种类">
@@ -161,6 +162,9 @@ export default {
     this.token=this.$store.state.token;
    },
   methods: {
+    titleShow(e,el){
+      el.target.title = e.label;
+    },
     pageSizeChange(val) {
       this.pageSize=val;
       this.getList(this.CurrentPage, this.pageSize, this.pd);
@@ -189,6 +193,10 @@ export default {
         })
     },
     download(){
+      if(this.tableData.length==0){
+         this.$message.error('无可导出数据！');
+         return
+      }
       let p={
         pd:this.pd,
         userCode:this.userCode,

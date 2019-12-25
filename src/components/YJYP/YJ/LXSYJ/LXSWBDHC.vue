@@ -60,14 +60,14 @@
                     </el-select>
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-                    <span class="input-text">是否存在临住：</span>
+                    <span class="input-text" title="是否存在临住">是否存在临住：</span>
                     <el-select v-model="pd.SFCZLZ" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
                       <el-option value="0" label="否"></el-option>
                       <el-option value="1" label="是"></el-option>
                     </el-select>
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-                    <span class="input-text">是否申请居留许可：</span>
+                    <span class="input-text" title="是否申请居留许可">是否申请居留许可：</span>
                     <el-select v-model="pd.SFSQJLXK" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
                       <el-option value="0" label="否"></el-option>
                       <el-option value="1" label="是"></el-option>
@@ -98,7 +98,8 @@
            border
            ref="multipleTable"
            :highlight-current-row="true"
-           style="width: 100%">
+           style="width: 100%"
+           @header-click="titleShow">
            <el-table-column
              prop="YWXM"
              label="英文姓名">
@@ -122,6 +123,10 @@
            <el-table-column
              prop="DWZWMC"
              label="上报单位">
+           </el-table-column>
+           <el-table-column
+             prop="CJSJ"
+             label="核查时间">
            </el-table-column>
            <el-table-column
              prop="SFRJ_DESC"
@@ -808,6 +813,9 @@ export default {
     this.getDw();
   },
   methods: {
+    titleShow(e,el){
+      el.target.title = e.label;
+    },
     getDw(){
       this.$api.post(this.Global.aport4+'/SWDW_SJSBController/getAllDW',{},
         r =>{

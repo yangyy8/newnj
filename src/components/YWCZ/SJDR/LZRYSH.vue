@@ -96,7 +96,8 @@
            :data="tableData"
            border
            style="width: 100%"
-           @selection-change="handleSelectionChange">
+           @selection-change="handleSelectionChange"
+           @header-click="titleShow">
            <!-- <el-table-column
              type="selection"
              width="55">
@@ -143,7 +144,7 @@
              </template>
            </el-table-column>
            <el-table-column
-             label="操作" width="120">
+             label="操作" width="70">
              <template slot-scope="scope">
              <el-button type="text" class="a-btn"  title="审核"  icon="el-icon-setting" v-if="scope.row.SHBM=='0'" @click="edits(scope.row)"></el-button>
              <el-button type="text"  class="a-btn"  title="详情"  icon="el-icon-document" @click="details(scope.row)"></el-button>
@@ -191,6 +192,7 @@
           <el-select v-model="editform.SHBM" placeholder="请选择"  filterable clearable default-first-option size="small" class="input-input">
             <el-option
               v-for="(item,ind2) in $store.state.shzt"
+              v-if="item.dm!='0'"
               :key="ind2"
               :label="item.dm+' - '+item.mc"
               :value="item.dm">
@@ -241,11 +243,11 @@
             <span class="input-input detailinput">  {{mapForm.GJDQMC}}</span>
           </el-col>
           <el-col :span="12" class="input-item">
-            <span class="input-text">布控开始时间：</span>
+            <span class="input-text" title="布控开始时间">布控开始时间：</span>
             <span class="input-input detailinput">  {{mapForm.BKRQSTART}}</span>
           </el-col>
           <el-col :span="12" class="input-item">
-            <span class="input-text">布控结束时间：</span>
+            <span class="input-text" title="布控结束时间">布控结束时间：</span>
             <span class="input-input detailinput">  {{mapForm.BKRQEND}}</span>
           </el-col>
       </el-row>
@@ -272,11 +274,11 @@
       </el-row>
       <el-row :gutter="2">
             <el-col :span="12" class="input-item">
-              <span class="input-text">最后审核时间：</span>
+              <span class="input-text" title="最后审核时间">最后审核时间：</span>
               <span class="input-input detailinput">  {{mapForm.ZHSHSJ}}</span>
             </el-col>
             <el-col :span="12" class="input-item">
-              <span class="input-text">最后审核人：</span>
+              <span class="input-text" title="最后审核人">最后审核人：</span>
               <span class="input-input detailinput">  {{mapForm.ZHSHR}}</span>
             </el-col>
         </el-row>
@@ -318,16 +320,17 @@ export default {
     this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   methods: {
+    titleShow(e,el){
+      el.target.title = e.label;
+    },
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
     pageSizeChange(val) {
       this.getList(this.CurrentPage, val, this.pd);
-      console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
       this.getList(val, this.pageSize, this.pd);
-      console.log(`当前页: ${val}`);
     },
     getList(currentPage, showCount, pd) {
 
@@ -353,7 +356,7 @@ export default {
     },
     edits(n){
       this.editsDialogVisible=true;
-      // this.editform={};
+      this.editform={};
       // this.editform=n;
       this.editform.RYBH=n.RYBH;
     },

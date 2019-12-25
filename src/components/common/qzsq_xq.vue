@@ -26,31 +26,31 @@
           <span class="input-input detailinput">  {{qzinfo.SF_DESC}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">外国人身份证号：</span>
+          <span class="input-text" title="外国人身份证号">外国人身份证号：</span>
           <span class="input-input detailinput">  {{qzinfo.WGRSFZH}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-         <span class="input-text">人员地域类别：</span>
+         <span class="input-text" title="人员地域类别">人员地域类别：</span>
          <span class="input-input detailinput">  {{qzinfo.RYDYLB_DESC}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">境外人员类别：</span>
+          <span class="input-text" title="境外人员类别">境外人员类别：</span>
           <span class="input-input detailinput">  {{qzinfo.JWRYLB_DESC}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-         <span class="input-text">所持证件种类：</span>
+         <span class="input-text" title="所持证件种类">所持证件种类：</span>
          <span class="input-input detailinput">  {{qzinfo.ZJZL_DESC}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">现持证件号码：</span>
+          <span class="input-text" title="现持证件号码">现持证件号码：</span>
           <span class="input-input detailinput">  {{qzinfo.XCZJHM}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">所办证件号码：</span>
+          <span class="input-text" title="所办证件号码">所办证件号码：</span>
           <span class="input-input detailinput">  {{qzinfo.SBZJHM}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">所办签证号码：</span>
+          <span class="input-text" title="所办签证号码">所办签证号码：</span>
           <span class="input-input detailinput">  {{qzinfo.SBQZHM}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
@@ -94,44 +94,44 @@
           <span class="input-input detailinput">  {{qzinfo.QZTDRS}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">境内联系电话：</span>
+          <span class="input-text" title="境内联系电话">境内联系电话：</span>
           <span class="input-input detailinput">  {{qzinfo.JNLXDH}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">所持签证种类：</span>
+          <span class="input-text" title="所持签证种类">所持签证种类：</span>
           <span class="input-input detailinput">  {{qzinfo.QZZL_DESC}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">所持签证号码：</span>
+          <span class="input-text" title="所持签证号码">所持签证号码：</span>
           <span class="input-input detailinput">  {{qzinfo.XCQZHM}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">所持居留许可证事由：</span>
+          <span class="input-text" title="所持居留许可证事由">所持居留许可证事由：</span>
           <span class="input-input detailinput">  {{qzinfo.XCJLXKSY}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">所持签证签发机关：</span>
+          <span class="input-text" title="所持签证签发机关">所持签证签发机关：</span>
           <span class="input-input detailinput">  {{qzinfo.XCQZQFJG_DESC}}</span>
         </el-col>
 
         <el-col :span="8" class="input-item">
-          <span class="input-text">所持签证入境次数：</span>
+          <span class="input-text" title="所持签证入境次数">所持签证入境次数：</span>
           <span class="input-input detailinput">  {{qzinfo.XCQZRJCS}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">所持签证签发日期：</span>
+          <span class="input-text" title="所持签证签发日期">所持签证签发日期：</span>
           <span class="input-input detailinput">  {{qzinfo.XCQZQFRQ}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">所持签证有效期至：</span>
+          <span class="input-text" title="所持签证有效期至">所持签证有效期至：</span>
           <span class="input-input detailinput">  {{qzinfo.XCQZYXQZ}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">所持签证停留天数：</span>
+          <span class="input-text" title="所持签证停留天数">所持签证停留天数：</span>
           <span class="input-input detailinput">  {{qzinfo.XCTLTS}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">所持停留有效期至：</span>
+          <span class="input-text" title="所持停留有效期至">所持停留有效期至：</span>
           <span class="input-input detailinput">  {{qzinfo.XCTLYXQZ}}</span>
         </el-col>
     </el-row>
@@ -241,7 +241,7 @@ export default {
 }
 </style>
 <style>
-  .el-button+.el-button{margin-left: 0!important;}
+  /* .el-button+.el-button{margin-left: 0!important;} */
   .yycontent .el-checkbox{margin-left: 20px!important; line-height: 30px;}
   .yycontent .el-checkbox+.el-checkbox{margin-left: 20px!important;}
   .bj .el-dialog__wrapper {

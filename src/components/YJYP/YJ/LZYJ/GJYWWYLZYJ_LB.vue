@@ -102,11 +102,12 @@
                type="textarea"
                :autosize="{ minRows: 3, maxRows: 4}"
                placeholder="预警处理必须填写原因(不超过100个字符)"
-               v-model="pm.CHANGE_RESON">
+               v-model="pm.CHANGE_RESON"
+               :disabled="queryClzt=='0'">
              </el-input>
            </el-col>
            <el-col :span="4"  class="down-btn-area">
-             <el-button type="primary"  class="mb-5" size="small" @click="chuli()" >确定</el-button>
+             <el-button type="primary"  class="mb-5" size="small" @click="chuli()" v-if="queryClzt!='0'">确定</el-button>
              <el-button type="warning"  class="m0" size="small" @click="$router.push({name:'GJYWWYLZYJ'})">返回</el-button>
            </el-col>
          </el-row>
@@ -137,19 +138,19 @@
                  border
                  style="width: 100%">
                  <el-table-column
-                   prop="ZWXM"
+                   prop="YWXM"
                    label="姓名">
                  </el-table-column>
                  <el-table-column
-                   prop="XB"
+                   prop="XB_DESC"
                    label="性别">
                  </el-table-column>
                  <el-table-column
-                   prop="GJDQ"
+                   prop="GJDQ_DESC"
                    label="国家地区">
                  </el-table-column>
                  <el-table-column
-                   prop="ZJZL"
+                   prop="ZJZL_DESC"
                    label="证件种类">
                  </el-table-column>
                  <el-table-column
@@ -161,7 +162,7 @@
                    label="证件有效期">
                  </el-table-column>
                  <el-table-column
-                   prop="QZZL"
+                   prop="QZZL_DESC"
                    label="签证种类">
                  </el-table-column>
                  <el-table-column
@@ -217,20 +218,23 @@ export default {
       tbryDialogVisible:false,
       page:0,
       isshow:false,
+      queryClzt:'',
     }
   },
   activated(){
     this.row=this.$route.query.row;
-    console.log('this.royyyw',this.row.YJID);
     this.types=this.$route.query.type;
     this.pd.RYBH=this.row.RYBH;
+    this.queryClzt=this.$route.query.row.CLZT;
     this.getList(this.CurrentPage, this.pageSize, this.pd);
+    if(this.row.CLZT=='0'){
+      this.pm.CHANGE_RESON=this.row.CLJG
+    }
     this.px.YWX=this.row.YWX;
     this.px.YWM=this.row.YWM;
     this.px.XB=this.row.XB;
     this.px.CSRQ=this.row.CSRQ;
-    this.getList1(this.px);
-    console.log('this.row',this.row);
+    this.getList1(this.px);//通报人员，暂时没用
   },
   mounted() {
     this.$store.dispatch('getGjdq');
@@ -279,6 +283,12 @@ export default {
 
 
     chuli(){
+      if(this.pm.CHANGE_RESON==''||this.pm.CHANGE_RESON==undefined){
+        this.$alert('预警处理原因不能为空！', '提示', {
+          confirmButtonText: '确定',
+        });
+        return;
+      }
       this.pcl.YJID=this.row.YJID;
       this.pcl.CLJG=this.pm.CHANGE_RESON;
       this.pcl.CLDW=this.$store.state.orgname;

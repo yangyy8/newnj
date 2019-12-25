@@ -5,7 +5,7 @@
       <el-row type="flex">
         <el-col :span="22" class="br pr-20">
           <el-row align="center"   :gutter="2">
-                <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                <el-col  :sm="24" :md="12" :lg="12"  class="input-item">
                   <span class="input-text">录入日期：</span>
                   <div class="input-input t-flex t-date">
                     <el-date-picker
@@ -21,7 +21,7 @@
                     </el-date-picker>
                  </div>
                 </el-col>
-                <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                <el-col  :sm="24" :md="12" :lg="12"  class="input-item">
                   <span class="input-text">住宿日期：</span>
                   <div class="input-input t-flex t-date">
                     <el-date-picker
@@ -37,7 +37,7 @@
                     </el-date-picker>
                  </div>
                 </el-col>
-                <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                <el-col  :sm="24" :md="12" :lg="12"  class="input-item">
                     <span class="input-text">证件种类：</span>
                     <el-select v-model="pd.ZJZL" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
                       <el-option
@@ -48,7 +48,7 @@
                       </el-option>
                     </el-select>
                 </el-col>
-                <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                <el-col  :sm="24" :md="12" :lg="12"  class="input-item">
                     <span class="input-text">签证种类：</span>
                     <el-select v-model="pd.QZZL" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
                       <el-option
@@ -59,7 +59,7 @@
                       </el-option>
                     </el-select>
                 </el-col>
-                <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                <el-col  :sm="24" :md="12" :lg="12"  class="input-item">
                     <span class="input-text">国家地区：</span>
                     <el-select v-model="pd.GJDQ" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
                       <el-option
@@ -70,7 +70,7 @@
                       </el-option>
                     </el-select>
                 </el-col>
-                <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                <el-col  :sm="24" :md="12" :lg="12"  class="input-item">
                     <span class="input-text">停留事由：</span>
                     <el-select v-model="pd.JLSY" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
                       <el-option
@@ -81,10 +81,10 @@
                       </el-option>
                     </el-select>
                 </el-col>
-                <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                <el-col  :sm="24" :md="12" :lg="12"  class="input-item">
                     <span class="input-text">所属分局：</span>
                     <div class="input-input t-fuzzy-8 t-flex">
-                      <el-select v-model="pd.LRDW_Like" multiple :multiple-limit="5" @change="getPCS(pd.LRDW_Like)"  collapse-tags  filterable clearable default-first-option placeholder="请选择"  size="small" :disabled="juState=='1'?false:true">
+                      <el-select v-model="pd.LRDW_Like" multiple :multiple-limit="5" @change="getFJ()"  collapse-tags  filterable clearable default-first-option placeholder="请选择"  size="small" :disabled="juState=='1'?false:true">
                         <el-option
                           v-for="item in fjlist"
                           :key="item.dm"
@@ -95,14 +95,14 @@
                       <el-checkbox v-model="checkedfj"  @change="getRadiofj(checkedfj)">包含</el-checkbox>
                     </div>
                 </el-col>
-                <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                <el-col  :sm="24" :md="12" :lg="12"  class="input-item">
                     <span class="input-text">派出所：</span>
                     <div class="input-input t-fuzzy-8 t-flex">
-                      <el-select v-model="pd.LRDW" multiple :multiple-limit="5"  collapse-tags filterable clearable default-first-option placeholder="请选择"  size="small" :disabled="juState=='3'" :no-data-text="pd.LRDW_Like==''||pd.LRDW_Like==undefined?'请先选择所属分局':'无数据'">
+                      <el-select v-model="pd.LRDW" multiple :multiple-limit="5" @visible-change="getPCS(pd.LRDW_Like)" collapse-tags filterable clearable default-first-option placeholder="请选择"  size="small" :disabled="juState=='3'" :no-data-text="pd.LRDW_Like==''||pd.LRDW_Like==undefined?'请先选择所属分局':'无数据'">
                         <el-option
                           v-for="item in pcslist"
                           :key="item.dm"
-                          :label="item.mc"
+                          :label="item.dm+' - '+item.mc"
                           :value="item.dm">
                         </el-option>
                       </el-select>
@@ -110,7 +110,7 @@
                     </div>
 
                 </el-col>
-                <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                <el-col  :sm="24" :md="12" :lg="12"  class="input-item">
                     <span class="input-text">旅馆名称：</span>
                     <el-select v-model="pd.DJDWDM" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
                       <el-option
@@ -130,7 +130,7 @@
                       </el-option>
                     </el-select>
                 </el-col> -->
-                <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                <el-col  :sm="24" :md="12" :lg="12"  class="input-item">
                     <span class="input-text">日期选择：</span>
                     <el-select v-model="pd.ZSLX" filterable default-first-option placeholder="请选择"  size="small" class="input-input">
                       <el-option value="0" label="0 - 请选择">
@@ -145,9 +145,9 @@
                       </el-option>
                     </el-select>
                 </el-col>
-                <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                <el-col  :sm="24" :md="12" :lg="12"  class="input-item">
                   <span class="input-text">快速预览：</span>
-                  <div class="">
+                  <div class="alone-flex">
                     <el-button type="primary" size="mini" @click="pd.TYPE='YN';page=0;tableData=[];CurrentPage=1;TotalResult=0;getList()">年</el-button>
                     <el-button type="primary" size="mini" @click="pd.TYPE='BN';page=0;tableData=[];CurrentPage=1;TotalResult=0;getList()">半年</el-button>
                     <el-button type="primary" size="mini" @click="pd.TYPE='JD';page=0;tableData=[];CurrentPage=1;TotalResult=0;getList()">季度</el-button>
@@ -256,8 +256,8 @@
                label="地址">
              </el-table-column>
              <el-table-column
-               prop="TLYXQZ"
-               label="停留有效期至">
+               prop="ZSRQ"
+               label="入住日期">
              </el-table-column>
              <el-table-column
                label="操作">
@@ -368,15 +368,7 @@ import LZXX from '../../../common/lzxx_xq'
     this.orgCode=this.$store.state.orgid;
     this.juState=this.$store.state.juState;
     this.token=this.$store.state.token;
-    if(this.juState=='2'){//分局登录
-      this.pd.LRDW_Like = [this.orgCode];
-      this.getPCS(this.pd.LRDW_Like);
-    }
-    if(this.juState=='3'){//派出所登录
-      this.pd.LRDW_Like = this.$store.state.pcsToju;
-      this.getPCS(this.pd.LRDW_Like);
-      this.pd.LRDW = [this.orgCode];
-    }
+
     this.$store.dispatch("getGjdq");
     this.$store.dispatch("getZjzl");
     this.$store.dispatch("getQzzl");
@@ -389,7 +381,15 @@ import LZXX from '../../../common/lzxx_xq'
     this.getList()
   },
   activated(){
-
+    if(this.juState=='2'){//分局登录
+      this.pd.LRDW_Like = [this.orgCode];
+      this.getPCS(this.pd.LRDW_Like);
+    }
+    if(this.juState=='3'){//派出所登录
+      this.pd.LRDW_Like = [this.$store.state.pcsToju];
+      this.getPCS(this.pd.LRDW_Like);
+      this.pd.LRDW = [this.orgCode];
+    }
   },
   methods:{
     titleShow(e,el){
@@ -469,6 +469,7 @@ import LZXX from '../../../common/lzxx_xq'
       }
     },
     getFJ(){
+      this.$set(this.pd,'LRDW',[]);
       let p={
         "operatorId":this.$store.state.uid,
         "operatorNm":this.$store.state.uname
@@ -614,6 +615,10 @@ import LZXX from '../../../common/lzxx_xq'
    },
 
    exportexcel(){
+     if(this.tableData.length==0){
+        this.$message.error('无可导出数据');
+        return
+     }
      let p={
        'currentPage':1,
        'showCount':10000,

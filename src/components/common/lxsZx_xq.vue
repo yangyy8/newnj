@@ -58,11 +58,11 @@
           <span class="input-input detailinput">  {{lxsinfo.PASSPORTNO}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">旧护照号码：</span>
+          <span class="input-text" title="旧护照号码">旧护照号码：</span>
           <span class="input-input detailinput">  {{lxsinfo.OLDPASSPORTNO}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">护照证件种类：</span>
+          <span class="input-text" title="护照证件种类">护照证件种类：</span>
           <span class="input-input detailinput">  {{lxsinfo.PASSPORTTYPE_DESC}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
@@ -94,7 +94,7 @@
           <span class="input-input detailinput">  {{lxsinfo.STUDYSTARTDATE}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">专业学习结束时间：</span>
+          <span class="input-text" title="专业学习结束时间">专业学习结束时间：</span>
           <span class="input-input detailinput">  {{lxsinfo.STUDYENDDATE}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
@@ -106,7 +106,7 @@
           <span class="input-input detailinput">  {{lxsinfo.ENGLISHLANGUAGESKILL_DESC}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">其他语言能力：</span>
+          <span class="input-text" title="其他语言能力">其他语言能力：</span>
           <span class="input-input detailinput">  {{lxsinfo.OTHERLANGUAGE}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
@@ -119,7 +119,7 @@
           <span class="input-input detailinput">  {{lxsinfo.LASTEDUCATIONNAME}}</span>
         </el-col>
         <el-col :span="16" class="input-item">
-          <span class="input-text"  style="width:15%!important">学习或工作单位：</span>
+          <span class="input-text"  style="width:15%!important" title="学习或工作单位">学习或工作单位：</span>
           <span class="input-input detailinput" style="width:80%!important">  {{lxsinfo.WORKPLACE}}</span>
         </el-col>
 
@@ -136,11 +136,11 @@
          <span class="input-input detailinput">  {{lxsinfo.STATUS_DESC}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">申请人个人邮箱：</span>
+          <span class="input-text" title="申请人个人邮箱">申请人个人邮箱：</span>
           <span class="input-input detailinput">  {{lxsinfo.MEMBEREMAIL}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">申请人学校邮箱：</span>
+          <span class="input-text" title="申请人学校邮箱">申请人学校邮箱：</span>
           <span class="input-input detailinput">  {{lxsinfo.SCHOOLEMAIL}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
@@ -156,7 +156,7 @@
           <span class="input-input detailinput">  {{lxsinfo.FINISHDATE}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">结毕业时间：</span>
+          <span class="input-text" title="结毕业时间">结毕业时间：</span>
           <span class="input-input detailinput">  {{lxsinfo.GRADUATEDATE}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
@@ -176,7 +176,7 @@
           <span class="input-input detailinput">  {{lxsinfo.TUISCHOOLNAME}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">原就读院系：</span>
+          <span class="input-text" title="原就读院系">原就读院系：</span>
           <span class="input-input detailinput">  {{lxsinfo.DEPARTMENT}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
@@ -188,7 +188,7 @@
           <span class="input-input detailinput">  {{lxsinfo.ISOVERSEA}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">原就读专业：</span>
+          <span class="input-text" title="原就读专业">原就读专业：</span>
           <span class="input-input detailinput">  {{lxsinfo.OLDMAJOR}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
@@ -196,11 +196,11 @@
           <span class="input-input detailinput">  {{lxsinfo.HOBBY}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">原来自国家或地区：</span>
+          <span class="input-text" title="原来自国家或地区">原来自国家或地区：</span>
           <span class="input-input detailinput">  {{lxsinfo.RESTRICT_DESC}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">何时取得当前国籍：</span>
+          <span class="input-text" title="何时取得当前国籍">何时取得当前国籍：</span>
           <span class="input-input detailinput">  {{lxsinfo.GAINCOUNTRYDATE}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
@@ -212,7 +212,7 @@
           <span class="input-input detailinput">  {{lxsinfo.BODYHEIGHT}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">专业学习学校：</span>
+          <span class="input-text" title="专业学习学校">专业学习学校：</span>
           <span class="input-input detailinput">  {{lxsinfo.EMAJORSCHOOL}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
@@ -220,28 +220,28 @@
           <span class="input-input detailinput">  {{lxsinfo.RELIGIONNAME_DESC}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">原就读大学：</span>
+          <span class="input-text" title="原就读大学">原就读大学：</span>
           <span class="input-input detailinput">  {{lxsinfo.UNIVERSITY}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">通知书收件人姓名：</span>
+          <span class="input-text" title="通知书收件人姓名">通知书收件人姓名：</span>
           <span class="input-input detailinput">  {{lxsinfo.RECEIVERNAME}}</span>
         </el-col>
 
         <el-col :span="8" class="input-item">
-         <span class="input-text">当前联系地址：</span>
+         <span class="input-text" title="当前联系地址">当前联系地址：</span>
          <span class="input-input detailinput">  {{lxsinfo.CONTACTADDRESS}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">紧急事务联系人单位：</span>
+          <span class="input-text" title="紧急事务联系人单位">紧急事务联系人单位：</span>
           <span class="input-input detailinput">  {{lxsinfo.EMERGENCYCOMPANY}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">永久家庭联系手机：</span>
+          <span class="input-text" title="永久家庭联系手机">永久家庭联系手机：</span>
           <span class="input-input detailinput">  {{lxsinfo.HOMEMOBILE}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">推荐人姓名：</span>
+          <span class="input-text" title="推荐人姓名">推荐人姓名：</span>
           <span class="input-input detailinput">  {{lxsinfo.GUARANTORENNAME}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
@@ -249,51 +249,51 @@
           <span class="input-input detailinput">  {{lxsinfo.GUARWORKPLACE}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">经济担保人与申请人关系：</span>
+          <span class="input-text" title="经济担保人与申请人关系">经济担保人与申请人关系：</span>
           <span class="input-input detailinput">  {{lxsinfo.SSRELATIVE}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">护照到期日期：</span>
+          <span class="input-text" title="护照到期日期">护照到期日期：</span>
           <span class="input-input detailinput">  {{lxsinfo.PASSPORTEXPIRE}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">居住区域类型：</span>
+          <span class="input-text" title="居住区域类型">居住区域类型：</span>
           <span class="input-input detailinput">  {{lxsinfo.ACCOMHOTELTYPE_DESC}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">收件人联系手机：</span>
+          <span class="input-text" title="收件人联系手机">收件人联系手机：</span>
           <span class="input-input detailinput">  {{lxsinfo.RECEIVERMOBILE}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">收件人国家：</span>
+          <span class="input-text" title="收件人国家">收件人国家：</span>
           <span class="input-input detailinput">  {{lxsinfo.RECEIVERCOUNTRYID}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">收件人省/城市：</span>
+          <span class="input-text" title="收件人省/城市">收件人省/城市：</span>
           <span class="input-input detailinput">  {{lxsinfo.RECEIVERCITY}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">收件人地址：</span>
+          <span class="input-text" title="收件人地址">收件人地址：</span>
           <span class="input-input detailinput">  {{lxsinfo.RECEIVERADDRESS}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">当前联系地址邮编：</span>
+          <span class="input-text" title="当前联系地址邮编">当前联系地址邮编：</span>
           <span class="input-input detailinput">  {{lxsinfo.CONTACTZIP}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">永久家庭联系电话：</span>
+          <span class="input-text" title="永久家庭联系电话">永久家庭联系电话：</span>
           <span class="input-input detailinput">  {{lxsinfo.HOMEPHONE}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">推荐人国籍：</span>
+          <span class="input-text" title="推荐人国籍">推荐人国籍：</span>
           <span class="input-input detailinput">  {{lxsinfo.GUARCOUNTRY}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">推荐单位传真：</span>
+          <span class="input-text" title="推荐单位传真">推荐单位传真：</span>
           <span class="input-input detailinput"> {{lxsinfo.GUARFAX}} </span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">经济担保人姓名：</span>
+          <span class="input-text" title="经济担保人姓名">经济担保人姓名：</span>
           <span class="input-input detailinput">  {{lxsinfo.SELFSUPPORTER}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
@@ -307,23 +307,23 @@
 
 
         <el-col :span="8" class="input-item">
-          <span class="input-text">紧急事务联系人姓名：</span>
+          <span class="input-text" title="紧急事务联系人姓名">紧急事务联系人姓名：</span>
           <span class="input-input detailinput">  {{lxsinfo.EMERGENCYNAME}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">永久家庭邮编：</span>
+          <span class="input-text" title="永久家庭邮编">永久家庭邮编：</span>
           <span class="input-input detailinput">  {{lxsinfo.HOMEZIP}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">推荐人职务：</span>
+          <span class="input-text" title="推荐人职务">推荐人职务：</span>
           <span class="input-input detailinput">  {{lxsinfo.GUARCAREER}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">推荐单位电子邮件：</span>
+          <span class="input-text" title="推荐单位电子邮件">推荐单位电子邮件：</span>
           <span class="input-input detailinput">  {{lxsinfo.GUAREMAIL}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">经济担保人工作单位：</span>
+          <span class="input-text" title="经济担保人工作单位">经济担保人工作单位：</span>
           <span class="input-input detailinput">  {{lxsinfo.SELFWORK}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
@@ -335,55 +335,55 @@
           <span class="input-input detailinput">  {{lxsinfo.VISANO}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">学位证书编号：</span>
+          <span class="input-text" title="学位证书编号">学位证书编号：</span>
           <span class="input-input detailinput">  {{lxsinfo.XWZSNO}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">通知书投寄邮编：</span>
+          <span class="input-text" title="通知书投寄邮编">通知书投寄邮编：</span>
           <span class="input-input detailinput">  {{lxsinfo.RECEIVERZIP}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">紧急事务联系人手机：</span>
+          <span class="input-text" title="紧急事务联系人手机">紧急事务联系人手机：</span>
           <span class="input-input detailinput">  {{lxsinfo.EMERGENCYMOBILE}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">永久家庭地址：</span>
+          <span class="input-text" title="永久家庭地址">永久家庭地址：</span>
           <span class="input-input detailinput">  {{lxsinfo.HOMEADDRESS}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">推荐单位地址：</span>
+          <span class="input-text" title="推荐单位地址">推荐单位地址：</span>
           <span class="input-input detailinput">  {{lxsinfo.GUARADDRESS}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">推荐单位与申请人关系：</span>
+          <span class="input-text" title="推荐单位与申请人关系">推荐单位与申请人关系：</span>
           <span class="input-input detailinput">  {{lxsinfo.GUARRELATION}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">经济担保人电话：</span>
+          <span class="input-text" title="经济担保人电话">经济担保人电话：</span>
           <span class="input-input detailinput">  {{lxsinfo.SELFPHONE}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">签证到期日期：</span>
+          <span class="input-text" title="签证到期日期">签证到期日期：</span>
           <span class="input-input detailinput">  {{lxsinfo.VISAEXPIRE}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">学位证书授予时间：</span>
+          <span class="input-text" title="学位证书授予时间">学位证书授予时间：</span>
           <span class="input-input detailinput">  {{lxsinfo.XWZSDATE}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">当前联系电话：</span>
+          <span class="input-text" title="当前联系电话">当前联系电话：</span>
           <span class="input-input detailinput">  {{lxsinfo.CONTACTPHONE}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">通知书接收方式：</span>
+          <span class="input-text" title="通知书接收方式">通知书接收方式：</span>
           <span class="input-input detailinput">  {{lxsinfo.RECEIVERTYPE_DESC}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">紧急事务联系人电话：</span>
+          <span class="input-text" title="紧急事务联系人电话">紧急事务联系人电话：</span>
           <span class="input-input detailinput">  {{lxsinfo.EMERGENCYPHONE}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">紧急事务联系人电邮：</span>
+          <span class="input-text" title="紧急事务联系人电邮">紧急事务联系人电邮：</span>
           <span class="input-input detailinput">  {{lxsinfo.EMERGENCYEMAIL}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
@@ -391,28 +391,28 @@
           <span class="input-input detailinput">  {{lxsinfo.HOMECOUNTRYID}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">永久省/城市：</span>
+          <span class="input-text" title="永久省/城市">永久省/城市：</span>
           <span class="input-input detailinput">  {{lxsinfo.HOMECITY}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">推荐人手机：</span>
+          <span class="input-text" title="推荐人手机">推荐人手机：</span>
           <span class="input-input detailinput">  {{lxsinfo.GUARMOBILE}}</span>
         </el-col>
 
         <el-col :span="8" class="input-item">
-         <span class="input-text">推荐人电话：</span>
+         <span class="input-text" title="推荐人电话">推荐人电话：</span>
          <span class="input-input detailinput">  {{lxsinfo.GUARPHONE}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">经济担保人email：</span>
+          <span class="input-text" title="经济担保人email">经济担保人email：</span>
           <span class="input-input detailinput">  {{lxsinfo.SELFEMAIL}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">经济担保人地址：</span>
+          <span class="input-text" title="经济担保人地址">经济担保人地址：</span>
           <span class="input-input detailinput">  {{lxsinfo.SELFADDRESS}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">201/202表编号：</span>
+          <span class="input-text" title="201/202表编号">201/202表编号：</span>
           <span class="input-input detailinput">  {{lxsinfo.NO201}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
@@ -444,19 +444,19 @@
           <span class="input-input detailinput">  {{lxsinfo.CREDITNAME}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">奖学金开始日期：</span>
+          <span class="input-text" title="奖学金开始日期">奖学金开始日期：</span>
           <span class="input-input detailinput">  {{lxsinfo.SCHOLARSTARTDATE}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">奖学金结束日期：</span>
+          <span class="input-text" title="奖学金结束日期">奖学金结束日期：</span>
           <span class="input-input detailinput">  {{lxsinfo.SCHOLARENDDATE}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">学费支付方式：</span>
+          <span class="input-text" title="学费支付方式">学费支付方式：</span>
           <span class="input-input detailinput">  {{lxsinfo.JXJSTUDYSCHOLAR_DESC}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">是全额奖学金：</span>
+          <span class="input-text" title="是全额奖学金">是全额奖学金：</span>
           <span class="input-input detailinput">  {{lxsinfo.JXJFULLSCHOLARSHIP}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
@@ -468,7 +468,7 @@
           <span class="input-input detailinput">  {{lxsinfo.SENDRESTICT}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">异动类型名称：</span>
+          <span class="input-text" title="异动类型名称">异动类型名称：</span>
           <span class="input-input detailinput">{{lxsinfo.ACCIDENT}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
@@ -477,7 +477,7 @@
         </el-col>
 
         <el-col :span="8" class="input-item">
-         <span class="input-text">异动期限结束日期：</span>
+         <span class="input-text" title="异动期限结束日期">异动期限结束日期：</span>
          <span class="input-input detailinput">  {{lxsinfo.ACCIDENTENDDATE}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
@@ -485,15 +485,15 @@
           <span class="input-input detailinput">  {{lxsinfo.ACCIDENTMEMO}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">教育经历-开始时间1：</span>
+          <span class="input-text" title="教育经历-开始时间1">教育经历-开始时间1：</span>
           <span class="input-input detailinput">  {{lxsinfo.EDUSTARTDATE1}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">2教育经历-结束时间1：</span>
+          <span class="input-text" title="2教育经历-结束时间1">2教育经历-结束时间1：</span>
           <span class="input-input detailinput">  {{lxsinfo.EDUENDDATE1}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">教育经历-就读学校1：</span>
+          <span class="input-text" title="教育经历-就读学校1">教育经历-就读学校1：</span>
           <span class="input-input detailinput">  {{lxsinfo.EDUSTUDYPLACE1}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
@@ -501,51 +501,51 @@
           <span class="input-input detailinput">  {{lxsinfo.EDUSTUHISMAJOR1}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">教育经历-开始时间2：</span>
+          <span class="input-text" title="教育经历-开始时间2">教育经历-开始时间2：</span>
           <span class="input-input detailinput">  {{lxsinfo.EDUSTARTDATE2}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">教育经历-结束时间2：</span>
+          <span class="input-text" title="教育经历-结束时间2">教育经历-结束时间2：</span>
           <span class="input-input detailinput">  {{lxsinfo.EDUENDDATE2}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">教育经历-就读学校2：</span>
+          <span class="input-text" title="教育经历-就读学校2">教育经历-就读学校2：</span>
           <span class="input-input detailinput">  {{lxsinfo.EDUSTUDYPLACE2}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">教育经历-专业或所获证书2：</span>
+          <span class="input-text" title="教育经历-专业或所获证书2">教育经历-专业或所获证书2：</span>
           <span class="input-input detailinput">  {{lxsinfo.EDUSTUHISMAJOR2}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">教育经历-开始时间3：</span>
+          <span class="input-text" title="教育经历-开始时间3">教育经历-开始时间3：</span>
           <span class="input-input detailinput">  {{lxsinfo.EDUSTARTDATE3}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">教育经历-结束时间3：</span>
+          <span class="input-text" title="教育经历-结束时间3">教育经历-结束时间3：</span>
           <span class="input-input detailinput">  {{lxsinfo.EDUENDDATE3}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">教育经历-就读学校3：</span>
+          <span class="input-text" title="教育经历-就读学校3">教育经历-就读学校3：</span>
           <span class="input-input detailinput">  {{lxsinfo.EDUSTUDYPLACE3}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">教育经历-专业或所获证书3：</span>
+          <span class="input-text" title="教育经历-专业或所获证书3">教育经历-专业或所获证书3：</span>
           <span class="input-input detailinput">  {{lxsinfo.EDUSTUHISMAJOR3}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">教育经历-开始时间4：</span>
+          <span class="input-text" title="教育经历-开始时间4">教育经历-开始时间4：</span>
           <span class="input-input detailinput">  {{lxsinfo.EDUSTARTDATE4}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">教育经历-结束时间4：</span>
+          <span class="input-text" title="教育经历-结束时间4">教育经历-结束时间4：</span>
           <span class="input-input detailinput"> {{lxsinfo.EDUENDDATE4}} </span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">教育经历-就读学校4：</span>
+          <span class="input-text" title="教育经历-就读学校4">教育经历-就读学校4：</span>
           <span class="input-input detailinput">  {{lxsinfo.EDUSTUDYPLACE4}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">教育经历-专业或所获证书4：</span>
+          <span class="input-text" title="教育经历-专业或所获证书4">教育经历-专业或所获证书4：</span>
           <span class="input-input detailinput">{{lxsinfo.EDUSTUHISMAJOR4}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
@@ -554,23 +554,23 @@
         </el-col>
 
         <el-col :span="8" class="input-item">
-         <span class="input-text">工作经历-结束时间1：</span>
+         <span class="input-text" title="工作经历-结束时间1">工作经历-结束时间1：</span>
          <span class="input-input detailinput">  {{lxsinfo.WHENDDATE1}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">工作经历-学习或工作单位1：</span>
+          <span class="input-text" title="工作经历-学习或工作单位1">工作经历-学习或工作单位1：</span>
           <span class="input-input detailinput">  {{lxsinfo.WHWORKPLACE1}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">工作经历-职务1：</span>
+          <span class="input-text" title="工作经历-职务1">工作经历-职务1：</span>
           <span class="input-input detailinput">  {{lxsinfo.WHCAREER1}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">工作经历-开始时间2：</span>
+          <span class="input-text" title="工作经历-开始时间2">工作经历-开始时间2：</span>
           <span class="input-input detailinput">  {{lxsinfo.WHSTARTDATE2}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">工作经历-结束时间2：</span>
+          <span class="input-text" title="工作经历-结束时间2">工作经历-结束时间2：</span>
           <span class="input-input detailinput">  {{lxsinfo.WHENDDATE2}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
@@ -578,135 +578,135 @@
           <span class="input-input detailinput">  {{lxsinfo.WHWORKPLACE2}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">工作经历-职务2：</span>
+          <span class="input-text" title="工作经历-职务2">工作经历-职务2：</span>
           <span class="input-input detailinput">  {{lxsinfo.WHCAREER2}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">工作经历-开始时间3：</span>
+          <span class="input-text" title="工作经历-开始时间3">工作经历-开始时间3：</span>
           <span class="input-input detailinput">  {{lxsinfo.WHSTARTDATE3}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">工作经历-结束时间3：</span>
+          <span class="input-text" title="工作经历-结束时间3">工作经历-结束时间3：</span>
           <span class="input-input detailinput">  {{lxsinfo.WHENDDATE3}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">工作经历-学习或工作单位3：</span>
+          <span class="input-text" title="工作经历-学习或工作单位3">工作经历-学习或工作单位3：</span>
           <span class="input-input detailinput">  {{lxsinfo.WHWORKPLACE3}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">工作经历-职务3：</span>
+          <span class="input-text" title="工作经历-职务3">工作经历-职务3：</span>
           <span class="input-input detailinput">  {{lxsinfo.WHCAREER3}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">工作经历-开始时间4：</span>
+          <span class="input-text" title="工作经历-开始时间4">工作经历-开始时间4：</span>
           <span class="input-input detailinput">  {{lxsinfo.WHSTARTDATE4}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">工作经历-结束时间4：</span>
+          <span class="input-text" title="工作经历-结束时间4">工作经历-结束时间4：</span>
           <span class="input-input detailinput">  {{lxsinfo.WHENDDATE4}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">工作经历-学习或工作单位4：</span>
+          <span class="input-text" title="工作经历-学习或工作单位4">工作经历-学习或工作单位4：</span>
           <span class="input-input detailinput">  {{lxsinfo.WHWORKPLACE4}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">工作经历-职务4：</span>
+          <span class="input-text" title="工作经历-职务4">工作经历-职务4：</span>
           <span class="input-input detailinput">  {{lxsinfo.WHCAREER4}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">家庭成员-关系1：</span>
+          <span class="input-text" title="家庭成员-关系1">家庭成员-关系1：</span>
           <span class="input-input detailinput"> {{lxsinfo.FMRELATIVE1}} </span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">家庭成员-姓名1：</span>
+          <span class="input-text" title="家庭成员-姓名1">家庭成员-姓名1：</span>
           <span class="input-input detailinput">  {{lxsinfo.FMNAME1}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">家庭成员-电话1：</span>
+          <span class="input-text" title="家庭成员-电话1">家庭成员-电话1：</span>
           <span class="input-input detailinput">{{lxsinfo.FMPHONE1}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">家庭成员-Email1：</span>
+          <span class="input-text" title="家庭成员-Email1">家庭成员-Email1：</span>
           <span class="input-input detailinput">  {{lxsinfo.FMEMAIL1}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">家庭成员-职务1：</span>
+          <span class="input-text" title="家庭成员-职务1">家庭成员-职务1：</span>
           <span class="input-input detailinput">  {{lxsinfo.FMDUTY1}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">家庭成员-工作单位1：</span>
+          <span class="input-text" title="家庭成员-工作单位1">家庭成员-工作单位1：</span>
           <span class="input-input detailinput">  {{lxsinfo.FMWORKPLACE1}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">家庭成员-关系2：</span>
+          <span class="input-text" title="家庭成员-关系2">家庭成员-关系2：</span>
           <span class="input-input detailinput">  {{lxsinfo.FMRELATIVE2}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">家庭成员-姓名2：</span>
+          <span class="input-text" title="家庭成员-姓名2">家庭成员-姓名2：</span>
           <span class="input-input detailinput"> {{lxsinfo.FMNAME2}} </span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">家庭成员-电话2：</span>
+          <span class="input-text" title="家庭成员-电话2">家庭成员-电话2：</span>
           <span class="input-input detailinput">  {{lxsinfo.FMPHONE2}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">家庭成员-Email2：</span>
+          <span class="input-text" title="家庭成员-Email2">家庭成员-Email2：</span>
           <span class="input-input detailinput">{{lxsinfo.FMEMAIL2}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">家庭成员-职务2：</span>
+          <span class="input-text" title="家庭成员-职务2">家庭成员-职务2：</span>
           <span class="input-input detailinput">  {{lxsinfo.FMDUTY2}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">家庭成员-工作单位2：</span>
+          <span class="input-text" title="家庭成员-工作单位2">家庭成员-工作单位2：</span>
           <span class="input-input detailinput">  {{lxsinfo.FMWORKPLACE2}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">家庭成员-关系3：</span>
+          <span class="input-text" title="家庭成员-关系3">家庭成员-关系3：</span>
           <span class="input-input detailinput">  {{lxsinfo.FMRELATIVE3}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">家庭成员-姓名3：</span>
+          <span class="input-text" title="家庭成员-姓名3">家庭成员-姓名3：</span>
           <span class="input-input detailinput"> {{lxsinfo.FMNAME3}} </span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">家庭成员-电话3：</span>
+          <span class="input-text" title="家庭成员-电话3">家庭成员-电话3：</span>
           <span class="input-input detailinput">  {{lxsinfo.FMPHONE3}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">家庭成员-Email3：</span>
+          <span class="input-text" title="家庭成员-Email3">家庭成员-Email3：</span>
           <span class="input-input detailinput">{{lxsinfo.FMEMAIL3}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">家庭成员-职务3：</span>
+          <span class="input-text" title="家庭成员-职务3">家庭成员-职务3：</span>
           <span class="input-input detailinput">  {{lxsinfo.FMDUTY3}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">家庭成员-工作单位3：</span>
+          <span class="input-text" title="家庭成员-工作单位3">家庭成员-工作单位3：</span>
           <span class="input-input detailinput">  {{lxsinfo.FMWORKPLACE3}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">家庭成员-关系4：</span>
+          <span class="input-text" title="家庭成员-关系4">家庭成员-关系4：</span>
           <span class="input-input detailinput">  {{lxsinfo.FMRELATIVE4}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">家庭成员-姓名4：</span>
+          <span class="input-text" title="家庭成员-姓名4">家庭成员-姓名4：</span>
           <span class="input-input detailinput"> {{lxsinfo.FMNAME4}} </span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">家庭成员-电话4：</span>
+          <span class="input-text" title="家庭成员-电话4">家庭成员-电话4：</span>
           <span class="input-input detailinput">  {{lxsinfo.FMPHONE4}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">家庭成员-Email4：</span>
+          <span class="input-text" title="家庭成员-Email4">家庭成员-Email4：</span>
           <span class="input-input detailinput">{{lxsinfo.FMEMAIL4}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">家庭成员-职务4：</span>
+          <span class="input-text" title="家庭成员-职务4">家庭成员-职务4：</span>
           <span class="input-input detailinput">  {{lxsinfo.FMDUTY4}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
-          <span class="input-text">家庭成员-工作单位4：</span>
+          <span class="input-text" title="家庭成员-工作单位4">家庭成员-工作单位4：</span>
           <span class="input-input detailinput">  {{lxsinfo.FMWORKPLACE4}}</span>
         </el-col>
         <el-col :span="8" class="input-item">
@@ -798,7 +798,7 @@ export default {
 }
 </style>
 <style>
-  .el-button+.el-button{margin-left: 0!important;}
+  /* .el-button+.el-button{margin-left: 0!important;} */
   .yycontent .el-checkbox{margin-left: 20px!important; line-height: 30px;}
   .yycontent .el-checkbox+.el-checkbox{margin-left: 20px!important;}
   .bj .el-dialog__wrapper {

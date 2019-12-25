@@ -39,20 +39,20 @@ export function createMapL() {
 
 
 // 左边列表点击
-export function createDWMap(id, mc) {
+export function createDWMap(id, mc) {//id  学校列表编码
 
   //map.zoomTo(14);
   markerLayer.clearLayers();
   markerLayer1.clearLayers();
   //	mapSqlSearch("DH_PT学校", "ID='" + id + "'", 0, 5,0, function(features) {
   var see = window.ffvm.getxxinfo(id, function(data) {
-
+    // debugger
     if (data.length > 0) {
       sdas=[];
       sdanum=data.length;
       for (var i = 0; i < data.length; i++) {
-        var dzdm = data[i].DZXQ;
-
+        let dzdm = data[i].DZXQ;  //学校地址  此处变量声明一定要用let  而不是var  因为for 循环会在主线程执行完，而ajax请求
+        //作为异步任务不会进入主线程而会进入任务队列，在主线程执行完后再执行任务队列，所以每次执行ajax都是最后一条参数
         // mapSqlSearch("dz_mlp", "DZMC='" + dzdm + "'", dzdm, 0, 5, function(features, dm) {
         //   if (features.length > 0) {
         //     var x = features[0].properties.SMX;
@@ -70,17 +70,14 @@ export function createDWMap(id, mc) {
         //     //getXXDZInfo(id, arr, mc, dm);
         //     // getStudents(id, parseFloat(x), parseFloat(y));
         //   } else {
-            var ss = window.ffvm.getXY(dzdm, function(datae) {
+              window.ffvm.getXY(dzdm, function(datae) {  //在地图上匹配每一个学校地址
               var arr = [];
-              if (datae != undefined && datae.ycoord > 0 && datae.xcoord > 0) {
+              if (datae != undefined && datae.ycoord > 0 && datae.xcoord > 0) {//学校坐标
                 arr.push(datae.ycoord+'');
                 arr.push(datae.xcoord+'');
-
                 var tmmc = "<div style='line-height:25px;'>学校：" + mc + " <br/>地址：" + dzdm + "</div>";
-
                 var tm = L.marker([arr[0], arr[1]]).bindPopup(tmmc);
                 markerLayer1.addLayer(tm);
-
                 getXXDZInfo(id, arr, mc, datae.src_addr);
               }
             });
@@ -93,31 +90,31 @@ export function createDWMap(id, mc) {
 
 }
 
-function getXXDZInfo(id, arr, mc, dm) {
-sdas.push(arr);
+function getXXDZInfo(id, arr, mc, dm) {//id 是高校编码  arr  学校地址
+sdas.push(arr);//
 // console.log(sdas.length,sdas.length==sdanum);
 if(sdas.length==sdanum){
 
-  var relt = window.ffvm.getXXDZ(id, function(data) {
+  var relt = window.ffvm.getXXDZ(id, function(data) {//非法居留的具体数据（地址&数字）==data
     for (var i = 0; i < data.length; i++) {
       //var num = data[i].count;
       // var id = data[i].dm;
       mapSqlSearch("dz_mlp", "DZMC='" + id + "'", data[i], 0, 5, function(features, data) {
-
+        // console.log(features,features.length);
         if (features.length > 0) {
           for (var j = 0; j < features.length; j++) {
             //  var mc=features[j].properties.DZMC;
             renderMarkerbzh(features[j].geometry.coordinates.reverse(), data.dm, data.dm, arr, data.count, mc);
           }
         } else {
-          var ss = window.ffvm.getXY2(data, function(datae, ids, num) {
+          var ss = window.ffvm.getXY2(data, function(datae, ids, num) {//ids：非法就业的地址，num：非法拘留的人数 datae：非法拘留的详细信息、
 
             if (datae != undefined && datae.ycoord > 0 && datae.xcoord > 0) {
               var das = [];
               das.push(datae.ycoord);
               das.push(datae.xcoord);
 
-              renderMarkerbzh(das, ids, ids, sdas, num, mc);
+              renderMarkerbzh(das, ids, ids, sdas, num, mc);//das：非法拘留的地址坐标，ids：非法拘留的地址，sdas：高校坐标，num：非法拘留该地址人数，mc：高校名横、
             }
 
           });
@@ -131,7 +128,7 @@ if(sdas.length==sdanum){
 
 }
 
-export function renderMarkerbzh(point, dm, mc, sdas, num, xmc) {
+export function renderMarkerbzh(point, dm, mc, sdas, num, xmc) {//测量距离 point：坐标，
 
   measureDistance(point[0], point[1], sdas, dm, mc, num, xmc);
   //debugger;
@@ -167,6 +164,7 @@ export function renderMarkerbzh(point, dm, mc, sdas, num, xmc) {
 }
 
 function measureDistance(x1, y1, sdas, dm, mc, num, xmc) {
+  console.log(sdas, dm, mc, num, xmc)
  var gg=0; var ii=0;
 for (var i = 0; i < sdas.length; i++) {
     var x2=sdas[i][0];

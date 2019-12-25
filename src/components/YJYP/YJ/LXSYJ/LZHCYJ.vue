@@ -126,7 +126,7 @@
                   </el-select>
                 </el-col>
                 <el-col  :sm="24" :md="24" :lg="24"   class="input-item" v-if="rulesTotal!=0">
-                   <span class="input-text" style="width: 7.3%;">分类标签：</span>
+                   <span class="input-text" style="width: 7.6%;">分类标签：</span>
                    <el-radio-group v-model="ruleType" style="text-align:left">
                       <el-radio :label="item.RULE_NAME" v-for="(item,ind) in rules" :key="ind" @change="rulesKey(item.RULE_Map,item.RULE_Map_notIn)" style="margin:5px 30px 7px 0px">{{item.RULE_NAME}}</el-radio>
                     </el-radio-group>
@@ -209,11 +209,11 @@
              v-if="juState=='1'||juState=='2'">
            </el-table-column>
            <el-table-column
-             label="操作" width="120">
+             label="操作" width="70">
              <template slot-scope="scope">
                <div>
                  <el-button type="text"  class="a-btn"  title="编辑"  icon="el-icon-edit-outline" @click="getEdit(scope.row)"></el-button>
-                 <el-button type="text"  class="a-btn"  title="设为关注人员"  icon="iconfont el-icon-yy-jiaoseyonghu" @click="adds(scope.row);form={};"></el-button>
+                 <el-button type="text"  class="a-btn"  title="设为关注人员"  icon="el-icon-user" @click="adds(scope.row);form={};"></el-button>
                </div>
              </template>
            </el-table-column>
@@ -425,6 +425,10 @@ export default {
       }
     },
     download(){
+      if(this.tableData.length==0){
+         this.$message.error('无可导出数据！');
+         return
+      }
       let p={};
       this.pd.YWXM_Like = (this.pd.YWXM_Like).toUpperCase();
       if(this.type==3){

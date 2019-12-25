@@ -99,7 +99,7 @@ export default new Router({
         {
           path: 'GJYWWYLZYJ',
           name: 'GJYWWYLZYJ',
-          meta:{title:['日常管理','临住信息','重点国家境外人员统计']},
+          meta:{title:['日常管理','临住信息','重点国家境外人员临住统计']},
           component: resolve => require(['@/components/YJYP/YJ/LZYJ/GJYWWYLZYJ'], resolve),
         },
         {
@@ -261,7 +261,7 @@ export default new Router({
         {
           path: 'NMXQPHZYJ',
           name: 'NMXQPHZYJ',
-          meta:{title:['预警研判','预警信息','难民和需求庇护者预警']},
+          meta:{title:['预警研判','预警信息','难民和寻求庇护者预警']},
           component: resolve => require(['@/components/YJYP/YJ/CZYJ/NMXQPHZYJ'], resolve),
         },
         {
@@ -359,6 +359,12 @@ export default new Router({
           name: 'ZDQYJKFX',
           meta:{title:['数据分析','案件分析','重点区域监控分析']},
           component: resolve => require(['@/components/YJYP/YJ/ASJYJ/ZDQYJKFX'], resolve),
+        },
+        {
+          path: 'AA',
+          name: 'AA',
+          meta:{title:['数据分析','案件分析','重点区域监控分析']},
+          component: resolve => require(['@/components/YJYP/YJ/ASJYJ/AA'], resolve),
         },
         /* 19.07添加 */
         {
@@ -736,7 +742,7 @@ export default new Router({
         {
           path: 'YMDR',
           name: 'YMDR',
-          meta:{title:['日常管理','数据导入','移民数据导入']},
+          meta:{title:['日常管理','数据导入','移民导入']},
           component: resolve => require(['@/components/YWCZ/SJDR/YMDR'], resolve),
         },
         {
@@ -894,7 +900,7 @@ export default new Router({
         {
           path: 'GNSQ',
           name: 'GNSQ',
-          meta:{title:['系统管理','用户权限','功能授权']},
+          meta:{title:['系统管理','用户权限','角色授权']},
           component: resolve => require(['@/components/XTGL/YHQX/GNSQ'], resolve),
         },
         {
@@ -969,7 +975,7 @@ export default new Router({
         {
         path: 'FLGZGL',
         name: 'FLGZGL',
-        meta:{title:['系统管理','系统设置','分类规则管理']},
+        meta:{title:['系统管理','系统设置','临住核查分类配置']},
         component: resolve => require(['@/components/XTGL/XTSZ/FLGZGL'], resolve),
         },
 

@@ -44,14 +44,14 @@
                       <el-option
                         v-for="item in PSC"
                         :key="item.DM"
-                        :label="item.MC"
+                        :label="item.DM+' - '+item.MC"
                         :value="item.DM">
                       </el-option>
                     </el-select>
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                     <span class="input-text">责任区：</span>
-                    <el-select v-model="pd.JWZRQ" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input" 
+                    <el-select v-model="pd.JWZRQ" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input"
                     :no-data-text="pd.FJ==''||pd.FJ==undefined?'请先选择所属分局':pd.PCS==''||pd.PCS==undefined?'请先选择派出所':'无数据'">
                       <el-option
                         v-for="item in zrq"
@@ -112,7 +112,7 @@
                     <span class="input-text">处理状态：</span>
                     <el-select v-model="pd.CLZT" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
                       <el-option
-                        v-for="item in $store.state.clzt"
+                        v-for="item in $store.state.clzt1"
                         :key="item.dm"
                         :label="item.dm+' - '+item.mc"
                         :value="item.dm">
@@ -134,7 +134,8 @@
            border
            style="width: 100%"
            ref="multipleTable"
-           @select="selectfn">
+           @select="selectfn"
+           @header-click="titleShow">
            <el-table-column
              type="selection"
              width="55">
@@ -175,7 +176,7 @@
              label="处理状态">
            </el-table-column>
            <el-table-column
-             label="操作" width="120">
+             label="操作" width="70">
              <template slot-scope="scope">
              <el-button type="text"  class="a-btn"  title="详情"  icon="el-icon-document" @click="$router.push({name:'CZFWYHYJ_XQ',query:{type:0,row:scope.row,leiType:'xz'}})"></el-button>
              </template>
@@ -260,6 +261,7 @@ export default {
     this.$store.dispatch('getXzqh');
     this.$store.dispatch('getClzt');
     this.$store.dispatch('getShzt');
+    this.$store.dispatch('getClzt1');
     this.userCode=this.$store.state.uid;
     this.userName=this.$store.state.uname;
     this.orgName=this.$store.state.orgname;
@@ -283,6 +285,9 @@ export default {
     //       this.ssfj = r.data.SSFJ;
     //     })
     // },
+    titleShow(e,el){
+      el.target.title = e.label;
+    },
     getZrq(arr) {
       let p = {
         "operatorId": this.$store.state.uid,
@@ -331,6 +336,10 @@ export default {
       // console.log('this.selectionAll',this.selectionAll);
     },
     download(){
+      if(this.tableData.length==0){
+         this.$message.error('无可导出数据！');
+         return
+      }
       let p={};
       if(this.selectionAll.length==0){//全部导出
          p={

@@ -54,7 +54,8 @@
            ref="multipleTable"
            :highlight-current-row="true"
            style="width: 100%"
-           @select="selectfn">
+           @select="selectfn"
+           @header-click="titleShow">
            <!-- <el-table-column
              type="selection"
              width="55">
@@ -84,7 +85,7 @@
              label="审核状态">
            </el-table-column>
            <el-table-column
-             label="操作" width="120">
+             label="操作" width="70">
              <template slot-scope="scope">
                <div>
                   <el-button type="text"  class="a-btn"  title="处理"  icon="el-icon-edit" @click="$router.push({name:'RYSH_XQ',query:{hiType:'rysh',row:scope.row}})"></el-button>
@@ -173,6 +174,9 @@ export default {
     this.token=this.$store.state.token;
   },
   methods: {
+    titleShow(e,el){
+      el.target.title = e.label;
+    },
     selectfn(a,b){
       this.multipleSelection = a;
       this.dataSelection()

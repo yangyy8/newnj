@@ -29,7 +29,7 @@
                 </el-col>
               </el-row>
              </el-col>
-                <el-col :span="4">
+                <el-col :span="4" class="alone-flex">
                   <el-button type="success" size="small" @click="CurrentPage=1;getList(CurrentPage,pageSize,pd)" class="mb-15 tt-mr10">查询</el-button>
                   <el-button type="info" size="small" @click="$router.go(-1)" class="mb-15 tt-mr10">返回</el-button>
                   <el-button type="warning" size="small"  class="mb-15" @click="download">导出</el-button>
@@ -44,7 +44,8 @@
                :data="tableData"
                border
                style="width: 100%"
-               @select="selectfn">
+               @select="selectfn"
+               @header-click="titleShow">
                <el-table-column
                  type="selection"
                  width="55">
@@ -189,7 +190,9 @@
         this.getList(this.CurrentPage,this.pageSize, this.pd);
       },
       methods: {
-
+        titleShow(e,el){
+          el.target.title = e.label;
+        },
         selectfn(a,b){
           this.multipleSelection = a;
           this.dataSelection()
@@ -209,6 +212,10 @@
           // console.log('this.selectionAll',this.selectionAll);
         },
         download(){
+          if(this.tableData.length==0){
+             this.$message.error('无可导出数据！');
+             return
+          }
           let p={};
           this.objCompare(this.row,this.queryPd)
           this.pd = Object.assign({},this.row,this.queryPd,this.pd);

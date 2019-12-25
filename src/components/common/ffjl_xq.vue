@@ -26,11 +26,11 @@
           <span class="input-input detailinput">  {{jlinfo.ZJHM}}</span>
         </el-col>
         <el-col :span="12" class="input-item">
-          <span class="input-text">入境证件种类：</span>
+          <span class="input-text" title="入境证件种类">入境证件种类：</span>
           <span class="input-input detailinput">  {{jlinfo.RJZJZLMC}}</span>
         </el-col>
         <el-col :span="12" class="input-item">
-          <span class="input-text">入境证件号码：</span>
+          <span class="input-text" title="入境证件号码">入境证件号码：</span>
           <span class="input-input detailinput">  {{jlinfo.RJZJHM}}</span>
         </el-col>
         <el-col :span="12" class="input-item">
@@ -42,19 +42,19 @@
           <span class="input-input detailinput">  {{jlinfo.QZHM}}</span>
         </el-col>
         <el-col :span="12" class="input-item">
-          <span class="input-text">入境签证类型：</span>
+          <span class="input-text" title="入境签证类型">入境签证类型：</span>
           <span class="input-input detailinput">  {{jlinfo.RJQZLXMC}}</span>
         </el-col>
         <el-col :span="12" class="input-item">
-          <span class="input-text">入境签证号码：</span>
+          <span class="input-text" title="入境签证号码">入境签证号码：</span>
           <span class="input-input detailinput">  {{jlinfo.RJQZHM}}</span>
         </el-col>
         <el-col :span="12" class="input-item">
-          <span class="input-text">签证签发日期：</span>
+          <span class="input-text" title="签证签发日期">签证签发日期：</span>
           <span class="input-input detailinput">  {{jlinfo.QZQFRQ}}</span>
         </el-col>
         <el-col :span="12" class="input-item">
-          <span class="input-text">签证有效日期：</span>
+          <span class="input-text" title="签证有效日期">签证有效日期：</span>
           <span class="input-input detailinput">  {{jlinfo.QZYXRQ}}</span>
         </el-col>
         <el-col :span="12" class="input-item">
@@ -82,7 +82,7 @@
           <span class="input-input detailinput">  {{jlinfo.QFDMC}}</span>
         </el-col>
         <el-col :span="12" class="input-item">
-          <span class="input-text">住宿登记日期：</span>
+          <span class="input-text" title="住宿登记日期">住宿登记日期：</span>
           <span class="input-input detailinput">  {{jlinfo.ZSDJRQ}}</span>
         </el-col>
         <el-col :span="12" class="input-item">
@@ -90,11 +90,11 @@
           <span class="input-input detailinput">  {{jlinfo.ZSDJD}}</span>
         </el-col>
         <el-col :span="12" class="input-item">
-          <span class="input-text">最后住宿登记日期：</span>
+          <span class="input-text" title="最后住宿登记日期">最后住宿登记日期：</span>
           <span class="input-input detailinput">  {{jlinfo.ZHZSDJRQ}}</span>
         </el-col>
         <el-col :span="12" class="input-item">
-          <span class="input-text">最后住宿登记地：</span>
+          <span class="input-text" title="最后住宿登记地">最后住宿登记地：</span>
           <span class="input-input detailinput">  {{jlinfo.ZHZSDJDMC}}</span>
         </el-col>
         <el-col :span="12" class="input-item">

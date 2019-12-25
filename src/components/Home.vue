@@ -141,6 +141,7 @@ export default {
       this.$store.commit('getTabList',val);
     },
     $route:function(val){
+      console.log('val==',val);
       // console.log("$store.state",this.$store.state.key,this.$store.state.key.id)
       if(val.meta.title&&!val.meta.father){
         this.tabListCheck=val.name

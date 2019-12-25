@@ -4,23 +4,23 @@
       <el-form  ref="data2">
         <el-row :gutter="3"  class="mb-6">
             <el-col :span="8" class="input-item">
-             <span class="input-text">案事件编号：</span>
+             <span class="input-text" title="案事件编号">案事件编号：</span>
              <span class="input-input detailinput">  {{data2.caseNO}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
-              <span class="input-text">上报省份代码：</span>
+              <span class="input-text" title="上报省份代码">上报省份代码：</span>
               <span class="input-input detailinput">  {{data2.province}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
-             <span class="input-text">涉案人员编号：</span>
+             <span class="input-text" title="涉案人员编号">涉案人员编号：</span>
              <span class="input-input detailinput">  {{data2.casePersonNO}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
-             <span class="input-text">涉案角色名称：</span>
+             <span class="input-text" title="涉案角色名称">涉案角色名称：</span>
              <span class="input-input detailinput">  {{data2.caseRole_desc}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
-              <span class="input-text">涉案人员类别：</span>
+              <span class="input-text" title="涉案人员类别">涉案人员类别：</span>
               <span class="input-input detailinput">  {{data2.casePersonType}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
@@ -28,7 +28,7 @@
               <span class="input-input detailinput">  {{data2.trespasser}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
-              <span class="input-text">人身伤害程度：</span>
+              <span class="input-text" title="人身伤害程度">人身伤害程度：</span>
               <span class="input-input detailinput">  {{data2.injuryExtent_desc}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
@@ -36,11 +36,11 @@
               <span class="input-input detailinput">  {{data2.caseSituation}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
-              <span class="input-text">英文/拼音姓：</span>
+              <span class="input-text" title="英文/拼音姓">英文/拼音姓：</span>
               <span class="input-input detailinput">  {{data2.enLastName}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
-              <span class="input-text">英文/拼音名：</span>
+              <span class="input-text" title="英文/拼音名">英文/拼音名：</span>
               <span class="input-input detailinput">  {{data2.enFirstName}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
@@ -72,19 +72,19 @@
              <span class="input-input detailinput">  {{data2.figure_desc}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
-              <span class="input-text">国籍/地区：</span>
+              <span class="input-text" title="国籍/地区">国籍/地区：</span>
               <span class="input-input detailinput">  {{data2.nationnality_desc}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
-             <span class="input-text">户口所在地：</span>
+             <span class="input-text" title="户口所在地">户口所在地：</span>
              <span class="input-input detailinput">  {{data2.registerRegion}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
-             <span class="input-text">身份证号码：</span>
+             <span class="input-text" title="身份证号码">身份证号码：</span>
              <span class="input-input detailinput">  {{data2.idNO}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
-              <span class="input-text">境内居住地址/现住址：</span>
+              <span class="input-text" title="境内居住地址/现住址">境内居住地址/现住址：</span>
               <span class="input-input detailinput">  {{data2.residePlace}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
@@ -100,7 +100,7 @@
               <span class="input-input detailinput">  {{data2.workPlace}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
-              <span class="input-text">单位联系电话：</span>
+              <span class="input-text" title="单位联系电话">单位联系电话：</span>
               <span class="input-input detailinput">  {{data2.workPlaceTel}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
@@ -130,19 +130,19 @@
               <span class="input-input detailinput">  {{data3.DTID}}</span>
             </el-col> -->
             <el-col :span="8" class="input-item">
-             <span class="input-text">嫌疑人记录编号：</span>
+             <span class="input-text" title="嫌疑人记录编号">嫌疑人记录编号：</span>
              <span class="input-input detailinput">  {{data3.JLBH}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
-             <span class="input-text">案事件编号：</span>
+             <span class="input-text" title="案事件编号">案事件编号：</span>
              <span class="input-input detailinput">  {{data3.ASJBH}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
-              <span class="input-text">警综案事件编号：</span>
+              <span class="input-text" title="警综案事件编号">警综案事件编号：</span>
               <span class="input-input detailinput">  {{data3.JZASJBH}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
-              <span class="input-text">警综人员编号：</span>
+              <span class="input-text" title="警综人员编号">警综人员编号：</span>
               <span class="input-input detailinput">  {{data3.JZRYBH}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
@@ -154,7 +154,7 @@
               <span class="input-input detailinput">  {{data3.XZZ}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
-              <span class="input-text">嫌疑人属性：</span>
+              <span class="input-text" title="嫌疑人属性">嫌疑人属性：</span>
               <span class="input-input detailinput">  {{data3.XYRSX}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
@@ -211,7 +211,7 @@
               <span class="input-input detailinput">  {{data3.ZHR}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
-              <span class="input-text">局外抓获单位：</span>
+              <span class="input-text" title="局外抓获单位">局外抓获单位：</span>
               <span class="input-input detailinput">  {{data3.JWZHDW}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
@@ -227,7 +227,7 @@
               <span class="input-input detailinput">  {{data3.ZHDY_DESC}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
-              <span class="input-text">违法犯罪经历：</span>
+              <span class="input-text" title="违法犯罪经历">违法犯罪经历：</span>
               <span class="input-input detailinput">  {{data3.WFFZJL}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
@@ -243,7 +243,7 @@
               <span class="input-input detailinput">  {{data3.ZTBH}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
-              <span class="input-text">转案件编号：</span>
+              <span class="input-text" title="转案件编号">转案件编号：</span>
               <span class="input-input detailinput">  {{data3.ZAJBH}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
@@ -261,19 +261,19 @@
       <el-form  ref="data4">
         <el-row :gutter="3"  class="mb-6">
             <el-col :span="8" class="input-item">
-             <span class="input-text">涉案证件编号：</span>
+             <span class="input-text" title="涉案证件编号">涉案证件编号：</span>
              <span class="input-input detailinput">  {{data4.casePaperNO}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
-              <span class="input-text">上报省份代码：</span>
+              <span class="input-text" title="上报省份代码">上报省份代码：</span>
               <span class="input-input detailinput">  {{data4.province}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
-              <span class="input-text">英文/拼音姓：</span>
+              <span class="input-text" title="英文/拼音姓">英文/拼音姓：</span>
               <span class="input-input detailinput">  {{data4.enLastName}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
-              <span class="input-text">英文/拼音名：</span>
+              <span class="input-text" title="英文/拼音名">英文/拼音名：</span>
               <span class="input-input detailinput">  {{data4.enFirstName}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
@@ -293,7 +293,7 @@
              <span class="input-input detailinput">  {{data4.chName}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
-             <span class="input-text">涉案人员编号：</span>
+             <span class="input-text" title="涉案人员编号">涉案人员编号：</span>
              <span class="input-input detailinput">  {{data4.casePersonNO}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
@@ -318,11 +318,11 @@
               <span class="input-input detailinput">  {{data4.paperNO}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
-              <span class="input-text">证件有效期至：</span>
+              <span class="input-text" title="证件有效期至">证件有效期至：</span>
               <span class="input-input detailinput">  {{data4.usefulLifeLimit}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
-              <span class="input-text">本次入境持用证件标识：</span>
+              <span class="input-text" title="本次入境持用证件标识">本次入境持用证件标识：</span>
               <span class="input-input detailinput">  {{data4.currentPaper_desc}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
@@ -362,7 +362,7 @@
               <span class="input-input detailinput">  {{data4.entranceDate}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
-              <span class="input-text">签证注销单位：</span>
+              <span class="input-text" title="签证注销单位">签证注销单位：</span>
               <span class="input-input detailinput">  {{data4.labelLoginoutOrg}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
@@ -370,7 +370,7 @@
               <span class="input-input detailinput">  {{data4.labelLoginoutPerson}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
-              <span class="input-text">签证注销时间：</span>
+              <span class="input-text" title="签证注销时间">签证注销时间：</span>
               <span class="input-input detailinput">  {{data4.labelLoginoutDate}}</span>
             </el-col>
         </el-row>
@@ -392,7 +392,7 @@
               <span class="input-input detailinput">  {{data5.ASJBH}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
-              <span class="input-text">警综案件编号：</span>
+              <span class="input-text" title="警综案件编号">警综案件编号：</span>
               <span class="input-input detailinput">  {{data5.JZASJBH}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
@@ -400,7 +400,7 @@
               <span class="input-input detailinput">  {{data5.JGBH}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
-              <span class="input-text">警综机构编号：</span>
+              <span class="input-text" title="警综机构编号">警综机构编号：</span>
               <span class="input-input detailinput">  {{data5.JZJGBH}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
@@ -452,7 +452,7 @@
               <span class="input-input detailinput">  {{data5.SSJE}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
-             <span class="input-text">挽回损失金额：</span>
+             <span class="input-text" title="挽回损失金额">挽回损失金额：</span>
              <span class="input-input detailinput">  {{data5.WHSSJE}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
@@ -484,7 +484,7 @@
               <span class="input-input detailinput">  {{data5.XGR}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
-              <span class="input-text">修改人姓名：</span>
+              <span class="input-text" title="修改人姓名">修改人姓名：</span>
               <span class="input-input detailinput">  {{data5.XGRXM}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
@@ -504,7 +504,7 @@
               <span class="input-input detailinput">  {{data5.PCSJ}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
-              <span class="input-text">排除审批单位：</span>
+              <span class="input-text" title="排除审批单位">排除审批单位：</span>
               <span class="input-input detailinput">  {{data5.PCSPDW}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
@@ -512,7 +512,7 @@
               <span class="input-input detailinput">  {{data5.PCPZR}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
-              <span class="input-text">排除审批意见：</span>
+              <span class="input-text" title="排除审批意见">排除审批意见：</span>
               <span class="input-input detailinput">  {{data5.PCSPYJ}}</span>
             </el-col>
         </el-row>
@@ -526,19 +526,19 @@
              <span class="input-input detailinput">  {{data6.caseNO}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
-              <span class="input-text">上报省份代码：</span>
+              <span class="input-text" title="上报省份代码">上报省份代码：</span>
               <span class="input-input detailinput">  {{data6.province}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
-              <span class="input-text">涉案人员编号：</span>
+              <span class="input-text" title="涉案人员编号">涉案人员编号：</span>
               <span class="input-input detailinput">  {{data6.casePersonNO}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
-              <span class="input-text">处理对象类别：</span>
+              <span class="input-text" title="处理对象类别">处理对象类别：</span>
               <span class="input-input detailinput">  {{data6.objectType_desc}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
-              <span class="input-text">案事件类别：</span>
+              <span class="input-text" title="案事件类别">案事件类别：</span>
               <span class="input-input detailinput">  {{data6.caseType_desc}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
@@ -558,7 +558,7 @@
              <span class="input-input detailinput">  {{data6.arbitrationAward}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
-              <span class="input-text">裁决法律依据：</span>
+              <span class="input-text" title="裁决法律依据">裁决法律依据：</span>
               <span class="input-input detailinput">  {{data6.arbitrationLaw}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
@@ -574,7 +574,7 @@
               <span class="input-input detailinput">  {{data6.detentionPeriod}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
-              <span class="input-text">签证（注）号码：</span>
+              <span class="input-text" title="签证（注）号码">签证（注）号码：</span>
               <span class="input-input detailinput">  {{data6.labelNO}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
@@ -610,7 +610,7 @@
               <span class="input-input detailinput">  {{data6.repealTime}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
-              <span class="input-text">撤销审批单位：</span>
+              <span class="input-text" title="撤销审批单位">撤销审批单位：</span>
               <span class="input-input detailinput">  {{data6.repealApprovingOrg}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
@@ -618,7 +618,7 @@
               <span class="input-input detailinput">  {{data6.repealApprover}}</span>
             </el-col>
             <el-col :span="8" class="input-item">
-              <span class="input-text">撤销审批意见：</span>
+              <span class="input-text" title="撤销审批意见">撤销审批意见：</span>
               <span class="input-input detailinput">  {{data6.repealApprovingIdea}}</span>
             </el-col>
         </el-row>
@@ -629,7 +629,6 @@
 
 <script>
 export default {
-
   name:'ASJXQXQ',
   props:['typec','xidc','randomc'],
   data(){

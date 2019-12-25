@@ -83,7 +83,7 @@
                    <el-input placeholder="请输入内容" size="small" v-model="pd.BORNEDADDRESS" class="input-input"></el-input>
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
-                   <span class="input-text">护照证件种类：</span>
+                   <span class="input-text" title="护照证件种类">护照证件种类：</span>
                    <el-select v-model="pd.PASSPORTTYPE" filterable clearable default-first-option  placeholder="请选择"  size="small" class="input-input">
                      <el-option
                        v-for="item in $store.state.zjzl"
@@ -121,7 +121,7 @@
                  </div>
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-                  <span class="input-text">结毕业时间：</span>
+                  <span class="input-text" title="结毕业时间">结毕业时间：</span>
                   <div class="input-input t-flex t-date">
                     <el-date-picker
                        v-model="pd.GRADUATEDATE.begin" format="yyyy-MM-dd"
@@ -190,7 +190,8 @@
                :data="tableData"
                border
                style="width: 100%"
-               @select="selectfn">
+               @select="selectfn"
+               @header-click="titleShow">
                <el-table-column
                  type="selection"
                  width="55">
@@ -249,7 +250,7 @@
              :data="tableData"
              border
              style="width: 100%"
-             @header-click="headerClick"
+             @header-click="titleShow"
              @select="selectfn">
              <el-table-column
                type="selection"
@@ -520,6 +521,9 @@
          this.token=this.$store.state.token;
       },
       methods: {
+        titleShow(e,el){
+          el.target.title = e.label;
+        },
         selectfn(a,b){
           this.multipleSelection = a;
           this.dataSelection()
@@ -539,6 +543,10 @@
           // console.log('this.selectionAll',this.selectionAll);
         },
         download(){
+          if(this.tableData.length==0){
+             this.$message.error('无可导出数据！');
+             return
+          }
           let p={};
           if(this.checkedList.length==0){//人员导出
             if(this.selectionAll.length==0){//人员全部导出,无选中的数据
@@ -604,9 +612,6 @@
             link.setAttribute('download', '留学生综合分析列表'+this.format(new Date(),'yyyyMMddhhmmss')+'.xls')
             document.body.appendChild(link)
             link.click()
-        },
-        headerClick(column,event){
-          event.target.title=column.label
         },
         handleSelectionChange(val) {
           this.multipleSelection = val;
@@ -760,7 +765,7 @@
     }
     </style>
     <style>
-      .el-button+.el-button{margin-left: 0!important;}
+      /* .el-button+.el-button{margin-left: 0!important;} */
       .t-tjCheck .el-checkbox{margin-left: 20px!important; line-height: 30px;}
       .t-tjCheck .el-checkbox+.el-checkbox{margin-left: 20px!important;}
       .bj .el-dialog__wrapper {

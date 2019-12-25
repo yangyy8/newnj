@@ -75,7 +75,8 @@
            :data="tableData"
            border
            style="width: 100%"
-           @selection-change="handleSelectionChange">
+           @selection-change="handleSelectionChange"
+           @header-click="titleShow">
            <!-- <el-table-column
              type="selection"
              width="55">
@@ -113,12 +114,11 @@
              label="国家地区">
            </el-table-column>
            <el-table-column
-             label="操作" width="120">
+             label="操作" width="90">
              <template slot-scope="scope">
              <el-button type="text"  class="a-btn"  title="详情"  icon="el-icon-document" @click="details(scope.row)"></el-button>
              <el-button type="text"  class="a-btn"  title="编辑"  icon="el-icon-edit" @click="edits(1,scope.row)"></el-button>
              <el-button type="text"  class="a-btn"  title="删除"  icon="el-icon-delete" @click="deletes(scope.row)"></el-button>
-
              </template>
            </el-table-column>
          </el-table>
@@ -153,35 +153,39 @@
         </el-pagination>
       </div>
     </div>
-    <el-dialog title="上传模板" :visible.sync="uploadDialogVisible"  width="640px">
-    <el-form>
-    <el-row type="flex" class="mb-6">
-     <el-col :span="24" class="input-item">
-          <el-upload
-            class="input-input"
-            ref="upload"
-            :action='actions+"/drlzbk/readExcel"'
-            :file-list="fileList"
-            multiple
-            :on-success="upSuccess"
-            :data="uploadIconData"
-            :before-upload="beforeAvatarUpload"
-            :limit="1"
-            :auto-upload="false">
-            <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
-            <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
-            <br/>
-            <span slot="tip" class="el-upload__tip">只能上传EXCEL文件</span>
-          </el-upload>
-        </el-col>
-      </el-row>
-    </el-form>
-  </el-dialog>
 
+      <el-dialog title="上传模板" :visible.sync="uploadDialogVisible"  width="640px">
+
+      <el-form>
+      <el-row type="flex" class="mb-6">
+       <el-col :span="24" class="input-item">
+            <el-upload
+              class="input-input"
+              ref="upload"
+              :action='actions+"/drlzbk/readExcel"'
+              :file-list="fileList"
+              multiple
+              :on-success="upSuccess"
+              :data="uploadIconData"
+              :before-upload="beforeAvatarUpload"
+              :limit="1"
+              :auto-upload="false">
+              <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+              <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
+              <br/>
+              <span slot="tip" class="el-upload__tip">只能上传EXCEL文件</span>
+            </el-upload>
+          </el-col>
+        </el-row>
+      </el-form>
+
+    </el-dialog>
+
+
+<div v-if="editsDialogVisible">
   <el-dialog :title="dialogText" :visible.sync="editsDialogVisible">
     <el-form   ref="editform">
       <el-row :gutter="2"  class="mb-6">
-
         <el-col :span="12" class="input-item">
           <span class="input-text">姓名：</span>
           <el-input placeholder="请输入内容" size="small" v-model="editform.XM"  class="input-input"></el-input>
@@ -249,6 +253,7 @@
         <el-button @click="editsDialogVisible = false" size="small">取 消</el-button>
       </div>
   </el-dialog>
+  </div>
   <el-dialog title="详情" :visible.sync="detailsDialogVisible">
     <el-form   ref="mapForm">
       <el-row :gutter="2"  class="mb-6">
@@ -277,11 +282,11 @@
             <span class="input-input detailinput">  {{mapForm.GJDQMC}}</span>
           </el-col>
           <el-col :span="12" class="input-item">
-            <span class="input-text">布控开始时间：</span>
+            <span class="input-text" title="布控开始时间">布控开始时间：</span>
             <span class="input-input detailinput">  {{mapForm.BKRQSTART}}</span>
           </el-col>
           <el-col :span="12" class="input-item">
-            <span class="input-text">布控结束时间：</span>
+            <span class="input-text" title="布控结束时间">布控结束时间：</span>
             <span class="input-input detailinput">  {{mapForm.BKRQEND}}</span>
           </el-col>
       </el-row>
@@ -319,7 +324,7 @@ export default {
       uploadDialogVisible: false,
       detailsDialogVisible:false,
       editsDialogVisible:false,
-      editform:{CSRQ:""},
+      editform:{CSRQ:"",ZJHM:''},
       uploadIconData:{token:this.$store.state.token},
       mapForm:{},
       options:this.pl.options,
@@ -334,6 +339,9 @@ export default {
     this.getList(this.CurrentPage, this.pageSize, this.pd);
   },
   methods: {
+    titleShow(e,el){
+      el.target.title = e.label;
+    },
     getLable(t,val){
       if(t==1){//性别
 
@@ -386,16 +394,20 @@ export default {
       this.editsDialogVisible=true;
       if(t==1){
       this.isadd=1;
-      this.editform=n;
+      // this.$set(this.editform,'ZJHM',n.ZJHM);
+      this.editform=Object.assign({}, n);
+
+      // console.log(this.editform.ZJHM,n.ZJHM);
       this.dialogText="编辑";
     }else {
       this.isadd=0;
+      this.editform={CSRQ:"",ZJHM:""};
       this.dialogText="新增";
     }
     this.V.$reset('demo');
 
     },
-    editsItem(formName){
+    editsItem(){
       this.V.$submit('demo',(canSumit,data) =>{
         if(!canSumit) return;
         this.editform.token=this.$store.state.token;
@@ -418,8 +430,7 @@ export default {
           } else {
             this.$message.error(r.Message);
           }
-          this.$refs[afrom].resetFields();
-
+          // this.$refs[afrom].resetFields();
 
         }, e => {
           this.$message.error('失败了');
@@ -436,6 +447,7 @@ export default {
       cancelButtonText: '取消',
       type: 'warning'
     }).then(() => {
+      // http://10.0.30.53:9439/drlzbk/deleteLZBKById
       this.$api.post(this.Global.aport3+'/drlzbk/deleteLZBKById', p,
         r => {
           if(r.code=="1000001"){

@@ -30,17 +30,17 @@
 
               </el-col>
               <el-col :span="6" class="stu-col-row">
-                <span>国家/地区：{{baseData.GJDQ_DESC}}</span>
+                <span title="国家/地区">国家/地区：{{baseData.GJDQ_DESC}}</span>
 
               </el-col>
               <el-col :span="6" class="stu-col-row">
-                <span>证件种类：{{baseData.ZJZL_DESC}}</span>
+                <span title="证件种类">证件种类：{{baseData.ZJZL_DESC}}</span>
 
               </el-col>
             </el-row>
             <el-row class="stu-row tt-bb">
               <el-col :span="6" class="stu-col-row">
-                <span >证件有效期：</span>
+                <span title="证件有效期">证件有效期：</span>
                    {{baseData.ZJYXQ}}
               </el-col>
               <el-col :span="6" class="stu-col-row">
@@ -654,6 +654,8 @@
     <!-- 分局级别是2并且是未处理状态   展示派出所详情和分局意见输入框-->
    <div class="stu-footer" v-if="jb=='2' && showFJ">
      <!-- <div class="stu-title">处理结果：{{pd.CLJG}}</div> -->
+     <div class="stu-title">支队处理意见：{{pd.ZDYJ_DESC}}</div>
+     <div class="stu-title">支队处理详情：{{pd.CLXQ}}</div>
      <div class="stu-title">分局调查意见</div>
      <el-row type="flex" class="mb-15">
       <el-col :span="20">
@@ -676,6 +678,8 @@
    <!-- 分局级别是2且是已处理状态  展示两个详情 -->
    <div class="stu-footer" v-if="jb=='2' && !showFJ">
      <!-- <div class="stu-title">处理结果：{{pd.CLJG}}</div> -->
+     <div class="stu-title">支队处理意见：{{pd.ZDYJ_DESC}}</div>
+     <div class="stu-title">支队处理详情：{{pd.CLXQ}}</div>
      <div class="stu-title">分局调查意见：{{pd.FJYJ}}</div>
      <div class="czfont" v-if="FJCLR!=''">
        处理人: {{FJCLR==''?$store.state.uname:FJCLR}}
@@ -690,7 +694,7 @@
      <el-row  class="mb-15">
          <el-col :span="20" style="">
            <span  style="text-align:left;font-size:12px;">处理意见：</span>
-           <el-select v-model="pd.ZDYJ" placeholder="请选择"  filterable clearable default-first-option   size="small" :disabled="showXF">
+           <el-select v-model="pd.ZDYJ" placeholder="请选择"  filterable clearable default-first-option   size="small" :disabled="showXF" @change="isXF(pd.ZDYJ)">
              <el-option v-for="item in $store.state.yjcl2"
               :key="item.dm"
               :label="item.mc"
@@ -707,11 +711,12 @@
           :autosize="{ minRows: 3, maxRows: 3}"
           placeholder="处理详情必须填写原因(不超过100个字符)"
           v-model="pd.CLXQ"
+          @input="isXF(pd.CLXQ)"
           :disabled="showXF">
         </el-input>
       </el-col>
       <el-col :span="4"  class="down-btn-area">
-        <el-button type="warning" class="mb-5" size="small" @click="release()" v-if="!showXF" style="width:78px">下发分局</el-button>
+        <el-button type="warning" class="mb-5" size="small" @click="release()" v-if="!showXF" :disabled="isXf" style="width:78px">下发分局</el-button>
         <el-button type="warning" class="mb-5" size="small" @click="release()" :disabled="showXF" v-if="showXF" style="width:78px;margin-left:0px">已下发</el-button>
         <el-button type="primary" class="mb-5" size="small" @click="chuli()" :disabled="showXF" style="width:78px;margin-left:0px">确定</el-button>
       </el-col>
@@ -732,7 +737,7 @@
    </div>
 
    <!-- 派出所级别是3 且是未处理状态 展示处理结果输入框 -->
-   <div class="stu-footer" v-if="jb=='3' && showPCS">
+   <!-- <div class="stu-footer" v-if="jb=='3' && showPCS">
      <div class="stu-title">处理结果</div>
      <el-row type="flex" class="mb-15">
 
@@ -751,26 +756,26 @@
     <div class="czfont">
       处理人: {{FJCLR==''?$store.state.uname:FJCLR}}
     </div>
-   </div>
+   </div> -->
    <!-- 派出所级别是3 且是已处理状态 展示处理结果详情 -->
-   <div class="stu-footer" v-if="jb=='3' && !showPCS">
+   <!-- <div class="stu-footer" v-if="jb=='3' && !showPCS">
      <div class="stu-title">处理结果：{{pd.CLJG}}</div>
-     <div class="czfont">
+     <div c lass="czfont">
        处理人: {{FJCLR==''?$store.state.uname:FJCLR}}
      </div>
-   </div>
+   </div> -->
 
    <!-- 签证信息 -->
      <el-dialog
          title="签证信息详情"
-         :visible.sync="QZDialogVisible" width="900px">
+         :visible.sync="QZDialogVisible" custom-class="big_dialog combine" :append-to-body="true" :modal="false">
          <QZ :xid="xid" :random="new Date().getTime()"></QZ>
          <div slot="footer" class="dialog-footer">
            <el-button @click="QZDialogVisible = false" size="small">取 消</el-button>
          </div>
      </el-dialog>
 
-    <el-dialog title="出入境信息详情" :visible.sync="CRJDialogVisible"  custom-class="big_dialog" :append-to-body="false" :modal="false">
+    <el-dialog title="出入境信息详情" :visible.sync="CRJDialogVisible"  custom-class="big_dialog combine" :append-to-body="true" :modal="false">
                 <CRJXX :type="type" :xid="xid" :random="(new Date()).getTime()"></CRJXX>
                  <div slot="footer" class="dialog-footer">
                    <el-button @click="CRJDialogVisible = false" size="small">取 消</el-button>
@@ -779,7 +784,7 @@
 
     <!-- 临住信息详情 -->
 
-      <el-dialog title="临住信息详情" :visible.sync="LZDialogVisible" custom-class="big_dialog" :append-to-body="false" :modal="false">
+      <el-dialog title="临住信息详情" :visible.sync="LZDialogVisible" custom-class="big_dialog combine" :append-to-body="true" :modal="false">
         <LZXX :type="type" :xid="xid" :rybh="rybh" :random="new Date().getTime()"></LZXX>
         <div slot="footer" class="dialog-footer">
           <el-button @click="LZDialogVisible = false" size="small">取 消</el-button>
@@ -931,14 +936,14 @@
                   <el-button @click="CZDialogVisible = false" size="small">取 消</el-button>
                 </div>
         </el-dialog> -->
-        <el-dialog title="常住信息详情" :visible.sync="CZDialogVisible" custom-class="big_dialog" :append-to-body="false" :modal="false">
+        <el-dialog title="常住信息详情" :visible.sync="CZDialogVisible" custom-class="big_dialog combine" :append-to-body="true" :modal="false">
           <CZXX :type="type" :xid="xid" :rybh="rybh" :random="new Date().getTime()" :row="allData"></CZXX>
           <div slot="footer" class="dialog-footer">
             <el-button @click="CZDialogVisible = false" size="small">取 消</el-button>
           </div>
         </el-dialog>
 
-        <el-dialog title="案事件信息详情" :visible.sync="asjDialogVisible" custom-class="big_dialog" :append-to-body="false" :modal="false">
+        <el-dialog title="案事件信息详情" :visible.sync="asjDialogVisible" custom-class="big_dialog combine" :append-to-body="true" :modal="false">
           <ANSJ :type="type" :xid="xid" :dtid="dtid" :random="(new Date()).getTime()"></ANSJ>
           <div slot="footer" class="dialog-footer">
             <el-button @click="asjDialogVisible = false" size="small">取 消</el-button>
@@ -1047,6 +1052,7 @@ export default {
       showXF:false,
       showFJ:true,
       showPCS:true,
+      isXf:false,
 
       userCode:'',
       userName:'',
@@ -1146,6 +1152,13 @@ export default {
    this.getJB();
   },
   methods: {
+    isXF(item){
+      if(item!=''){
+        this.isXf=true;
+      }else{
+        this.isXf=false;
+      }
+    },
     goBackS(){
       if(this.yjType==2){this.$router.push({name:'DQQZFFJYYJ'})}//持短期签证非法就业
       if(this.yjType==1){this.$router.push({name:'WGRFFJLYJ'})}//外国人非法居留预警

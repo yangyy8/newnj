@@ -40,13 +40,13 @@
                    <span class="input-text">简要情况：</span>
                    <el-input placeholder="请输入内容" size="small" v-model="pd.JYQK" class="input-input"></el-input>
                 </el-col>
-                <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
+                <!-- <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
                   <span class="input-text">核查状态：</span>
                   <el-select v-model="pd.HCZT" placeholder="请选择"  filterable clearable default-first-option size="small" class="input-input">
                     <el-option label="核查通过" value="0"></el-option>
                     <el-option label="核查不通过" value="1"></el-option>
                   </el-select>
-                </el-col>
+                </el-col> -->
                 <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
                   <span class="input-text">处理状态：</span>
                   <el-select v-model="pd.CLZT" placeholder="请选择"  filterable clearable default-first-option size="small" class="input-input">
@@ -75,7 +75,8 @@
            ref="multipleTable"
            :highlight-current-row="true"
            style="width: 100%"
-           @select="selectfn">
+           @select="selectfn"
+           @header-click="titleShow">
            <!-- <el-table-column
              type="selection"
              width="55">
@@ -104,13 +105,13 @@
              prop="HCSJ"
              label="核查时间">
            </el-table-column>
-           <el-table-column
+           <!-- <el-table-column
              prop="HCZT"
              label="核查状态">
             <template slot-scope="scope">
               {{scope.row.HCZT=='0'?'核查通过':scope.row.HCZT=='1'?'核查不通过':''}}
             </template>
-           </el-table-column>
+           </el-table-column> -->
            <el-table-column
              prop="CLZT_DESC"
              label="处理状态">
@@ -119,7 +120,7 @@
              </template> -->
            </el-table-column>
            <el-table-column
-             label="操作" width="120">
+             label="操作" width="70">
              <template slot-scope="scope">
                <div>
                   <el-button type="text"  class="a-btn"  title="处理"  icon="el-icon-edit" @click="$router.push({name:'SLRY_XQ',query:{hiType:'slry',row:scope.row}})"></el-button>
@@ -209,6 +210,9 @@ export default {
     this.token=this.$store.state.token;
   },
   methods: {
+    titleShow(e,el){
+      el.target.title = e.label;
+    },
     selectfn(a,b){
       this.multipleSelection = a;
       this.dataSelection()

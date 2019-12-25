@@ -3,14 +3,14 @@
   <div class="yymain">
     <div class="yytitle">
       <el-row type="flex">
-        <el-col :span="21" class="br pr-20">
+        <el-col :span="22" class="br pr-20">
           <el-row align="center"   :gutter="2">
                 <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
                    <span class="input-text">标题：</span>
                    <el-input placeholder="请输入内容" size="small" v-model="pd.BT" class="input-input"></el-input>
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-                    <span class="input-text">单位类别：</span>
+                    <span class="input-text" title="单位类别">单位类别：</span>
                     <el-select v-model="pd.DWLXBM" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input" @visible-change="dwTypeFun">
                       <el-option
                         v-for="(item,index) in dwTypeList"
@@ -21,21 +21,22 @@
                     </el-select>
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
-                    <span class="input-text">接收单位：</span>
-                    <div class="input-input t-fuzzy-12 t-flex">
+                    <span class="input-text" title="接收单位">接收单位：</span>
+                    <!-- <div class="input-input t-fuzzy-12 t-flex"> -->
                       <el-select v-model="pd.JSDWBH" filterable :disabled="pd.isAll" clearable multiple collapse-tags default-first-option placeholder="请选择"  size="small" class="input-input" :filter-method="userFilter" @visible-change="getDw(pd.DWLXBM)">
                         <el-option
                           v-for="(item,index) in dwdata"
                           :key="index"
                           :label="item.ZZJGDM+' - '+item.DWZWMC"
-                          :value="item.ZZJGDM">
+                          :value="item.ZZJGDM"
+                          class="input-input">
                         </el-option>
                       </el-select>
-                      <el-checkbox v-model="pd.isAll"  @change="dwCheckFun(pd.isAll)" style="margin-left: 13px;">全选</el-checkbox>
-                    </div>
+                      <el-checkbox v-model="pd.isAll"  @change="dwCheckFun(pd.isAll)" style="margin-left: 13px;" v-if="false">全选</el-checkbox>
+                    <!-- </div> -->
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
-                  <span class="input-text">发送状态：</span>
+                  <span class="input-text" title="发送状态">发送状态：</span>
                   <el-select v-model="pd.SFYX" placeholder="请选择"  filterable clearable default-first-option size="small" class="input-input">
                     <el-option label="1 - 已发送" value="1"></el-option>
                     <el-option label="2 - 未发送" value="2"></el-option>
@@ -43,10 +44,10 @@
                 </el-col>
           </el-row>
          </el-col>
-        <el-col :span="3">
+        <el-col :span="2">
           <el-button type="success" size="small"  class="t-mb" @click="CurrentPage=1;getList(CurrentPage,pageSize,pd)">查询</el-button>
           <!-- <el-button type="success" size="small"  class="t-ml0" @click="download">导出</el-button> -->
-          <el-button type="primary" size="small"  @click="addNew()">新增</el-button>
+          <el-button type="primary" size="small"  @click="addNew()" class="t-ml0">新增</el-button>
         </el-col>
       </el-row>
     </div>
@@ -74,8 +75,16 @@
            </el-table-column>
            <el-table-column
              prop="JSDWMC"
-             label="接收单位"
-             :show-overflow-tooltip="true">
+             label="接收单位">
+             <template slot-scope="scope">
+               <el-popover
+                  placement="top-start"
+                  width="250"
+                  trigger="hover"
+                  :content="scope.row.JSDWMC">
+                  <span slot="reference">{{scope.row.JSDWMC | ellipsis}}</span>
+                </el-popover>
+             </template>
            </el-table-column>
            <el-table-column
              prop="CREATETIME"
@@ -89,7 +98,7 @@
              </template>
            </el-table-column>
            <el-table-column
-             label="操作" width="120">
+             label="操作" width="70">
              <template slot-scope="scope">
                <div>
                   <el-button type="text"  class="a-btn"  title="详情"  icon="el-icon-tickets" @click="details(scope.row)"></el-button>
@@ -339,6 +348,15 @@ export default {
     this.orgCode=this.$store.state.orgid;
     this.juState=this.$store.state.juState;
     this.token=this.$store.state.token;
+  },
+  filters: {
+    ellipsis(value) {
+      if (!value) return "";
+      if (value.length > 20) {
+        return value.slice(0, 20) + "...";
+      }
+      return value;
+    }
   },
   methods: {
     dwCheckFun(n){
