@@ -167,7 +167,7 @@ export default {
          });
     },
     getMenu(row,event,column){
-     this.roleid=row.id
+       this.roleid=row.id
       var ff=new FormData();
       ff.append("token",this.$store.state.token);
       ff.append("roleid",this.roleid);
