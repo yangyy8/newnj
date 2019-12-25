@@ -154,6 +154,7 @@
            :highlight-current-row="true"
            style="width: 100%"
            @select="selectfn"
+           @select-all="selectfn"
            @selection-change="handleSelectionChange"
            @header-click="titleShow">
            <el-table-column

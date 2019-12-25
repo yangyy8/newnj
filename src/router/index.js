@@ -261,7 +261,7 @@ export default new Router({
         {
           path: 'NMXQPHZYJ',
           name: 'NMXQPHZYJ',
-          meta:{title:['预警研判','预警信息','难民和需求庇护者预警']},
+          meta:{title:['预警研判','预警信息','难民和寻求庇护者预警']},
           component: resolve => require(['@/components/YJYP/YJ/CZYJ/NMXQPHZYJ'], resolve),
         },
         {
@@ -900,7 +900,7 @@ export default new Router({
         {
           path: 'GNSQ',
           name: 'GNSQ',
-          meta:{title:['系统管理','用户权限','功能授权']},
+          meta:{title:['系统管理','用户权限','角色授权']},
           component: resolve => require(['@/components/XTGL/YHQX/GNSQ'], resolve),
         },
         {

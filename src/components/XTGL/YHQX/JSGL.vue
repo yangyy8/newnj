@@ -392,6 +392,7 @@ export default {
     },
     pageSizeChange1(val) {
       this.pageSize1=val;
+      this.CurrentPage1=1;
       this.getList1(this.CurrentPage1, val, this.pd1);
       console.log(`每页 ${val} 条`);
     },
@@ -654,12 +655,12 @@ export default {
 
        yhItem()
        {
-         console.log(this.multipleSelection);
+         // console.log(this.multipleSelection);
          var formData = new FormData();
-         if (this.multipleSelection.length == 0) {
-               this.$message.error('请选择用户列表内容！');
-              return;
-         }
+         // if (this.multipleSelection.length == 0) {
+         //       this.$message.error('请选择用户列表内容！');
+         //      return;
+         // }
          var checkeds=[];var userids=[];
          for (var i = 0; i < this.selectionAll.length; i++)
          {  var s = this.selectionAll[i].id;

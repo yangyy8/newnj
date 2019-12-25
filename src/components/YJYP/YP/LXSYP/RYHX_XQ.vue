@@ -708,39 +708,39 @@
                        </el-pagination>
                      </div>
                    </div>
-       <el-dialog title="案事件详情" :visible.sync="asjDialogVisible" custom-class="big_dialog" :append-to-body="false" :modal="false">
+       <el-dialog title="案事件详情" :visible.sync="asjDialogVisible" custom-class="big_dialog combine" :append-to-body="true" :modal="false">
          <ANSJRY :type="type" :xid="xid" :random="randomasj" :rybh="rybh"></ANSJRY>
          <div slot="footer" class="dialog-footer">
            <el-button @click="asjDialogVisible = false" size="small">取 消</el-button>
          </div>
        </el-dialog>
-       <el-dialog title="临住信息详情" :visible.sync="lzxxDialogVisible" custom-class="big_dialog" :append-to-body="false" :modal="false">
+       <el-dialog title="临住信息详情" :visible.sync="lzxxDialogVisible" custom-class="big_dialog combine" :append-to-body="true" :modal="false">
          <LZXXRY :type="type" :xid="xid" :random="randomlzxx" :rybh="rybh" :gjdq="gjdqxq"></LZXXRY>
          <div slot="footer" class="dialog-footer">
            <el-button @click="lzxxDialogVisible = false" size="small">取 消</el-button>
          </div>
        </el-dialog>
-       <el-dialog title="常住信息详情" :visible.sync="czDialogVisible" custom-class="big_dialog" :append-to-body="false" :modal="false">
+       <el-dialog title="常住信息详情" :visible.sync="czDialogVisible" custom-class="big_dialog combine" :append-to-body="true" :modal="false">
          <CZXXRY :type="type" :xid="xid" :random="randomczxx" :rid="rid" :rybh="rybh" :gjdq="gjdqxq"></CZXXRY>
          <div slot="footer" class="dialog-footer">
            <el-button @click="czDialogVisible = false" size="small">取 消</el-button>
          </div>
        </el-dialog>
-       <el-dialog title="民航进出港信息详情" :visible.sync="mhDialogVisible" custom-class="big_dialog" :append-to-body="false" :modal="false">
+       <el-dialog title="民航进出港信息详情" :visible.sync="mhDialogVisible" custom-class="big_dialog combine" :append-to-body="true" :modal="false">
          <MHXX :type="type" :xid="xid"></MHXX>
          <div slot="footer" class="dialog-footer">
            <el-button @click="mhDialogVisible = false" size="small">取 消</el-button>
          </div>
        </el-dialog>
        <!-- 出入境信息 -->
-      <el-dialog title="出入境信息详情" :visible.sync="crjDialogVisible"  custom-class="big_dialog" :append-to-body="false" :modal="false">
+      <el-dialog title="出入境信息详情" :visible.sync="crjDialogVisible"  custom-class="big_dialog combine" :append-to-body="true" :modal="false">
                 <CRJXXRY :type="type" :xid="xid" :random="randomcrj"></CRJXXRY>
                    <div slot="footer" class="dialog-footer">
                      <el-button @click="crjDialogVisible = false" size="small">取 消</el-button>
                    </div>
       </el-dialog>
       <!-- 单位信息详情 -->
-     <el-dialog title="单位信息详情" :visible.sync="dwDialogVisible"  custom-class="big_dialog" :append-to-body="false" :modal="false">
+     <el-dialog title="单位信息详情" :visible.sync="dwDialogVisible"  custom-class="big_dialog combine" :append-to-body="true" :modal="false">
                <DWXX :type="type" :xid="xid" :random="new Date().getTime()"></DWXX>
                   <div slot="footer" class="dialog-footer">
                     <el-button @click="dwDialogVisible = false" size="small">取 消</el-button>
@@ -748,28 +748,28 @@
      </el-dialog>
 
       <!-- 留学生信息详情 -->
-      <el-dialog title="留学生申请信息详情" :visible.sync="lxsDialogVisible"  custom-class="big_dialog" :append-to-body="false" :modal="false">
+      <el-dialog title="留学生申请信息详情" :visible.sync="lxsDialogVisible"  custom-class="big_dialog combine" :append-to-body="true" :modal="false">
                   <LXSXX :type="type" :xid="xid" :random="new Date().getTime()"></LXSXX>
                   <div slot="footer" class="dialog-footer">
                     <el-button @click="lxsDialogVisible = false" size="small">取 消</el-button>
                   </div>
      </el-dialog>
      <!-- 留学生信息详情 -->
-     <el-dialog title="留学生在校信息详情" :visible.sync="lxsZXDialogVisible"  custom-class="big_dialog" :append-to-body="false" :modal="false">
+     <el-dialog title="留学生在校信息详情" :visible.sync="lxsZXDialogVisible"  custom-class="big_dialog combine" :append-to-body="true" :modal="false">
                  <LXSXXZX :type="type" :xid="xid" :random="new Date().getTime()"></LXSXXZX>
                  <div slot="footer" class="dialog-footer">
                    <el-button @click="lxsZXDialogVisible = false" size="small">取 消</el-button>
                  </div>
     </el-dialog>
     <!-- 通报信息详情 -->
-    <el-dialog title="通报人员信息详情" :visible.sync="tbDialogVisible"  custom-class="big_dialog" :append-to-body="false" :modal="false">
+    <el-dialog title="通报人员信息详情" :visible.sync="tbDialogVisible"  custom-class="big_dialog combine" :append-to-body="true" :modal="false">
                 <TBRYXX  :xid="xid" :random="new Date().getTime()"></TBRYXX>
                 <div slot="footer" class="dialog-footer">
                   <el-button @click="tbDialogVisible = false" size="small">取 消</el-button>
                 </div>
    </el-dialog>
    <!-- 签证信息 -->
-   <el-dialog title="签证信息详情" :visible.sync="qzDialogVisible"  custom-class="big_dialog" :append-to-body="false" :modal="false">
+   <el-dialog title="签证信息详情" :visible.sync="qzDialogVisible"  custom-class="big_dialog combine" :append-to-body="true" :modal="false">
      <el-form :model="qzinfo">
        <el-row :gutter="2"  class="mb-6">
            <el-col :span="12" class="input-item">
@@ -1563,41 +1563,41 @@ export default{
     //通报详情
     detailstbxx(val){
       this.xid=val;
-      target.scrollIntoView();
+      // target.scrollIntoView();
       this.tbDialogVisible=true;
     },
     //出入境详情
     detailscrj(n){
         this.xid=n;
         this.randomcrj=new Date().getTime();
-        target.scrollIntoView();
+        // target.scrollIntoView();
         this.crjDialogVisible=true;
     },
     //临住信息详情
     detailslzxx(n){
       this.xid=n;
       this.randomlzxx=new Date().getTime();
-      target.scrollIntoView();
+      // target.scrollIntoView();
       this.lzxxDialogVisible=true;
     },
     //案事件信息详情
     detailsasj(n){
       this.xid=n;
       this.randomasj=new Date().getTime();
-      target.scrollIntoView();
+      // target.scrollIntoView();
       this.asjDialogVisible=true;
     },
     //留学生申请信息
     detailslxs(n){
       this.xid=n;
       this.type=2;
-      target.scrollIntoView();
+      // target.scrollIntoView();
       this.lxsDialogVisible=true;
     },
     //留学生在校信息
     detailslxszx(n){
       this.xid=n;
-      target.scrollIntoView();
+      // target.scrollIntoView();
       this.lxsZXDialogVisible=true;
     },
     //常住信息详情
@@ -1605,14 +1605,14 @@ export default{
       this.xid=n.DTID;
       this.rid=n;
       this.randomczxx=new Date().getTime();
-      target.scrollIntoView();
+      // target.scrollIntoView();
       this.czDialogVisible=true;
     },
     detailsdw(n){
       // this.xid=n.RGUID;
       // this.type=2;
       this.xid=n;
-      target.scrollIntoView();
+      // target.scrollIntoView();
       this.dwDialogVisible=true;
     },
     detailsMH(n)

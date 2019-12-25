@@ -27,7 +27,8 @@ export function createMapL() {
   }).addTo(map);
 
   markerLayer = L.featureGroup().addTo(map);
-
+  var drawControl = new L.Control.Draw();
+  map.addControl(drawControl);
   //var editableLayers = new L.FeatureGroup();
 
 }
@@ -36,27 +37,28 @@ export function doSearch(className) {
     markerLayer.clearLayers();
   }
   if (polygonLayer != null) {
-
-    polygonLayer.remove();
+    // polygonLayer.remove();
     map.removeLayer(polygonLayer);
   }
-  var options = {
-    position: 'topleft',
-    draw: {
-      polyline: false,
-      polygon: {},
-      circle: {},
-      rectangle: {},
-      marker: false,
-      remove: true,
-      circlemarker: false
-    }
-  };
-  var drawControl = new L.Control.Draw(options);
-  map.addControl(drawControl);
-  map.on(L.Draw.Event.CREATED, function(e) {
-    var arr = [];
+  // var options = {
+  //   position: 'topleft',
+  //   draw: {
+  //     polyline: false,
+  //     polygon: {},
+  //     circle: {},
+  //     rectangle: {},
+  //     marker: false,
+  //     remove: true,
+  //     circlemarker: false
+  //   }
+  // };
 
+  map.on(L.Draw.Event.CREATED, function(e) {
+    if (polygonLayer != null) {
+      // polygonLayer.remove();
+      map.removeLayer(polygonLayer);
+    }
+    var arr = [];
     if (e.layerType == "circle") {
       var latLng = e.layer.getLatLng();
       var radius = e.layer.getRadius();
@@ -76,11 +78,8 @@ export function doSearch(className) {
         arr.push(arr1);
       }
     }
-
-
     polygonLayer = L.polygon(arr);
     polygonLayer.addTo(map);
-
     var geometryParam = new SuperMap.GetFeaturesByGeometryParameters({
       datasetNames: ['ORCL_gt8:dz_mlp'],//数据集集合中的数据集名称列表
       geometry: polygonLayer,//用于查询的稽核对象
@@ -156,12 +155,13 @@ export function doSearch(className) {
 		// if (markerLayer != null) {
 		// 	markerLayer.clearLayers();
 		// }
-		// if (polygonLayer != null) {
-    //   console.log('++++');
-		// 	polygonLayer.remove();
-		// }
 
-		$("." + className)[0].click();
+
+		$("." + className)[0].click(function(){
+      if (polygonLayer != null) {
+      	map.removeLayer(polygonLayer);
+      }
+    });
 	}
 
   export function renderMarkerbzh(point, dm,num,mc) {

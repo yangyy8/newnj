@@ -699,7 +699,7 @@
     </el-row>
    </div>
 
-   <div class="stu-footer" v-else>
+   <div :class="jb=='3'?'':'stu-footer'" v-else>
      <!-- 分局级别是2并且是未处理状态   展示派出所详情和分局意见输入框-->
      <div v-if="jb=='2' && showFJ">
        <!-- <div class="stu-title">处理结果：{{pc.CLJG}}</div> -->
@@ -779,7 +779,7 @@
        <div class="stu-title">分局调查意见：{{pc.FJYJ}}</div>
        <!-- <div class="stu-title">处理结果：{{pc.CLJG}}</div> -->
      </div>
-     <div v-if="jb=='3' && showPCS">
+     <!-- <div v-if="jb=='3' && showPCS">
        <div class="stu-title">处理结果</div>
        <el-row type="flex" class="mb-15">
         <el-col :span="20">
@@ -794,13 +794,13 @@
           <el-button type="primary" class="mb-5" size="small" @click="addSaves()">确定</el-button>
         </el-col>
       </el-row>
-     </div>
-     <div v-if="jb=='3' && !showPCS">
+     </div> -->
+     <!-- <div v-if="jb=='3' && !showPCS">
        <div class="stu-title">处理结果：{{pc.CLJG}}</div>
      </div>
      <div class="czfont">
        处理人: {{ZDCLR==''?$store.state.uname:ZDCLR}}
-     </div>
+     </div> -->
    </div>
 
    <el-dialog
@@ -810,32 +810,32 @@
          <el-button @click="QZDialogVisible = false" size="small">取 消</el-button>
        </div>
    </el-dialog>
-   <el-dialog title="临住信息详情" :visible.sync="lzxxDialogVisible" custom-class="big_dialog" :append-to-body="false" :modal="false">
+   <el-dialog title="临住信息详情" :visible.sync="lzxxDialogVisible" custom-class="big_dialog combine" :append-to-body="true" :modal="false">
      <LZXX :type="type" :xid="xid" :rybh="rybh" :random="(new Date()).getTime()"></LZXX>
      <div slot="footer" class="dialog-footer">
        <el-button @click="lzxxDialogVisible = false" size="small">取 消</el-button>
      </div>
    </el-dialog>
-   <el-dialog title="通报人员详情" :visible.sync="tbryDialogVisible" custom-class="big_dialog" :append-to-body="false" :modal="false">
+   <el-dialog title="通报人员详情" :visible.sync="tbryDialogVisible" custom-class="big_dialog combine" :append-to-body="true" :modal="false">
      <TBRY :type="type" :xid="xid" :rybh="rybh" :random="(new Date()).getTime()"></TBRY>
      <div slot="footer" class="dialog-footer">
        <el-button @click="tbryDialogVisible = false" size="small">取 消</el-button>
      </div>
    </el-dialog>
-   <el-dialog title="案事件信息详情" :visible.sync="asjDialogVisible" custom-class="big_dialog" :append-to-body="false" :modal="false">
+   <el-dialog title="案事件信息详情" :visible.sync="asjDialogVisible" custom-class="big_dialog combine" :append-to-body="true" :modal="false">
      <ANSJ :type="type" :xid="xid" :dtid="dtid" :random="(new Date()).getTime()"></ANSJ>
      <div slot="footer" class="dialog-footer">
        <el-button @click="asjDialogVisible = false" size="small">取 消</el-button>
      </div>
    </el-dialog>
-   <el-dialog title="警综涉警信息详情" :visible.sync="sjDialogVisible" custom-class="big_dialog" :append-to-body="false" :modal="false">
+   <el-dialog title="警综涉警信息详情" :visible.sync="sjDialogVisible" custom-class="big_dialog combine" :append-to-body="true" :modal="false">
      <JZSJ :type="type" :xid="xid"></JZSJ>
      <div slot="footer" class="dialog-footer">
        <el-button @click="sjDialogVisible = false" size="small">取 消</el-button>
      </div>
    </el-dialog>
    <!-- 出入境信息 -->
-  <el-dialog title="出入境信息详情" :visible.sync="crjDialogVisible"  custom-class="big_dialog" :append-to-body="false" :modal="false">
+  <el-dialog title="出入境信息详情" :visible.sync="crjDialogVisible"  custom-class="big_dialog combine" :append-to-body="true" :modal="false">
         <CRJXX :type="type" :xid="xid" :random="(new Date()).getTime()"></CRJXX>
          <div slot="footer" class="dialog-footer">
            <el-button @click="crjDialogVisible = false" size="small">取 消</el-button>

@@ -106,8 +106,8 @@
              label="国家地区">
            </el-table-column>
            <el-table-column
-             prop="lsdwhz"
-             label="留宿单位(户主)">
+             prop="zsrq"
+             label="入住日期">
            </el-table-column>
            <el-table-column
              prop="lsdwhzdz"
@@ -159,7 +159,7 @@
       </div>
     </div>
     <div class="bj">
-      <el-dialog title="编辑" :visible.sync="eidtsDialogVisible" custom-class="big_dialog" :append-to-body="false" :modal="false">
+      <el-dialog title="编辑" :visible.sync="eidtsDialogVisible" custom-class="big_dialog combine" :append-to-body="true" :modal="false">
         <el-form :model="form" ref="addForm" class="crcolor" style="padding:10px">
           <el-row>
             <el-col :span="16">

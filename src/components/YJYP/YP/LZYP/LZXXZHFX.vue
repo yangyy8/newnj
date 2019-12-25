@@ -450,8 +450,12 @@
             label:'外国人和四种人分布'
           },
           {
-            code:'LB_SFBG',
-            label:'投宿于'
+            code:'DJDWMC',
+            label:'宾馆名称'
+          },
+          {
+            code:'BZHDZMC',
+            label:'散居社会面地址'
           },
           {
             code:'LSDWDZ',
@@ -493,8 +497,12 @@
             label:'停留事由'
           },
           {
-            code:'LB_SFBG_DESC',
-            label:'投宿于'
+            code:'DJDWMC',
+            label:'宾馆名称'
+          },
+          {
+            code:'BZHDZMC',
+            label:'散居社会面地址'
           },
           {
             code:'LSDWDZ',

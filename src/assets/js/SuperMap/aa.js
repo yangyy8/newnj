@@ -30,6 +30,8 @@ export function createMapL() {
 
   markerLayer = L.featureGroup().addTo(map);
   markerLayer1 = L.featureGroup().addTo(map);
+  var drawControl = new L.Control.Draw();
+  map.addControl(drawControl);
   //var editableLayers = new L.FeatureGroup();
 
 }
@@ -38,122 +40,74 @@ export function doSearch(className) {
     markerLayer.clearLayers();
   }
   if (circleLayer != null) {
-
     circleLayer.remove();
     map.removeLayer(circleLayer);
   }
-  var options = {
-    position: 'topleft',
-    draw: {
-      polyline: false,
-      polygon: {},
-      circle: {},
-      rectangle: {},
-      marker: false,
-      remove: true,
-      circlemarker: false
-    }
-  };
-  var drawControl = new L.Control.Draw(options);
-  map.addControl(drawControl);
   map.on(L.Draw.Event.CREATED, function(e) {
-      var latLng = e.layer.getLatLng();
-      var radius = e.layer.getRadius();
-      // console.log(latLng,radius);
-      circleLayer = L.circle(latLng,{radius:radius}).addTo(map);
-
-      // var param = new SuperMap.QueryByDistanceParameters({
-      //   queryParams:{name:'China_island_part@World'},
-      //   distance:radius,
-      //   geometry:circleLayer
-      // })
-      // L.supermap.queryService("http://10.33.66.183:2334/iserver/services/map-world/rest/maps/World").queryByDistance(param,function(serviceResult){
-      //   console.log(serviceResult.result)
-      // })
-
-
-    var geometryParam = new SuperMap.GetFeaturesByGeometryParameters({
-      datasetNames: ['ORCL_gt8:dz_mlp'],
-      geometry: circleLayer,
-      spatialQueryMode: 'INTERSECT',
-      maxFeatures:300000,
-      fromIndex: 0,
-      toIndex: 300000
+    if (circleLayer != null) {
+      circleLayer.remove();
+      map.removeLayer(circleLayer);
+    }
+    var latLng = e.layer.getLatLng();
+    var radius = e.layer.getRadius();
+    circleLayer = L.circle(latLng,{radius:radius}).addTo(map);
+    var geometryParam = new SuperMap.GetFeaturesByBufferParameters({
+      datasetNames: ['ORCL_gt8:dz_mlpxx_3201_pt'],
+      geometry: circleLayer.toGeoJSON(),
+      bufferDistance:radius
     });
-    console.log(geometryParam)
-    // L.supermap.featureService("http://10.33.66.183:2333/iserver/services/data-gt8/rest/data").getFeaturesByGeometry(geometryParam, function(serviceResult) {
-    //   console.log(serviceResult)
-    //   var resultdata = serviceResult.result.features.features;
-    //   console.log('resultdata.length',resultdata.length);
-    //   var markers = [];
-    //   var ids = [];
-    //
-    //   // var sdata=[
-    //   //   {dm:'江苏南京市浦口区乌江镇林山村南埂组17号',count:320},
-    //   // ];
-    //
-    // var data=[];
-    // var datapcs=[];
-    //
-    //   for(var i = 0; i < resultdata.length; i++) {
-    //
-    //     var id=resultdata[i].properties.DZMC.split('号');
-    //     var pcsid=resultdata[i].properties.PCS;
-    //     var zb=resultdata[i].geometry.coordinates.reverse();
-    //
-    // var das=new Object();
-    //
-    // das.dm=id[0]+"号";
-    // das.zb=zb;
-    // data.push(das);
-    // // console.log(pcsid);
-    // // console.log(datapcs.indexOf(pcsid));
-    //     if(datapcs.indexOf(pcsid)==-1){
-    //       datapcs.push(pcsid);
-    //     }
-    //
-    // }
-    //    // console.log('-----',data);
-    //   var searchResult=window.zdvm.getbzhdz(data,datapcs,function(sdata){
-    //     // console.log(sdata);
-    //    for (var j = 0; j < sdata.length; j++) {
-    //      var dm=sdata[j].dm.split('号')[0]+'号';
-    //       renderMarkerbzh(sdata[j].zb,dm,sdata[j].count,dm);
-    //    }
-    //   });
-    //
-    //
-    //  // if(ids.length==0){
-    //  //   alert("该选中区域没有人员!");
-    //  //   return;
-    //  // }
-    //
-    //
-    //   // 获取所有的范围的点。输出到页面
-    //   // 代码写在这，从ES中获取数据的标准化地址ID，然后筛选。
-    //   //for (var i = 0; i < ids.length; i++) {
-    //     // markers.push({SMY:resultdata[i].properties.SMY, SMY:resultdata[i].properties.SMX, DZID:resultdata[i].properties.JWPTBH, DZMC:resultdata[i].properties.DZMC});
-    //     // ids.push(resultdata[i].properties.JWPTBH);
-    //     // console.log('ids',ids);
-    //     // var tm = L.marker([resultdata[i].properties.SMY, resultdata[i].properties.SMX]).bindPopup(resultdata[i].properties.DZMC);
-    //     // markerLayer.addLayer(tm);
-    //   //}
-    //
-    // });
+    console.log(geometryParam);
+    L.supermap.featureService("http://10.33.66.183:2333/iserver/services/data-gt8/rest/data").getFeaturesByBuffer(geometryParam, function(serviceResult) {
+      console.log(serviceResult)
+      // var aaa = L.geoJSON(serviceResult.result.features,{
+      //   onEachFeature:function(feature,layer){
+      //     console.log('方法内',feature,layer)
+      //   }
+      // })
+      var resultdata = serviceResult.result.features.features;
+      var markers = [];
+      var ids = [];
+
+      var data=[];
+      var datapcs=[];
+
+      for(var i = 0; i < resultdata.length; i++) {
+
+        var id=resultdata[i].properties.DZMC.split('号');
+        var pcsid=resultdata[i].properties.PCS;
+        var zb=resultdata[i].geometry.coordinates.reverse();
+
+        var das=new Object();
+
+        das.dm=id[0]+"号";
+        das.zb=zb;
+        data.push(das);
+        if(datapcs.indexOf(pcsid)==-1){
+          datapcs.push(pcsid);
+        }
+     }
+     var searchResult=window.zdvm.getbzhdz(data,datapcs,function(sdata){
+      // console.log(sdata);
+     for (var j = 0; j < sdata.length; j++) {
+       var dm=sdata[j].dm.split('号')[0]+'号';
+        renderMarkerbzh(sdata[j].zb,dm,sdata[j].count,dm);
+     }
+    });
+      // 获取所有的范围的点。输出到页面
+      // 代码写在这，从ES中获取数据的标准化地址ID，然后筛选。
+      //for (var i = 0; i < ids.length; i++) {
+        // markers.push({SMY:resultdata[i].properties.SMY, SMY:resultdata[i].properties.SMX, DZID:resultdata[i].properties.JWPTBH, DZMC:resultdata[i].properties.DZMC});
+        // ids.push(resultdata[i].properties.JWPTBH);
+        // console.log('ids',ids);
+        // var tm = L.marker([resultdata[i].properties.SMY, resultdata[i].properties.SMX]).bindPopup(resultdata[i].properties.DZMC);
+        // markerLayer.addLayer(tm);
+      //}
+
+    });
 
   })
-
-		//删除
-		// if (markerLayer != null) {
-		// 	markerLayer.clearLayers();
-		// }
-		// if (polygonLayer != null) {
-    //   console.log('++++');
-		// 	polygonLayer.remove();
-		// }
-
-		$("." + className)[0].click();
-	}
+	$("." + className)[0].click();
+	 }
 
   export function renderMarkerbzh(point, dm,num,mc) {
 

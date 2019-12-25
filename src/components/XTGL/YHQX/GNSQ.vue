@@ -232,6 +232,7 @@ export default {
      //    childrenlist.push(array[i].dm);
      // }
      childrenlist = this.$refs.tree.getHalfCheckedKeys().concat(this.$refs.tree.getCheckedKeys());
+     console.log('childrenlist',childrenlist)
       var ff=new FormData();
       ff.append("token",this.$store.state.token);
       ff.append("roleid",this.roleid);

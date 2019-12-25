@@ -117,7 +117,7 @@
         </el-col>
         <el-col :span="16" v-if="shm1"  class="crcolor">
           <span class="yy-input-text" title="标准化地址" style="width:17.4%">标准化地址：</span>
-           <el-input placeholder="" size="small" v-model="form.BZHDZMC"  class="input-input" style="width:80%!important"></el-input>
+           <el-input placeholder="" size="small" v-model="form.SJLY=='4'?form.LSDWDZ:form.BZHDZMC"  class="input-input" style="width:80%!important"></el-input>
         </el-col>
         <el-col :span="16" v-if="shm2"  class="crcolor">
           <span class="yy-input-text" style="width:17.4%">旅馆名称：</span>
@@ -347,12 +347,12 @@ export default {
         r => {
           this.form=r.data.resultList[0];
           this.typet=r.data.resultList[0].LB_SFBG;
-          if(this.typet=="2"){
-            this.shm1=true;
-            this.shm2=false;
-          }else if(this.typet=="1"){
+          if(this.typet=="2"){//旅馆
             this.shm1=false;
             this.shm2=true;
+          }else if(this.typet=="1"){//社会面
+            this.shm1=true;
+            this.shm2=false;
           }else {
             this.shm1=true;
             this.shm2=true;

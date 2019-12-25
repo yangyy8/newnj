@@ -781,28 +781,28 @@ export default {
         return;
       }
       this.menuArr=[];
-      let checkedNodeAll=[];
+      // let checkedNodeAll=[];
       for(var i=0;i<this.ssdw.length;i++){
         let obj={};
         let currentDw = this.ssdw[i].dm;
         // this.$refs[`${this.uploadName}`]; //通过模板字符串的方式
-        let currentNode = (this.$refs[`${this.deC[currentDw]}`][i]).getCheckedKeys(true);
-        // let currentHN = (this.$refs[`${this.deC[currentDw]}`][i]).getHalfCheckedKeys();
-        // console.log('====',currentNode,currentHN);
+        let currentNode = (this.$refs[`${this.deC[currentDw]}`][i]).getCheckedKeys();
+        let currentHN = (this.$refs[`${this.deC[currentDw]}`][i]).getHalfCheckedKeys();
         // let checkedNode = Object.assign([],currentNode,currentHN);
-        // console.log('合并后',currentNode);
-        checkedNodeAll = checkedNodeAll.concat(currentNode);
+        let checkedNode = currentNode.concat(currentHN)
+        console.log('合并后',checkedNode);
+        // checkedNodeAll = checkedNodeAll.concat(currentNode);
         obj={
           org:currentDw,
-          funids:currentNode
+          funids:checkedNode
         }
         this.menuArr.push(obj)
       }
-      console.log('this.menuArr',this.menuArr,checkedNodeAll);
-      if (checkedNodeAll.length == 0) {
-        this.open("请选择权限！");
-        return;
-      }
+      // console.log('this.menuArr',this.menuArr,checkedNodeAll);
+      // if (checkedNodeAll.length == 0) {
+      //   this.open("请选择权限！");
+      //   return;
+      // }
       var ff = new FormData();
       ff.append('token',this.$store.state.token)
       ff.append('userid',this.userid)
@@ -859,10 +859,10 @@ export default {
     //保存关联到角色
     jsItem() {
       var formData = new FormData();
-      if (this.multipleSelection1.length == 0) {
-        this.$message.error('请选择角色列表内容！');
-        return;
-      }
+      // if (this.multipleSelection1.length == 0) {
+      //   this.$message.error('请选择角色列表内容！');
+      //   return;
+      // }
       var checkeds = [];
       var roleids = [];
       for (var i = 0; i < this.multipleSelection1.length; i++) {

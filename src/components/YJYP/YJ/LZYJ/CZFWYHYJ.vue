@@ -44,7 +44,7 @@
                       <el-option
                         v-for="item in PSC"
                         :key="item.DM"
-                        :label="item.MC"
+                        :label="item.DM+' - '+item.MC"
                         :value="item.DM">
                       </el-option>
                     </el-select>

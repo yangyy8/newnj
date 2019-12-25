@@ -364,7 +364,7 @@
             },
             {
               code:'SQLB',
-              label:'申请证件种类'
+              label:'申请类别'
             },
             {
               code:'BZLX',
@@ -400,7 +400,7 @@
             },
             {
               code:'SQLB_DESC',
-              label:'申请证件种类'
+              label:'申请类别'
             },
             {
               code:'BZLX_DESC',

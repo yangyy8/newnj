@@ -21,7 +21,7 @@
                   </el-col>
                   <el-col :span="24">
                       <span class="yy-input-text"><font color=red>*</font> 所属分局：</span>
-                      <el-select v-model="pd.ssfj" filterable clearable default-first-option @change="getSSPCS(pd.ssfj)" placeholder="请选择"  size="small" class="yy-input-input">
+                      <el-select v-model="pd.ssfj" filterable clearable default-first-option @change="getSSPCS(pd.ssfj)" placeholder="请选择"  size="small" class="yy-input-input" :disabled="juState=='1'?false:true">
                         <el-option
                           v-for="(item,ind1) in ssfj"
                           :key="ind1"
@@ -32,7 +32,7 @@
                   </el-col>
                   <el-col :span="24">
                       <span class="yy-input-text">派出所：</span>
-                        <el-select v-model="pd.sspcs" filterable clearable default-first-option placeholder="请输入关键字"  size="small" class="yy-input-input" :no-data-text="pd.ssfj==''||pd.ssfj==undefined?'请先选择所属分局':'无数据'">
+                        <el-select v-model="pd.sspcs" filterable clearable default-first-option placeholder="请输入关键字"  size="small" class="yy-input-input" :disabled="juState=='3'" :no-data-text="pd.ssfj==''||pd.ssfj==undefined?'请先选择所属分局':'无数据'">
                        <el-option
                          v-for="(item,ind1) in sspcs"
                          :key="ind1"
@@ -254,7 +254,12 @@ export default {
        ssfjsub:'',
        ccshow:false,
        count:0,
-
+       userCode:'',
+       userName:'',
+       orgCode:'',
+       orgName:'',
+       token:'',
+       juState:'',
     }
   },
   mounted() {
@@ -265,12 +270,30 @@ export default {
     // this.$store.dispatch('getRzfs');
     this.$store.dispatch('getZflx');
     this.$store.dispatch('getJzztlx');
+    this.userCode=this.$store.state.uid;
+    this.userName=this.$store.state.uname;
+    this.orgName=this.$store.state.orgname;
+    this.orgCode=this.$store.state.orgid;
+    this.juState=this.$store.state.juState;
+    this.token=this.$store.state.token;
     //this.getGX();
     this.getSsfj();
     this.$nextTick(()=>{
         createMapL();
     })
   },
+  activated(){
+    if(this.juState=='2'){
+      this.pd.ssfj = this.orgCode;
+      this.getSSPCS(this.pd.ssfj);
+    }
+    if(this.juState=='3'){
+      this.pd.ssfj = this.$store.state.pcsToju;
+      this.getSSPCS(this.pd.ssfj);
+      this.pd.sspcs = this.orgCode;
+    }
+  },
+
   methods:{
     pageSizeChange(val) {
         this.getRyxx(this.CurrentPage,val,this.bzhid,this.mc);

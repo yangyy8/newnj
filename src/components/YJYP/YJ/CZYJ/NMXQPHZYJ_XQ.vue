@@ -577,26 +577,26 @@
      </el-row>
     </div>
 
-    <el-dialog title="临住信息详情" :visible.sync="lzxxDialogVisible" custom-class="big_dialog" :append-to-body="false" :modal="false">
+    <el-dialog title="临住信息详情" :visible.sync="lzxxDialogVisible" custom-class="big_dialog combine" :append-to-body="true" :modal="false">
       <LZXX :type="type" :xid="xid" :rybh="rybh" :random="new Date().getTime()"></LZXX>
       <div slot="footer" class="dialog-footer">
         <el-button @click="lzxxDialogVisible = false" size="small">取 消</el-button>
       </div>
     </el-dialog>
     <!-- 出入境信息 -->
-   <el-dialog title="出入境信息详情" :visible.sync="crjDialogVisible"  custom-class="big_dialog" :append-to-body="false" :modal="false">
+   <el-dialog title="出入境信息详情" :visible.sync="crjDialogVisible"  custom-class="big_dialog combine" :append-to-body="true" :modal="false">
                <CRJXX :type="type" :xid="xid"></CRJXX>
                 <div slot="footer" class="dialog-footer">
                   <el-button @click="crjDialogVisible = false" size="small">取 消</el-button>
                 </div>
    </el-dialog>
-   <el-dialog title="案事件信息详情" :visible.sync="asjDialogVisible" custom-class="big_dialog" :append-to-body="false" :modal="false">
+   <el-dialog title="案事件信息详情" :visible.sync="asjDialogVisible" custom-class="big_dialog combine" :append-to-body="true" :modal="false">
      <ANSJ :type="type" :xid="xid"></ANSJ>
      <div slot="footer" class="dialog-footer">
        <el-button @click="asjDialogVisible = false" size="small">取 消</el-button>
      </div>
    </el-dialog>
-   <el-dialog title="常住信息详情" :visible.sync="CZDialogVisible" custom-class="big_dialog" :append-to-body="false" :modal="false">
+   <el-dialog title="常住信息详情" :visible.sync="CZDialogVisible" custom-class="big_dialog combine" :append-to-body="true" :modal="false">
      <CZXX :type="type" :xid="xid" :rybh="rybh" :random="new Date().getTime()" :row="allData"></CZXX>
      <div slot="footer" class="dialog-footer">
        <el-button @click="CZDialogVisible = false" size="small">取 消</el-button>

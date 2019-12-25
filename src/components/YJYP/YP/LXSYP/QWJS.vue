@@ -24,7 +24,7 @@
  </div>
   </el-card>
     <div class="main">
-      <div v-if="items.length!=0">
+      <div v-if="!tipShow">
         <el-row v-for="(item,index) in items" :key="index">
           <el-card class="box-card" style="margin:5px 0;">
             <el-row type="flex">
@@ -61,8 +61,8 @@
             </el-card>
         </el-row>
       </div>
-      <div v-else>
-        <el-row >
+      <div v-if="tipShow">
+        <el-row>
           <div class="redx text-center t-mt20">
             没有查询到相关数据！
           </div>
@@ -96,6 +96,7 @@ export default {
       info:{lz:0,cz:0,qz:0,ajxx:0,crj:0},
       datatype:'',
       check:7,
+      tipShow:false,
     }
   },
     activated(){
@@ -132,14 +133,16 @@ export default {
       };
       this.$api.post(this.Global.aport6+"/api/es/search/generalCountSearch",p,r=>{
         if(r.success){
-          this.items=r.respondResult.respondData;
+          (r.respondResult.respondData==null||r.respondResult.respondData.length==0)?this.items=[]:this.items=r.respondResult.respondData;
+          this.items.length==0?this.tipShow=true:this.tipShow=false;
           this.TotalResult=r.respondResult.totalSize;
         }
       })
     },
 
     getList(currentPage,showCount,type){
-
+      this.check=7;
+      this.tipShow=false;
       if(this.content!=this.$route.query.zjhmes || this.type!=this.$route.query.stype)
       {
         this.$router.push({name:'QWJS',query:{zjhmes:this.content,stype:this.type}});
@@ -175,9 +178,9 @@ export default {
       }
      this.$api.post(this.Global.aport6+"/api/es/search/generalSearch",p,r=>{
        if(r.success){
-         this.items=r.respondResult.respondData;
-         console.log(r.respondResult.respondCount)
-         this.info=r.respondResult.respondCount;
+         (r.respondResult.respondData==null||r.respondResult.respondData.length==0)?this.items=[]:this.items=r.respondResult.respondData;
+         this.items.length==0?this.tipShow=true:this.tipShow=false;
+         (r.respondResult.respondCount==null||r.respondResult.respondCount=={})?this.info={lz:0,cz:0,qz:0,ajxx:0,crj:0}:this.info=r.respondResult.respondCount;
          this.TotalResult=r.respondResult.totalSize;
        }else{
          this.info={lz:0,cz:0,qz:0,ajxx:0,crj:0}

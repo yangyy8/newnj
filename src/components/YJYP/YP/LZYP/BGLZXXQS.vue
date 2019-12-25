@@ -256,8 +256,8 @@
                label="地址">
              </el-table-column>
              <el-table-column
-               prop="TLYXQZ"
-               label="停留有效期至">
+               prop="ZSRQ"
+               label="入住日期">
              </el-table-column>
              <el-table-column
                label="操作">
@@ -368,15 +368,7 @@ import LZXX from '../../../common/lzxx_xq'
     this.orgCode=this.$store.state.orgid;
     this.juState=this.$store.state.juState;
     this.token=this.$store.state.token;
-    if(this.juState=='2'){//分局登录
-      this.pd.LRDW_Like = [this.orgCode];
-      this.getPCS(this.pd.LRDW_Like);
-    }
-    if(this.juState=='3'){//派出所登录
-      this.pd.LRDW_Like = this.$store.state.pcsToju;
-      this.getPCS(this.pd.LRDW_Like);
-      this.pd.LRDW = [this.orgCode];
-    }
+
     this.$store.dispatch("getGjdq");
     this.$store.dispatch("getZjzl");
     this.$store.dispatch("getQzzl");
@@ -389,7 +381,15 @@ import LZXX from '../../../common/lzxx_xq'
     this.getList()
   },
   activated(){
-
+    if(this.juState=='2'){//分局登录
+      this.pd.LRDW_Like = [this.orgCode];
+      this.getPCS(this.pd.LRDW_Like);
+    }
+    if(this.juState=='3'){//派出所登录
+      this.pd.LRDW_Like = [this.$store.state.pcsToju];
+      this.getPCS(this.pd.LRDW_Like);
+      this.pd.LRDW = [this.orgCode];
+    }
   },
   methods:{
     titleShow(e,el){
