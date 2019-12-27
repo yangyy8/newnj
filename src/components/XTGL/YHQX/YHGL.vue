@@ -197,18 +197,6 @@
 <div class="mnus">
     <el-dialog title="临时赋权" :visible.sync="menuDialogVisible" width="600px">
       <el-row  :gutter="1">
-        <!-- <el-col :span="24">
-          <span class="yy-input-text">所属单位：</span>
-           <el-select v-model="pd2.org"  filterable clearable  default-first-option class="yy-input-input" @change="getMnus(pd2.org)" placeholder="请选择"  size="small">
-             <el-option
-              v-for="item in this.ssdw"
-              :key="item.dm"
-              :label="item.mc"
-              :value="item.dm">
-            </el-option>
-           </el-select>
-        </el-col> -->
-
         <el-col :span="24">
           <span class="yy-input-text">所属单位：</span>
            <el-select v-model="pd2.org"  filterable clearable  default-first-option class="yy-input-input" placeholder="请选择"  size="small">
@@ -223,20 +211,6 @@
 
         <el-col :span="24">
           <span class="yy-input-text">单位赋权：</span>
-          <!-- <el-tree
-            :data="menudata"
-            show-checkbox
-            default-expand-all
-            node-key="dm"
-            :default-checked-keys="defaultChecked"
-            ref="tree"
-            highlight-current
-            class="yy-input-input"
-            style="padding-left:20%;"
-            :props="defaultProps">
-          </el-tree> -->
-
-
           <div v-for="(item,ind) in ssdw">
             <el-tree
               :data="menudata"
@@ -256,6 +230,7 @@
        </el-row>
           <div slot="footer" class="dialog-footer">
             <el-button type="primary" @click="menuItem" size="small">保 存</el-button>
+            <el-button type="success"  @click="menuClean(pd2.org)" size="small">清除</el-button>
             <el-button @click="menuDialogVisible = false" size="small">取 消</el-button>
           </div>
         </el-dialog>
@@ -695,9 +670,9 @@ export default {
           this.ssdw = rr.data;
           for(var i=0;i<this.ssdw.length;i++){
             this.$set(this.deC,this.ssdw[i].dm,'');
-            console.log('sai==',this.deC)
+            // console.log('sai==',this.deC)
             this.$set(this.deNode,'defaultChecked'+this.ssdw[i].dm,[]);
-            console.log('jin==',this.deNode)
+            // console.log('jin==',this.deNode)
           }
         });
       this.getCheck()
@@ -722,57 +697,51 @@ export default {
          }
        })
     },
-    getMnus(v) {
-      var ff = new FormData();
-      ff.append("token", this.$store.state.token);
-      ff.append("org", v);
-      ff.append("userid", this.userid);
-      let p = ff;
-      //var lists = new Array();
-      // var url1 = this.Global.aport1 + '/fun/getByUserID';
-      // this.$api.post(url1, p,
-      //   rr => {
-      //     var arrs = rr.data;
-      //     for (var i = 0; i < arrs.length; i++) {
-      //       lists.push(arrs[i].id);
-      //     }
-      //   });
-      var url = this.Global.aport1 + '/fun/getFunTreeByUserID';
-      this.$api.post(url, p,
-        r => {
-          if (r.success) {
-            this.menudata = r.data;
-            var arr = r.data;
-            console.log(arr);
-            this.menurr = [];
-            this.uniteChildSame(arr);
-            console.log('menurr',  this.menurr.length);
-            this.defaultChecked = this.menurr;
-          }
-        })
-    },
-    uniteChildSame(arr) {
-      for (var i = 0; i < arr.length; i++) {
-        if (arr[i].checked == true || arr[i].children != null) {
-            this.selectChildSame(arr[i].children);
-        }
-      }
-    },
-    selectChildSame(arr){
-      for (var i = 0; i < arr.length; i++) {
-            if(arr[i].children!=null){
-                this.selectChildSame(arr[i].children);
-            }else {
-                if(arr[i].checked==true){
-                  this.menurr.push(arr[i].dm);
-                }
-            }
-      }
-    },
     open(content) {
       this.$alert(content, '提示', {
         confirmButtonText: '确定',
       });
+    },
+    //清除赋权
+    menuClean(val){
+      let ssdwMc='';
+      if(val==''||val==undefined){
+        ssdwMc='该用户的所有'
+      }else{
+        for(var i=0;i<this.ssdw.length;i++){
+          if(this.ssdw[i].dm==val){
+            ssdwMc = this.ssdw[i].mc
+          }
+        }
+      }
+      var ff = new FormData();
+      ff.append('token',this.$store.state.token)
+      ff.append('userid',this.userid)
+      ff.append('org',this.pd2.org)
+      this.$confirm('确定清除<span class="redx">'+ssdwMc+'</span>的临时权限吗？','提示',{
+           confirmButtonText: '确定',
+           cancelButtonText: '取消',
+           type: 'warning',
+           dangerouslyUseHTMLString: true
+         }).then(() => {
+           this.$api.post(this.Global.aport1 + '/fun/deleteExtraFunsByUserId',ff,
+            r =>{
+              if(r.success){
+                this.$message({
+                  type: 'success',
+                  message: '清除成功'
+                });
+                this.menuDialogVisible = false;
+                // this.getCheck()
+              }
+            })
+         }).catch(() => {
+           this.$message({
+             type: 'info',
+             message: '已取消清除'
+           });
+         });
+
     },
     //保存赋权
     menuItem() {
@@ -781,7 +750,6 @@ export default {
         return;
       }
       this.menuArr=[];
-      // let checkedNodeAll=[];
       for(var i=0;i<this.ssdw.length;i++){
         let obj={};
         let currentDw = this.ssdw[i].dm;
@@ -791,18 +759,12 @@ export default {
         // let checkedNode = Object.assign([],currentNode,currentHN);
         let checkedNode = currentNode.concat(currentHN)
         console.log('合并后',checkedNode);
-        // checkedNodeAll = checkedNodeAll.concat(currentNode);
         obj={
           org:currentDw,
           funids:checkedNode
         }
         this.menuArr.push(obj)
       }
-      // console.log('this.menuArr',this.menuArr,checkedNodeAll);
-      // if (checkedNodeAll.length == 0) {
-      //   this.open("请选择权限！");
-      //   return;
-      // }
       var ff = new FormData();
       ff.append('token',this.$store.state.token)
       ff.append('userid',this.userid)
@@ -824,33 +786,19 @@ export default {
     //关联到角色
     relationjs(i) {
       this.userid = i.id;
-
       var ffs = new FormData();
       ffs.append("token", this.$store.state.token);
       ffs.append("userid", i.id);
       let pp = ffs;
       this.$api.post(this.Global.aport1 + '/user/getSsdwByUserId', pp,
         rr => {
-        this.ssdw = rr.data;
-        this.pd1 = {};
-        this.$set(this.pd1,'org', this.ssdw[0].dm)
-        this.tableData1 = [];
-        this.getList1(this.CurrentPage1,this.pageSize1,this.pd1);
-        this.jsDialogVisible = true;
+          this.ssdw = rr.data;
+          this.pd1 = {};
+          this.$set(this.pd1,'org', this.ssdw[0].dm)
+          this.tableData1 = [];
+          this.getList1(this.CurrentPage1,this.pageSize1,this.pd1);
+          this.jsDialogVisible = true;
         });
-      // var formData = new FormData();
-      //   formData.append("currentPage", this.CurrentPage1);
-      //   formData.append("showCount", this.pageSize1);
-      //   formData.append("org", this.pd1.org);
-      //   formData.append("mc", this.pd1.mc==undefined?"":this.pd1.mc);
-      //   formData.append("token", this.$store.state.token);
-      //   let p=formData;
-      //   var url=this.Global.aport1+'/role/getAll';
-      //   this.$api.post(url, p,
-      //    r => {
-      //      this.tableData1 = r.data.resultList;
-      //      this.TotalResult1 = r.data.totalCount;
-      //    });
     },
     getorgchange(){
       // this.pd1.org=this.pd1.org;

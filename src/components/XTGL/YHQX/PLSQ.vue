@@ -28,7 +28,7 @@
             <div class="ak-tab-pane" >
                 <div v-show="page==0" >
                 <el-row type="flex">
-                  <el-col :span="21" class=" pr-20">
+                  <el-col :span="20" class=" pr-20">
                     <el-row align="center"   :gutter="2">
                       <el-col  :sm="24" :md="12" :lg="12"  class="input-item">
                         <span class="input-text">所属单位：</span>
@@ -47,7 +47,7 @@
                     </el-col>
                   </el-row>
                  </el-col>
-                 <el-col :span="2">
+                 <el-col :span="4">
                     <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
                  </el-col>
                 </el-row>
@@ -114,7 +114,7 @@
                </div>
                <div v-show="page==1">
                <el-row type="flex">
-                 <el-col :span="21" class=" pr-20">
+                 <el-col :span="20" class=" pr-20">
                    <el-row align="center"   :gutter="2">
                      <el-col  :sm="24" :md="12" :lg="12"  class="input-item">
                        <span class="input-text">所属单位：</span>
@@ -133,8 +133,9 @@
                    </el-col>
                  </el-row>
                 </el-col>
-                <el-col :span="2">
-                   <el-button type="success" size="small" @click="getList1(CurrentPage,pageSize,pd)">查询</el-button>
+                <el-col :span="4" class="alone-flex" style="margin-top: -8px;">
+                   <el-button type="success" size="small" @click="getList1(CurrentPage,pageSize,pd)" class="tt-mr10">查询</el-button>
+                   <el-button type="warning" size="small" @click="changeAll">全选</el-button>
                 </el-col>
                </el-row>
                <el-row type="flex" style="margin:10px;">
@@ -246,6 +247,7 @@ export default {
       ],
       multipleSelection1: [],
       multipleSelection2: [],
+      allArr:[],
     }
   },
   mounted() {
@@ -328,31 +330,46 @@ export default {
         });
     },
     getMenu() {
-      // this.roleid=row.id
       var ff = new FormData();
       ff.append("token", this.$store.state.token);
-      // ff.append("roleid",this.roleid);
       let p = ff;
-      var lists = new Array();
-      // var url=this.Global.aport1+'/fun/getByRoleID';
-      // this.$api.post(url, p,
-      // rr=>{
-      //   var arrs=rr.data;
-      //   for (var i = 0; i < arrs.length; i++) {
-      //      lists.push(arrs[i].id);
-      //   }
-      // });
-
       var url1 = this.Global.aport1 + '/fun/getBatchNavigation';
       this.$api.post(url1, p,
         r => {
-          this.menudata = r.data;
-          this.defaultChecked = lists;
-        });
+          if(r.success){
+            console.log('r.data.checked')
+            this.menudata = r.data;
+            var url=this.Global.aport1+'/fun/getDefaultFunTree';
+            this.$api.post(url, p,
+            rr=>{
+              if(rr.success){
+                console.log('r.data.checked',rr.data.checked)
+                this.defaultChecked = rr.data.checked;
+                console.log('this.defaultChecked',this.defaultChecked)
+              }
+            });
+          }
+
+      });
+
+    },
+    changeAll(){
+      this.allArr = [];
+      var p = new FormData();
+      p.append("token", this.$store.state.token);
+      p.append("org", this.pd.org == undefined ? this.Global.org : this.pd.org);
+      p.append("mc", this.pd.mc == undefined ? "" : this.pd.mc);
+      this.$api.post(this.Global.aport1 + '/role/getAllRole',p,
+       r =>{
+         if(r.success){
+           for(i=0;i<r.data.length;i++){
+             this.allArr.push(r.data[i].id)
+           }
+         }
+       })
+       return this.allArr
     },
     save(n) {
-
-
       let checkList = this.$refs.tree.getCheckedNodes();
       var array = checkList;
       var childrenlist = new Array();
@@ -404,12 +421,13 @@ export default {
           roleids.push(s);
         }
         ff.append("roleids", roleids);
+      }else if(n==2){
+        url = this.Global.aport1 + '/fun/batchUpdateFunsToRoles';
+        ff.append("roleids", this.changeAll());
       }
       ff.append("token", this.$store.state.token);
-
       ff.append("funids", childrenlist);
       let p = ff;
-
       this.$api.post(url, p,
         r => {
           if (r.success) {
