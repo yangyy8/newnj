@@ -48,20 +48,61 @@
                     </el-date-picker>
                  </div>
                 </el-col>
-                <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
+                <!-- <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
                   <span class="input-text">导出方式：</span>
                   <div class="input-input">
                     <el-radio v-model="pd.pageSize" label="null">一次导出</el-radio>
                     <el-radio v-model="pd.pageSize" label="10">批次导出</el-radio>
                   </div>
-                </el-col>
+                </el-col> -->
           </el-row>
          </el-col>
             <el-col :span="2" class="down-btn-area">
+              <el-button type="success" size="small" @click="getList()">查询</el-button>
               <el-button type="success" size="small" @click="download(pd.pageSize)">数据下载</el-button>
             </el-col>
           </el-row>
+          <el-table
+             :data="tableData"
+             border
+             ref="multipleTable"
+             :highlight-current-row="true"
+             style="width: 100%">
+             <el-table-column
+               prop="rowKey"
+               label="时间">
+             </el-table-column>
+             <el-table-column
+               label="日志">
+               <template slot-scope="scope">
+                 <span>{{scope.row.this.pd.sourceColName}}</span>
+               </template>
+             </el-table-column>
+             <el-table-column
+               label="操作" width="70">
+               <template slot-scope="scope">
+                 <el-button type="text"  class="a-btn"  title="详情"  icon="el-icon-document" @click="details(scope.row)"></el-button>
+                 <el-button type="text"  class="a-btn"  title="导出"  icon="el-icon-document" @click="downOnly(scope.row)"></el-button>
+               </template>
+             </el-table-column>
+           </el-table>
+           <div class="middle-foot" style="margin-top:10px;" v-if="TotalResult!=0">
+              <el-pagination
+                background
+                @current-change="handleCurrentChange"
+                :current-page.sync ="CurrentPage"
+                :page-size="pageSize"
+                layout="prev, pager, next"
+                :total="TotalResult">
+              </el-pagination>
+            </div>
     </div>
+    <el-dialog title="临住详情" :visible.sync="detailsDialogVisible" custom-class="big_dialog" :append-to-body="false" :modal="false">
+      <div>{{content}}</div>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="detailsDialogVisible = false" size="small">取 消</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -69,13 +110,44 @@
 export default {
   data(){
     return {
+      CurrentPage: 1,
+      pageSize: 5,
+      TotalResult: 0,
       pd:{
-        pageSize:'null'
+        pageSize:10,
+        page:1,
       },
+      tableData:[],
+      detailsDialogVisible:false,
+      content:'',
       downNum:0,
     }
   },
   methods:{
+    getList(){
+      this.V.$submit('demo',(canSumit,data) => {
+        if(!canSumit) return;
+          this.pd.token = this.$store.state.token
+          this.$api.post(this.Global.aport9+'/api/hbase/findData',this.pd,
+           r =>{
+             // this.tableData = r.resultdata.data
+             this.TotalResult=r.resultdata.totalCount
+           })
+      })
+    },
+    pageSizeChange(val) {
+      this.getList(this.CurrentPage, val,this.pd);
+    },
+    handleCurrentChange(val) {
+      this.getList(val, this.pageSize,this.pd);
+    },
+    details(val){
+      this.detailsDialogVisible = true;
+      this.content = val.this.pd.sourceColName;
+    },
+    downOnly(val){
+
+    },
     download(n){
       this.V.$submit('demo',(canSumit,data) => {
         if(!canSumit) return;

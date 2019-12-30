@@ -125,6 +125,7 @@
                   <el-col :span="24" style="text-align:center;">
                     <el-button type="primary" size="mini" @click="doSearch()">查询</el-button>
                     <el-button type="primary" size="mini" @click="doset()">重置</el-button>
+                    <el-button type="primary" size="mini" @click="downLoad()">导出</el-button>
                   </el-col>
                 </el-row>
                 <el-row type="flex" v-if="ccshow">
@@ -303,6 +304,49 @@ export default {
     },
     changtab(){
       this.show=!this.show;
+    },
+    downLoad(){
+      this.ssfjsub='';
+      if ((this.pd.ssfj == undefined || this.pd.ssfj == "") && (this.pd.fwcs==undefined || this.pd.fwcs.trim()=="")) {
+          this.$message.error("请选择所属分局或者服务处所! ");
+        return;
+      } else {
+        if(this.pd.sspcs!="" && this.pd.sspcs!=undefined){
+          this.ssfjsub=this.pd.sspcs;
+        }else {
+          if(this.pd.ssfj!=undefined && this.pd.ssfj!=""){
+            this.ssfjsub=this.pd.ssfj.substr(0,6);
+          }
+        }
+     }
+     let p={
+       "gjdq":this.pd.gjdq,
+       "fwcs":this.pd.fwcs,
+       "zjzl":this.pd.zjzl,
+       "qzzl":this.pd.qzzl,
+       "zflx":this.pd.zflx,
+       "jzztlx":this.pd.jzztlx,
+       "ssfj":this.ssfjsub,
+       "postType":'sjshm'
+     };
+        var url=this.Global.aport+"/ywlz/exportDataList";
+        // var url="http://10.0.30.64:9420/ywlz/exportDataList";
+        this.$api.post(url, p,
+          r => {
+            this.downloadM(r)
+          },e=>{},{},'blob');
+    },
+    downloadM (data) {
+        if (!data) {
+            return
+        }
+        let url = window.URL.createObjectURL(new Blob([data],{type:"application/xls"}))
+        let link = document.createElement('a')
+        link.style.display = 'none'
+        link.href = url
+        link.setAttribute('download', '留学生散居社会面分析'+this.format(new Date(),'yyyyMMddhhmmss')+'.xls')
+        document.body.appendChild(link)
+        link.click()
     },
     doset1(){
         this.reload();

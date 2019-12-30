@@ -135,7 +135,7 @@
                 </el-col>
                 <el-col :span="4" class="alone-flex" style="margin-top: -8px;">
                    <el-button type="success" size="small" @click="getList1(CurrentPage,pageSize,pd)" class="tt-mr10">查询</el-button>
-                   <el-button type="warning" size="small" @click="changeAll">全选</el-button>
+                   <!-- <el-button type="warning" size="small" @click="save(2)">全选</el-button> -->
                 </el-col>
                </el-row>
                <el-row type="flex" style="margin:10px;">
@@ -248,6 +248,11 @@ export default {
       multipleSelection1: [],
       multipleSelection2: [],
       allArr:[],
+
+      multipleSelection:[],
+      selectionAll:[],
+      yuid:[],
+      selectionReal:[],
     }
   },
   mounted() {
@@ -274,19 +279,15 @@ export default {
     },
     pageSizeChange(val) {
       this.getList(this.CurrentPage, val, this.pd);
-      console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
       this.getList(val, this.pageSize, this.pd);
-      console.log(`当前页: ${val}`);
     },
     pageSizeChange1(val) {
       this.getList1(this.CurrentPage1, val, this.pd1);
-      console.log(`每页 ${val} 条`);
     },
     handleCurrentChange1(val) {
       this.getList1(val, this.pageSize1, this.pd1);
-      console.log(`当前页: ${val}`);
     },
     getCompany() {
       var formData = new FormData();
