@@ -30,9 +30,9 @@
     </div>
 
     <div class="yycontent">
-      <el-row class="mb-15">
+      <!-- <el-row class="mb-15">
         <el-button type="primary"  size="small" @click="from={};adds(0,'');">新增</el-button>
-        </el-row>
+        </el-row> -->
       <el-table
            ref="multipleTable"
            :data="tableData"

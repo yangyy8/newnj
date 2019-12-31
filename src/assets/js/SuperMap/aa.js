@@ -39,25 +39,48 @@ export function doSearch(className) {
   if (markerLayer != null) {
     markerLayer.clearLayers();
   }
-  if (circleLayer != null) {
-    circleLayer.remove();
-    map.removeLayer(circleLayer);
-  }
+  // if (circleLayer != null) {
+  //   circleLayer.remove();
+  //   map.removeLayer(circleLayer);
+  // }
   map.on(L.Draw.Event.CREATED, function(e) {
-    if (circleLayer != null) {
-      circleLayer.remove();
-      map.removeLayer(circleLayer);
-    }
+    var layer = e.layer;
+    markerLayer.addLayer(layer)
+    // if (circleLayer != null) {
+    //   circleLayer.remove();
+    //   map.removeLayer(circleLayer);
+    // }
     var latLng = e.layer.getLatLng();
     var radius = e.layer.getRadius();
-    circleLayer = L.circle(latLng,{radius:radius}).addTo(map);
-    var geometryParam = new SuperMap.GetFeaturesByBufferParameters({
-      datasetNames: ['ORCL_gt8:dz_mlpxx_3201_pt'],
-      geometry: circleLayer.toGeoJSON(),
-      bufferDistance:radius
+    console.log(latLng.lat,latLng.lng,radius)
+    // var parts = [];
+    // for(var i=0;i<4;i++){
+    //   var radians = (i+1)*Math.PI/180;
+    //   var circlePoint = [Math.cos(radians)*radius+latLng.lat,Math.sin(radians)*radius+latLng.lng];
+    //   parts[i] = circlePoint;
+    // }
+    var center = [latLng.lat,latLng.lng];
+    var options = {steps:64,units:'kilometers',properties:{}};
+    circleLayer = turf.circle(center,radius,options);
+    L.geoJSON(circleLayer,)
+    // circleLayer = L.polygon(circle);
+    // circleLayer.addTo(map);
+    // circleLayer = L.circle(latLng,{radius:radius}).addTo(map);
+    // var geometryParam = new SuperMap.GetFeaturesByBufferParameters({
+    //   datasetNames: ['ORCL_gt8:dz_mlpxx_3201_pt'],
+    //   geometry: circleLayer.toGeoJSON(),
+    //   bufferDistance:radius
+    // });
+    var geometryParam = new SuperMap.GetFeaturesByGeometryParameters({
+      datasetNames: ['ORCL_gt8:dz_mlp'],//数据集集合中的数据集名称列表
+      geometry: circleLayer,//用于查询的稽核对象
+      spatialQueryMode: 'INTERSECT',
+      maxFeatures:300000,
+      fromIndex: 0,
+      toIndex: 300000
     });
     console.log(geometryParam);
-    L.supermap.featureService("http://10.33.66.183:2333/iserver/services/data-gt8/rest/data").getFeaturesByBuffer(geometryParam, function(serviceResult) {
+    L.supermap.featureService("http://10.33.66.183:2333/iserver/services/data-gt8/rest/data").getFeaturesByGeometry(geometryParam, function(serviceResult) {
       console.log(serviceResult)
       // var aaa = L.geoJSON(serviceResult.result.features,{
       //   onEachFeature:function(feature,layer){

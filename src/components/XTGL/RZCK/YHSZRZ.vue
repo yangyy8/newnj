@@ -1,4 +1,4 @@
-<template lang="html">
+<!-- <template lang="html">
   <div class="yymain">
     <div class="yytitle">
       <el-row type="flex">
@@ -7,14 +7,6 @@
                 <el-col  :sm="24" :md="12" :lg="8"   class="input-item yzform" data-scope="demo" data-name="tableName" data-type="input"
                  v-validate-easy="[['required']]">
                   <span class="input-text"><span class="redx">* </span>资源类型：</span>
-                   <!-- <el-select v-model="pd.org"  filterable clearable default-first-option  class="input-input" placeholder="请选择"  size="small">
-                     <el-option
-                      v-for="item in company"
-                      :key="item.dm"
-                      :label="item.mc"
-                      :value="item.dm">
-                    </el-option>
-                   </el-select> -->
                    <el-input placeholder="请输入内容" size="small" v-model="pd.tableName"   class="input-input"></el-input>
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"   class="input-item yzform" data-scope="demo" data-name="sourceColName" data-type="input"
@@ -48,13 +40,6 @@
                     </el-date-picker>
                  </div>
                 </el-col>
-                <!-- <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
-                  <span class="input-text">导出方式：</span>
-                  <div class="input-input">
-                    <el-radio v-model="pd.pageSize" label="null">一次导出</el-radio>
-                    <el-radio v-model="pd.pageSize" label="10">批次导出</el-radio>
-                  </div>
-                </el-col> -->
           </el-row>
          </el-col>
             <el-col :span="2" class="down-btn-area">
@@ -231,4 +216,4 @@ export default {
   .timeSpecial .el-input__icon{
     width: 10px!important;
   }
-</style>
+</style> -->

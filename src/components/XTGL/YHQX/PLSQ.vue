@@ -48,7 +48,7 @@
                   </el-row>
                  </el-col>
                  <el-col :span="4">
-                    <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
+                    <el-button type="success" size="small" @click="getList(CurrentPage,pageSize,pd,1)">查询</el-button>
                  </el-col>
                 </el-row>
                 <el-row type="flex">
@@ -58,6 +58,8 @@
                    border
                    class="stu-table"
                    style="width: 100%"
+                   @select="selectfnOne"
+                   @select-all="selectfnOne"
                    @selection-change="handleSelectionChange1">
                    <el-table-column
                      type="selection"
@@ -134,18 +136,22 @@
                  </el-row>
                 </el-col>
                 <el-col :span="4" class="alone-flex" style="margin-top: -8px;">
-                   <el-button type="success" size="small" @click="getList1(CurrentPage,pageSize,pd)" class="tt-mr10">查询</el-button>
-                   <!-- <el-button type="warning" size="small" @click="save(2)">全选</el-button> -->
+                   <el-button type="success" size="small" @click="getList1(CurrentPage,pageSize,pd,1)" class="tt-mr10">查询</el-button>
                 </el-col>
                </el-row>
-               <el-row type="flex" style="margin:10px;">
+               <el-row>
+                 <!-- <div style="margin:10px 0px">
+                   <el-button type="success" size="mini" plain @click="changeAll()">全选</el-button>
+                 </div> -->
+
                  <el-table
-                  ref="multipleTable"
+                  ref="multipleTable1"
                   :data="tableData1"
                   border
                   class="stu-table"
                   style="width: 100%"
-
+                  @select="selectfnTwo"
+                  @select-all="selectfnTwo"
                   @selection-change="handleSelectionChange2">
                   <el-table-column
                     type="selection"
@@ -246,13 +252,17 @@ export default {
         }
       ],
       multipleSelection1: [],
-      multipleSelection2: [],
-      allArr:[],
+      selectionAll1:[],
+      yuid1:[],
+      selectionReal1:[],
 
-      multipleSelection:[],
-      selectionAll:[],
-      yuid:[],
-      selectionReal:[],
+      multipleSelection2: [],
+      selectionAll2:[],
+      yuid2:[],
+      selectionReal2:[],
+
+      allArr:[],
+      changeAllFlag:false,
     }
   },
   mounted() {
@@ -262,31 +272,68 @@ export default {
     this.getMenu();
   },
   methods: {
+    selectfnOne(a,b){
+      this.multipleSelection1 = a;
+      this.dataSelectionOne()
+    },
+    dataSelectionOne(){
+      // console.log('this.multipleSelection',this.multipleSelection)
+      this.selectionReal1.splice(this.CurrentPage-1,1,this.multipleSelection1);
+      // console.log('this.selectionReal',this.selectionReal);
+      this.selectionAll1=[];
+      for(var i=0;i<this.selectionReal1.length;i++){
+        if(this.selectionReal1[i]){
+          for(var j=0;j<this.selectionReal1[i].length;j++){
+            this.selectionAll1.push(this.selectionReal1[i][j])
+          }
+        }
+      }
+      // console.log('this.selectionAll',this.selectionAll);
+    },
+    selectfnTwo(a,b){
+      this.multipleSelection2 = a;
+      this.dataSelectionTwo()
+    },
+    dataSelectionTwo(){
+      // console.log('this.multipleSelection',this.multipleSelection)
+      this.selectionReal2.splice(this.CurrentPage1-1,1,this.multipleSelection2);
+      // console.log('this.selectionReal',this.selectionReal);
+      this.selectionAll2=[];
+      for(var i=0;i<this.selectionReal2.length;i++){
+        if(this.selectionReal2[i]){
+          for(var j=0;j<this.selectionReal2[i].length;j++){
+            this.selectionAll2.push(this.selectionReal2[i][j])
+          }
+        }
+      }
+      console.log('this.selectionAll',this.selectionAll2);
+    },
     base() {
       this.page = 0;
     },
     base1() {
       this.page = 1;
     },
-    handleSelectionChange(val) {
-      this.multipleSelection = val;
-    },
     handleSelectionChange1(val) {
-      this.multipleSelection1 = val;
+      // this.multipleSelection1 = val;
     },
     handleSelectionChange2(val) {
-      this.multipleSelection2 = val;
+      // this.multipleSelection2 = val;
     },
     pageSizeChange(val) {
+      this.pageSize=val;
       this.getList(this.CurrentPage, val, this.pd);
     },
     handleCurrentChange(val) {
+      this.CurrentPage=val;
       this.getList(val, this.pageSize, this.pd);
     },
     pageSizeChange1(val) {
+      this.pageSize1=val;
       this.getList1(this.CurrentPage1, val, this.pd1);
     },
     handleCurrentChange1(val) {
+      this.CurrentPage1=val;
       this.getList1(val, this.pageSize1, this.pd1);
     },
     getCompany() {
@@ -300,7 +347,7 @@ export default {
           this.company = r.data;
         });
     },
-    getList(currentPage, showCount, pd) {
+    getList(currentPage, showCount, pd,type) {
       var formData = new FormData();
       formData.append("currentPage", currentPage);
       formData.append("showCount", showCount);
@@ -313,9 +360,26 @@ export default {
         r => {
           this.tableData = r.data.resultList;
           this.TotalResult = r.data.totalCount;
+          if(this.selectionReal1.length==0){//声明一个数组对象
+            this.selectionReal1=new Array(Math.ceil(this.TotalResult/showCount))
+          }
+          if(type==1){
+            this.selectionAll1=[];
+          }else{
+            this.$nextTick(()=>{
+              this.multipleSelection1=[]
+              for(var i=0;i<this.tableData.length;i++){
+                for(var j=0;j<this.selectionAll1.length;j++){
+                  if(this.tableData[i].id==this.selectionAll1[j].id){
+                    this.$refs.multipleTable.toggleRowSelection(this.tableData[i],true);
+                  }
+                }
+              }
+            })
+          }
         });
     },
-    getList1(currentPage, showCount, pd) {
+    getList1(currentPage, showCount, pd,type) {
       var formData = new FormData();
       formData.append("currentPage", currentPage);
       formData.append("showCount", showCount);
@@ -328,6 +392,26 @@ export default {
         r => {
           this.tableData1 = r.data.resultList;
           this.TotalResult1 = r.data.totalCount;
+          if(this.selectionReal2.length==0){//声明一个数组对象
+            this.selectionReal2=new Array(Math.ceil(this.TotalResult1/showCount))
+          }
+          if(type==1){
+            this.changeAllFlag=false;
+            this.selectionAll2=[];
+          }else{
+            this.$nextTick(()=>{
+              if(!this.changeAllFlag){
+                this.multipleSelection2=[]
+              }
+              for(var i=0;i<this.tableData1.length;i++){
+                for(var j=0;j<this.selectionAll2.length;j++){
+                  if(this.tableData1[i].id==this.selectionAll2[j].id){
+                    this.$refs.multipleTable1.toggleRowSelection(this.tableData1[i],true);
+                  }
+                }
+              }
+            })
+          }
         });
     },
     getMenu() {
@@ -338,15 +422,12 @@ export default {
       this.$api.post(url1, p,
         r => {
           if(r.success){
-            console.log('r.data.checked')
             this.menudata = r.data;
             var url=this.Global.aport1+'/fun/getDefaultFunTree';
             this.$api.post(url, p,
             rr=>{
               if(rr.success){
-                console.log('r.data.checked',rr.data.checked)
                 this.defaultChecked = rr.data.checked;
-                console.log('this.defaultChecked',this.defaultChecked)
               }
             });
           }
@@ -356,6 +437,7 @@ export default {
     },
     changeAll(){
       this.allArr = [];
+      this.changeAllFlag=true;
       var p = new FormData();
       p.append("token", this.$store.state.token);
       p.append("org", this.pd.org == undefined ? this.Global.org : this.pd.org);
@@ -363,12 +445,23 @@ export default {
       this.$api.post(this.Global.aport1 + '/role/getAllRole',p,
        r =>{
          if(r.success){
-           for(i=0;i<r.data.length;i++){
-             this.allArr.push(r.data[i].id)
-           }
+           this.selectionAll2 = r.data;
+           this.$nextTick(()=>{
+             this.multipleSelection2=[]
+             for(var i=0;i<this.tableData1.length;i++){
+               for(var j=0;j<this.selectionAll2.length;j++){
+                 if(this.tableData1[i].id==this.selectionAll2[j].id){
+                   this.$refs.multipleTable1.toggleRowSelection(this.tableData1[i],true);
+                 }
+               }
+             }
+           })
+           // for(i=0;i<r.data.length;i++){
+           //   this.allArr.push(r.data[i].id)
+           // }
          }
        })
-       return this.allArr
+       // return this.allArr
     },
     save(n) {
       let checkList = this.$refs.tree.getCheckedNodes();
