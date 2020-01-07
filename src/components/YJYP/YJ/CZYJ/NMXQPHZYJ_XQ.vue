@@ -554,7 +554,7 @@
         </el-table>
       </div>
     </div>
-    <div class="stu-footer">
+    <!-- <div class="stu-footer">
       <div class="stu-title">预警处理</div>
       <el-row type="flex" class="mb-15">
        <el-col :span="20">
@@ -566,16 +566,100 @@
            :disabled="!clztShow">
          </el-input>
 
+
        </el-col>
        <el-col :span="4"  class="down-btn-area">
          <el-button type="primary"  size="small" class="mb-5" @click="chuli()" v-if="clztShow">确定</el-button>
-         <!-- <el-button type="warning" size="small" class="m0" @click="back()">返回</el-button> -->
        </el-col>
      </el-row>
      <el-row type="flex">
-       <el-col :span="24" class="czfont">处理人：{{withname}}</el-col>
+       <el-col :span="24" class="czfont">处理人：{{row.CLR}}</el-col>
      </el-row>
+    </div> -->
+    <!-- 分局级别是2并且是未处理状态   展示派出所详情和分局意见输入框-->
+   <div class="stu-footer" v-if="jb=='2' && showFJ">
+     <!-- <div class="stu-title">处理结果：{{pc.CLJG}}</div> -->
+     <div class="stu-title">支队处理意见：{{pc.ZDYJ_DESC}}</div>
+     <div class="stu-title">支队处理详情：{{pc.CLXQ}}</div>
+     <div class="stu-title">分局调查意见</div>
+     <el-row type="flex" class="mb-15">
+      <el-col :span="20">
+        <el-input
+          type="textarea"
+          :autosize="{ minRows: 3, maxRows: 3}"
+          placeholder="分局调查意见必须填写原因(不超过100个字符)"
+          v-model="pc.FJYJ">
+        </el-input>
+      </el-col>
+      <el-col :span="4"  class="down-btn-area">
+        <el-button type="primary" class="mb-5" size="small" @click="chuli()">确定</el-button>
+        <!-- <el-button type="warning" class="m0" size="small" @click="$router.go(-1)">返回</el-button> -->
+      </el-col>
+    </el-row>
+    <div class="czfont">
+      处理人: {{FJCLR==''?$store.state.uname:FJCLR}}
     </div>
+   </div>
+   <!-- 分局级别是2且是已处理状态  展示两个详情 -->
+   <div class="stu-footer" v-if="jb=='2' && !showFJ">
+     <!-- <div class="stu-title">处理结果：{{pd.CLJG}}</div> -->
+     <div class="stu-title">支队处理意见：{{pc.ZDYJ_DESC}}</div>
+     <div class="stu-title">支队处理详情：{{pc.CLXQ}}</div>
+     <div class="stu-title">分局调查意见：{{pc.FJYJ}}</div>
+     <div class="czfont" v-if="FJCLR!=''">
+       处理人: {{FJCLR==''?$store.state.uname:FJCLR}}
+     </div>
+   </div>
+
+   <!-- 市局和支队级别是1 且是未处理状态 展示分局和派出所意见详情 支队处理意见输入框 -->
+   <div class="stu-footer" v-if="(org=='320100060000'||jb=='1') && showZD">
+     <div class="stu-title">分局调查意见：{{pc.FJYJ}}</div>
+     <!-- <div class="stu-title">处理结果：{{pc.CLJG}}</div> -->
+     <div class="stu-title">支队处理意见</div>
+     <el-row  class="mb-15">
+         <el-col :span="20" style="">
+           <span  style="text-align:left;font-size:12px;">处理意见：</span>
+           <el-select v-model="pc.ZDYJ" placeholder="请选择"  filterable clearable default-first-option   size="small" :disabled="showXF" @change="isXF(pc.ZDYJ)">
+             <el-option v-for="item in $store.state.yjcl2"
+              :key="item.dm"
+              :label="item.mc"
+              :value="item.dm">
+             </el-option>
+           </el-select>
+         </el-col>
+     </el-row>
+     <el-row  class="mb-15">
+      <el-col :span="20">
+
+        <el-input
+          type="textarea"
+          :autosize="{ minRows: 3, maxRows: 3}"
+          placeholder="处理详情必须填写原因(不超过100个字符)"
+          v-model="pc.CLXQ"
+          @input="isXF(pc.CLXQ)"
+          :disabled="showXF">
+        </el-input>
+      </el-col>
+      <el-col :span="4"  class="down-btn-area">
+        <el-button type="warning" class="mb-5" size="small" @click="release()" v-if="!showXF" :disabled="isXf" style="width:78px">下发分局</el-button>
+        <el-button type="warning" class="mb-5" size="small" @click="release()" :disabled="showXF" v-if="showXF" style="width:78px;margin-left:0px">已下发</el-button>
+        <el-button type="primary" class="mb-5" size="small" @click="chuli()" :disabled="showXF" style="width:78px;margin-left:0px">确定</el-button>
+      </el-col>
+    </el-row>
+    <div class="czfont">
+      处理人: {{ZDCLR==''?$store.state.uname:ZDCLR}}
+    </div>
+   </div>
+   <!-- 市局和支队 已处理状态 展示三个详情 -->
+   <div class="stu-footer" v-if="(org=='320100060000'||jb=='1') && !showZD">
+     <div class="stu-title">支队处理意见：{{pc.ZDYJ_DESC}}</div>
+     <div class="stu-title">支队处理详情：{{pc.CLXQ}}</div>
+     <div class="stu-title">分局调查意见：{{pc.FJYJ}}</div>
+     <!-- <div class="stu-title">处理结果：{{pc.CLJG}}</div> -->
+     <div class="czfont">
+       处理人: {{ZDCLR==''?$store.state.uname:ZDCLR}}
+     </div>
+   </div>
 
     <el-dialog title="临住信息详情" :visible.sync="lzxxDialogVisible" custom-class="big_dialog combine" :append-to-body="true" :modal="false">
       <LZXX :type="type" :xid="xid" :rybh="rybh" :random="new Date().getTime()"></LZXX>
@@ -644,8 +728,22 @@ export default {
       px:{},
       pcl:{},
       pc:{
-        CHANGE_RESON:''
+        CHANGE_RESON:'',
+        CLJG:'',
+        FJYJ:'',
+        ZDYJ:'',
       },
+      jb:1,
+      org:this.$store.state.orgid,
+
+      showZD:true,
+      showXF:false,
+      showFJ:true,
+      showPCS:true,
+      isXf:false,
+      FJCLR:'',//分局处理人
+      ZDCLR:'',//支队处理人
+
       bshow:false,
       xtitle:"",
       lzxxDialogVisible:false,
@@ -683,6 +781,7 @@ export default {
     }
   },
   activated(){
+    this.getJB();
     // this.rybh=this.$route.query.rybh;
     // this.yjid=this.$route.query.yjid;
     this.userCode=this.$store.state.uid;
@@ -693,11 +792,40 @@ export default {
     this.token=this.$store.state.token;
     this.row=this.$route.query.row;
     this.clztShow=true;
-    this.pc.CHANGE_RESON='';
-    if(this.row!=undefined && (this.row.CLZT=='0'||this.row.CLZT=='CLZT_0')){
-      this.clztShow=false;
-      this.pc.CHANGE_RESON=this.row.CLJG
-    }
+    this.FJCLR=this.row.FJCLR==undefined?'':this.row.FJCLR;
+    this.ZDCLR=this.row.ZDCLR==undefined?'':this.row.ZDCLR;
+    //支队  详情展示支队 分局 派出所意见
+    this.showZD=true;
+    this.showXF=false;//下发分局
+    this.pc.CLJG='';
+    this.pc.FJYJ='';
+    this.pc.ZDYJ='';
+
+    //支队已处理  展示分局和支队意见  按钮隐藏
+     if(this.row!=undefined && (this.row.CLZT=='0')){
+       this.showZD=false;//已处理
+       this.pc.ZDYJ_DESC=this.row.ZDYJ_DESC;
+       this.pc.CLXQ=this.row.CLXQ;
+       this.pc.FJYJ=this.row.FJYJ;
+       this.pc.CLJG=this.row.CLJG;
+     }else if(this.row!=undefined && (this.row.CLZT=='2')){//支队已下发
+       this.showZD=true;//需要支队处理
+       this.showXF=true;//下发分局,且支队不可填写意见
+       console.log('===',this.row.CLZT,this.org,this.jb,this.showZD)
+     }
+     //分局  详情展示分局和派出所意见
+     this.showFJ=true;
+     if(this.row!=undefined && (this.row.CLZT=='0'||this.row.FJCLZT=='3')){//支队已处理||分局已上报
+       this.showFJ=false;//无需填写意见
+       this.$set(this.pc,'FJYJ',this.row.FJYJ);
+       this.$set(this.pc,'CLJG',this.row.CLJG);
+     }
+     //派出所
+     this.showPCS=true;
+     if(this.row!=undefined && (this.row.CLZT=='0'||this.row.FJCLZT=='3')){
+       this.showPCS=false;//支队已处理||分局已办结||派出所已办结
+       this.pc.CLJG=this.row.CLJG;
+     }
     this.pd.YJID=this.row.YJID;
     this.px.RYBH=this.row.RYBH;
     this.getBase();
@@ -716,9 +844,31 @@ export default {
 
   },
   mounted() {
-
+    this.$store.dispatch('getShzt');
+    this.$store.dispatch("getYjcl1");
+    this.$store.dispatch("getYjcl2");
+    this.$store.dispatch("getYjcl3");
+    this.getJB();
   },
   methods: {
+    isXF(item){
+      if(item!=''){
+        this.isXf=true;
+      }else{
+        this.isXf=false;
+      }
+    },
+    getJB(){
+      let p = {
+        "currentPage": 1,
+        "showCount": 10,
+        "pd": {"DM":this.$store.state.orgid}
+      };
+      this.$api.post(this.Global.aport4+'/LRDWController/getMCAndJBByDM', p,
+        r => {
+          this.jb=r.data[0].JB
+        })
+    },
     asjpageSizeChange(val) {
     this.getData0(this.asjCurrentPage,val);
     },
@@ -929,40 +1079,111 @@ export default {
     back(){
       this.$router.push({name:'NMXQPHZYJ_X',query:{type:4}});
     },
-    chuli(){
-      if(this.pc.CHANGE_RESON=="" || this.pc.CHANGE_RESON==undefined)
-      {
-        this.$alert('甄别结果不能为空！', '提示', {
-          confirmButtonText: '确定',
-        });
-        return;
+
+    release(){//支队下发分局  已下发状态是2
+
+      // if(this.pd.ZDYJ==undefined || this.pd.ZDYJ==''){
+      //   this.$message.error("请选择处理意见 ！");return ;
+      // }
+      let p={
+        pd:{
+          YJID:this.row.YJID,
+          CLZT:'2',
+          FJCLZT:'2',
+        },
+        userCode:this.userCode,
+        userName:this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token,
       }
+      this.$api.post(this.Global.aport4+'/warningInfoController/sentData',p,
+       r =>{
+         if(r.success){
+           this.$message({
+             message: '下发成功！',
+             type: 'success'
+            });
+            this.$router.push({name:'NMXQPHZYJ'})
+         }
+       })
+    },
+    chuli() {
+      let url="";
+        if(this.jb=="2"){//分局上报
+          if(this.pc.FJYJ=="" || this.pc.FJYJ==undefined)
+          {
+            this.$alert('分局调查意见不能为空！', '提示', {
+              confirmButtonText: '确定',
+            });
+            return;
+          }
+         this.pcl.FJYJ=this.pc.FJYJ;
+         this.pcl.FJCLR=this.withname;
+         this.pcl.CLZT="3";
+         this.pcl.FJCLZT="3";
+         url="/warningInfoController/uploadData"
+       }else if(this.jb=="1"||this.org=='320100060000'){
+          if(this.pc.ZDYJ=="" || this.pc.ZDYJ==undefined)
+          {
+            this.$alert('处理意见不能为空！', '提示', {
+              confirmButtonText: '确定',
+            });
+            return;
+          }
+          if(this.pc.CLXQ=="" || this.pc.CLXQ==undefined)
+          {
+            this.$alert('处理详情不能为空！', '提示', {
+              confirmButtonText: '确定',
+            });
+            return;
+          }
+          this.pcl.ZDCLR=this.withname;
+          this.pcl.ZDYJ=this.pc.ZDYJ;
+          this.pcl.CLXQ=this.pc.CLXQ;
+          this.pcl.CLZT="0";
+          this.pcl.FJCLZT=this.row.FJCLZT;
+          url="/warningInfoController/saveCLJG"
+        }else {
+          if(this.pc.CLJG=="" || this.pc.CLJG==undefined)
+          {
+            this.$alert('处理意见不能为空！', '提示', {
+              confirmButtonText: '确定',
+            });
+            return;
+          }
+         this.pcl.ZDCLR=this.withname;
+         this.pcl.CLJG=this.pc.CLJG;
+         this.pcl.CLZT="3";
+      }
+
       this.pcl.YJID=this.row.YJID;
-      this.pcl.CLJG=this.pc.CHANGE_RESON;
-      this.pcl.CLDW=this.$store.state.orgname;
+      this.pcl.CLDW=this.$store.state.orgid;
       this.pcl.CLR=this.withname;
+      this.pcl.CLRID=this.$store.state.uid;
+
+      console.log(this.pcl);
       let p = {
         "pd":this.pcl,
         userCode:this.userCode,
         userName:this.userName,
         orgJB:this.juState,
         orgCode:this.orgCode,
-        token:this.token
+        token:this.token,
       };
-      this.$api.post(this.Global.aport4+'/warningInfoController/saveCLJG', p,
+      this.$api.post(this.Global.aport4+url, p,
         r => {
           if(r.success){
           this.$message({
             message: '处理成功！',
             type: 'success'
            });
-            this.$router.go(-1);
+            this.$router.push({name:'NMXQPHZYJ'})
           }else {
             this.$message.error('处理失败了');
           }
-          // this.$router.push({name:'NMXQPHZYJ_X',query:{type:4}});
         })
-    }
+    },
   }
 
 }

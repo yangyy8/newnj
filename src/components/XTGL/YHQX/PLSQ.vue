@@ -418,21 +418,21 @@ export default {
       var ff = new FormData();
       ff.append("token", this.$store.state.token);
       let p = ff;
-      var url1 = this.Global.aport1 + '/fun/getBatchNavigation';
-      this.$api.post(url1, p,
-        r => {
-          if(r.success){
-            this.menudata = r.data;
+      // var url1 = this.Global.aport1 + '/fun/getBatchNavigation';
+      // this.$api.post(url1, p,
+      //   r => {
+      //     if(r.success){
+
             var url=this.Global.aport1+'/fun/getDefaultFunTree';
             this.$api.post(url, p,
             rr=>{
               if(rr.success){
+                this.menudata = rr.data.all;
                 this.defaultChecked = rr.data.checked;
               }
             });
-          }
-
-      });
+      //     }
+      // });
 
     },
     changeAll(){

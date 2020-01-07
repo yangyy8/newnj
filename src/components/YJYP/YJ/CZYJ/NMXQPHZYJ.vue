@@ -353,6 +353,9 @@ export default {
     this.orgCode=this.$store.state.orgid;
     this.juState=this.$store.state.juState;
     this.token=this.$store.state.token;
+    if(this.juState=='2'){
+      this.$set(this.pd,'CLZT','')
+    }
     this.getFj();
   },
   methods: {

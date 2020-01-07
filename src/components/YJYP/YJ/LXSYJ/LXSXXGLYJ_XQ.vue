@@ -1219,6 +1219,7 @@ export default {
     }
   },
   activated(){
+    console.log(this.jb)
     this.userCode=this.$store.state.uid;
     this.userName=this.$store.state.uname;
     this.orgName=this.$store.state.orgname;
@@ -1375,7 +1376,6 @@ export default {
       if(this.row.MXLX=="QZ_HCYJ"){this.$router.push({name:'SLQFXXYJ'})}//受理签发信息核查预警
     },
     getJB(){
-
       let p = {
         "currentPage": 1,
         "showCount": 10,
@@ -1383,8 +1383,8 @@ export default {
       };
       this.$api.post(this.Global.aport4+'/LRDWController/getMCAndJBByDM', p,
         r => {
-
           this.jb=r.data[0].JB
+
         })
     },
     asjpageSizeChange(val) {

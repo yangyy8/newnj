@@ -1044,7 +1044,6 @@ export default {
       url65:this.Global.aport4 + '/eS_ST_GSGL_RKXXController/getResultListByParams',//高速公路入口信息
 
       url10:this.Global.aport4 + '/illegalEmploymentWarningController/getYuJingXinXiByRybh',//预警信息
-      sshow:true,
       jb:1,
       org:'320100060000',
 
