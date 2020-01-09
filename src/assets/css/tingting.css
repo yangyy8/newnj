@@ -1410,10 +1410,6 @@ overflow: hidden;
   position: relative;
   border: 1px solid transparent;
 }
-
-
-
-
 .tb1{
   position: absolute;
   top: 10%;
@@ -1491,4 +1487,106 @@ overflow: hidden;
 .checktab{
   box-shadow:0 0 20px #0C63A4 inset;
   color: #fff!important;
+}
+
+/* 中管大屏左边 */
+.bgleft{
+  width: 100%;
+  /* height: 2160px; */
+  background: url('../../assets/img/zg/bgleft.png') no-repeat;
+  background-size: 100% 100%;
+  overflow: hidden;
+}
+.border-content{
+  margin: 105px 0 0 177px
+}
+.borderL{
+  width: 90%;
+}
+.con-con{
+  position: absolute;
+  top: 31%;
+  left:14%;
+  width: 80%;
+  -webkit-transform: perspective(800px) rotateX(0deg) rotateY(6deg) rotateZ(0deg);	/* Safari 和 Chrome */
+}
+.zgtitle{
+  width: 100%;
+  text-align: center;
+}
+.text-shadow{
+  text-shadow: 0 0 40px #04689D, 0 0 40px #04689D,
+        0 0 40px #04689D
+}
+.sim-title{
+  font-size: 45px;
+  color: #fff;
+}
+.classify{
+  text-align: center;
+  /* margin: 10px 11%; */
+}
+.classify-ul{
+  margin: 30px auto;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+}
+.classify li{
+  float: left;
+  margin: 0 8%;
+}
+.classify-ul span{
+  font-size: 36px;
+  color: #fff;
+}
+.classify-ul p{
+  font-size: 72px;
+  margin: 20px 0px;
+  color: #7df9ff;
+  text-shadow:0 0 60px #7df9ff, 0 0 60px #7df9ff,
+        0 0 60px #7df9ff
+}
+/* 中管大屏右边 */
+.bgright{
+  width: 100%;
+  /* height: 2160px; */
+  background: url('../../assets/img/zg/bgright.png') no-repeat;
+  background-size: 100% 100%;
+  overflow: hidden;
+}
+.r-con-con{
+  position: absolute;
+  top: 37%;
+  left:6%;
+  width: 80%;
+  -webkit-transform: perspective(800px) rotateX(0deg) rotateY(-6deg) rotateZ(0deg);	/* Safari 和 Chrome */
+}
+.rr-child{
+  display: flex;
+  flex-wrap: nowrap;
+}
+.topLeft{
+  width: 40%;
+}
+.topRight{
+  width: 55%;
+  margin-left: 3%;
+}
+.tl-title{
+  text-align: center;
+  width: 59%;
+  margin: 0 auto;
+}
+.tr-con{
+  width: 100%;
+  display: flex;
+  flex-wrap: nowrap;
+  margin-top: 56px;
+}
+.tr-conOne{
+  width: 50%;
+}
+.tr-conTwo{
+  width: 50%;
 }

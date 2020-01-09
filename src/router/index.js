@@ -18,17 +18,23 @@ export default new Router({
     component:resolve => require(['@/components/indexNew1'], resolve),
     },
     {
+    path:'/zgLeft',
+    name:'zgLeft',
+    meta: {logined:true},
+    component:resolve => require(['@/components/zgLeft'], resolve),
+    },
+    {
+    path:'/zgRight',
+    name:'zgRight',
+    meta: {logined:true},
+    component:resolve => require(['@/components/zgRight'], resolve),
+    },
+    {
     path:'/indexNew',
     name:'IndexNew',
     meta: {logined:true},
     component:resolve => require(['@/components/index'], resolve),
     },
-    // {
-    // path:'/indexNew1',
-    // name:'IndexNew1',
-    // meta: {logined:true},
-    // component:resolve => require(['@/components/indexNew1'], resolve),
-    // },
     {
     path:'/homemap',
     name:'Homemap',
@@ -683,6 +689,32 @@ export default new Router({
           name: 'LZSJHE',
           meta:{title:['日常管理','临住信息','临住数据核查'],father:'CRJJLHC'},
           component: resolve => require(['@/components/YWCZ/LZXX/LZSJHE'], resolve),
+        },
+        {
+          path: 'LZCQBJ',
+          name: 'LZCQBJ',
+          meta:{title:['日常管理','临住信息','临住超期报警']},
+          component: resolve => require(['@/components/YWCZ/LZXX/LZCQBJ'], resolve),
+        },
+        {
+
+          path: 'CQBJRYXX',
+          name: 'CQBJRYXX',
+          meta:{title:['日常管理','临住信息','临住超期报警'],father:'LZCQBJ'},
+          component: resolve => require(['@/components/YWCZ/LZXX/CQBJRYXX'], resolve),
+        },
+        {
+          path: 'ZJZWHC',
+          name: 'ZJZWHC',
+          meta:{title:['日常管理','临住信息','临住证件真伪核查']},
+          component: resolve => require(['@/components/YWCZ/LZXX/ZJZWHC'], resolve),
+        },
+        {
+
+          path: 'ZWHCRYXX',
+          name: 'ZWHCRYXX',
+          meta:{title:['日常管理','临住信息','临住证件真伪核查 '],father:'ZJZWHC'},
+          component: resolve => require(['@/components/YWCZ/LZXX/ZWHCRYXX'], resolve),
         },
         {
           path: 'JSQKKH',

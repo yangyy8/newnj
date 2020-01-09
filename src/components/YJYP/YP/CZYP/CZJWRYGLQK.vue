@@ -91,13 +91,13 @@
                   <span>{{scope.row.jzxxqlList.length==0?'0':scope.row.jzxxqlList.length}}</span>
                 </template>
                 </el-table-column>
-                <el-table-column
+                <!-- <el-table-column
                 prop="abxxqlList"
                 label="安保状况缺漏">
                 <template slot-scope="scope">
                   <span>{{scope.row.abxxqlList.length==0?'0':scope.row.abxxqlList.length}}</span>
                 </template>
-                </el-table-column>
+                </el-table-column> -->
                 <el-table-column
                 prop="zfxxqlList"
                 label="安全走访缺漏">
@@ -169,13 +169,13 @@
                   <span v-html="sjzh(scope.row.jzxxqlList)"></span>
                 </template>
              </el-table-column>
-             <el-table-column
+             <!-- <el-table-column
                prop="abxxqlList"
                label="安保状况缺项">
                <template slot-scope="scope">
                   <span v-html="sjzh(scope.row.abxxqlList)"></span>
                 </template>
-             </el-table-column>
+             </el-table-column> -->
              <el-table-column
                prop="zfxxqlList"
                label="安全走访缺项">
