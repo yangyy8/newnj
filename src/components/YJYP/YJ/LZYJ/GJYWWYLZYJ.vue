@@ -41,6 +41,28 @@
                    <el-input placeholder="请输入内容" size="small" v-model="pd.ZJHM" class="input-input"></el-input>
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                    <span class="input-text">所属分局：</span>
+                    <el-select v-model="pd.FJ" @change="getPSC(pd.FJ)" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input" :disabled="juState=='1'?false:true">
+                      <el-option
+                        v-for="item in getallfj"
+                        :key="item.DM"
+                        :label="item.DM+' - '+item.MC"
+                        :value="item.DM">
+                      </el-option>
+                    </el-select>
+                </el-col>
+                <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                    <span class="input-text" title="所属派出所">所属派出所：</span>
+                    <el-select v-model="pd.PCS" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input" :disabled="juState=='3'" :no-data-text="pd.FJ==''||pd.FJ==undefined?'请先选择所属分局':'无数据'">
+                      <el-option
+                        v-for="item in PSC"
+                        :key="item.DM"
+                        :label="item.MC"
+                        :value="item.DM">
+                      </el-option>
+                    </el-select>
+                </el-col>
+                <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                     <span class="input-text">处理状态：</span>
                     <el-select v-model="pd.CLZT" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
                       <el-option
@@ -157,20 +179,66 @@ export default {
       options: this.pl.ps,
       tableData: [],
       pd0:{},
+
+      getallfj:[],
+      PSC:[],
+
+      userCode:'',
+      userName:'',
+      orgCode:'',
+      orgName:'',
+      token:'',
+      juState:'',
     }
   },
   activated(){
-
+    if(this.juState=='2'){//分局登录
+      this.pd.FJ = this.orgCode;
+      this.getPSC(this.pd.FJ);
+    }
+    if(this.juState=='3'){//派出所登录
+      this.pd.FJ = this.$store.state.pcsToju;
+      this.getPSC(this.pd.FJ);
+      this.pd.PCS = this.orgCode;
+    }
+    let _this = this;
+    setTimeout(function(){
+      _this.getList(_this.CurrentPage, _this.pageSize, _this.pd);
+    },1000)
   },
   mounted() {
     this.$store.dispatch('getGjdq');
     this.$store.dispatch('getClzt1');
+    this.userCode=this.$store.state.uid;
+    this.userName=this.$store.state.uname;
+    this.orgName=this.$store.state.orgname;
+    this.orgCode=this.$store.state.orgid;
+    this.juState=this.$store.state.juState;
+    this.token=this.$store.state.token;
     if(this.Global.serviceState==1){this.$set(this.pd,'CLZT','1')};
     this.getList(this.CurrentPage, this.pageSize, this.pd);
+    this.getFj();
   },
   methods: {
     titleShow(e,el){
       el.target.title = e.label;
+    },
+    getFj(){
+      this.$api.post(this.Global.aport5+'/djbhl/getallfj',{userCode:this.userCode,userName:this.userName,orgJB:this.juState,orgCode:this.orgCode,token:this.token},
+       r =>{
+         if(r.success){
+           this.getallfj=r.data;
+         }
+       })
+    },
+    getPSC(i){
+      this.$set(this.pd,'PCS','');
+      this.$api.post(this.Global.aport5+'/djbhl/getpcsbyfjdm',{pd:{fjdm:i},userCode:this.userCode,userName:this.userName,orgJB:this.juState,orgCode:this.orgCode,token:this.token},
+      r =>{
+        if(r.success){
+          this.PSC=r.data;
+        }
+      })
     },
     pageSizeChange(val) {
       this.pageSize=val;

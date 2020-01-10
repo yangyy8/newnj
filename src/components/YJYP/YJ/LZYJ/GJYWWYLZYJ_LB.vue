@@ -223,6 +223,7 @@ export default {
   },
   activated(){
     this.row=this.$route.query.row;
+    this.withname=this.row.CLR;
     this.types=this.$route.query.type;
     this.pd.RYBH=this.row.RYBH;
     this.queryClzt=this.$route.query.row.CLZT;
@@ -238,7 +239,7 @@ export default {
   },
   mounted() {
     this.$store.dispatch('getGjdq');
-    this.withname=this.$store.state.uname;
+
   },
   methods: {
     base() {

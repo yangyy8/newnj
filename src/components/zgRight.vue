@@ -84,8 +84,8 @@ export default {
       });
     },
     ZdgzFun(){
-      // let url = this.Global.aport+'/home/getCnsqInImportanPart';
-      let url = 'http://192.168.3.217:9433/home/getCnsqInImportanPart'
+      let url = this.Global.aport10+'/home/getCnsqInImportanPart';
+      // let url = 'http://192.168.3.217:9433/home/getCnsqInImportanPart'
       this.$api.post(url,{},
        r =>{
           this.drawZdgzChart(r.data.xAxis,r.data.series)
@@ -267,8 +267,8 @@ export default {
       })
     },
     TkFun(){
-      // let url = this.Global.aport+'/home/getCnsqInTKPart';
-      let url = 'http://192.168.3.217:9433/home/getCnsqInTKPart'
+      let url = this.Global.aport10+'/home/getCnsqInTKPart';
+      // let url = 'http://192.168.3.217:9433/home/getCnsqInTKPart'
       this.$api.post(url,{},
        r =>{
           this.drawTkChart(r.data)
@@ -412,8 +412,8 @@ export default {
       })
     },
     ZdryFun(){
-      // let url = this.Global.aport+'/home/getCnsqOfImportantPerson';
-      let url = 'http://192.168.3.217:9433/home/getCnsqOfImportantPerson'
+      let url = this.Global.aport10+'/home/getCnsqOfImportantPerson';
+      // let url = 'http://192.168.3.217:9433/home/getCnsqOfImportantPerson'
       this.$api.post(url,{},
        r =>{
           this.drawSkCharts(r.data['涉恐人员数量']);

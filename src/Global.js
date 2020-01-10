@@ -28,6 +28,7 @@ const aport7="http://10.33.72.218:9436";//游
 // const aport7="http://192.168.3.217:9436";
 const aport8="http://10.33.72.144:9438";//中管
 // const aport8="http://192.168.3.217:9438";
+const aport10="http://10.33.72.145:9433";//中管
 
 const serviceState=1 //代码已统一
 
@@ -109,7 +110,7 @@ export default
   aport4,//李文龙
   aport5,//李文龙
   aport6,
-  aport7,aport8,aport9,
+  aport7,aport8,aport9,aport10,
   xyaddress,
   gjdq,zjzl,qzzl,rjkn,rjsy,qfjg,pcs,jzlx,zsxz,jzzt,xzqh,jtgx,sflx,xb,rjqzzl,dmall,ssdw,
   dwlb,dwxz,zsbg,tlyxq,sf,tablists,clzt,sjly,rzfs,zflx,jzztlx,xxdm,erxxdm,shzt,tbry,lgyj,gljb,ymzt,ymzl,sldw,ymsqzt,ymqzzl,

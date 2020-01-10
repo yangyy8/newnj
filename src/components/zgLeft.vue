@@ -74,8 +74,8 @@ export default {
       });
     },
     JmFun(){
-      // let url = this.Global.aport+'/home/getCnsq6M';
-      let url = 'http://192.168.3.217:9433/home/getCnsq6M'
+      let url = this.Global.aport10+'/home/getCnsq6M';
+      // let url = 'http://192.168.3.217:9433/home/getCnsq6M'
       this.$api.post(url,{},
        r =>{
           this.cdt.hz=r.data['护照'];
@@ -244,8 +244,8 @@ export default {
             })
     },
     FjFun(){
-      // let url = this.Global.aport+'/home/getCnsqGroupByDw';
-      let url = 'http://192.168.3.217:9433/home/getCnsqGroupByDw'
+      let url = this.Global.aport10+'/home/getCnsqGroupByDw';
+      // let url = 'http://192.168.3.217:9433/home/getCnsqGroupByDw'
       this.$api.post(url,{},
        r =>{
           this.drawFjChart(r.data.xAxis,r.data.series)

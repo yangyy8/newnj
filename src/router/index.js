@@ -18,6 +18,12 @@ export default new Router({
     component:resolve => require(['@/components/indexNew1'], resolve),
     },
     {
+    path:'/wgCenter',
+    name:'wgCenter',
+    meta: {logined:true},
+    component:resolve => require(['@/components/wgCenter'], resolve),
+    },
+    {
     path:'/zgLeft',
     name:'zgLeft',
     meta: {logined:true},
