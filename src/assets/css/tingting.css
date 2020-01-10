@@ -94,7 +94,7 @@
   }
   .t-screen .banner{
     padding-top: 73px;
-    background: url('../../assets/img/sg/logo.png') no-repeat;
+    background: url('../../assets/img/sg/logor.png') no-repeat;
     background-size: 100%;
     position: relative;
   }
@@ -548,7 +548,7 @@
   }
   .t-screen .banner{
     padding-top: 4.5%;
-    background: url('../../assets/img/sg/logo.png') no-repeat;
+    background: url('../../assets/img/sg/logor.png') no-repeat;
     background-size: 100%;
     position: relative;
   }
@@ -1006,7 +1006,7 @@
   .tt-mr10{
     margin-left: 5px!important
   }
-  .t-screen .banner{padding-top: 73px;background: url('../../assets/img/sg/logo.png') no-repeat;background-size: 100%;position: relative;}
+  .t-screen .banner{padding-top: 73px;background: url('../../assets/img/sg/logor.png') no-repeat;background-size: 100%;position: relative;}
   .t-screen .time{text-align: center;color: #FFFFFF;margin-top: -20px;font-size: 16px;}
   .huan-font{
     font-size: 12px;
