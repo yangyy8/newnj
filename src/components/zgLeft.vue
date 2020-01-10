@@ -5,9 +5,9 @@
       <div class="con-con">
         <div class="">
           <div class="zgtitle">
-            <img src="../assets/img/zg/titleL.png" alt="">
+            <img class="t-tip" src="../assets/img/zg/titleL.png" alt="">
             <span class="sim-title text-shadow">近6个月内地居民受理情况统计</span>
-            <img src="../assets/img/zg/titleR.png" alt="">
+            <img class="t-tip" src="../assets/img/zg/titleR.png" alt="">
           </div>
           <div class="classify">
               <ul class="classify-ul">
@@ -27,17 +27,17 @@
               </ul>
           </div>
           <div class = "zgchart1" style="width:100%">
-            <div id = "jmecharts" style = "width: 100%;height:500px"></div>
+            <div id = "jmecharts" style = "width: 100%;height:300px"></div>
           </div>
         </div>
         <div class="t-mtt">
           <div class="zgtitle">
-            <img src="../assets/img/zg/titleL.png" alt="">
+            <img class="t-tip" src="../assets/img/zg/titleL.png" alt="">
             <span class="sim-title text-shadow">13区分局近一周申请总量</span>
-            <img src="../assets/img/zg/titleR.png" alt="">
+            <img class="t-tip" src="../assets/img/zg/titleR.png" alt="">
           </div>
           <div class = "fjchart1" style="width:100%">
-            <div id = "fjecharts" style = "width: 100%;height:500px"></div>
+            <div id = "fjecharts" style = "width: 100%;height:300px"></div>
           </div>
         </div>
       </div>

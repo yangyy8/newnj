@@ -28,7 +28,8 @@ const aport7="http://10.33.72.218:9436";//游
 // const aport7="http://192.168.3.217:9436";
 const aport8="http://10.33.72.144:9438";//中管
 // const aport8="http://192.168.3.217:9438";
-const aport10="http://10.33.72.145:9433";//中管
+// const aport10="http://10.33.72.145:9433";//中管
+const aport10="http://192.168.3.217:9433";//中管
 
 const serviceState=1 //代码已统一
 

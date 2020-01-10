@@ -1492,22 +1492,25 @@ overflow: hidden;
 /* 中管大屏左边 */
 .bgleft{
   width: 100%;
-  /* height: 2160px; */
+  height: 1080px;
   background: url('../../assets/img/zg/bgleft.png') no-repeat;
   background-size: 100% 100%;
   overflow: hidden;
 }
 .border-content{
-  margin: 105px 0 0 177px
+  margin: 5% 0 0 18%;
+  width: 864px;
 }
 .borderL{
-  width: 90%;
+  /* width: 90%; */
+  width: 864px;
+  height: 1080px;
 }
 .con-con{
   position: absolute;
-  top: 31%;
-  left:14%;
-  width: 80%;
+  top: 25%;
+  left:18%;
+  width: 66%;
   -webkit-transform: perspective(800px) rotateX(0deg) rotateY(6deg) rotateZ(0deg);	/* Safari 和 Chrome */
 }
 .zgtitle{
@@ -1519,7 +1522,7 @@ overflow: hidden;
         0 0 40px #04689D
 }
 .sim-title{
-  font-size: 45px;
+  font-size: 35px;
   color: #fff;
 }
 .classify{
@@ -1527,7 +1530,7 @@ overflow: hidden;
   /* margin: 10px 11%; */
 }
 .classify-ul{
-  margin: 30px auto;
+  margin: 25px auto 0px;
   display: flex;
   flex-wrap: nowrap;
   justify-content: center;
@@ -1541,11 +1544,14 @@ overflow: hidden;
   color: #fff;
 }
 .classify-ul p{
-  font-size: 72px;
-  margin: 20px 0px;
+  font-size: 52px;
+  margin: 15px 0px;
   color: #7df9ff;
   text-shadow:0 0 60px #7df9ff, 0 0 60px #7df9ff,
         0 0 60px #7df9ff
+}
+.t-tip{
+  width: 53px;
 }
 /* 中管大屏右边 */
 .bgright{
