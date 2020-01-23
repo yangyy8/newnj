@@ -82,7 +82,7 @@
                     <span class="input-text">签证号码：</span>
                     <el-input placeholder="请输入内容" size="small" v-model="pd.QZHM" class="input-input"></el-input>
                 </el-col>
-                <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                <!-- <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                     <span class="input-text">所属分局：</span>
                     <el-select v-model="pd.FJ" @change="getPSC(pd.FJ)" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input" :disabled="juState=='1'?false:true">
                       <el-option
@@ -103,7 +103,8 @@
                         :value="item.DM">
                       </el-option>
                     </el-select>
-                </el-col>
+                </el-col> -->
+                <AREA @getArea="getArea"></AREA>
                 <el-col  :sm="24" :md="12" :lg="8"   class="input-item"  v-if="juState=='1'">
                   <span class="input-text">处理状态：</span>
                   <el-select v-model="pd.CLZT" placeholder="请选择"  filterable clearable default-first-option size="small" class="input-input">
@@ -281,7 +282,9 @@
 
 </template>
 <script>
+import AREA from '../../../common/area'
 export default {
+  components:{AREA},
   data() {
     return {
       CurrentPage: 1,
@@ -310,6 +313,7 @@ export default {
       yuid:[],
       selectionReal:[],
       juState:'',
+      areaPd:{},
     }
   },
   activated(){
@@ -449,6 +453,9 @@ export default {
       this.CurrentPage=val;
       this.getList(this.CurrentPage, this.pageSize, this.pd);
     },
+    getArea(val){
+      this.areaPd = val;
+    },
     getList(currentPage, showCount, pd) {
       this.pd.MXLX="QZ_HCYJ";//受理、签发信息核查预警
       this.pd.BJSJ_DateRange.begin=this.pd0.beginBJSJ;
@@ -457,6 +464,7 @@ export default {
       if(pd.hasOwnProperty('YJID')){
         delete pd['YJID']
       }
+      pd = Object.assign({},pd,this.areaPd);
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,

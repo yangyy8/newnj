@@ -35,7 +35,7 @@
     <div class="" @mouseover="navShow=false" ref="contentS" style="">
       <div class="banner">
         <!-- <img src="../assets/img/sg/tc_nor.png" alt="链至大屏" class="toScreen" @click="$router.push({name:'Screen',query:{mtype:mapList.type,year:lzyear,month:lzmonth,day:lzdate}})"> -->
-        <div class="common-report hand" @click="shortMenu">
+        <div class="common-report hand" @click="shortMenu" v-if="false">
           常用报表
         </div>
         <span class="el-icon-switch-button login-out hand" title="退出" @click="loginOut"></span>
@@ -226,6 +226,13 @@
                  </li>
               </ul>
           </div>
+          <!-- <div class="bot-btn">
+            <div class="btn-child">
+              <img src="../assets/img/sg/btn_1_nor.png" alt="">
+              <img src="../assets/img/sg/btn_2_nor.png" alt="">
+              <img src="../assets/img/sg/btn_3_nor.png" alt="">
+            </div>
+          </div> -->
         </el-col>
         <el-col :span="6" style="height:100%">
           <div class="bgline2 tu4" ref="ban4">
@@ -544,6 +551,7 @@ export default {
   },
   mounted() {
      window.vm=this;
+     this.fullScreen();
      this.userCode=this.$store.state.uid;
      this.userName=this.$store.state.uname;
      this.orgName=this.$store.state.orgname;
@@ -641,7 +649,7 @@ export default {
 
   },
   activated(){
-
+    this.fullScreen();
   },
   watch: {
     fullHeight (val) {
@@ -782,6 +790,22 @@ export default {
       setInterval(this.realTimeFun,1000);
   },
   methods:{
+    fullScreen(){
+      var docElm = document.documentElement;
+            //FireFox
+        if (docElm.mozRequestFullScreen) {
+            docElm.mozRequestFullScreen();
+        }
+            //Chrome等
+        else if (docElm.webkitRequestFullScreen) {
+            console.log('===',docElm.webkitRequestFullScreen)
+            docElm.webkitRequestFullScreen();
+        }
+            //IE11
+        else if (elem.msRequestFullscreen) {
+            elem.msRequestFullscreen();
+        }
+    },
     getJuState(){
       let p={
         "currentPage":1,

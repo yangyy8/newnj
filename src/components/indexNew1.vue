@@ -35,6 +35,7 @@
     <div class="" @mouseover="navShow=false" ref="contentS" style="">
       <div class="banner">
         <!-- <img src="../assets/img/sg/tc_nor.png" alt="链至大屏" class="toScreen" @click="$router.push({name:'Screen',query:{mtype:mapList.type,year:lzyear,month:lzmonth,day:lzdate}})"> -->
+        <div class="clickClass" @click="screenShow"></div>
         <div class="common-report hand" @click="shortMenu">
           常用报表
         </div>
@@ -368,6 +369,15 @@
           <div class="arrow_line" style="right:0px;bottom:0px; border-top-width:0;border-left-width:0"></div>
          </el-dialog>
     </div>
+    <div class="screenClass">
+      <el-dialog title="大屏链接" :visible.sync="screenDialogVisible" width="600px">
+        <ul class="screen-ul">
+          <li><el-link :underline="false" href="http://10.33.72.145:8080/dist/#/zgLeft" target="_blank">中管左屏  http://10.33.72.145:8080/dist/#/zgLeft</el-link></li>
+          <li><el-link :underline="false" href="http://10.33.72.145:8080/dist/#/wgCenter" target="_blank">外管中间屏  http://10.33.72.145:8080/dist/#/wgCenter</el-link></li>
+          <li><el-link :underline="false" href="http://10.33.72.145:8080/dist/#/zgRight" target="_blank">中管右屏  http://10.33.72.145:8080/dist/#/zgRight</el-link></li>
+        </ul>
+      </el-dialog>
+    </div>
   </div>
 </template>
 <script scoped>
@@ -398,6 +408,7 @@ export default {
       mapCharts:null,
       dialogTableVisible:false,
       mapDialogVisible:false,
+      screenDialogVisible:false,
       claname:'',
       animate:false,
       isShow:false,
@@ -540,6 +551,7 @@ export default {
       orgName:'',
       token:'',
       juState:'',
+      clickFive:0,
     }
   },
   mounted() {
@@ -782,6 +794,13 @@ export default {
       setInterval(this.realTimeFun,1000);
   },
   methods:{
+    screenShow(){
+      this.clickFive++;
+      if(this.clickFive==5){
+        this.screenDialogVisible=true;
+        this.clickFive=0;
+      }
+    },
     getJuState(){
       let p={
         "currentPage":1,
@@ -794,11 +813,12 @@ export default {
            this.$store.commit('getJuS',r.data[0].JB);
            this.juState=this.$store.state.juState;
            this.yjFun();
-           if(this.$store.state.juState=='3'){
-             this.$api.post(this.Global.aport4+'/LRDWController/getParentByDM',p,
+           if(this.$store.state.juState=='3'||this.$store.state.juState=='4'){
+             this.$api.post(this.Global.aport4+'/LRDWController/getAllParentByChildDW',p,
               r =>{
                 if(r.success){
-                  this.$store.commit('PcsToJu',r.data.DM);
+                  this.$store.commit('PcsToJu',r.data.FJDM);//分局
+                  this.$store.commit('ZrqToPcs',r.data.PCSDM);//派出所
                 }
               })
            }
@@ -1070,7 +1090,9 @@ export default {
         console.log('预警',this.$store.state.juState)
         this.$api.post(this.Global.aport+'/home/getWaringData',{userCode:this.userCode,userName:this.userName,orgJB:this.$store.state.juState,orgCode:this.orgCode,token:this.token},
          r =>{
-           this.yjList = r.data
+           if(r.data!=null){
+             this.yjList = r.data
+           }
          })
       },
       yearFun(){

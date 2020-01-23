@@ -16,7 +16,7 @@
                 <el-row :gutter="1">
                   <el-col :span="24">
                       <span class="yy-input-text">所属分局：</span>
-                      <el-select v-model="pd.ssfj" filterable clearable default-first-option  placeholder="请选择"  size="small" class="yy-input-input" :disabled="juState=='1'?false:true">
+                      <el-select v-model="pd.ssfj" @change="getSSPCS(pd.ssfj)" filterable clearable default-first-option  placeholder="请选择"  size="small" class="yy-input-input" :disabled="juState=='1'?false:true">
                         <el-option
                           v-for="(item,ind) in ssfj"
                           :key="ind"
@@ -25,6 +25,28 @@
                         </el-option>
                       </el-select>
                    </el-col>
+                   <el-col :span="24">
+                       <span class="yy-input-text">所属派出所：</span>
+                       <el-select v-model="pd.sspcs" filterable @change="getZrq(pd.sspcs)" clearable default-first-option placeholder="请选择"  size="small" class="yy-input-input"  :disabled="juState=='3'||juState=='4'" :no-data-text="pd.ssfj==''||pd.ssfj==undefined?'请先选择所属分局':'无数据'">
+                         <el-option
+                           v-for="(item,ind) in sspcs"
+                           :key="ind"
+                           :label="item.dm+' - '+item.mc"
+                           :value="item.dm">
+                         </el-option>
+                       </el-select>
+                    </el-col>
+                    <el-col :span="24">
+                        <span class="yy-input-text">责任区：</span>
+                        <el-select v-model="pd.zrq" filterable clearable default-first-option placeholder="请选择"  size="small" class="yy-input-input" :no-data-text="pd.ssfj==''||pd.ssfj==undefined?'请先选择所属分局':pd.sspcs==''||pd.sspcs==undefined?'请先选择派出所':'无数据'">
+                          <el-option
+                            v-for="(item,ind) in zrq"
+                            :key="ind"
+                            :label="item.dm+' - '+item.mc"
+                            :value="item.dm">
+                          </el-option>
+                        </el-select>
+                    </el-col>
                   <el-col :span="24">
                       <span class="yy-input-text"><font color=red>*</font> 住宿时间：</span>
                         <el-date-picker class="yy-input-input"
@@ -247,6 +269,8 @@ export default {
        list:[],
        tableData:[],
        ssfj: [],
+       sspcs: [],
+       zrq:[],
        loading:false,
        lzhDialogVisible:false,
        diatext:'标准化地址',
@@ -277,18 +301,28 @@ export default {
     this.pd.beginTime=getServerDate();
     this.pd.endTime=getServerDate();
     this.getFJ();
-    createMapL();
-    this.getUserWhiteList();
-  },
-  activated(){
     if(this.juState=='2'){//分局登录
       // this.pd.ssfj = this.orgCode;
-      this.$set(this.pd,'ssfj',this.orgCode)
+      this.$set(this.pd,'ssfj',this.orgCode);
+      this.getSSPCS(this.pd.ssfj);
     }
     if(this.juState=='3'){//派出所登录
       // this.pd.ssfj = this.$store.state.pcsToju;
       this.$set(this.pd,'ssfj',this.$store.state.pcsToju);
+      this.getSSPCS(this.pd.ssfj);
+      this.$set(this.pd,'sspcs',this.orgCode)
     }
+    if(this.juState=='4'){
+      this.$set(this.pd,'ssfj',this.$store.state.pcsToju);
+      this.getSSPCS(this.pd.ssfj);
+      this.$set(this.pd,'sspcs',this.$store.state.zrqTopcs);
+      this.getZrq(this.pd.sspcs);
+    }
+    createMapL();
+    this.getUserWhiteList();
+  },
+  activated(){
+
   },
   methods:{
     userFilter(query = '') {
@@ -329,7 +363,34 @@ export default {
           // }
         })
     },
-
+    getSSPCS(arr) {
+      this.$set(this.pd, "sspcs", '');
+      var srr = [];
+      srr.push(arr);
+      console.log(srr);
+      let p = {
+        "fjdmList": srr
+      }
+      this.$api.post(this.Global.aport2 + '/data_report/selectPcsDm', p,
+        r => {
+          if (r.success) {
+            this.sspcs = r.data.PCS;
+          }
+        })
+    },
+    getZrq(arr) {
+      this.$set(this.pd,"zrq",'');
+      let p = {
+        "operatorId": this.$store.state.uid,
+        "operatorNm": this.$store.state.uname,
+        "pcsdm":[arr]
+      };
+      var url = this.Global.aport2 + "/data_report/selectZrqDm";
+      this.$api.post(url, p,
+        r => {
+          this.zrq =sortByKey(r.data.ZRQ,'dm');
+        })
+    },
       changtab(){
         this.show=!this.show;
       },
@@ -359,6 +420,8 @@ export default {
        this.$set(this.pd,"gjdq",'');
        this.$set(this.pd,"tlsy",'');
        this.$set(this.pd,"ssfj",'');
+       this.$set(this.pd, "sspcs", '');
+       this.$set(this.pd, "zrq", '');
        this.$set(this.pd,"beginTime",'');
        this.$set(this.pd,"endTime",'');
        this.$set(this.pd,"tsj",'');
@@ -443,6 +506,8 @@ export default {
           "zsbg":this.pd.zsbg,
           "likeBzhdzMc":this.pd.bzhdz,
           "ssfj":ssfj,
+          "pcs": this.pd.sspcs.substr(0, 12),
+          "zrq":this.pd.zrq,
           "tsy":this.pd.tsj
         };
         if(this.pd.beginTime==''||this.pd.beginTime==null){
@@ -504,6 +569,8 @@ export default {
          "rzsjEnd":formatDate(new Date(this.pd.endTime),"yyyy/MM/dd"),
          "zsbg":this.pd.zsbg,
          "ssfj":ssfj,
+         "pcs": this.pd.sspcs.substr(0, 12),
+         "zrq":this.pd.zrq,
          "tsy":this.pd.tsj
 
        };

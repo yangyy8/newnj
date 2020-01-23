@@ -153,7 +153,7 @@
                     </el-date-picker>
                  </div>
                 </el-col> -->
-                <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                <!-- <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                     <span class="input-text">所属分局：</span>
                     <el-select v-model="pd.SSFJ" @change="getPSC(pd.SSFJ)" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input" :disabled="juState=='1'?false:true">
                       <el-option
@@ -174,7 +174,8 @@
                         :value="item.DM">
                       </el-option>
                     </el-select>
-                </el-col>
+                </el-col> -->
+                <AREAFX @getArea="getArea"></AREAFX>
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                     <span class="input-text">显示类别：</span>
                     <el-select v-model="pd.XSLB" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
@@ -333,11 +334,12 @@
 <script scoped>
 import echarts from 'echarts'
 import CZXX from '../../../common/czxx_xq'
+import AREAFX from '../../../common/areaFx'
  export default {
-  components:{CZXX},
+  components:{CZXX,AREAFX},
   data() {
     return {
-
+      areaPd:{},
       pageC:true,
       numChange:true,
       tableDataC:[],
@@ -502,12 +504,16 @@ import CZXX from '../../../common/czxx_xq'
       time.begin==''?timeReal.begin='':time.begin==null?timeReal.begin=null:timeReal.begin=time.begin+' 00:00:00';
       time.end==''?timeReal.end='':time.end==null?timeReal.end=null:timeReal.end=time.end+' 00:00:00';
     },
+    getArea(val){
+      this.areaPd = val;
+    },
     getListC(pd0,pd){
       this.changeTime(pd0.SJXFSJ_DateRange,pd.SJXFSJ_DateRange);
       this.changeTime(pd0.CSRQ_DateRange,pd.CSRQ_DateRange);
       this.changeTime(pd0.TLYXQ_DateRange,pd.TLYXQ_DateRange);
       this.changeTime(pd0.FJJSSJ_DateRange,pd.FJJSSJ_DateRange);
       //表格
+      pd = Object.assign({},pd,this.areaPd);
       let p={
         pd:pd,
         userCode:this.userCode,
@@ -529,6 +535,7 @@ import CZXX from '../../../common/czxx_xq'
       this.changeTime(pd0.TLYXQ_DateRange,pd.TLYXQ_DateRange);
       this.changeTime(pd0.FJJSSJ_DateRange,pd.FJJSSJ_DateRange);
       // this.changeTime(pd.PCSJSSJ_DateRange);
+      pd = Object.assign({},pd,this.areaPd);
       let p={
         pd:pd,
         userCode:this.userCode,
@@ -556,6 +563,7 @@ import CZXX from '../../../common/czxx_xq'
       this.changeTime(pd0.CSRQ_DateRange,pd.CSRQ_DateRange);
       this.changeTime(pd0.TLYXQ_DateRange,pd.TLYXQ_DateRange);
       this.changeTime(pd0.FJJSSJ_DateRange,pd.FJJSSJ_DateRange);
+      pd = Object.assign({},pd,this.areaPd);
       let p={
         pd:pd,
         userCode:this.userCode,
@@ -585,6 +593,7 @@ import CZXX from '../../../common/czxx_xq'
     },
 
     getList(currentPage,pageSize,pd){
+      pd = Object.assign({},pd,this.areaPd);
       let p={
         'currentPage':currentPage,
         'showCount':pageSize,
@@ -716,7 +725,7 @@ import CZXX from '../../../common/czxx_xq'
            that.lineChart.off('click');
            that.lineChart.on('click',function(params){
              let p={};
-             p=Object.assign({},that.pd);
+             p=Object.assign({},that.pd,that.areaPd);
              that.changeTime(that.pd0.SJXFSJ_DateRange,p.SJXFSJ_DateRange);
              that.changeTime(that.pd0.CSRQ_DateRange,p.CSRQ_DateRange);
              that.changeTime(that.pd0.TLYXQ_DateRange,p.TLYXQ_DateRange);

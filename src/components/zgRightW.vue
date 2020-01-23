@@ -1,8 +1,8 @@
 <template lang="html">
-  <div class="bgright">
+  <div class="bgrightr">
     <div class="r-border-content">
-      <img src="../assets/img/zg/borderR.png" class="borderL" alt="">
-      <div class="r-con-con">
+      <!-- <img src="../assets/img/zg/borderR.png" class="borderL" alt=""> -->
+      <div class="rw-con-con">
         <div class="rr-child">
           <div class="topLeft">
             <div class="tl-title sim-title text-shadow">

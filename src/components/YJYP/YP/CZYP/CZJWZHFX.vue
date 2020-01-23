@@ -154,7 +154,7 @@
                   </el-select>
                 </el-col> -->
 
-                <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
+                <!-- <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
                       <span class="input-text"> 所属分局：</span>
                       <el-select v-model="pd.SSFJ" filterable clearable default-first-option @change="getSSPCS(pd.SSFJ)" placeholder="请选择"  size="small" class="input-input" :disabled="juState=='1'?false:true">
                         <el-option
@@ -175,7 +175,8 @@
                          :value="item.dm">
                        </el-option>
                      </el-select>
-                  </el-col>
+                  </el-col> -->
+                <AREAFX @getArea="getArea"></AREAFX>
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                   <span class="input-text">身份：</span>
                   <el-select v-model="pd.SFDM"  filterable clearable default-first-option  placeholder="请选择"  size="small" class="input-input">
@@ -473,10 +474,12 @@
       ToArray,sortByKey
     } from '@/assets/js/ToArray.js'
     import CZXX from '../../../common/czxx_xq'
+    import AREAFX from '../../../common/areaFx'
     export default {
-      components:{CZXX},
+      components:{CZXX,AREAFX},
       data() {
         return {
+          areaPd:{},
           tenArr:[],
           tirArr:[],
           rybh:'',
@@ -742,6 +745,7 @@
           let url="";
           this.pd.YWX = (this.pd.YWX).toUpperCase();
           this.pd.YWM = (this.pd.YWM).toUpperCase();
+          this.pd = Object.assign({},this.pd,this.areaPd);
           if(this.selectionAll.length==0){//全部导出
             if(this.checkedList.length==0){//人员全部导出
               p={
@@ -833,6 +837,9 @@
         //   }
         //   return pd;
         // },
+        getArea(val){
+          this.areaPd = val;
+        },
         getList(currentPage, showCount, pd) {
           this.checkItemReal=[];
           for(var i=0;i<this.checkedList.length;i++){
@@ -847,6 +854,7 @@
           if(pd.hasOwnProperty('RGUID')){
             delete pd['RGUID']
           }
+          pd = Object.assign({},pd,this.areaPd);
           let p = {
             "currentPage": currentPage,
             "showCount": showCount,

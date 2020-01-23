@@ -109,7 +109,7 @@
                 <el-col  :sm="24" :md="12" :lg="12"  class="input-item">
                     <span class="input-text">派出所：</span>
                     <div class="input-input t-fuzzy-12 t-flex">
-                      <el-select v-model="pd.LRDW" multiple :multiple-limit="5" @visible-change="getPCS(pd.LRDW_Like)" collapse-tags filterable clearable default-first-option placeholder="请选择"  size="small" :disabled="juState=='3'" :no-data-text="pd.LRDW_Like==''||pd.LRDW_Like==undefined?'请先选择所属分局':'无数据'">
+                      <el-select v-model="pd.LRDW" multiple :multiple-limit="5" @change="getZrq(pd.LRDW)" @visible-change="getPCS(pd.LRDW_Like)" collapse-tags filterable clearable default-first-option placeholder="请选择"  size="small" :disabled="juState=='3'||juState=='4'" :no-data-text="pd.LRDW_Like==''||pd.LRDW_Like==undefined?'请先选择所属分局':'无数据'">
                         <el-option
                           v-for="item in pcslist"
                           :key="item.dm"
@@ -119,6 +119,18 @@
                       </el-select>&nbsp;&nbsp;
                       <el-checkbox v-model="checkedpcs"  @change="getRadiopcs(checkedpcs)">包含</el-checkbox>
                     </div>
+                </el-col>
+                <el-col  :sm="24" :md="12" :lg="12"  class="input-item">
+                    <span class="input-text">责任区：</span>
+                    <el-select v-model="pd.SSZRQ" multiple :multiple-limit="5" collapse-tags filterable clearable  default-first-option placeholder="请选择"  size="small" class="input-input"
+                    :no-data-text="pd.LRDW_Like==''||pd.LRDW_Like==undefined?'请先选择所属分局':pd.LRDW==''||pd.LRDW==undefined?'请先选择派出所':'无数据'">
+                      <el-option
+                        v-for="item in zrq"
+                        :key="item.dm"
+                        :label="item.dm+' - '+item.mc"
+                        :value="item.dm">
+                      </el-option>
+                    </el-select>
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="12"  class="input-item">
                     <span class="input-text">旅馆名称：</span>
@@ -347,6 +359,7 @@ import LZXX from '../../../common/lzxx_xq'
       },
       fjlist:[],
       pcslist:[],
+      zrq:[],
       checkedfj:false,
       checkedpcs:false,
       tableData:[],
@@ -407,6 +420,12 @@ import LZXX from '../../../common/lzxx_xq'
       this.pd.LRDW_Like = [this.$store.state.pcsToju];
       this.getPCS(this.pd.LRDW_Like);
       this.pd.LRDW = [this.orgCode];
+    }
+    if(this.juState=='4'){
+      this.pd.LRDW_Like = [this.$store.state.pcsToju];
+      this.getPCS(this.pd.LRDW_Like);
+      this.pd.LRDW = [this.$store.state.zrqTopcs];
+      this.getZrq(this.pd.LRDW);
     }
   },
   methods:{
@@ -523,6 +542,19 @@ import LZXX from '../../../common/lzxx_xq'
       this.$api.post(this.Global.aport2+'/data_report/selectSsfjDm', p,
         r => {
           this.fjlist = r.data.SSFJ;
+        })
+    },
+    getZrq(arr) {
+      this.$set(this.pd,'SSZRQ',[]);
+      let p = {
+        "operatorId": this.$store.state.uid,
+        "operatorNm": this.$store.state.uname,
+        "pcsdm":arr
+      };
+      var url = this.Global.aport2 + "/data_report/selectZrqDm";
+      this.$api.post(url, p,
+        r => {
+          this.zrq = r.data.ZRQ;
         })
     },
     details(i){

@@ -29,7 +29,7 @@
                    </el-col>
                    <el-col :span="12">
                        <span class="yy-input-text">所属派出所：</span>
-                       <el-select v-model="pd.sspcs" filterable clearable default-first-option placeholder="请选择"  size="small" class="yy-input-input"  :disabled="juState=='3'" :no-data-text="pd.ssfj==''||pd.ssfj==undefined?'请先选择所属分局':'无数据'">
+                       <el-select v-model="pd.sspcs" filterable @change="getZrq(pd.sspcs)" clearable default-first-option placeholder="请选择"  size="small" class="yy-input-input"  :disabled="juState=='3'||juState=='4'" :no-data-text="pd.ssfj==''||pd.ssfj==undefined?'请先选择所属分局':'无数据'">
                          <el-option
                            v-for="(item,ind) in sspcs"
                            :key="ind"
@@ -38,7 +38,17 @@
                          </el-option>
                        </el-select>
                     </el-col>
-
+                    <el-col :span="12">
+                        <span class="yy-input-text">责任区：</span>
+                        <el-select v-model="pd.zrq" filterable clearable default-first-option placeholder="请选择"  size="small" class="yy-input-input" :no-data-text="pd.ssfj==''||pd.ssfj==undefined?'请先选择所属分局':pd.sspcs==''||pd.sspcs==undefined?'请先选择派出所':'无数据'">
+                          <el-option
+                            v-for="(item,ind) in zrq"
+                            :key="ind"
+                            :label="item.dm+' - '+item.mc"
+                            :value="item.dm">
+                          </el-option>
+                        </el-select>
+                    </el-col>
                  <el-col :span="12">
                      <span class="yy-input-text">性别：</span>
                      <el-select v-model="pd.xb" filterable clearable default-first-option placeholder="请选择"  size="small" class="yy-input-input">
@@ -404,6 +414,7 @@ export default {
       radio: 1,
       ssfj: [],
       sspcs: [],
+      zrq:[],
       centers: [31.910376, 118.525718],
       ccshow:false,
       count:0,
@@ -433,9 +444,6 @@ export default {
     this.orgName=this.$store.state.orgname;
     this.orgCode=this.$store.state.orgid;
     this.getFJ();
-    createMapL(this.centers);
-  },
-  activated(){
     if(this.juState=='2'){//分局登录
       // console.log('进来分局',this.orgCode,this.orgName)
       // this.pd.ssfj = this.orgCode;
@@ -450,6 +458,16 @@ export default {
       this.$set(this.pd,'sspcs',this.orgCode)
       // this.pd.sspcs = this.orgCode;
     }
+    if(this.juState=='4'){
+      this.$set(this.pd,'ssfj',this.$store.state.pcsToju);
+      this.getSSPCS(this.pd.ssfj);
+      this.$set(this.pd,'sspcs',this.$store.state.zrqTopcs);
+      this.getZrq(this.pd.sspcs);
+    }
+    createMapL(this.centers);
+  },
+  activated(){
+
   },
   methods: {
     pageSizeChange(val) {
@@ -490,7 +508,19 @@ export default {
           }
         })
     },
-
+    getZrq(arr) {
+      this.$set(this.pd,"zrq",'');
+      let p = {
+        "operatorId": this.$store.state.uid,
+        "operatorNm": this.$store.state.uname,
+        "pcsdm":[arr]
+      };
+      var url = this.Global.aport2 + "/data_report/selectZrqDm";
+      this.$api.post(url, p,
+        r => {
+          this.zrq =sortByKey(r.data.ZRQ,'dm');
+        })
+    },
     changtab() {
       this.show = !this.show;
     },
@@ -524,6 +554,7 @@ export default {
       this.$set(this.pd, "jzztlx", '');
       this.$set(this.pd, "ssfj", '');
       this.$set(this.pd, "sspcs", '');
+      this.$set(this.pd, "zrq", '');
       this.$set(this.pd, "csrqStart", '');
       this.$set(this.pd, "csrqEnd", '');
       this.$set(this.pd, "tlyxqStart", '');
@@ -674,6 +705,7 @@ export default {
         "jlsyArray": this.pd.jlsyArray,
         "jzztlx": this.pd.jzztlx,
         "ssfj": n,
+        "zrq":this.pd.zrq,
         "csrqStart": this.pd.csrqStart,
         "csrqEnd": this.pd.csrqEnd,
         "tlyxqStart": this.pd.tlyxqStart,
@@ -730,6 +762,7 @@ export default {
         "jlsyArray": this.pd.jlsyArray,
         "jzztlx": this.pd.jzztlx,
         "ssfj": ssdw,
+        "zrq":this.pd.zrq,
         "csrqStart": this.pd.csrqStart,
         "csrqEnd": this.pd.csrqEnd,
         "tlyxqStart": this.pd.tlyxqStart,

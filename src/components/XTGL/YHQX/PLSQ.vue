@@ -4,16 +4,24 @@
     <div class="yycontent">
         <el-row type="flex">
           <el-col :span="8">
-            <el-tree
-              :data="menudata"
-              show-checkbox
-              default-expand-all
-              node-key="dm"
-              :default-checked-keys="defaultChecked"
-              ref="tree"
-              highlight-current
-              :props="defaultProps">
-            </el-tree>
+            <span class="redx" style="font-size:12px;margin-bottom:5px;display:block">必须选择 分局授权或者派出所授权 才能修改保存！</span>
+            <div class="">
+              <el-tree
+                :data="menudata"
+                show-checkbox
+                default-expand-all
+                node-key="dm"
+                :default-checked-keys="defaultChecked"
+                ref="tree"
+                highlight-current
+                :props="defaultProps">
+              </el-tree>
+            </div>
+            <div style="text-align:center">
+              <el-button type="primary" @click="getMenu('2')" size="small">分局授权</el-button>
+              <el-button type="primary" @click="getMenu('3')" size="small">派出所授权</el-button>
+              <el-button type="primary" @click="saveFun()" size="small" :disabled="funState==''">保存授权</el-button>
+            </div>
           </el-col>
           <el-col :span="16"  style="margin:10px;">
             <div class="ak-tabs">
@@ -263,6 +271,7 @@ export default {
 
       allArr:[],
       changeAllFlag:false,
+      funState:'',
     }
   },
   mounted() {
@@ -414,26 +423,40 @@ export default {
           }
         });
     },
-    getMenu() {
+    getMenu(val) {
       var ff = new FormData();
       ff.append("token", this.$store.state.token);
+      if(val){
+        ff.append("jb", val);
+        this.funState = val;
+      }else{
+        this.funState = '';
+      }
       let p = ff;
-      // var url1 = this.Global.aport1 + '/fun/getBatchNavigation';
-      // this.$api.post(url1, p,
-      //   r => {
-      //     if(r.success){
-
-            var url=this.Global.aport1+'/fun/getDefaultFunTree';
-            this.$api.post(url, p,
-            rr=>{
-              if(rr.success){
-                this.menudata = rr.data.all;
-                this.defaultChecked = rr.data.checked;
-              }
-            });
-      //     }
-      // });
-
+      var url=this.Global.aport1+'/fun/getDefaultFunTree';
+      this.$api.post(url, p,
+      rr=>{
+        if(rr.success){
+          this.menudata = rr.data.all;
+          this.defaultChecked = rr.data.checked;
+        }
+      });
+    },
+    saveFun(){
+      var p = new FormData();
+      p.append("token",this.$store.state.token);
+      p.append('jb',this.funState);
+      p.append('funids',this.$refs.tree.getCheckedKeys(true))
+      this.$api.post(this.Global.aport1 +'/fun/updateDefaultFunTree',p,
+       r =>{
+         if(r.success){
+           this.$message({
+             type: 'success',
+             message: '保存成功'
+           });
+           this.funState='';
+         }
+       })
     },
     changeAll(){
       this.allArr = [];
@@ -577,7 +600,7 @@ export default {
 }
 
 .el-tree {
-  max-height: 600px !important;
+  max-height: 530px !important;
   overflow-y: scroll;
 }
 </style>

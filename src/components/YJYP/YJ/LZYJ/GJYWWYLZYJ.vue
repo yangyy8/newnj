@@ -40,7 +40,7 @@
                    <span class="input-text">证件号码：</span>
                    <el-input placeholder="请输入内容" size="small" v-model="pd.ZJHM" class="input-input"></el-input>
                 </el-col>
-                <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                <!-- <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                     <span class="input-text">所属分局：</span>
                     <el-select v-model="pd.FJ" @change="getPSC(pd.FJ)" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input" :disabled="juState=='1'?false:true">
                       <el-option
@@ -61,7 +61,8 @@
                         :value="item.DM">
                       </el-option>
                     </el-select>
-                </el-col>
+                </el-col> -->
+                <AREA @getArea="getArea"></AREA>
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                     <span class="input-text">处理状态：</span>
                     <el-select v-model="pd.CLZT" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
@@ -169,9 +170,12 @@
 
 </template>
 <script>
+import AREA from '../../../common/area'
 export default {
+  components:{AREA},
   data() {
     return {
+      areaPd:{},
       CurrentPage: 1,
       pageSize: 10,
       TotalResult: 0,
@@ -248,10 +252,14 @@ export default {
       this.CurrentPage=val;
       this.getList(this.CurrentPage, this.pageSize, this.pd);
     },
+    getArea(val){
+      this.areaPd = val;
+    },
     getList(currentPage, showCount, pd) {
       this.pd.MXLX='LZ_ZDGJRYYJ';
       this.pd.BJSJ_DateRange.begin=this.pd0.beginBJSJ;
       this.pd.BJSJ_DateRange.end=this.pd0.endBJSJ;
+      pd = Object.assign({},pd,this.areaPd);
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,

@@ -81,7 +81,7 @@
                         <span class="input-text">签证号码：</span>
                         <el-input placeholder="请输入内容" size="small" v-model="pd.QZHM" class="input-input"></el-input>
                     </el-col>
-                    <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                    <!-- <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                         <span class="input-text">所属分局：</span>
                         <el-select v-model="pd.FJ" @change="getPSC(pd.FJ)" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input" :disabled="juState=='1'?false:true">
                           <el-option
@@ -102,7 +102,8 @@
                             :value="item.DM">
                           </el-option>
                         </el-select>
-                    </el-col>
+                    </el-col> -->
+                    <AREA @getArea="getArea"></AREA>
                     <el-col  :sm="24" :md="12" :lg="8"   class="input-item"  v-if="juState=='1'">
                       <span class="input-text">处理状态：</span>
                       <el-select v-model="pd.CLZT" placeholder="请选择"  filterable clearable default-first-option size="small" class="input-input">
@@ -134,8 +135,7 @@
           </el-row>
         </div>
         <div class="yycontent">
-           <div class="yylbt mb-15">甄别信息列表</div>
-
+          <div class="yylbt mb-15">甄别信息列表</div>
           <el-table
                :data="tableData"
                border
@@ -279,7 +279,9 @@
 
     </template>
     <script>
+    import AREA from '../../../common/area'
     export default {
+      components:{AREA},
       data() {
         return {
           CurrentPage: 1,
@@ -305,6 +307,7 @@
           selectionAll:[],
           yuid:[],
           selectionReal:[],
+          areaPd:{},
         }
       },
         activated(){
@@ -444,6 +447,9 @@
           this.CurrentPage=val;
           this.getList(this.CurrentPage, this.pageSize, this.pd);
         },
+        getArea(val){
+          this.areaPd = val;
+        },
         getList(currentPage, showCount, pd) {
           this.pd.MXLX='ASJ_FFJL';
           this.pd.BJSJ_DateRange.begin=this.pd0.beginBJSJ;
@@ -452,6 +458,7 @@
           if(pd.hasOwnProperty('YJID')){
             delete pd['YJID']
           }
+          pd = Object.assign({},pd,this.areaPd);
           let p = {
             "currentPage": currentPage,
             "showCount": showCount,

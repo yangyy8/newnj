@@ -359,7 +359,7 @@ export default {
         "currentPage": currentPage,
         "showCount": showCount,
         "pd": pd,
-        'orderby':{value:'SBSJ',datatype:'date'},
+        'orderBy':{value:'SBSJ',dataType:'date'},
         "orderType":'DESC',
         userCode:this.userCode,
         userName:this.userName,

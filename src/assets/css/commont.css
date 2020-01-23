@@ -174,7 +174,7 @@
   margin-top: 20px!important;
 }
 .t-mtt{
-  margin: 0% 0 4% 0;
+  margin: 3% 0 1% 0;
 }
 .t-mb10{
   margin-bottom: 10px!important;
@@ -500,4 +500,8 @@
 .el-dialog__headerbtn .el-dialog__close{
   color: #e63354!important;
   font-weight: bolder!important;
+}
+.screen-ul li{
+  /* float: left;
+  padding: 0 4% */
 }

@@ -26,6 +26,7 @@ var store = new Vuex.Store({
     imgHeightThr:localStorage.getItem('imgHeightThr') || 0,
     imgHeightFor:localStorage.getItem('imgHeightFor') || 0,
     pcsToju:localStorage.getItem('pcsToju') || '',
+    zrqTopcs:localStorage.getItem('zrqTopcs') || '',
     key: {},
     key2:'',
     ssdw: [],
@@ -86,6 +87,8 @@ var store = new Vuex.Store({
     yjcl2:[],
     yjcl3:[],
     clzt1:[],
+    zy:[],
+    hjd:[],
     queryType:'',
   },
   mutations: {
@@ -112,6 +115,10 @@ var store = new Vuex.Store({
     PcsToJu(state,data){
       localStorage.setItem('pcsToju',data);
       state.pcsToju = data;
+    },
+    ZrqToPcs(state,data){
+      localStorage.setItem('zrqTopcs',data);
+      state.zrqTopcs = data;
     },
     getActiveTab(state,data){
       state.currentKey = data;
@@ -334,6 +341,12 @@ var store = new Vuex.Store({
     getClzt1(state,data){
       state.clzt1=data;
     },
+    getZy(state,data){
+      state.zy=data;
+    },
+    getHjd(state,data){
+      state.hjd=data;
+    }
   },
   actions: {
     getZjxy(context){
@@ -674,6 +687,18 @@ var store = new Vuex.Store({
       api.get(global_.aport1+global_.clzt1,null,
        r =>{
          context.commit('getClzt1',ToArray(r.data))
+       })
+    },
+    getZy(context){
+      api.get(global_.aport1+global_.zy,null,
+       r =>{
+         context.commit('getZy',ToArray(r.data))
+       })
+    },
+    getHjd(context){
+      api.get(global_.aport1+global_.hjd,null,
+       r =>{
+         context.commit('getHjd',ToArray(r.data))
        })
     }
   }

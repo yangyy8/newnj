@@ -114,13 +114,16 @@ export default {
       this.$api.post(this.Global.aport4+'/LRDWController/getMCAndJBByDM',p,
        r =>{
          if(r.success){
+           console.log('11111')
            this.$store.commit('getJuS',r.data[0].JB);
            console.log('f方法==',this.$store.state.juState,r.data[0].JB);
-           if(this.$store.state.juState=='3'){
-             this.$api.post(this.Global.aport4+'/LRDWController/getParentByDM',p,
+           if(this.$store.state.juState=='3'||this.$store.state.juState=='4'){//派出所&责任区
+             console.log('this.$store.state.juState',this.$store.state.juState)
+             this.$api.post(this.Global.aport4+'/LRDWController/getAllParentByChildDW',p,
               r =>{
                 if(r.success){
-                  this.$store.commit('PcsToJu',r.data.DM);
+                  this.$store.commit('PcsToJu',r.data.FJDM);//分局
+                  this.$store.commit('ZrqToPcs',r.data.PCSDM);//派出所
                 }
               })
            }

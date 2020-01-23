@@ -1,8 +1,8 @@
 <template lang="html">
   <div class="bgleft">
     <div class="border-content">
-      <img src="../assets/img/zg/borderL.png" class="borderL" alt="">
-      <div class="con-con">
+      <!-- <img src="../assets/img/zg/borderL.png" class="borderL" alt=""> -->
+      <div class="w-con-con">
         <div class="">
           <div class="zgtitle">
             <img class="t-tip" src="../assets/img/zg/titleL.png" alt="">

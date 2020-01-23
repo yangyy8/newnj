@@ -32,7 +32,7 @@
                   </el-col>
                   <el-col :span="24">
                       <span class="yy-input-text">派出所：</span>
-                        <el-select v-model="pd.sspcs" filterable clearable default-first-option placeholder="请输入关键字"  size="small" class="yy-input-input" :disabled="juState=='3'" :no-data-text="pd.ssfj==''||pd.ssfj==undefined?'请先选择所属分局':'无数据'">
+                        <el-select v-model="pd.sspcs" @change="getZrq(pd.sspcs)" filterable clearable default-first-option placeholder="请输入关键字"  size="small" class="yy-input-input" :disabled="juState=='3'||juState=='4'" :no-data-text="pd.ssfj==''||pd.ssfj==undefined?'请先选择所属分局':'无数据'">
                        <el-option
                          v-for="(item,ind1) in sspcs"
                          :key="ind1"
@@ -41,7 +41,17 @@
                        </el-option>
                      </el-select>
                   </el-col>
-
+                  <el-col :span="24">
+                      <span class="yy-input-text">责任区：</span>
+                      <el-select v-model="pd.zrq" filterable clearable default-first-option placeholder="请选择"  size="small" class="yy-input-input" :no-data-text="pd.ssfj==''||pd.ssfj==undefined?'请先选择所属分局':pd.sspcs==''||pd.sspcs==undefined?'请先选择派出所':'无数据'">
+                        <el-option
+                          v-for="(item,ind) in zrq"
+                          :key="ind"
+                          :label="item.dm+' - '+item.mc"
+                          :value="item.dm">
+                        </el-option>
+                      </el-select>
+                  </el-col>
                   <el-col :span="24">
                       <span class="yy-input-text">国家地区：</span>
                       <el-select v-model="pd.gjdq" filterable clearable default-first-option placeholder="请选择"  size="small" class="yy-input-input">
@@ -243,6 +253,7 @@ export default {
        form:{},
        xxmc:[],
        ssfj:[],
+       zrq:[],
        tableData:[],
        diatext:'标准化地址',
        bzhid:[],
@@ -279,11 +290,6 @@ export default {
     this.token=this.$store.state.token;
     //this.getGX();
     this.getSsfj();
-    this.$nextTick(()=>{
-        createMapL();
-    })
-  },
-  activated(){
     if(this.juState=='2'){
       this.pd.ssfj = this.orgCode;
       this.getSSPCS(this.pd.ssfj);
@@ -293,6 +299,18 @@ export default {
       this.getSSPCS(this.pd.ssfj);
       this.pd.sspcs = this.orgCode;
     }
+    if(this.juState=='4'){
+      this.$set(this.pd,'ssfj',this.$store.state.pcsToju);
+      this.getSSPCS(this.pd.ssfj);
+      this.$set(this.pd,'sspcs',this.$store.state.zrqTopcs);
+      this.getZrq(this.pd.sspcs);
+    }
+    this.$nextTick(()=>{
+        createMapL();
+    })
+  },
+  activated(){
+
   },
 
   methods:{
@@ -327,6 +345,7 @@ export default {
        "zflx":this.pd.zflx,
        "jzztlx":this.pd.jzztlx,
        "ssfj":this.ssfjsub,
+       "zrq":this.pd.zrq,
        "postType":'sjshm'
      };
         var url=this.Global.aport+"/ywlz/exportDataList";
@@ -360,6 +379,8 @@ export default {
         this.$set(this.pd,"sspcs",'');
         this.$set(this.pd,"jzztlx",'');
         this.$set(this.pd,"ssfj",'');
+        this.$set(this.pd, "sspcs", '');
+        this.$set(this.pd, "zrq", '');
         this.ccshow=false;
     },
     getGX(){
@@ -392,6 +413,19 @@ export default {
           if (r.success) {
             this.sspcs = r.data.PCS;
           }
+        })
+    },
+    getZrq(arr) {
+      this.$set(this.pd,"zrq",'');
+      let p = {
+        "operatorId": this.$store.state.uid,
+        "operatorNm": this.$store.state.uname,
+        "pcsdm":[arr]
+      };
+      var url = this.Global.aport2 + "/data_report/selectZrqDm";
+      this.$api.post(url, p,
+        r => {
+          this.zrq =sortByKey(r.data.ZRQ,'dm');
         })
     },
     doSearch() {
@@ -496,6 +530,7 @@ export default {
           "zflx":this.pd.zflx,
           "jzztlx":this.pd.jzztlx,
           "ssfj":this.ssfjsub,
+          "zrq":this.pd.zrq,
           "postType":'sjshm'
         };
         var url=this.Global.aport+"/ywlz/getLxsSjshmByBzhdzList";

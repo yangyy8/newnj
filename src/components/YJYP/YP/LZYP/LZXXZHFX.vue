@@ -71,7 +71,7 @@
                        </el-select>
                     </el-col> -->
 
-                  <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
+                  <!-- <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
                         <span class="input-text"> 所属分局：</span>
                         <el-select v-model="pd.SSFJ" filterable clearable default-first-option @change="getSSPCS(pd.SSFJ)" placeholder="请选择"  size="small" class="input-input" :disabled="juState=='1'?false:true">
                           <el-option
@@ -92,7 +92,8 @@
                            :value="item.dm">
                          </el-option>
                        </el-select>
-                    </el-col>
+                    </el-col> -->
+                    <AREAFX @getArea="getArea"></AREAFX>
                     <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
                       <span class="input-text">证件种类：</span>
                       <el-select v-model="pd.ZJZL" placeholder="请选择"   multiple collapse-tags filterable clearable default-first-option   size="small" class="input-input">
@@ -363,10 +364,12 @@
       ToArray,sortByKey
     } from '@/assets/js/ToArray.js'
     import LZXX from '../../../common/lzxx_xq'
+    import AREAFX from '../../../common/areaFx'
     export default {
-        components:{LZXX},
+        components:{LZXX,AREAFX},
       data() {
         return {
+          areaPd:{},
           tenArr:[],
           tirArr:[],
           rybh:'',
@@ -634,6 +637,7 @@
           let p={};
           let url="";
           this.pd.YWXM = (this.pd.YWXM).toUpperCase();
+          this.pd = Object.assign({},this.pd,this.areaPd);
           if(this.checkedList.length==0){//人员导出
             url="/linZhuInfoComprehensiveAnalysisController/exportPersonList"
             if(this.selectionAll.length==0){//人员全部导出
@@ -734,6 +738,9 @@
         //   }
         //   return pd;
         // },
+        getArea(val){
+          this.areaPd = val;
+        },
         getList(currentPage, showCount, pd) {
           this.checkItemReal=[];
           for(var i=0;i<this.checkedList.length;i++){
@@ -753,6 +760,7 @@
           if(pd.hasOwnProperty('DTID')){
             delete pd['DTID']
           }
+          pd = Object.assign({},pd,this.areaPd);
           let p = {
             "currentPage": currentPage,
             "showCount": showCount,

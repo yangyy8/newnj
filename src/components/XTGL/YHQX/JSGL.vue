@@ -155,7 +155,6 @@
 <el-dialog title="详情" :visible.sync="detailsDialogVisible" width="600px" >
   <el-form  ref="mapf">
     <el-row :gutter="1"  class="mb-6">
-
         <el-col :span="24" class="input-item">
           <span class="input-text">角色名：</span>
           <span class="input-input detailinput">  {{mapf.mc}}</span>
@@ -348,7 +347,6 @@ export default {
     selectionAll:[],
     yuid:[],
     selectionReal:[],
-
     }
   },
 
@@ -364,8 +362,7 @@ export default {
     dataSelection(){
       // console.log('this.multipleSelection',this.multipleSelection)
       this.selectionReal.splice(this.CurrentPage1-1,1,this.multipleSelection);
-
-      console.log('this.selectionReal',this.selectionReal);
+      // console.log('this.selectionReal',this.selectionReal);
       this.selectionAll=[];
       for(var i=0;i<this.selectionReal.length;i++){
         if(this.selectionReal[i]){
@@ -384,22 +381,18 @@ export default {
     },
     pageSizeChange(val) {
       this.getList(this.CurrentPage, val, this.pd);
-      console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
       this.getList(val, this.pageSize, this.pd);
-      console.log(`当前页: ${val}`);
     },
     pageSizeChange1(val) {
       this.pageSize1=val;
       this.CurrentPage1=1;
       this.getList1(this.CurrentPage1, val, this.pd1);
-      console.log(`每页 ${val} 条`);
     },
     handleCurrentChange1(val) {
       this.CurrentPage1=val;
       this.getList1(val, this.pageSize1, this.pd1);
-      console.log(`当前页: ${val}`);
     },
     getCompany(){
          var formData = new FormData();
@@ -410,7 +403,6 @@ export default {
          this.$api.post(url, p,
          r => {
            this.company=r.data;
-           console.log('this.company',this.company);
          });
     },
     getList(currentPage, showCount, pd) {

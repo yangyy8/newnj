@@ -27,7 +27,7 @@
                   </el-option>
                 </el-select>
             </el-col> -->
-                <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                <!-- <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                     <span class="input-text">所属分局：</span>
                     <el-select v-model="pd.FJ" filterable clearable @change="getPSC(pd.FJ)" default-first-option placeholder="请选择"  size="small" class="input-input" :disabled="juState=='1'?false:true">
                       <el-option
@@ -60,7 +60,8 @@
                         :value="item.dm">
                       </el-option>
                     </el-select>
-                </el-col>
+                </el-col> -->
+                <AREA @getArea="getArea"></AREA>
                 <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
                    <span class="input-text">街道名称：</span>
                    <el-input placeholder="请输入内容" size="small" v-model="pd.JLXMC_Like" class="input-input"></el-input>
@@ -216,9 +217,12 @@
   </div>
 </template>
 <script>
+import AREA from '../../../common/area'
 export default {
+  components:{AREA},
   data() {
     return {
+      areaPd:{},
       // ssfj:[],
       getallfj:[],
       PSC:[],
@@ -252,6 +256,10 @@ export default {
       this.getPSC(this.pd.FJ);
       this.pd.PCS = this.orgCode;
     }
+    let _this = this;
+    setTimeout(function(){
+      _this.getList(_this.CurrentPage, _this.pageSize, _this.pd);
+    },1000)
   },
   mounted() {
     if(this.Global.serviceState==0){this.$set(this.pd,'CLZT','CLZT_1')};
@@ -271,7 +279,7 @@ export default {
     // this.getFJ();
     this.getFj();
     this.getZrq();
-    this.getList(this.CurrentPage, this.pageSize, this.pd);
+
   },
 
   methods: {
@@ -341,6 +349,7 @@ export default {
          return
       }
       let p={};
+      this.pd = Object.assign({},this.pd,this.areaPd);
       if(this.selectionAll.length==0){//全部导出
          p={
           "pd":this.pd,
@@ -394,6 +403,9 @@ export default {
       this.CurrentPage=val;
       this.getList(this.CurrentPage, this.pageSize, this.pd);
     },
+    getArea(val){
+      this.areaPd = val;
+    },
     getList(currentPage, showCount, pd) {
       pd.MXLX='CZW_FWYHYJ';
       this.pd.ZSRQ_DateRange.begin=this.pd0.beginZSRQ;
@@ -403,6 +415,7 @@ export default {
       if(pd.hasOwnProperty('YJID')){
         delete pd['YJID']
       }
+      pd = Object.assign({},pd,this.areaPd);
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,

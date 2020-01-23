@@ -36,6 +36,18 @@ export default new Router({
     component:resolve => require(['@/components/zgRight'], resolve),
     },
     {
+    path:'/zgLeftW',
+    name:'zgLeftW',
+    meta: {logined:true},
+    component:resolve => require(['@/components/zgLeftW'], resolve),
+    },
+    {
+    path:'/zgRightW',
+    name:'zgRightW',
+    meta: {logined:true},
+    component:resolve => require(['@/components/zgRightW'], resolve),
+    },
+    {
     path:'/indexNew',
     name:'IndexNew',
     meta: {logined:true},
@@ -681,6 +693,58 @@ export default new Router({
           name: 'QFRYXX',
           meta:{title:['数据分析','签证分析','签发信息报表'],father:'QFXXBB'},
           component: resolve => require(['@/components/YJYP/YP/QZXXYP/QFRYXX'], resolve),
+        },
+        // 中管分析
+        {
+          path: 'NDJMSQ',
+          name: 'NDJMSQ',
+          meta:{title:['数据分析','中国人出入境分析','内地居民申请统计报表']},
+          component: resolve => require(['@/components/YJYP/YP/ZG/NDJMSQ'], resolve),
+        },
+        {
+          path: 'NDJMRYXX',
+          name: 'NDJMRYXX',
+          meta:{title:['数据分析','中国人出入境分析','内地居民申请统计报表'],father:'NDJMSQ'},
+          component: resolve => require(['@/components/YJYP/YP/ZG/NDJMRYXX'], resolve),
+        },
+
+        {
+          path: 'TKDQTJ',
+          name: 'TKDQTJ',
+          meta:{title:['数据分析','中国人出入境分析','调控地区统计报表']},
+          component: resolve => require(['@/components/YJYP/YP/ZG/TKDQTJ'], resolve),
+        },
+        {
+          path: 'TKDQRYXX',
+          name: 'TKDQRYXX',
+          meta:{title:['数据分析','中国人出入境分析','调控地区统计报表'],father:'TKDQTJ'},
+          component: resolve => require(['@/components/YJYP/YP/ZG/TKDQRYXX'], resolve),
+        },
+
+        {
+          path: 'ZDRYBL',
+          name: 'ZDRYBL',
+          meta:{title:['数据分析','中国人出入境分析','重点人员办理情况统计报表']},
+          component: resolve => require(['@/components/YJYP/YP/ZG/ZDRYBL'], resolve),
+        },
+        {
+          path: 'ZDRYRYXX',
+          name: 'ZDRYRYXX',
+          meta:{title:['数据分析','中国人出入境分析','重点人员办理情况统计报表'],father:'ZDRYBL'},
+          component: resolve => require(['@/components/YJYP/YP/ZG/ZDRYRYXX'], resolve),
+        },
+
+        {
+          path: 'TKGZDQ',
+          name: 'TKGZDQ',
+          meta:{title:['数据分析','中国人出入境分析','调控关注地区配置']},
+          component: resolve => require(['@/components/YJYP/YP/ZG/TKGZDQ'], resolve),
+        },
+        {
+          path: 'TKGZRYXX',
+          name: 'TKGZRYXX',
+          meta:{title:['数据分析','中国人出入境分析','调控关注地区配置'],father:'TKGZDQ'},
+          component: resolve => require(['@/components/YJYP/YP/ZG/TKGZRYXX'], resolve),
         },
         // 日常管理=====================================================================
         {
