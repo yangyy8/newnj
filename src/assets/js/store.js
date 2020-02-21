@@ -89,6 +89,7 @@ var store = new Vuex.Store({
     clzt1:[],
     zy:[],
     hjd:[],
+    crjbs:[],
     queryType:'',
   },
   mutations: {
@@ -346,6 +347,9 @@ var store = new Vuex.Store({
     },
     getHjd(state,data){
       state.hjd=data;
+    },
+    getCrjbs(state,data){
+      state.crjbs=data;
     }
   },
   actions: {
@@ -700,6 +704,12 @@ var store = new Vuex.Store({
        r =>{
          context.commit('getHjd',ToArray(r.data))
        })
+    },
+    getCrjbs(context){
+      api.get(global_.aport1+global_.crjbs,null,
+      r =>{
+        context.commit('getCrjbs',ToArray(r.data))
+      })
     }
   }
 });

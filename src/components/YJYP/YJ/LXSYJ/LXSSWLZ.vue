@@ -147,7 +147,7 @@
     </div>
     <div class="yycontent">
        <div class="yylbt mb-15">预警信息列表</div>
-
+       <COUNT :ccPd="ccPd" :random="new Date().getTime()"></COUNT>
       <el-table
            :data="tableData"
            border
@@ -213,11 +213,18 @@
              prop="CLZT_DESC"
              label="处理状态"
              v-if="juState=='1'">
+             <template slot-scope="scope">
+               <span :class="{'t-red':scope.row.CLZT=='1','t-blue':scope.row.CLZT=='2','t-yel':scope.row.CLZT=='3'}">{{scope.row.CLZT_DESC}}</span>
+             </template>
            </el-table-column>
            <el-table-column
              prop="FJCLZT_DESC"
              label="分局处理状态"
              v-if="juState=='1'||juState=='2'">
+             <template slot-scope="scope">
+               <span v-if="juState=='1'">{{scope.row.FJCLZT_DESC}}</span>
+               <span v-else :class="{'t-red':scope.row.FJCLZT=='1','t-blue':scope.row.FJCLZT=='2','t-yel':scope.row.FJCLZT=='3'}">{{scope.row.FJCLZT_DESC}}</span>
+             </template>
            </el-table-column>
            <el-table-column
              label="操作" width="70">
@@ -297,8 +304,9 @@
 </template>
 <script>
 import AREA from '../../../common/area'
+import COUNT from '../../../common/CLZTCount'
 export default {
-  components:{AREA},
+  components:{AREA,COUNT},
   data() {
     return {
       CurrentPage: 1,
@@ -327,6 +335,7 @@ export default {
       tabList:this.$store.state.tabList,
       juState:'',
       areaPd:{},
+      ccPd:{},
     }
   },
   activated(){
@@ -539,6 +548,9 @@ export default {
       this.areaPd = val;
     },
     getList(currentPage, showCount, pd) {
+      this.ccPd.MXLX="LXS_SWLZYJ";
+      this.ccPd.FJ=this.areaPd.FJ;
+      this.ccPd.PCS=this.areaPd.PCS;
       if(pd.hasOwnProperty('YJID')){
         delete pd['YJID']
       }

@@ -83,7 +83,7 @@
     </div>
     <div class="yycontent">
        <div class="yylbt mb-15">甄别信息列表</div>
-
+       <COUNT :ccPd="ccPd" :random="new Date().getTime()" :typeCount="true"></COUNT>
       <el-table
            :data="tableData"
            border
@@ -171,8 +171,9 @@
 </template>
 <script>
 import AREA from '../../../common/area'
+import COUNT from '../../../common/CLZTCount'
 export default {
-  components:{AREA},
+  components:{AREA,COUNT},
   data() {
     return {
       areaPd:{},
@@ -193,6 +194,7 @@ export default {
       orgName:'',
       token:'',
       juState:'',
+      ccPd:{},
     }
   },
   activated(){
@@ -256,6 +258,9 @@ export default {
       this.areaPd = val;
     },
     getList(currentPage, showCount, pd) {
+      this.ccPd.MXLX="LZ_ZDGJRYYJ";
+      this.ccPd.FJ=this.areaPd.FJ;
+      this.ccPd.PCS=this.areaPd.PCS;
       this.pd.MXLX='LZ_ZDGJRYYJ';
       this.pd.BJSJ_DateRange.begin=this.pd0.beginBJSJ;
       this.pd.BJSJ_DateRange.end=this.pd0.endBJSJ;

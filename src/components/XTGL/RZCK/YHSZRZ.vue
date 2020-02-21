@@ -1,4 +1,4 @@
-<!-- <template lang="html">
+<template lang="html">
   <div class="yymain">
     <div class="yytitle">
       <el-row type="flex">
@@ -36,15 +36,15 @@
                         type="date" size="small"
                         :clearable='false'
                         value-format="timestamp"
-                        placeholder="结束时间" >
+                        placeholder="结束时间">
                     </el-date-picker>
                  </div>
                 </el-col>
           </el-row>
          </el-col>
             <el-col :span="2" class="down-btn-area">
-              <el-button type="success" size="small" @click="getList()">查询</el-button>
-              <el-button type="success" size="small" @click="download(pd.pageSize)">数据下载</el-button>
+              <el-button type="success" size="small" class="t-mb" @click="getList(CurrentPage,pageSize,pd)">查 &nbsp;&nbsp;&nbsp;&nbsp; 询</el-button>
+              <el-button type="primary" size="small" class="t-ml0" @click="download()">数据下载</el-button>
             </el-col>
           </el-row>
           <el-table
@@ -52,7 +52,12 @@
              border
              ref="multipleTable"
              :highlight-current-row="true"
-             style="width: 100%">
+             style="width: 100%"
+             @selection-change="handleSelectionChange">
+             <el-table-column
+               type="selection"
+               width="55">
+             </el-table-column>
              <el-table-column
                prop="rowKey"
                label="时间">
@@ -60,14 +65,20 @@
              <el-table-column
                label="日志">
                <template slot-scope="scope">
-                 <span>{{scope.row.this.pd.sourceColName}}</span>
+                 <el-popover
+                    placement="top-start"
+                    width="700"
+                    trigger="hover"
+                    :content="scope.row[pd.sourceColName]">
+                    <span slot="reference">{{scope.row[pd.sourceColName] | ellipsis}}</span>
+                  </el-popover>
                </template>
              </el-table-column>
              <el-table-column
                label="操作" width="70">
                <template slot-scope="scope">
                  <el-button type="text"  class="a-btn"  title="详情"  icon="el-icon-document" @click="details(scope.row)"></el-button>
-                 <el-button type="text"  class="a-btn"  title="导出"  icon="el-icon-document" @click="downOnly(scope.row)"></el-button>
+                 <el-button type="text"  class="a-btn"  title="导出"  icon="el-icon-download" @click="downOnly(scope.row)"></el-button>
                </template>
              </el-table-column>
            </el-table>
@@ -82,7 +93,7 @@
               </el-pagination>
             </div>
     </div>
-    <el-dialog title="临住详情" :visible.sync="detailsDialogVisible" custom-class="big_dialog" :append-to-body="false" :modal="false">
+    <el-dialog title="日志详情" :visible.sync="detailsDialogVisible" custom-class="big_dialog combine" :append-to-body="false" :modal="false">
       <div>{{content}}</div>
       <div slot="footer" class="dialog-footer">
         <el-button @click="detailsDialogVisible = false" size="small">取 消</el-button>
@@ -96,51 +107,123 @@ export default {
   data(){
     return {
       CurrentPage: 1,
-      pageSize: 5,
+      pageSize: 10,
       TotalResult: 0,
       pd:{
-        pageSize:10,
-        page:1,
+        tableName: "test",
+        sourceColName: "name",
       },
       tableData:[],
       detailsDialogVisible:false,
       content:'',
       downNum:0,
+      multipleSelection:[],
+    }
+  },
+  filters: {
+    ellipsis(value) {
+      if (!value) return "";
+      if (value.length > 60) {
+        return value.slice(0, 60) + "...";
+      }
+      return value;
     }
   },
   methods:{
-    getList(){
+    getList(currentPage,showCount,pd){
       this.V.$submit('demo',(canSumit,data) => {
         if(!canSumit) return;
-          this.pd.token = this.$store.state.token
-          this.$api.post(this.Global.aport9+'/api/hbase/findData',this.pd,
+        if(this.pd.lowRowKey==''||this.pd.lowRowKey==null||this.pd.upRowKey==''||this.pd.upRowKey==null){
+          this.$message({
+             message: '时间范围不能为空！',
+             type: 'warning'
+           });
+           return;
+        }
+        var timeC = this.pd.upRowKey - this.pd.lowRowKey;
+        var  days = timeC/3600/24/1000;
+        if(days>2){
+          this.$alert('时间范围不大于2天', '提示', {
+          confirmButtonText: '确定',
+          callback: action => {
+            this.$message({
+              type: 'info',
+            });
+          }
+        });
+        return
+        }
+          pd.token = this.$store.state.token;
+          pd.page = currentPage;
+          pd.pageSize = showCount;
+          this.$api.post(this.Global.aport9+'/api/hbase/findData',pd,
            r =>{
-             // this.tableData = r.resultdata.data
+             this.tableData = r.resultdata.data
              this.TotalResult=r.resultdata.totalCount
            })
       })
     },
+
     pageSizeChange(val) {
       this.getList(this.CurrentPage, val,this.pd);
     },
     handleCurrentChange(val) {
       this.getList(val, this.pageSize,this.pd);
     },
+    handleSelectionChange(val){
+      this.multipleSelection = val;
+    },
     details(val){
       this.detailsDialogVisible = true;
-      this.content = val.this.pd.sourceColName;
+      this.content = val[this.pd.sourceColName];
     },
     downOnly(val){
-
+      let p={
+        data:[val],
+        token:this.$store.state.token
+      }
+      this.$api.post(this.Global.aport9+'/api/hbase/loadPageData',p,
+       r =>{
+          this.downloadM(r)
+       },e=>{},{},'blob')
     },
     download(n){
       this.V.$submit('demo',(canSumit,data) => {
         if(!canSumit) return;
-        if(n=='10'){//递归
-          this.pd.token = this.$store.state.token
-          this.$api.post(this.Global.aport9+'/api/hbase/loadData',this.pd,
+        if(this.pd.lowRowKey==''||this.pd.lowRowKey==null||this.pd.upRowKey==''||this.pd.upRowKey==null){
+          this.$message({
+             message: '时间范围不能为空！',
+             type: 'warning'
+           });
+           return;
+        }
+        var timeC = this.pd.upRowKey - this.pd.lowRowKey;
+        var  days = timeC/3600/24/1000;
+        if(days>2){
+          this.$alert('时间范围不大于2天', '提示', {
+          confirmButtonText: '确定',
+          callback: action => {
+            this.$message({
+              type: 'info',
+            });
+          }
+        });
+        return
+        }
+        if(this.multipleSelection.length==0){
+          this.$message({
+             message: '请先选择数据！',
+             type: 'warning'
+           });
+           return;
+        }
+        let p={
+          data:this.multipleSelection,
+          token:this.$store.state.token
+        }
+          this.$api.post(this.Global.aport9+'/api/hbase/loadPageData',p,
            r =>{
-             if(r.resultdata.callBack){
+             // if(r.resultdata.callBack){
                // this.downNum++
                // if(this.downNum==1){
                //   this.$confirm('最多只能导出 10 条,是否继续?','提示',{
@@ -164,19 +247,17 @@ export default {
                //
                // }
 
-               this.downloadM(r.resultdata.data)
-               this.download()
-             }else{
-               this.$message({
-                  message: '已导出全部数据',
-                  type: 'success'
-                });
-                return;
-             }
+               this.downloadM(r)
+               // this.download()
+             // }else{
+             //   this.$message({
+             //      message: '已导出全部数据',
+             //      type: 'success'
+             //    });
+             //    return;
+             // }
            },e=>{},{},'blob')
-        }else if(n=='null'){
-          this.getFile();
-        }
+
       })
     },
     getFile(){
@@ -190,15 +271,14 @@ export default {
         if (!data) {
             return
         }
-        // let url = window.URL.createObjectURL(new Blob([data],{type:"application/txt"}))
-        let url='data:application/vnd.ms-excel;base64,'+data
+        let url = window.URL.createObjectURL(new Blob([data],{type:"application/txt"}))
+        // let url='data:application/vnd.ms-excel;base64,'+data
         let link = document.createElement('a')
         link.style.display = 'none'
         link.href = url
-        link.setAttribute('download', '日志打印.txt')
+        link.setAttribute('download', this.pd.sourceColName+'.txt')
         document.body.appendChild(link)
         link.click();
-
     },
   },
 }
@@ -216,4 +296,4 @@ export default {
   .timeSpecial .el-input__icon{
     width: 10px!important;
   }
-</style> -->
+</style>

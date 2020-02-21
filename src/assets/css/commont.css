@@ -1,6 +1,22 @@
 .green{
   color: green;
 }
+.t-yel{
+  color:yellow;
+}
+.t-red{
+  color:red;
+}
+.t-blue{
+  color:blue;
+}
+.count-ul{
+  margin-bottom: 10px;
+}
+.count-ul li{
+  float: left;
+  margin-right: 20px;
+}
 .el-dialog.big_dialog{
   display: flex;
   flex-direction: column;

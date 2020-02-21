@@ -23,16 +23,18 @@ const aport5="api-yanpan";//李文龙研判
 // const aport11="http://192.168.3.217:9433";
 const aport11="http://10.0.30.82:9433";
 
-// const aport6="http://10.33.72.217:9447";//孙
-const aport6="http://192.168.3.217:9447";
-const aport9="http://192.168.3.217:9444";
 // const aport6="es-fenxi";
-// const aport7="http://10.33.72.218:9436";//游
-const aport7="http://192.168.3.217:9436";
-// const aport8="http://10.33.72.144:9438";//中管
-const aport8="http://192.168.3.217:9438";
-// const aport10="http://10.33.72.145:9433";//中管大屏
-const aport10="http://192.168.3.217:9433";//中管
+const aport6="http://10.33.72.217:9447";//孙
+// const aport6="http://192.168.3.217:9447";
+// const aport9="http://192.168.3.217:9444";
+const aport9="http://10.33.72.144:9444";
+
+const aport7="http://10.33.72.218:9436";//游
+// const aport7="http://192.168.3.217:9436";
+const aport8="http://10.33.72.144:9438";//中管
+// const aport8="http://192.168.3.217:9438";
+const aport10="http://10.33.72.145:9433";//中管大屏
+// const aport10="http://192.168.3.217:9433";//中管
 
 const serviceState=1 //代码已统一
 
@@ -98,6 +100,7 @@ const yjcl2="/service/getRedisDataByDm?tablename=DM_AJYJCLYJ"//持短期签证�
 const yjcl3="/service/getRedisDataByDm?tablename=DM_LZHCYJCLYJ"//临住核查类预警使用
 const zy="/service/getRedisDataByDm?tablename=dm_zy"//职业
 const hjd="/service/getRedisDataByDm?tablename=dm_xzqh"//户籍地
+const crjbs="/service/getRedisDataByDm?tablename=DM_CRJBS"//出入境状态
 const tablists=[];
 export default
 {
@@ -120,5 +123,5 @@ export default
   xyaddress,
   gjdq,zjzl,qzzl,rjkn,rjsy,qfjg,pcs,jzlx,zsxz,jzzt,xzqh,jtgx,sflx,xb,rjqzzl,dmall,ssdw,
   dwlb,dwxz,zsbg,tlyxq,sf,tablists,clzt,sjly,rzfs,zflx,jzztlx,xxdm,erxxdm,shzt,tbry,lgyj,gljb,ymzt,ymzl,sldw,ymsqzt,ymqzzl,
-  bzlb,sqsy,rydylb,sqqzzl,jzztcz,hyzt,zjxy,sqlb,swdwclzt,xslb,fjclzt,ajlb,cqlb,ajxz,sszrq,yjcl1,yjcl2,yjcl3,clzt1,zy,hjd
+  bzlb,sqsy,rydylb,sqqzzl,jzztcz,hyzt,zjxy,sqlb,swdwclzt,xslb,fjclzt,ajlb,cqlb,ajxz,sszrq,yjcl1,yjcl2,yjcl3,clzt1,zy,hjd,crjbs
 }

@@ -263,6 +263,17 @@
                     <el-option value="false" label="否"></el-option>
                   </el-select>
                 </el-col> -->
+                <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                  <span class="input-text">出入境状态：</span>
+                  <el-select v-model="pd.CRJBS"  filterable clearable default-first-option  placeholder="请选择"  size="small" class="input-input">
+                    <el-option
+                      v-for="item in $store.state.crjbs"
+                      :key="item.dm"
+                      :label="item.dm+' - '+item.mc"
+                      :value="item.dm">
+                    </el-option>
+                  </el-select>
+                </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
                   <div class="gjcz">
                     <el-checkbox-group v-model="checkedList">
@@ -273,6 +284,7 @@
                 <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
                   <el-checkbox class="gjcz" v-model="pd.isYXRY">有效常住人员</el-checkbox>
                 </el-col>
+
               </el-row>
              </el-col>
                 <el-col :span="2" class="down-btn-area">
@@ -409,13 +421,18 @@
                prop="ZJZL_DESC"
                label="证件种类">
              </el-table-column>
-             <el-table-column
+             <!-- <el-table-column
                prop="QZZL_DESC"
                label="签证种类">
-             </el-table-column>
+             </el-table-column> -->
+
              <el-table-column
                prop="XXDZ"
                label="详细地址">
+             </el-table-column>
+             <el-table-column
+               prop="CRJBS_DESC"
+               label="出入境状态">
              </el-table-column>
              <el-table-column
                label="操作" width="70">
@@ -576,6 +593,14 @@
               code:'SANSHIYIGUO',
               label:'三十一国人员'
             },
+            {
+              code:'SSFJ',
+              label:'所属分局'
+            },
+            {
+              code:'CRJBS',
+              label:'出入境状态'
+            },
           ],
           checkedList:[],
           checkItemReal:[],
@@ -616,6 +641,14 @@
               code:'XB_DESC',
               label:'性别'
             },
+            {
+              code:'SSFJ_DESC',
+              label:'所属分局'
+            },
+            {
+              code:'CRJBS_DESC',
+              label:'出入境状态'
+            },
           ],
           configHeader:[],
           pd0:{},
@@ -652,6 +685,7 @@
          this.$store.dispatch("getJzztlx");
          this.$store.dispatch("getSf");
          this.$store.dispatch("getZflx");
+         this.$store.dispatch("getCrjbs");
          this.userCode=this.$store.state.uid;
          this.userName=this.$store.state.uname;
          this.orgName=this.$store.state.orgname;

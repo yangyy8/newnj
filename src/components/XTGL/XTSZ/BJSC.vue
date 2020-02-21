@@ -65,7 +65,7 @@
           </el-row>
          </el-col>
         <el-col :span="2" class="down-btn-area">
-          <el-button type="primary" size="small"  class="t-mb" @click="CurrentPage=1;getList(CurrentPage,pageSize,pd,0)">查询</el-button>
+          <el-button type="primary" size="small"  class="t-mb" @click="CurrentPage=1;getList(CurrentPage,pageSize,pd,0,true)">查询</el-button>
           <el-button type="primary" size="small"  class="t-ml0" @click="CurrentPage=1;getList(CurrentPage,pageSize,pd,1)">核查</el-button>
         </el-col>
       </el-row>
@@ -75,7 +75,7 @@
         <el-button type="primary"  size="small" @click="showUpload">批量核查</el-button>
         <el-button type="warning" size="small" @click="downcontent">模板下载</el-button>
         <el-button type="success" size="small" @click="download">列表导出</el-button>
-        <el-button type="danger" size="small" @click="delbjsc" :disabled="bnt">批量删除</el-button>
+        <el-button type="danger" size="small" @click="delbjsc">批量删除</el-button>
         </el-row>
       <el-table
            :data="tableData"
@@ -83,6 +83,7 @@
            ref="multipleTable"
            :highlight-current-row="true"
            @select="selectfn"
+           @select-all="selectfn"
            style="width: 100%"
            @header-click="titleShow">
            <el-table-column
@@ -593,7 +594,7 @@ export default {
       TotalResult1: 0,
       pd: {SCSJ_DateRange:{begin:'',end:''}},
       pd0:{SCSJ_DateRange:{begin:'',end:''}},
-      options: this.pl.ps,
+      options: this.pl.pstt,
       tableData: [],
       userCode:'',
       userName:'',
@@ -653,22 +654,58 @@ export default {
   },
   methods: {
     delbjsc(){
-
-      if(this.multipleSelection.length>0){
-        this.$confirm('您是否确认删除？', '提示', {
+      if(this.selectionAll.length>0){
+        this.$confirm('您是否确认删除选中数据？', '提示', {
                        confirmButtonText: '确定',
                        cancelButtonText: '取消',
                        type: 'warning'
                    }).then(() => {
-                        var rybh=[];
-                        var array=this.multipleSelection;
-                        for (var i = 0; i < array.length; i++) {
-                           rybh.push(array[i].RYBH);
-                        }
+                     this.yuid=[];
+                     for(var i in this.selectionAll){
+                       this.yuid.push(this.selectionAll[i].RYBH)
+                     };
+                     this.pd.RYBH = this.yuid
                       let p={
-                        'pd':{
-                          'RYBH':rybh
-                        },
+                        "pd": this.pd,
+                        userCode:this.userCode,
+                        userName:this.userName,
+                        orgCode:this.orgCode,
+                        orgJB:this.juState,
+                        token:this.token,
+                      }
+                      this.$api.post(this.Global.aport2+'/bjsc/deletebjsc',p,
+                       r =>{
+                              if(r.success){
+                                this.$message({
+                                  type: 'success',
+                                  message: '删除成功'
+                                });
+                                this.getList(this.CurrentPage, this.pageSize, this.pd,this.type);
+                                this.selectionAll=[];
+                                this.multipleSelection=[];
+                              }else {
+                                this.$message.error("删除失败！");
+                              }
+                       });
+                }).catch(() => {
+                   this.$message({
+                   type: 'info',
+                   message: '已取消删除'
+                   });
+               });
+      }else if(this.tableData.length==0){
+        this.$message.error("列表无数据！");
+        return;
+      }else {
+        this.$confirm('您是否确认删除列表所有数据？', '提示', {
+                       confirmButtonText: '确定',
+                       cancelButtonText: '取消',
+                       type: 'warning'
+                   }).then(() => {
+                     this.yuid=[];
+                     this.pd.RYBH = this.yuid
+                      let p={
+                        "pd": this.pd,
                         userCode:this.userCode,
                         userName:this.userName,
                         orgCode:this.orgCode,
@@ -693,8 +730,6 @@ export default {
                    message: '已取消删除'
                    });
                });
-      }else {
-        this.$message.error("请至少选择一条数据!");return ;
       }
     },
     titleShow(e,el){
@@ -728,11 +763,11 @@ export default {
     },
     selectfn(a,b){
       this.multipleSelection = a;
-      if(this.multipleSelection.length>0){
-        this.bnt=false;
-      }else {
-        this.bnt=true;
-      }
+      // if(this.multipleSelection.length>0){
+      //   this.bnt=false;
+      // }else {
+      //   this.bnt=true;
+      // }
       this.dataSelection();
     },
     dataSelection(){
@@ -852,8 +887,9 @@ export default {
         for(var i in this.selectionAll){
           this.yuid.push(this.selectionAll[i].RYBH)
         };
+        this.pd.RYBH = this.yuid
         p={
-         "pd": {RYBH:this.yuid},
+         "pd": this.pd,
          "userCode":this.$store.state.uid,
          "userName":this.$store.state.uname,
          userCode:this.userCode,
@@ -866,6 +902,9 @@ export default {
       this.$api.post(this.Global.aport2+'/bjsc/exportdate',p,
         r =>{
           this.downloadM(r)
+          this.selectionAll=[];
+          this.multipleSelection=[];
+          this.getList(this.CurrentPage, this.pageSize, this.pd,this.type);
         },e=>{},{},'blob')
     },
     downloadM (data) {
@@ -888,8 +927,14 @@ export default {
       this.CurrentPage=val;
       this.getList(this.CurrentPage, this.pageSize, this.pd,this.type);
     },
-    getList(currentPage, showCount, pd, type) {
+    getList(currentPage, showCount, pd, type,ttype) {
         this.type=type;
+        if(ttype==true){
+          this.selectionAll=[];
+          this.multipleSelection=[];
+          this.selectionReal=[];
+          console.log('this.selectionReal',this.selectionReal);
+        }
          if(type==2){
            if(this.fileData==null){
              this.$message({

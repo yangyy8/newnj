@@ -147,6 +147,20 @@
     </div>
     <div class="yycontent">
        <div class="yylbt mb-15">预警信息列表</div>
+       <ul class="count-ul" v-if="juState=='1'">
+         <li><span>已处理：  {{countPd.Black}}</span></li>
+         <li><span class="t-red">未处理：  {{countPd.red}}</span></li>
+         <li><span class="t-blue">已下发：  {{countPd.blue}}</span></li>
+         <li><span class="t-yel">待确认：  {{countPd.yellow}}</span></li>
+         <div style="clear:both"></div>
+       </ul>
+       <ul class="count-ul" v-if="juState=='2'">
+         <li><span>不需处理：  {{countPd.Black}}</span></li>
+         <li><span class="t-red">未处理：  {{countPd.red}}</span></li>
+         <li><span class="t-blue">支队下发：  {{countPd.blue}}</span></li>
+         <li><span class="t-yel">已上报：  {{countPd.yellow}}</span></li>
+         <div style="clear:both"></div>
+       </ul>
       <el-table
            :data="tableData"
            border
@@ -207,11 +221,18 @@
              prop="CLZT_DESC"
              label="处理状态"
              v-if="juState=='1'">
+             <template slot-scope="scope">
+               <span :class="{'t-red':scope.row.CLZT=='1','t-blue':scope.row.CLZT=='2','t-yel':scope.row.CLZT=='3'}">{{scope.row.CLZT_DESC}}</span>
+             </template>
            </el-table-column>
            <el-table-column
              prop="FJCLZT_DESC"
              label="分局处理状态"
              v-if="juState=='1'||juState=='2'">
+             <template slot-scope="scope">
+               <span v-if="juState=='1'">{{scope.row.FJCLZT_DESC}}</span>
+               <span v-else :class="{'t-red':scope.row.FJCLZT=='1','t-blue':scope.row.FJCLZT=='2','t-yel':scope.row.FJCLZT=='3'}">{{scope.row.FJCLZT_DESC}}</span>
+             </template>
            </el-table-column>
            <el-table-column
              label="操作" width="70">
@@ -317,6 +338,13 @@ export default {
       yuid:[],
       selectionReal:[],
       juState:'',
+
+      countPd:{
+        Black:'',
+        red:'',
+        blue:'',
+        yellow:'',
+      },
     }
   },
   mounted() {
@@ -475,6 +503,38 @@ export default {
       this.CurrentPage=val;
       this.getList(this.CurrentPage, this.pageSize, this.pd);
     },
+    getCount(){
+      let p={
+        pd:{
+          MXLX:'ASJ_DQQZFFJY',
+          FJ:this.pd.FJ,
+          PCS:this.pd.PCS,
+        },
+        "orderBy":'BJSJ',
+        "orderType":'DESC',
+        'userCode':this.userCode,
+        'userName':this.userName,
+        'orgJB':this.juState,
+        'orgCode':this.orgCode,
+        'token':this.token
+      }
+      this.$api.post(this.Global.aport4+'/warningInfoController/getClztCount',p,
+       r =>{
+         if(r.success){
+           if(this.juState=='1'){
+             this.countPd.Black=r.data['已处理']||'0';
+             this.countPd.red=r.data['未处理']||'0';
+             this.countPd.blue=r.data['已下发']||'0';
+             this.countPd.yellow=r.data['待确认']||'0';
+           }else if(this.juState=='2'){
+             this.countPd.Black=r.data['不需处理']||'0';
+             this.countPd.red=r.data['未处理']||'0';
+             this.countPd.blue=r.data['支队下发']||'0';
+             this.countPd.yellow=r.data['已上报']||'0';
+           }
+         }
+       })
+    },
     getList(currentPage, showCount, pd,type) {
       this.pd.MXLX='ASJ_DQQZFFJY';
       this.pd.BJSJ_DateRange.begin=this.pd0.beginBJSJ;
@@ -517,6 +577,7 @@ export default {
             })
           }
         })
+        this.getCount();
     },
     getXM(zw,yw){
       if(zw!=undefined && yw!=undefined){
