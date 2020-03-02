@@ -8,7 +8,7 @@
         <el-button type="button"  class="el-button el-button--primary el-button--small"  title="人员档案" @click="$router.push({name:'RYHX_XQ',query:{zjhm:$route.query.row.ZJHM,gjdq:$route.query.row.GJ,row:$route.query.row}})">人员档案</el-button>
         </div>
         <el-row type="flex" class="yyf">
-          <el-col :span="24" class="stu-left">
+          <el-col :span="24" class="stu-left" v-if="yjType!=15">
             <el-row  class="stu-row tt-bb">
               <el-col :span="6" class="stu-col-row slh">
                 <el-tooltip placement="top">
@@ -66,22 +66,63 @@
                   {{baseData.CSRQ}}
               </el-col>
                 </el-row>
-
-            <!-- <el-row  :gutter="4">
-              <el-col :span="6" class="stu-col-row2">
-                <span>预警时间：</span>
-                  {{baseData.BJSJ}}
-              </el-col>
-
-            </el-row> -->
           </el-col>
           <!-- <el-col :span="4" class="stu-right">
             <el-button type="primary" size="small" @click="$router.push({name:'StuBaseInfo',query:{id:'11',AlarmType:'11'}})">详情</el-button>
           </el-col> -->
+          <el-col :span="24" class="stu-left" v-if="yjType==15">
+            <el-row  class="stu-row tt-bb">
+              <el-col :span="6" class="stu-col-row slh">
+                <span class="texth">姓名：{{baseData.XM}}</span>
+              </el-col>
+              <el-col :span="6" class="stu-col-row">
+                <span>性别：{{baseData.XB_DESC}}</span>
+              </el-col>
+              <el-col :span="6" class="stu-col-row">
+                <span title="国家/地区">国家/地区：{{baseData.GJDQ_DESC}}</span>
+              </el-col>
+              <el-col :span="6" class="stu-col-row">
+                <span>出生日期：</span>
+                  {{baseData.CSRQ}}
+              </el-col>
+            </el-row>
+            <el-row class="stu-row tt-bb">
+              <el-col :span="6" class="stu-col-row">
+                <span title="证件种类">证件种类：{{baseData.ZJZL_DESC}}</span>
+              </el-col>
+              <el-col :span="6" class="stu-col-row">
+                <span>证件号码：</span>
+                   {{baseData.ZJHM}}
+              </el-col>
+              <el-col :span="6" class="stu-col-row">
+                <span title="出入境签证种类">出入境签证种类：{{baseData.QZZL_DESC}}</span>
+              </el-col>
+              <el-col :span="6" class="stu-col-row">
+                <span>联系电话：</span>
+                   {{baseData.LXDH}}
+              </el-col>
+              <!-- <el-col :span="6" class="stu-col-row">
+                <span title="证件有效期">证件有效期：</span>
+                   {{baseData.ZJYXQ}}
+              </el-col> -->
+            </el-row>
+            <el-row class="stu-row tt-bb">
+              <el-col :span="6" class="stu-col-row">
+                <span title="人员类别">人员类别：{{baseData.RYLB_DESC}}</span>
+              </el-col>
+              <el-col :span="6" class="stu-col-row">
+                <span title="服务处所">服务处所：{{baseData.FWCS}}</span>
+              </el-col>
+              <el-col :span="12" class="stu-col-row">
+                <span title="离宁原因">离宁原因：</span>
+                   {{baseData.LNYY}}
+              </el-col>
+             </el-row>
+          </el-col>
         </el-row>
 
       </div>
-       <div class="yylbt yt-16 mb-15">预警原因 <span class="yyf ycolor">{{baseData.ZBXDATADESC}}</span></div>
+       <div class="yylbt yt-16 mb-15" v-if="yjType!=15">预警原因 <span class="yyf ycolor">{{baseData.ZBXDATADESC}}</span></div>
       <!--yjType 1.外国人visa  2.持短期签证  4.违临预判  5.临住布控  20.公务护照预警  3.处罚人员未办证预警-->
       <!-- <div class="yylbt yt-16">预警原因 <span class="yyf ycolor">出入境过多，签证过期</span></div> -->
       <!-- 1  签证信息详情  2 出入境信息   3 境外人员住宿登记信息  4 境外人员常住信息  5 案事件信息-->
@@ -210,7 +251,7 @@
             </el-pagination>
           </div>
       </div>
-      <div class="mb-15" v-if="yjType==1||yjType==2||yjType==4||yjType==5||yjType==20||yjType==3">
+      <div class="mb-15" v-if="yjType==1||yjType==2||yjType==4||yjType==5||yjType==20||yjType==3||yjType==15">
         <div class="stru-lal">出入境信息</div>
         <el-table
              :data="tableData2"
@@ -266,7 +307,7 @@
             </el-pagination>
           </div>
       </div>
-      <div class="mb-15" v-if="yjType==1||yjType==4||yjType==5||yjType==2||yjType==20">
+      <div class="mb-15" v-if="yjType==1||yjType==4||yjType==5||yjType==2||yjType==20||yjType==15">
         <div class="stru-lal">临住信息</div>
         <el-table
              :data="tableData3"
@@ -330,7 +371,7 @@
             </el-pagination>
           </div>
       </div>
-      <div class="mb-15" v-if="yjType==1||yjType==3">
+      <div class="mb-15" v-if="yjType==1||yjType==3||yjType==15">
         <div class="stru-lal">常住信息</div>
         <el-table
              :data="tableData4"
@@ -650,6 +691,284 @@
       </el-collapse-item>
     </el-collapse>
       </div>
+      <!-- 交通来宁 -->
+      <div class="mb-15" v-if="yjType==15">
+        <el-collapse  accordion>
+         <el-collapse-item>
+           <template slot="title">
+            <div class="stru-lal">交通信息<span style="color:red;font-size:11px;"> ( 点击查看列表 )</span></div>
+           </template>
+            <div class="stru-lal">
+             铁路订票信息
+            </div>
+            <el-table
+                :data="tableDataLN1"
+                border
+                style="width: 100%" class="stu-table">
+                <el-table-column
+                  prop="XM_CRJ"
+                  label="姓名">
+                </el-table-column>
+                <el-table-column
+                  prop="ZJHM_CRJ"
+                  label="证件号码">
+                </el-table-column>
+                <el-table-column
+                  prop="TRAIN_NO"
+                  label="列车车次">
+                </el-table-column>
+                <el-table-column
+                  prop="CFSJ"
+                  label="发车时间">
+                </el-table-column>
+                <el-table-column
+                  prop="CFCS"
+                  label="发车车站">
+                </el-table-column>
+                <el-table-column
+                  label="操作" width="80">
+                  <template slot-scope="scope">
+                    <el-button type="text"  class="a-btn"  title="详情"  icon="el-icon-document" @click="detailLN1(scope.row)"></el-button>
+                  </template>
+                </el-table-column>
+            </el-table>
+            <div class="middle-foot mt-10">
+               <div class="page-msg">
+                 <div class="">
+               共{{TotalResultLN1}}条记录
+                 </div>
+                 <div class="">
+                   每页显示
+                   <el-select v-model="pageSizeLN1" @change="pageSizeChangeLN1(pageSizeLN1)" placeholder="10" size="mini" class="page-select">
+                     <el-option
+                       v-for="item in options"
+                       :key="item.value"
+                       :label="item.label"
+                       :value="item.value">
+                     </el-option>
+                   </el-select>
+                   条
+                 </div>
+                 <div class="">
+                   共{{Math.ceil(TotalResultLN1/pageSizeLN1)}}页
+                 </div>
+               </div>
+               <el-pagination
+                 background
+                 @current-change="handleCurrentChangeLN1"
+                 :page-size="pageSizeLN1"
+                 layout="prev, pager, next"
+                 :total="TotalResultLN1"
+                 :current-page.sync ="CurrentPageLN1">
+               </el-pagination>
+             </div>
+            <div class="stru-lal">
+             民航进出港信息
+            </div>
+            <el-table
+                :data="tableDataLN2"
+                border
+                style="width: 100%" class="stu-table">
+                <el-table-column
+                  prop="FLT_NUMBER"
+                  label="航班号">
+                </el-table-column>
+                <el-table-column
+                  prop="FLT_DATE"
+                  label="航班日期">
+                </el-table-column>
+                <el-table-column
+                  prop="CFCSMC"
+                  label="起飞航站">
+                </el-table-column>
+                <el-table-column
+                  prop="DDCSMC"
+                  label="到达航站">
+                </el-table-column>
+                <el-table-column
+                  prop="XM_CRJ"
+                  label="旅客名">
+                </el-table-column>
+                <el-table-column
+                  label="操作" width="80">
+                  <template slot-scope="scope">
+                    <el-button type="text"  class="a-btn"  title="详情"  icon="el-icon-document" @click="detailLN2(scope.row)"></el-button>
+                  </template>
+                </el-table-column>
+            </el-table>
+            <div class="middle-foot mt-10">
+               <div class="page-msg">
+                 <div class="">
+               共{{TotalResultLN2}}条记录
+                 </div>
+                 <div class="">
+                   每页显示
+                   <el-select v-model="pageSizeLN2" @change="pageSizeChangeLN2(pageSizeLN2)" placeholder="10" size="mini" class="page-select">
+                     <el-option
+                       v-for="item in options"
+                       :key="item.value"
+                       :label="item.label"
+                       :value="item.value">
+                     </el-option>
+                   </el-select>
+                   条
+                 </div>
+                 <div class="">
+                   共{{Math.ceil(TotalResultLN2/pageSizeLN2)}}页
+                 </div>
+               </div>
+               <el-pagination
+                 background
+                 @current-change="handleCurrentChangeLN2"
+                 :page-size="pageSizeLN2"
+                 layout="prev, pager, next"
+                 :total="TotalResultLN2"
+                 :current-page.sync ="CurrentPageLN2">
+               </el-pagination>
+             </div>
+            <div class="stru-lal">
+              民航订票信息
+            </div>
+            <el-table
+                 :data="tableDataLN3"
+                 border
+                 style="width: 100%" class="stu-table">
+                 <el-table-column
+                   prop="AIR_SEG_FLT_NBR"
+                   label="航班号">
+                 </el-table-column>
+                 <el-table-column
+                   prop="CFRQ"
+                   label="发车日期">
+                 </el-table-column>
+                 <el-table-column
+                   prop="CFSJ"
+                   label="发车时间">
+                 </el-table-column>
+                 <el-table-column
+                   prop="DDRQ"
+                   label="到达日期">
+                 </el-table-column>
+                 <el-table-column
+                   prop="DDSJ"
+                   label="到达时间">
+                 </el-table-column>
+                 <!-- <el-table-column
+                   prop="AIR_SEG_DPT_AIRPT_CD"
+                   label="登机机场代码">
+                 </el-table-column>
+                 <el-table-column
+                   prop="AIR_SEG_ARRV_AIRPT_CD"
+                   label="到达机场代码">
+                 </el-table-column> -->
+                 <el-table-column
+                   prop="PAS_CHN_NM"
+                   label="旅客中文名">
+                 </el-table-column>
+                 <el-table-column
+                   label="操作" width="80">
+                   <template slot-scope="scope">
+                     <el-button type="text"  class="a-btn"  title="详情"  icon="el-icon-document" @click="detailLN3(scope.row)"></el-button>
+                   </template>
+                 </el-table-column>
+             </el-table>
+             <div class="middle-foot mt-10">
+                <div class="page-msg">
+                  <div class="">
+                共{{TotalResultLN3}}条记录
+                  </div>
+                  <div class="">
+                    每页显示
+                    <el-select v-model="pageSizeLN3" @change="pageSizeChangeLN3(pageSizeLN3)" placeholder="10" size="mini" class="page-select">
+                      <el-option
+                        v-for="item in options"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                      </el-option>
+                    </el-select>
+                    条
+                  </div>
+                  <div class="">
+                    共{{Math.ceil(TotalResultLN3/pageSizeLN3)}}页
+                  </div>
+                </div>
+                <el-pagination
+                  background
+                  @current-change="handleCurrentChangeLN3"
+                  :page-size="pageSizeLN3"
+                  layout="prev, pager, next"
+                  :total="TotalResultLN3"
+                  :current-page.sync ="CurrentPageLN3">
+                </el-pagination>
+              </div>
+            <div class="stru-lal">
+             客运大巴信息
+            </div>
+            <el-table
+               :data="tableDataLN4"
+               border
+               style="width: 100%" class="stu-table">
+               <el-table-column
+                 prop="XM_CRJ"
+                 label="姓名">
+               </el-table-column>
+               <el-table-column
+                 prop="BCH"
+                 label="车牌号">
+               </el-table-column>
+               <el-table-column
+                 prop="CFRQ"
+                 label="发车日期">
+               </el-table-column>
+               <el-table-column
+                 prop="CFCS"
+                 label="上车站点名称">
+               </el-table-column>
+               <el-table-column
+                 prop="DDCS"
+                 label="达到站点名称">
+               </el-table-column>
+               <el-table-column
+                 label="操作" width="80">
+                 <template slot-scope="scope">
+                   <el-button type="text"  class="a-btn"  title="详情"  icon="el-icon-document" @click="detailLN4(scope.row)"></el-button>
+                 </template>
+               </el-table-column>
+            </el-table>
+            <div class="middle-foot mt-10">
+               <div class="page-msg">
+                 <div class="">
+               共{{TotalResultLN4}}条记录
+                 </div>
+                 <div class="">
+                   每页显示
+                   <el-select v-model="pageSizeLN4" @change="pageSizeChangeLN4(pageSizeLN4)" placeholder="10" size="mini" class="page-select">
+                     <el-option
+                       v-for="item in options"
+                       :key="item.value"
+                       :label="item.label"
+                       :value="item.value">
+                     </el-option>
+                   </el-select>
+                   条
+                 </div>
+                 <div class="">
+                   共{{Math.ceil(TotalResultLN4/pageSizeLN4)}}页
+                 </div>
+               </div>
+               <el-pagination
+                 background
+                 @current-change="handleCurrentChangeLN4"
+                 :page-size="pageSizeLN4"
+                 layout="prev, pager, next"
+                 :total="TotalResultLN4"
+                 :current-page.sync ="CurrentPageLN4">
+               </el-pagination>
+             </div>
+          </el-collapse-item>
+        </el-collapse>
+      </div>
     </div>
     <!-- 分局级别是2并且是未处理状态   展示派出所详情和分局意见输入框-->
    <div class="stu-footer" v-if="jb=='2' && showFJ">
@@ -949,6 +1268,291 @@
             <el-button @click="asjDialogVisible = false" size="small">取 消</el-button>
           </div>
         </el-dialog>
+        <!-- 来宁详情 -->
+        <el-dialog title="铁路订票详情" :visible.sync="LN1DialogVisible" custom-class="big_dialog combine" :append-to-body="true" :modal="false">
+          <el-form   ref="formLN1">
+            <el-row :gutter="3"  class="mb-6">
+                <el-col :span="12" class="input-item">
+                 <span class="input-text">姓名：</span>
+                 <span class="input-input detailinput">  {{formLN1.XM_CRJ}}</span>
+                </el-col>
+                <el-col :span="12" class="input-item">
+                 <span class="input-text">性别：</span>
+                 <span class="input-input detailinput">  {{formLN1.XB_CRJ}}</span>
+                </el-col>
+                <el-col :span="12" class="input-item">
+                  <span class="input-text">出生日期：</span>
+                  <span class="input-input detailinput">  {{formLN1.CSRQ_CRJ}}</span>
+                </el-col>
+                <el-col :span="12" class="input-item">
+                  <span class="input-text" title="国籍/地区">国籍/地区：</span>
+                  <span class="input-input detailinput">  {{formLN1.GJDQ_CRJ}}</span>
+                </el-col>
+                <el-col :span="12" class="input-item">
+                  <span class="input-text">证件种类：</span>
+                  <span class="input-input detailinput">  {{formLN1.ZJZL_CRJ}}</span>
+                </el-col>
+                <el-col :span="12" class="input-item">
+                  <span class="input-text" title="证件号码">证件号码：</span>
+                  <span class="input-input detailinput">  {{formLN1.ZJHM_CRJ}}</span>
+                </el-col>
+                <el-col :span="12" class="input-item">
+                  <span class="input-text" title="发车日期">发车日期：</span>
+                  <span class="input-input detailinput">  {{formLN1.FCRQ}}</span>
+                </el-col>
+                <el-col :span="12" class="input-item">
+                 <span class="input-text" title="列车车次">列车车次：</span>
+                 <span class="input-input detailinput">  {{formLN1.TRAIN_NO}}</span>
+                </el-col>
+                <el-col :span="12" class="input-item">
+                  <span class="input-text" title="发车站">发车站：</span>
+                  <span class="input-input detailinput">  {{formLN1.CFCS}}</span>
+                </el-col>
+                <el-col :span="12" class="input-item">
+                  <span class="input-text" title="到达站">到达站：</span>
+                  <span class="input-input detailinput">  {{formLN1.DDCS}}</span>
+                </el-col>
+                <el-col :span="12" class="input-item">
+                  <span class="input-text" title="车厢号">车厢号：</span>
+                  <span class="input-input detailinput">  {{formLN1.COACH}}</span>
+                </el-col>
+                <el-col :span="12" class="input-item">
+                  <span class="input-text" title="座位号">座位号：</span>
+                  <span class="input-input detailinput">  {{formLN1.SEAT}}</span>
+                </el-col>
+            </el-row>
+          </el-form>
+          <div slot="footer" class="dialog-footer">
+            <el-button @click="LN1DialogVisible = false" size="small">取 消</el-button>
+          </div>
+        </el-dialog>
+
+        <el-dialog title="民航进出港详情" :visible.sync="LN2DialogVisible" custom-class="big_dialog combine" :append-to-body="true" :modal="false">
+          <el-form   ref="formLN2">
+            <el-row :gutter="3"  class="mb-6">
+                <el-col :span="12" class="input-item">
+                 <span class="input-text">姓名：</span>
+                 <span class="input-input detailinput">  {{formLN2.XM_CRJ}}</span>
+                </el-col>
+                <el-col :span="12" class="input-item">
+                 <span class="input-text">性别：</span>
+                 <span class="input-input detailinput">  {{formLN2.XB_CRJ}}</span>
+                </el-col>
+                <el-col :span="12" class="input-item">
+                  <span class="input-text">出生日期：</span>
+                  <span class="input-input detailinput">  {{formLN2.CSRQ_CRJ}}</span>
+                </el-col>
+                <el-col :span="12" class="input-item">
+                  <span class="input-text" title="国籍/地区">国籍/地区：</span>
+                  <span class="input-input detailinput">  {{formLN2.GJDQ_CRJ}}</span>
+                </el-col>
+                <el-col :span="12" class="input-item">
+                  <span class="input-text">证件种类：</span>
+                  <span class="input-input detailinput">  {{formLN2.ZJZL_CRJ}}</span>
+                </el-col>
+                <el-col :span="12" class="input-item">
+                  <span class="input-text" title="证件号码">证件号码：</span>
+                  <span class="input-input detailinput">  {{formLN2.ZJHM_CRJ}}</span>
+                </el-col>
+                <el-col :span="12" class="input-item">
+                 <span class="input-text" title="航班号">航班号：</span>
+                 <span class="input-input detailinput">  {{formLN2.FLT_NUMBER}}</span>
+                </el-col>
+                <el-col :span="12" class="input-item">
+                  <span class="input-text" title="航空公司">航空公司：</span>
+                  <span class="input-input detailinput">  {{formLN2.FLT_AIRLCODE}}</span>
+                </el-col>
+                <el-col :span="12" class="input-item">
+                  <span class="input-text" title="航班日期">航班日期：</span>
+                  <span class="input-input detailinput">  {{formLN2.FLT_DATE}}</span>
+                </el-col>
+                <el-col :span="12" class="input-item">
+                  <span class="input-text" title="起飞站">起飞站：</span>
+                  <span class="input-input detailinput">  {{formLN2.CFCSMC}}</span>
+                </el-col>
+                <el-col :span="12" class="input-item">
+                  <span class="input-text" title="到达站">到达站：</span>
+                  <span class="input-input detailinput">  {{formLN2.DDCSMC}}</span>
+                </el-col>
+
+                <el-col :span="12" class="input-item">
+                  <span class="input-text" title="离港时间">离港时间：</span>
+                  <span class="input-input detailinput">  {{formLN2.CFSJ}}</span>
+                </el-col>
+                <el-col :span="12" class="input-item">
+                  <span class="input-text" title="进港时间">进港时间：</span>
+                  <span class="input-input detailinput">  {{formLN2.DDSJ}}</span>
+                </el-col>
+                <el-col :span="12" class="input-item">
+                  <span class="input-text">电话：</span>
+                  <span class="input-input detailinput">  {{formLN2.TELNO}}</span>
+                </el-col>
+                <el-col :span="12" class="input-item">
+                  <span class="input-text">仓位：</span>
+                  <span class="input-input detailinput">  {{formLN2.PSR_CLASS}}</span>
+                </el-col>
+
+                <el-col :span="12" class="input-item">
+                  <span class="input-text" title="盲人旅客标识">盲人旅客标识：</span>
+                  <span class="input-input detailinput">  {{formLN2.PSR_BLND}}</span>
+                </el-col>
+                <el-col :span="12" class="input-item">
+                  <span class="input-text" title="手提狗笼">手提狗笼：</span>
+                  <span class="input-input detailinput">  {{formLN2.PSR_AVIH}}</span>
+                </el-col>
+                <el-col :span="12" class="input-item">
+                  <span class="input-text">宠物笼子：</span>
+                  <span class="input-input detailinput">  {{formLN2.PSR_PETC}}</span>
+                </el-col>
+            </el-row>
+          </el-form>
+          <div slot="footer" class="dialog-footer">
+            <el-button @click="LN2DialogVisible = false" size="small">取 消</el-button>
+          </div>
+        </el-dialog>
+
+        <el-dialog title="民航订票详情" :visible.sync="LN3DialogVisible" custom-class="big_dialog combine" :append-to-body="true" :modal="false">
+          <el-form   ref="formLN3">
+            <el-row :gutter="3"  class="mb-6">
+                <el-col :span="12" class="input-item">
+                 <span class="input-text">姓名：</span>
+                 <span class="input-input detailinput">  {{formLN3.XM_CRJ}}</span>
+                </el-col>
+                <el-col :span="12" class="input-item">
+                 <span class="input-text">性别：</span>
+                 <span class="input-input detailinput">  {{formLN3.XB_CRJ}}</span>
+                </el-col>
+                <el-col :span="12" class="input-item">
+                  <span class="input-text">出生日期：</span>
+                  <span class="input-input detailinput">  {{formLN3.CSRQ_CRJ}}</span>
+                </el-col>
+                <el-col :span="12" class="input-item">
+                  <span class="input-text" title="国籍/地区">国籍/地区：</span>
+                  <span class="input-input detailinput">  {{formLN3.GJDQ_CRJ}}</span>
+                </el-col>
+                <el-col :span="12" class="input-item">
+                  <span class="input-text">证件种类：</span>
+                  <span class="input-input detailinput">  {{formLN3.ZJZL_CRJ}}</span>
+                </el-col>
+                <el-col :span="12" class="input-item">
+                  <span class="input-text" title="证件号码">证件号码：</span>
+                  <span class="input-input detailinput">  {{formLN3.ZJHM_CRJ}}</span>
+                </el-col>
+                <el-col :span="12" class="input-item">
+                 <span class="input-text" title="承运航空公司">承运航空公司：</span>
+                 <span class="input-input detailinput">  {{formLN3.AIR_CARR_CD}}</span>
+                </el-col>
+                <el-col :span="12" class="input-item">
+                  <span class="input-text" title="航班号">航班号：</span>
+                  <span class="input-input detailinput">  {{formLN3.AIR_SEG_FLT_NBR}}</span>
+                </el-col>
+                <el-col :span="12" class="input-item">
+                  <span class="input-text" title="出发日期">出发日期：</span>
+                  <span class="input-input detailinput">  {{formLN3.CFRQ}}</span>
+                </el-col>
+                <el-col :span="12" class="input-item">
+                  <span class="input-text" title="到达日期">到达日期：</span>
+                  <span class="input-input detailinput">  {{formLN3.DDRQ}}</span>
+                </el-col>
+                <el-col :span="12" class="input-item">
+                  <span class="input-text" title="登机机场">登机机场：</span>
+                  <span class="input-input detailinput">  {{formLN3.CFCSMC}}</span>
+                </el-col>
+
+                <el-col :span="12" class="input-item">
+                  <span class="input-text" title="到达机场">到达机场：</span>
+                  <span class="input-input detailinput">  {{formLN3.DDCSMC}}</span>
+                </el-col>
+                <el-col :span="12" class="input-item">
+                  <span class="input-text" title="子舱位">子舱位：</span>
+                  <span class="input-input detailinput">  {{formLN3.SUB_CLS_CD}}</span>
+                </el-col>
+                <el-col :span="12" class="input-item">
+                  <span class="input-text" title="代理人代号">代理人代号：</span>
+                  <span class="input-input detailinput">  {{formLN3.OFFC_CD}}</span>
+                </el-col>
+                <el-col :span="12" class="input-item">
+                  <span class="input-text" title="责任航空公司">责任航空公司：</span>
+                  <span class="input-input detailinput">  {{formLN3.RSP_AIRLN_CD}}</span>
+                </el-col>
+
+                <el-col :span="12" class="input-item">
+                  <span class="input-text" title="责任代理人">责任代理人：</span>
+                  <span class="input-input detailinput">  {{formLN3.RSP_OFC_CD}}</span>
+                </el-col>
+
+                <el-col :span="12" class="input-item">
+                  <span class="input-text" title="团队标识">团队标识：</span>
+                  <span class="input-input detailinput">  {{formLN3.GRP_IND}}</span>
+                </el-col>
+                <el-col :span="12" class="input-item">
+                  <span class="input-text" title="VIP标识">VIP标识：</span>
+                  <span class="input-input detailinput">  {{formLN3.VIP_IND}}</span>
+                </el-col>
+                <el-col :span="12" class="input-item">
+                  <span class="input-text" title="同订票人数">同订票人数：</span>
+                  <span class="input-input detailinput">  {{formLN3.PN_SEAT}}</span>
+                </el-col>
+            </el-row>
+          </el-form>
+          <div slot="footer" class="dialog-footer">
+            <el-button @click="LN3DialogVisible = false" size="small">取 消</el-button>
+          </div>
+        </el-dialog>
+
+        <el-dialog title="客运大巴详情" :visible.sync="LN4DialogVisible" custom-class="big_dialog combine" :append-to-body="true" :modal="false">
+          <el-form   ref="formLN4">
+            <el-row :gutter="3"  class="mb-6">
+                <el-col :span="12" class="input-item">
+                 <span class="input-text">姓名：</span>
+                 <span class="input-input detailinput">  {{formLN4.XM_CRJ}}</span>
+                </el-col>
+                <el-col :span="12" class="input-item">
+                 <span class="input-text">性别：</span>
+                 <span class="input-input detailinput">  {{formLN4.XB_CRJ}}</span>
+                </el-col>
+                <el-col :span="12" class="input-item">
+                  <span class="input-text">出生日期：</span>
+                  <span class="input-input detailinput">  {{formLN4.CSRQ_CRJ}}</span>
+                </el-col>
+                <el-col :span="12" class="input-item">
+                  <span class="input-text" title="国籍/地区">国籍/地区：</span>
+                  <span class="input-input detailinput">  {{formLN4.GJDQ_CRJ}}</span>
+                </el-col>
+                <el-col :span="12" class="input-item">
+                  <span class="input-text">证件种类：</span>
+                  <span class="input-input detailinput">  {{formLN4.ZJZL_CRJ}}</span>
+                </el-col>
+                <el-col :span="12" class="input-item">
+                  <span class="input-text" title="证件号码">证件号码：</span>
+                  <span class="input-input detailinput">  {{formLN4.ZJHM_CRJ}}</span>
+                </el-col>
+                <el-col :span="12" class="input-item">
+                 <span class="input-text" title="购票日期">购票日期：</span>
+                 <span class="input-input detailinput">  {{formLN4.GPRQ}}</span>
+                </el-col>
+                <el-col :span="12" class="input-item">
+                  <span class="input-text" title="发车日期">发车日期：</span>
+                  <span class="input-input detailinput">  {{formLN4.CFRQ}}</span>
+                </el-col>
+                <el-col :span="12" class="input-item">
+                  <span class="input-text" title="上车站点名称">上车站点名称：</span>
+                  <span class="input-input detailinput">  {{formLN4.CFCS}}</span>
+                </el-col>
+                <el-col :span="12" class="input-item">
+                  <span class="input-text" title="到达站点名称">到达站点名称：</span>
+                  <span class="input-input detailinput">  {{formLN4.DDCS}}</span>
+                </el-col>
+                <el-col :span="12" class="input-item">
+                  <span class="input-text" title="车牌号">车牌号：</span>
+                  <span class="input-input detailinput">  {{formLN4.BCH}}</span>
+                </el-col>
+            </el-row>
+          </el-form>
+          <div slot="footer" class="dialog-footer">
+            <el-button @click="LN4DialogVisible = false" size="small">取 消</el-button>
+          </div>
+        </el-dialog>
   </div>
 
 </template>
@@ -980,6 +1584,35 @@ export default {
       tableData62:[],
       tableData63:[],
       tableData64:[],
+
+      tableDataLN1:[],
+      CurrentPageLN1: 1,
+      pageSizeLN1: 10,
+      TotalResultLN1: 0,
+      LN1DialogVisible:false,
+      formLN1:{},
+
+      tableDataLN2:[],
+      CurrentPageLN2: 1,
+      pageSizeLN2: 10,
+      TotalResultLN2: 0,
+      LN2DialogVisible:false,
+      formLN2:{},
+
+      tableDataLN3:[],
+      CurrentPageLN3: 1,
+      pageSizeLN3: 10,
+      TotalResultLN3: 0,
+      LN3DialogVisible:false,
+      formLN3:{},
+
+      tableDataLN4:[],
+      CurrentPageLN4: 1,
+      pageSizeLN4: 10,
+      TotalResultLN4: 0,
+      LN4DialogVisible:false,
+      formLN4:{},
+
       type:1,
       xid:'',
       pd: {},
@@ -1115,7 +1748,10 @@ export default {
       this.showPCS=false;//支队已处理||分局已办结||派出所已办结
       this.pd.CLJG=this.row.CLJG;
     }
+    if(this.yjType!=15){
       this.getList(1,10,this.url0, 0); //人员基本信息
+    }
+
       if(this.yjType=="1" || this.yjType=="2" || this.yjType=="5"){
         this.getList(this.CurrentPage1,this.pageSize1,this.url1, 1); //签证信息
       }
@@ -1128,7 +1764,6 @@ export default {
       this.getList(1,10,this.url64, 64); //交通信息
       this.getList(1,10,this.url65, 65); //交通信息
       }
-
       if(this.yjType=="1" || this.yjType=="2" || this.yjType=="4" || this.yjType=="5" || this.yjType=="20"){
       this.getList(this.CurrentPage3,this.pageSize3,this.url3, 3); //临住信息
       }
@@ -1144,6 +1779,19 @@ export default {
         this.getList(this.CurrentPage2,this.pageSize2,this.url2, 2); //出入境信息
         this.getList(this.CurrentPage4,this.pageSize4,this.url4, 4); //常住信息
         this.getList(this.CurrentPage1,this.pageSize1,this.url1, 1); //签证信息
+      }
+      //------------交通来宁---------------
+      if(this.yjType==15){
+        this.baseData = this.row//基本信息
+        this.getList(this.CurrentPage1,this.pageSize1,this.url1, 1); //签证信息
+        this.getList(this.CurrentPage2,this.pageSize2,this.url2, 2); //出入境信息
+        this.getList(this.CurrentPage3,this.pageSize3,this.url3, 3); //临住信息
+        this.getList(this.CurrentPage4,this.pageSize4,this.url4, 4); //常住信息
+        //交通信息
+        this.getListLN(this.CurrentPageLN1,this.pageSizeLN1,this.tableDataLN1,this.TotalResultLN1,'es_st_tl_dpxx');//铁路
+        this.getListLN(this.CurrentPageLN2,this.pageSizeLN2,this.tableDataLN2,this.TotalResultLN2,'es_st_mh_jgxx');//民航进出港
+        this.getListLN(this.CurrentPageLN3,this.pageSizeLN3,this.tableDataLN3,this.TotalResultLN3,'es_st_mh_dpxx');//民航订票
+        this.getListLN(this.CurrentPageLN4,this.pageSizeLN4,this.tableDataLN4,this.TotalResultLN4,'es_kyjt_smgpxx');//客运大巴
       }
   },
   mounted() {
@@ -1163,6 +1811,7 @@ export default {
       if(this.yjType==1){this.$router.push({name:'WGRFFJLYJ'})}//外国人非法居留预警
       if(this.yjType==20){this.$router.push({name:'GWHZYJ'})}//公务护照预警
       if(this.yjType==3){this.$router.push({name:'CFRYWBZYJ'})}//处罚人员未办证预警
+      if(this.yjType==15){this.$router.push({name:'JTLN'})}//交通来宁
     },
     getJB(){
       let p = {
@@ -1222,6 +1871,99 @@ export default {
     handleCurrentChange5(val) {
       this.CurrentPage5=val;
       this.getList(this.CurrentPage5,this.pageSize5,this.url5, 5);
+    },
+    //来宁
+    pageSizeChangeLN1(val) {
+      this.pageSizeLN1=val;
+      this.getListLN(this.CurrentPageLN1,this.pageSizeLN1,this.tableDataLN1,this.TotalResultLN1,'es_st_tl_dpxx');//铁路
+    },
+    handleCurrentChangeLN1(val) {
+      this.CurrentPageLN1=val;
+      this.getListLN(this.CurrentPageLN1,this.pageSizeLN1,this.tableDataLN1,this.TotalResultLN1,'es_st_tl_dpxx');//铁路
+    },
+
+    pageSizeChangeLN2(val) {
+      this.pageSizeLN2=val;
+      this.getListLN(this.CurrentPageLN2,this.pageSizeLN2,this.tableDataLN2,this.TotalResultLN2,'es_st_mh_jgxx');//民航进出港
+    },
+    handleCurrentChangeLN2(val) {
+      this.CurrentPageLN2=val;
+      this.getListLN(this.CurrentPageLN2,this.pageSizeLN2,this.tableDataLN2,this.TotalResultLN2,'es_st_mh_jgxx');//民航进出港
+    },
+
+    pageSizeChangeLN3(val) {
+      this.pageSizeLN3=val;
+      this.getListLN(this.CurrentPageLN3,this.pageSizeLN3,this.tableDataLN3,this.TotalResultLN3,'es_st_mh_dpxx');//民航订票
+    },
+    handleCurrentChangeLN3(val) {
+      this.CurrentPageLN3=val;
+      this.getListLN(this.CurrentPageLN3,this.pageSizeLN3,this.tableDataLN3,this.TotalResultLN3,'es_st_mh_dpxx');//民航订票
+    },
+
+    pageSizeChangeLN4(val) {
+      this.pageSizeLN4=val;
+      this.getListLN(this.CurrentPageLN4,this.pageSizeLN4,this.tableDataLN4,this.TotalResultLN4,'es_kyjt_smgpxx');//客运大巴
+    },
+    handleCurrentChangeLN4(val) {
+      this.CurrentPageLN4=val;
+      this.getListLN(this.CurrentPageLN4,this.pageSizeLN4,this.tableDataLN4,this.TotalResultLN4,'es_kyjt_smgpxx');//客运大巴
+    },
+
+    getListLN(currentPage,showCount,tableData,total,type){
+      let p={
+        pd: {
+          MX:type,
+          RYBH:this.row.RYBH
+        },
+        orderBy:'CJSJ',
+        orderType:'DESC',
+        userCode:this.userCode,
+        userName:this.userName,
+        orgJB:this.juState,
+        orgCode:this.orgCode,
+        token:this.token,
+        currentPage: currentPage,
+        showCount: showCount,
+      }
+      this.$api.post(this.Global.aport4+'/JTLNInfoController/getJtlnListByRYBH',p,
+       r =>{
+         if(r.success){
+           if(type=='es_st_tl_dpxx'){
+             this.tableDataLN1 = r.data.resultList;
+             this.TotalResultLN1 = r.data.totalResult;
+           }
+           if(type=='es_st_mh_jgxx'){
+             this.tableDataLN2 = r.data.resultList;
+             this.TotalResultLN2 = r.data.totalResult;
+           }
+           if(type=='es_st_mh_dpxx'){
+             this.tableDataLN3 = r.data.resultList;
+             this.TotalResultLN3 = r.data.totalResult;
+           }
+           if(type=='es_kyjt_smgpxx'){
+             this.tableDataLN4 = r.data.resultList;
+             this.TotalResultLN4 = r.data.totalResult;
+           }
+           // tableData = r.data.resultList;
+           // total = r.data.totalResult;
+         }
+       })
+    },
+    detailLN1(val){
+      this.formLN1=val;
+      this.LN1DialogVisible=true;
+    },
+    detailLN2(val){
+      this.formLN2=val;
+      this.LN2DialogVisible=true;
+    },
+    detailLN3(val){
+      this.formLN3=val;
+      this.LN3DialogVisible=true;
+    },
+    detailLN4(val){
+      this.formLN4=val;
+      this.LN4DialogVisible=true;
     },
     openTc(title, type, id) {
       this.xtitle = title;
@@ -1404,7 +2146,23 @@ export default {
         orgCode:this.orgCode,
         token:this.token,
       }
-      this.$api.post(this.Global.aport4+'/warningInfoController/sentData',p,
+      let url = '/warningInfoController/sentData'
+      if(this.yjType==15){
+        p={
+          pd:{
+            DTID:this.row.DTID,
+            CLZT:'2',
+            FJCLZT:'2',
+          },
+          userCode:this.userCode,
+          userName:this.userName,
+          orgJB:this.juState,
+          orgCode:this.orgCode,
+          token:this.token,
+        }
+        url="/JTLNInfoController/sentData"
+      }
+      this.$api.post(this.Global.aport4+url,p,
        r =>{
          if(r.success){
            this.$message({
@@ -1431,6 +2189,9 @@ export default {
          this.pcl.CLZT="3";
          this.pcl.FJCLZT="3";
          url="/warningInfoController/uploadData"
+         if(this.yjType==15){
+           url="/JTLNInfoController/uploadData"
+         }
        }else if(this.jb=="1"||this.org=='320100060000'){
           if(this.pd.ZDYJ=="" || this.pd.ZDYJ==undefined)
           {
@@ -1452,6 +2213,9 @@ export default {
           this.pcl.CLZT="0";
           this.pcl.FJCLZT=this.row.FJCLZT;
           url="/warningInfoController/saveCLJG"
+          if(this.yjType==15){
+            url="/JTLNInfoController/saveCLJG"
+          }
         }else {
           if(this.pd.CLJG=="" || this.pd.CLJG==undefined)
           {
@@ -1464,8 +2228,11 @@ export default {
          this.pcl.CLJG=this.pd.CLJG;
          this.pcl.CLZT="3";
       }
-
-      this.pcl.YJID=this.row.YJID;
+      if(this.yjType==15){
+        this.pcl.DTID=this.row.DTID;
+      }else{
+        this.pcl.YJID=this.row.YJID;
+      }
       this.pcl.CLDW=this.$store.state.orgid;
       this.pcl.CLR=this.withname;
       this.pcl.CLRID=this.$store.state.uid;

@@ -50,16 +50,9 @@
            width="55">
          </el-table-column>
          <el-table-column
-           prop="ZWXM"
-           label="中文姓名">
-         </el-table-column>
-         <el-table-column
-           prop="YWX"
-           label="英文姓">
-         </el-table-column>
-         <el-table-column
-           prop="YWM"
-           label="英文名">
+           prop="YWXM"
+           label="英文姓名"
+           min-width="100">
          </el-table-column>
          <el-table-column
            prop="XB_DESC"
@@ -67,27 +60,70 @@
          </el-table-column>
          <el-table-column
            prop="CSRQ"
-           label="出生日期">
+           label="出生日期"
+           min-width="100">
          </el-table-column>
          <el-table-column
            prop="GJDQ_DESC"
-           label="国家地区">
+           label="国籍">
+         </el-table-column>
+         <el-table-column
+           prop="ZJZL_DESC"
+           label="证件种类"
+           min-width="100">
          </el-table-column>
          <el-table-column
            prop="ZJHM"
-           label="证件号码">
+           label="证件号码"
+           min-width="100">
+         </el-table-column>
+         <el-table-column
+           prop="QZZL_DESC"
+           label="签证种类"
+           min-width="100">
+         </el-table-column>
+         <el-table-column
+           prop="QZYXQ"
+           label="签证有效期至"
+           min-width="120">
          </el-table-column>
          <el-table-column
            prop="SFDM_DESC"
            label="身份">
          </el-table-column>
          <el-table-column
-           prop="ZJZL_DESC"
-           label="证件种类">
+           prop="SSFJ_DESC"
+           label="所属分局"
+           min-width="100">
          </el-table-column>
          <el-table-column
-           prop="QZZL_DESC"
-           label="签证种类">
+           prop="SSPCS_DESC"
+           label="所属派出所"
+           min-width="120">
+         </el-table-column>
+         <el-table-column
+           prop="LXDH"
+           label="电话">
+         </el-table-column>
+         <el-table-column
+           prop="XXDZ"
+           label="详细地址"
+           min-width="100">
+         </el-table-column>
+         <el-table-column
+           prop="CRJBS_DESC"
+           label="出入境标识"
+           min-width="120">
+         </el-table-column>
+         <el-table-column
+           prop="IODATE"
+           label="出入境时间"
+           min-width="120">
+         </el-table-column>
+         <el-table-column
+           prop="FWCS"
+           label="服务处所"
+           min-width="100">
          </el-table-column>
          <el-table-column
            label="操作" width="70">
@@ -182,6 +218,12 @@ export default {
       selectionAll:[],
       yuid:[],
       selectionReal:[],
+      userCode:'',
+      userName:'',
+      orgCode:'',
+      orgName:'',
+      token:'',
+      juState:'',
     }
   },
   activated() {
@@ -191,6 +233,12 @@ export default {
   },
   mounted() {
     this.$store.dispatch('getGjdq');
+    this.userCode=this.$store.state.uid;
+    this.userName=this.$store.state.uname;
+    this.orgName=this.$store.state.orgname;
+    this.orgCode=this.$store.state.orgid;
+    this.juState=this.$store.state.juState;
+    this.token=this.$store.state.token;
   },
   methods: {
     selectfn(a,b){
@@ -216,12 +264,22 @@ export default {
          this.$message.error('无可导出数据！');
          return
       }
+      for(var i in this.row){
+        if(this.row[i]==null){
+          this.row[i] = "emptyValue"
+        }
+      }
       this.objCompare(this.row,this.queryPd)
       this.pd = Object.assign({},this.row,this.queryPd,this.pd);
       let p={};
       if(this.selectionAll.length==0){//人员全部导出
         p={
           "pd":this.pd,
+          'userCode':this.userCode,
+          'userName':this.userName,
+          'orgJB':this.juState,
+          'orgCode':this.orgCode,
+          'token':this.token
           // "orderBy":{value:"ZSRQ",dataType:"date"},
           // "orderType":"DESC"
         }
@@ -233,9 +291,14 @@ export default {
         this.pd.RGUID=this.yuid;
         p={
           "pd":this.pd,
+          'userCode':this.userCode,
+          'userName':this.userName,
+          'orgJB':this.juState,
+          'orgCode':this.orgCode,
+          'token':this.token
         }
       }
-      this.$api.post(this.Global.aport5+'/changZhuController/export',p,
+      this.$api.post(this.Global.aport5+'/changZhuController/childexport',p,
         r =>{
           this.downloadM(r)
         },e=>{},{},'blob')
@@ -264,6 +327,11 @@ export default {
       this.getList(val, this.pageSize, this.pd);
     },
     getList(currentPage, showCount, pd) {
+      for(var i in this.row){
+        if(this.row[i]==null){
+          this.row[i] = "emptyValue"
+        }
+      }
       this.objCompare(this.row,this.queryPd)
       pd = Object.assign({},this.row,this.queryPd,pd);
       if(pd.hasOwnProperty('RGUID')){
@@ -272,7 +340,12 @@ export default {
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,
-        "pd": pd
+        "pd": pd,
+        'userCode':this.userCode,
+        'userName':this.userName,
+        'orgJB':this.juState,
+        'orgCode':this.orgCode,
+        'token':this.token
       };
       this.$api.post(this.Global.aport5+'/changZhuController/getResultListByParams', p,
         r => {

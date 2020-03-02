@@ -20,21 +20,24 @@ const aport4="api-yujing";//李文龙 预警
 const aport5="api-yanpan";//李文龙研判
 // const aport5="http://10.0.30.47:9438";//李文龙
 // const aport11="api-zhongguan";
-// const aport11="http://192.168.3.217:9433";
-const aport11="http://10.0.30.82:9433";
+const aport11="http://192.168.3.217:9433";
+// const aport11="http://10.0.30.82:9433";
 
 // const aport6="es-fenxi";
-const aport6="http://10.33.72.217:9447";//孙
-// const aport6="http://192.168.3.217:9447";
-// const aport9="http://192.168.3.217:9444";
-const aport9="http://10.33.72.144:9444";
+// const aport6="http://10.33.72.217:9447";//孙
+const aport6="http://192.168.3.217:9447";
+const aport9="http://192.168.3.217:9444";
+// const aport9="http://10.33.72.144:9444";
 
-const aport7="http://10.33.72.218:9436";//游
-// const aport7="http://192.168.3.217:9436";
-const aport8="http://10.33.72.144:9438";//中管
-// const aport8="http://192.168.3.217:9438";
-const aport10="http://10.33.72.145:9433";//中管大屏
-// const aport10="http://192.168.3.217:9433";//中管
+// const aport7="http://10.33.72.218:9436";//游
+const aport7="http://192.168.3.217:9436";
+// const aport8="http://10.33.72.144:9438";//中管
+const aport8="http://192.168.3.217:9438";
+// const aport10="http://10.33.72.145:9433";//中管大屏
+const aport10="http://192.168.3.217:9433";//中管
+
+// const aport12="http://10.33.72.217:9432";//流程监控
+const aport12="http://192.168.3.217:9432";//流程监控
 
 const serviceState=1 //代码已统一
 
@@ -101,6 +104,10 @@ const yjcl3="/service/getRedisDataByDm?tablename=DM_LZHCYJCLYJ"//临住核查类
 const zy="/service/getRedisDataByDm?tablename=dm_zy"//职业
 const hjd="/service/getRedisDataByDm?tablename=dm_xzqh"//户籍地
 const crjbs="/service/getRedisDataByDm?tablename=DM_CRJBS"//出入境状态
+const jtfs="/service/getRedisDataByDm?tablename=DM_JTFS"//交通方式
+const wlg="/service/getRedisDataByDm?tablename=dm_gjdq"//往来国
+const mz = "/service/getRedisDataByDm?tablename=dm_mz"//民族
+const lnzt = "/service/getRedisDataByDm?tablename=PZ_ES_LNRYXX"//来宁状态
 const tablists=[];
 export default
 {
@@ -119,9 +126,10 @@ export default
   aport4,//李文龙
   aport5,//李文龙
   aport6,
-  aport7,aport8,aport9,aport10,aport11,
+  aport7,aport8,aport9,aport10,aport11,aport12,
   xyaddress,
   gjdq,zjzl,qzzl,rjkn,rjsy,qfjg,pcs,jzlx,zsxz,jzzt,xzqh,jtgx,sflx,xb,rjqzzl,dmall,ssdw,
   dwlb,dwxz,zsbg,tlyxq,sf,tablists,clzt,sjly,rzfs,zflx,jzztlx,xxdm,erxxdm,shzt,tbry,lgyj,gljb,ymzt,ymzl,sldw,ymsqzt,ymqzzl,
-  bzlb,sqsy,rydylb,sqqzzl,jzztcz,hyzt,zjxy,sqlb,swdwclzt,xslb,fjclzt,ajlb,cqlb,ajxz,sszrq,yjcl1,yjcl2,yjcl3,clzt1,zy,hjd,crjbs
+  bzlb,sqsy,rydylb,sqqzzl,jzztcz,hyzt,zjxy,sqlb,swdwclzt,xslb,fjclzt,ajlb,cqlb,ajxz,sszrq,yjcl1,yjcl2,yjcl3,clzt1,zy,hjd,crjbs,
+  jtfs,wlg,mz,lnzt
 }

@@ -154,6 +154,10 @@
             <span class="input-input detailinput">  {{czinfo.ZXLY}}</span>
           </el-col>
           <el-col :span="8" class="input-item">
+            <span class="input-text">所属分局：</span>
+            <span class="input-input detailinput">  {{czinfo.SSFJ_DESC}}</span>
+          </el-col>
+          <el-col :span="8" class="input-item">
             <span class="input-text">数据来源：</span>
             <span class="input-input detailinput">  {{czinfo.SJLY_DESC}}</span>
           </el-col>

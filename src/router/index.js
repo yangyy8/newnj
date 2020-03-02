@@ -289,6 +289,18 @@ export default new Router({
           component: resolve => require(['@/components/YJYP/YJ/CZYJ/NMXQPHZYJ'], resolve),
         },
         {
+          path: 'JTLN',
+          name: 'JTLN',
+          meta:{title:['预警研判','预警信息','交通来宁']},
+          component: resolve => require(['@/components/YJYP/YJ/CZYJ/JTLN'], resolve),
+        },
+        {
+          path: 'JTLN_XQ',
+          name: 'JTLN_XQ',
+          meta:{title:['预警研判','预警信息','交通来宁详情']},
+          component: resolve => require(['@/components/GYZJ/ASJXQ'], resolve),
+        },
+        {
           path: 'CFRYWBZYJ',
           name: 'CFRYWBZYJ',
           meta:{title:['预警研判','预警信息','处罚人员未办证预警']},
@@ -860,6 +872,12 @@ export default new Router({
           component: resolve => require(['@/components/YWCZ/SJDR/FFJLRY'], resolve),
         },
         {
+          path: 'BJMD',
+          name: 'BJMD',
+          meta:{title:['日常管理','数据导入','边检名单导入']},
+          component: resolve => require(['@/components/YWCZ/SJDR/BJMD'], resolve),
+        },
+        {
           path: 'TBRY',
           name: 'TBRY',
           meta:{title:['日常管理','数据导入','通报人员管理']},
@@ -1010,6 +1028,12 @@ export default new Router({
           name: 'GZGLYJ',
           meta:{title:['系统管理','系统配置','规则管理']},
           component: resolve => require(['@/components/XTGL/XTSZ/GZGLYJ'], resolve),
+        },
+        {
+          path: 'LCJK',
+          name: 'LCJK',
+          meta:{title:['系统管理','系统配置','流程监控']},
+          component: resolve => require(['@/components/XTGL/XTSZ/LCJK'], resolve),
         },
         {
           path: 'YHSQ',

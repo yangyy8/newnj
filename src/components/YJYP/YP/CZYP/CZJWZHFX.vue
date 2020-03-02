@@ -67,7 +67,7 @@
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                   <span class="input-text">国家地区：</span>
-                  <el-select v-model="pd.GJDQ" filterable clearable default-first-option  placeholder="请选择"  size="small" class="input-input">
+                  <el-select v-model="pd.GJDQ" filterable clearable default-first-option  multiple collapse-tags placeholder="请选择"  size="small" class="input-input">
                     <el-option
                       v-for="item in $store.state.gjdq"
                       :key="item.dm"
@@ -78,7 +78,7 @@
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                   <span class="input-text">签证种类：</span>
-                  <el-select v-model="pd.QZZL" filterable clearable default-first-option  placeholder="请选择"  size="small" class="input-input">
+                  <el-select v-model="pd.QZZL" filterable clearable default-first-option  multiple collapse-tags placeholder="请选择"  size="small" class="input-input">
                     <el-option
                       v-for="item in $store.state.rjqzzl"
                       :key="item.dm"
@@ -89,7 +89,7 @@
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                   <span class="input-text">证件种类：</span>
-                  <el-select v-model="pd.ZJZL" filterable clearable default-first-option  placeholder="请选择"  size="small" class="input-input">
+                  <el-select v-model="pd.ZJZL" filterable clearable default-first-option  multiple collapse-tags placeholder="请选择"  size="small" class="input-input">
                     <el-option
                       v-for="item in $store.state.zjzl"
                       :key="item.dm"
@@ -100,7 +100,7 @@
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                   <span class="input-text">居留事由：</span>
-                  <el-select v-model="pd.TLSY"  filterable clearable default-first-option  placeholder="请选择"  size="small" class="input-input">
+                  <el-select v-model="pd.TLSY"  filterable clearable default-first-option multiple collapse-tags placeholder="请选择"  size="small" class="input-input">
                     <el-option
                       v-for="item in $store.state.rjsy"
                       :key="item.dm"
@@ -290,7 +290,8 @@
                 <el-col :span="2" class="down-btn-area">
                   <el-button type="success" size="small" @click="CurrentPage=1;getList(CurrentPage,pageSize,pd)" class="mb-15">查询</el-button>
                   <!-- <el-button type="" size="small" @click="" class="mb-15"> 重置</el-button> -->
-                  <el-button type="primary"  size="small" class="t-ml0" @click="download">导出</el-button>
+                  <el-button type="primary"  size="small" class="t-ml0 mb-15" @click="download">导出</el-button>
+                  <el-button type="warning"  size="small" class="t-ml0" v-if="juState=='1'" @click="downloadT">综合导出</el-button>
                 </el-col>
               </el-row>
         </div>
@@ -386,16 +387,9 @@
                width="55">
              </el-table-column>
              <el-table-column
-               prop="ZWXM"
-               label="中文姓名">
-             </el-table-column>
-             <el-table-column
-               prop="YWX"
-               label="英文姓">
-             </el-table-column>
-             <el-table-column
-               prop="YWM"
-               label="英文名">
+               prop="YWXM"
+               label="英文姓名"
+               min-width="100">
              </el-table-column>
              <el-table-column
                prop="XB_DESC"
@@ -403,36 +397,70 @@
              </el-table-column>
              <el-table-column
                prop="CSRQ"
-               label="出生日期">
+               label="出生日期"
+               min-width="100">
              </el-table-column>
              <el-table-column
                prop="GJDQ_DESC"
-               label="国家地区">
+               label="国籍">
+             </el-table-column>
+             <el-table-column
+               prop="ZJZL_DESC"
+               label="证件种类"
+               min-width="100">
              </el-table-column>
              <el-table-column
                prop="ZJHM"
-               label="证件号码">
+               label="证件号码"
+               min-width="100">
+             </el-table-column>
+             <el-table-column
+               prop="QZZL_DESC"
+               label="签证种类"
+               min-width="100">
+             </el-table-column>
+             <el-table-column
+               prop="QZYXQ"
+               label="签证有效期至"
+               min-width="120">
              </el-table-column>
              <el-table-column
                prop="SFDM_DESC"
                label="身份">
              </el-table-column>
              <el-table-column
-               prop="ZJZL_DESC"
-               label="证件种类">
+               prop="SSFJ_DESC"
+               label="所属分局"
+               min-width="100">
              </el-table-column>
-             <!-- <el-table-column
-               prop="QZZL_DESC"
-               label="签证种类">
-             </el-table-column> -->
-
+             <el-table-column
+               prop="SSPCS_DESC"
+               label="所属派出所"
+               min-width="120">
+             </el-table-column>
+             <el-table-column
+               prop="LXDH"
+               label="电话">
+             </el-table-column>
              <el-table-column
                prop="XXDZ"
-               label="详细地址">
+               label="详细地址"
+               min-width="100">
              </el-table-column>
              <el-table-column
                prop="CRJBS_DESC"
-               label="出入境状态">
+               label="出入境标识"
+               min-width="120">
+             </el-table-column>
+             <el-table-column
+               prop="IODATE"
+               label="出入境时间"
+               min-width="120">
+             </el-table-column>
+             <el-table-column
+               prop="FWCS"
+               label="服务处所"
+               min-width="100">
              </el-table-column>
              <el-table-column
                label="操作" width="70">
@@ -769,6 +797,15 @@
             }
           }
           // console.log('this.selectionAll',this.selectionAll);
+        },
+        downloadT(){
+          let p={
+            token:this.token,
+          }
+          this.$api.post(this.Global.aport6+'/api/es/cz/czDataFx',p,
+           r =>{
+             this.downloadM(r)
+           },e=>{},{},'blob')
         },
         download(){
           if(this.tableData.length==0){

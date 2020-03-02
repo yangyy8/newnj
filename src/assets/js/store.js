@@ -90,6 +90,10 @@ var store = new Vuex.Store({
     zy:[],
     hjd:[],
     crjbs:[],
+    jtfs:[],
+    wlg:[],
+    mz:[],
+    lnzt:[],
     queryType:'',
   },
   mutations: {
@@ -350,6 +354,18 @@ var store = new Vuex.Store({
     },
     getCrjbs(state,data){
       state.crjbs=data;
+    },
+    getJtfs(state,data){
+      state.jtfs=data;
+    },
+    getWlg(state,data){
+      state.wlg=data;
+    },
+    getMz(state,data){
+      state.mz=data;
+    },
+    getLnzt(state,data){
+      state.lnzt=data;
     }
   },
   actions: {
@@ -710,6 +726,30 @@ var store = new Vuex.Store({
       r =>{
         context.commit('getCrjbs',ToArray(r.data))
       })
+    },
+    getJtfs(context){
+      api.get(global_.aport1+global_.jtfs,null,
+      r =>{
+        context.commit('getJtfs',ToArray(r.data))
+      })
+    },
+    getWlg(context){
+      api.get(global_.aport1+global_.wlg,null,
+      r =>{
+        context.commit('getWlg',ToArray(r.data))
+      })
+    },
+    getMz(context){
+      api.get(global_.aport1+global_.mz,null,
+      r =>{
+        context.commit('getMz',ToArray(r.data))
+      })
+    },
+    getLnzt(context){
+      api.get(global_.aport1+global_.lnzt,null,
+       r =>{
+         context.commit('getLnzt',ToArray(r.data))
+       })
     }
   }
 });

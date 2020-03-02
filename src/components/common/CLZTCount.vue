@@ -29,7 +29,7 @@
 <script>
 export default {
   name:'COUNT',
-  props:['ccPd','random','typeCount'],
+  props:['ccPd','random','typeCount','state'],
   data(){
     return{
       countPd:{
@@ -62,19 +62,37 @@ export default {
   },
   methods:{
     getCount(){
-      let p={
-        pd:{
-          MXLX:this.ccPd.MXLX,
-          FJ:this.ccPd.FJ,
-          PCS:this.ccPd.PCS,
-        },
-        'userCode':this.userCode,
-        'userName':this.userName,
-        'orgJB':this.juState,
-        'orgCode':this.orgCode,
-        'token':this.token
+      let p={};
+      let url="";
+      if(this.state=='LN'){
+        url = '/JTLNInfoController/getClztCount';
+        p={
+          pd:{
+            FJ:this.ccPd.FJ,
+            PCS:this.ccPd.PCS,
+          },
+          'userCode':this.userCode,
+          'userName':this.userName,
+          'orgJB':this.juState,
+          'orgCode':this.orgCode,
+          'token':this.token
+        }
+      }else{
+        url='/warningInfoController/getClztCount';
+        p={
+         pd:{
+           MXLX:this.ccPd.MXLX,
+           FJ:this.ccPd.FJ,
+           PCS:this.ccPd.PCS,
+         },
+         'userCode':this.userCode,
+         'userName':this.userName,
+         'orgJB':this.juState,
+         'orgCode':this.orgCode,
+         'token':this.token
+       }
       }
-      this.$api.post(this.Global.aport4+'/warningInfoController/getClztCount',p,
+      this.$api.post(this.Global.aport4+url,p,
        r =>{
          if(r.success){
            if(this.juState=='1'){
@@ -91,6 +109,7 @@ export default {
          }
        })
     },
+
   }
 }
 </script>
