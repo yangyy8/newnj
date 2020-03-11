@@ -176,7 +176,7 @@
       </el-row>
     </div>
     <div class="yycontent">
-       <div class="yylbt mb-15">来宁信息列表</div>
+       <div class="yylbt mb-15">预警信息列表</div>
        <COUNT :ccPd="ccPd" :random="new Date().getTime()" state='LN'></COUNT>
       <el-table
            :data="tableData"
@@ -229,13 +229,13 @@
              min-width="100">
            </el-table-column>
            <el-table-column
-             prop="LNSJ"
-             label="来宁时间"
+             prop="HBCC"
+             label="航班车次"
              min-width="100">
            </el-table-column>
            <el-table-column
-             prop="HBCC"
-             label="航班车次"
+             prop="LNSJ"
+             label="来宁时间"
              min-width="100">
            </el-table-column>
            <el-table-column
@@ -249,12 +249,32 @@
              min-width="100">
            </el-table-column>
            <el-table-column
+             prop="CRJ_HBCC"
+             label="入境航班车次"
+             min-width="120">
+           </el-table-column>
+           <el-table-column
+             prop="CRJ_CFGJ_DESC"
+             label="入境航班出发地"
+             min-width="120">
+           </el-table-column>
+           <el-table-column
+             prop="CRJ_SJ"
+             label="入境时间"
+             min-width="100">
+           </el-table-column>
+           <el-table-column
+             prop="CRJ_KA_DESC"
+             label="入境口岸"
+             min-width="100">
+           </el-table-column>
+           <el-table-column
              prop="SSFJ_DESC"
              label="所属分局"
              min-width="100">
            </el-table-column>
            <el-table-column
-             prop="PCS_DESC"
+             prop="SSPCS_DESC"
              label="所属派出所"
              min-width="120">
            </el-table-column>
@@ -490,7 +510,7 @@ export default {
         if(this.selectionAll5.length==0){//全部导出
            p={
             "pd":this.pd,
-            "orderBy":'LNSJ',
+            "orderBy": {"dataType":"date","value":"LNSJ"},
             "orderType":'DESC',
             userCode:this.userCode,
             userName:this.userName,
@@ -506,7 +526,7 @@ export default {
           this.pd.DTID=this.yuid;
            p={
             "pd":this.pd,
-            "orderBy":'LNSJ',
+            "orderBy": {"dataType":"date","value":"LNSJ"},
             "orderType":'DESC',
             userCode:this.userCode,
             userName:this.userName,
@@ -577,7 +597,7 @@ export default {
         "currentPage": currentPage,
         "showCount": showCount,
         "pd": pd,
-        "orderBy":'LNSJ',
+        "orderBy": {"dataType":"date","value":"LNSJ"},
         "orderType":'DESC',
         userCode:this.userCode,
         userName:this.userName,

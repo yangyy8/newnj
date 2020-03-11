@@ -20,24 +20,25 @@ const aport4="api-yujing";//李文龙 预警
 const aport5="api-yanpan";//李文龙研判
 // const aport5="http://10.0.30.47:9438";//李文龙
 // const aport11="api-zhongguan";
-const aport11="http://192.168.3.217:9433";
-// const aport11="http://10.0.30.82:9433";
+// const aport11="http://192.168.3.217:9433";
+const aport11="http://10.0.30.82:9433";
 
 // const aport6="es-fenxi";
-// const aport6="http://10.33.72.217:9447";//孙
-const aport6="http://192.168.3.217:9447";
-const aport9="http://192.168.3.217:9444";
-// const aport9="http://10.33.72.144:9444";
+const aport6="http://10.33.72.217:9447";//孙
+// const aport6="http://192.168.3.217:9447";
+// const aport9="http://192.168.3.217:9444";
+const aport9="http://10.33.72.144:9444";
 
-// const aport7="http://10.33.72.218:9436";//游
-const aport7="http://192.168.3.217:9436";
-// const aport8="http://10.33.72.144:9438";//中管
-const aport8="http://192.168.3.217:9438";
-// const aport10="http://10.33.72.145:9433";//中管大屏
-const aport10="http://192.168.3.217:9433";//中管
+const aport7="http://10.33.72.218:9436";//游
+// const aport7="http://192.168.3.217:9436";
+const aport8="http://10.33.72.144:9438";//中管
+// const aport8="http://192.168.3.217:9438";
+const aport10="http://10.33.72.145:9433";//中管大屏
+// const aport10="http://192.168.3.217:9433";//中管
+// const aport10="http://50.32.6.95:80";//中管大屏任
 
-// const aport12="http://10.33.72.217:9432";//流程监控
-const aport12="http://192.168.3.217:9432";//流程监控
+const aport12="http://10.33.72.217:9432";//流程监控
+// const aport12="http://192.168.3.217:9432";//流程监控
 
 const serviceState=1 //代码已统一
 

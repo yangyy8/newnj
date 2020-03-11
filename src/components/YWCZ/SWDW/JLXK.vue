@@ -63,9 +63,12 @@
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
                   <span class="input-text">核查状态：</span>
-                  <el-select v-model="pd.HCZT" placeholder="请选择"  filterable clearable default-first-option size="small" class="input-input">
-                    <el-option label="核查通过" value="0"></el-option>
-                    <el-option label="核查不通过" value="1"></el-option>
+                  <el-select v-model="pd.FKZT" placeholder="请选择"  filterable clearable default-first-option size="small" class="input-input">
+                    <el-option label="已签收" value="4"></el-option>
+                    <el-option label="待处理" value="0"></el-option>
+                    <el-option label="同意" value="1"></el-option>
+                    <el-option label="不同意" value="2"></el-option>
+                    <el-option label="退回" value="3"></el-option>
                   </el-select>
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
@@ -108,7 +111,8 @@
            :highlight-current-row="true"
            style="width: 100%"
            @select="selectfn"
-           @header-click="titleShow">
+           @header-click="titleShow"
+           :row-class-name="tableRowClassName">
            <!-- <el-table-column
              type="selection"
              width="55">
@@ -142,10 +146,10 @@
              label="申请时间">
            </el-table-column>
            <el-table-column
-             prop="HCZT"
+             prop="FKZT"
              label="核查状态">
             <template slot-scope="scope">
-              {{scope.row.HCZT=='0'?'核查通过':scope.row.HCZT=='1'?'核查不通过':''}}
+              {{scope.row.FKZT=='0'?'待处理':scope.row.FKZT=='1'?'同意':scope.row.FKZT=='2'?'不同意':scope.row.FKZT=='3'?'退回':'已签收'}}
             </template>
            </el-table-column>
            <el-table-column
@@ -159,7 +163,8 @@
              label="操作" width="70">
              <template slot-scope="scope">
                <div>
-                  <el-button type="text"  class="a-btn"  title="处理"  icon="el-icon-edit" @click="$router.push({name:'JLXK_XQ',query:{hiType:'jlxk',row:scope.row}})"></el-button>
+                  <el-button type="text"  class="a-btn"  title="签收"  icon="el-icon-document-checked" :disabled="scope.row.FKZT!='0'" @click="sign(scope.row)"></el-button>
+                  <el-button type="text"  class="a-btn"  title="处理"  icon="el-icon-edit" @click="stateId=scope.row.DTID;$router.push({name:'JLXK_XQ',query:{hiType:'jlxk',row:scope.row}})"></el-button>
                </div>
              </template>
            </el-table-column>
@@ -222,6 +227,7 @@ export default {
       selectionReal:[],
       dwdata:[],
       dwList:{},
+      stateId:'',
     }
   },
 
@@ -249,8 +255,41 @@ export default {
     this.getDw();
   },
   methods: {
+    tableRowClassName({row, rowIndex}){
+      // console.log(row,row.DTID,this.stateId);
+      if(row.DTID == this.stateId){
+        return 'bac-yel'
+      }
+    },
     titleShow(e,el){
       el.target.title = e.label;
+    },
+    sign(val){
+      let pcl={
+        pd:{
+          DTID:val.DTID,
+          FKZT:'4',
+          hcztType:'qs',
+          HCCLRDW:this.$store.state.orgname,
+          HCCLR:this.$store.state.uname,
+        },
+        userCode:this.userCode,
+        userName:this.userName,
+        orgCode:this.orgCode,
+        orgJB:this.juState,
+        token:this.token,
+      }
+      let url='/JLXKXBZFWarningInfoController/saveCLJG';
+      this.$api.post(this.Global.aport4+url,pcl,
+       r => {
+          if(r.success){
+            this.$message({
+              message: '反馈成功',
+              type: 'success'
+            });
+            this.getList(this.CurrentPage, this.pageSize, this.pd);
+          }
+        })
     },
     getDw(){
       this.$api.post(this.Global.aport4+'/SWDW_SJSBController/getAllDW',{},
@@ -350,6 +389,7 @@ export default {
       if(pd.hasOwnProperty('YJID')){
         delete pd['YJID']
       }
+      console.log(this.stateId);
       this.pd.QZYXQ_DateRange.begin=this.pd0.beginqz;
       this.pd.QZYXQ_DateRange.end=this.pd0.endqz;
       this.pd.SQSJ_DateRange.begin=this.pd0.beginsq;
@@ -391,6 +431,6 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style>
 
 </style>

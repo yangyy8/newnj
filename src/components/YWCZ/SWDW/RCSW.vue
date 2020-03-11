@@ -714,10 +714,19 @@
                <el-row v-if="$route.query.hiType=='jlxk'">
                  <el-col :span="20" class="input-item t-mb10">
                    <span class="input-text t-mb10" style="width:70px!important">核查状态：</span>
-                   <el-select v-model="pc.HCZT" placeholder="请选择"  filterable clearable default-first-option class="input-input t-width31 inputInner" :disabled="!hcShow">
-                     <el-option label="核查通过" value="0"></el-option>
-                     <el-option label="核查未通过" value="1"></el-option>
-                   </el-select>
+                   <!-- <el-select v-model="pc.HCZT" placeholder="请选择"  filterable clearable default-first-option class="input-input t-width31 inputInner" :disabled="!hcShow"> -->
+                     <!-- <el-option label="签收（审核中）" value="3"></el-option> -->
+                     <!-- <el-option label="同意" value="0"></el-option>
+                     <el-option label="不同意" value="1"></el-option>
+                     <el-option label="退回" value="2"></el-option>
+                   </el-select> -->
+                   <el-radio-group v-model="pc.FKZT" class="t-mb10" :disabled="!hcShow">
+                     <el-radio label="0">待处理</el-radio>
+                      <el-radio label="1">同意</el-radio>
+                      <el-radio label="2">不同意</el-radio>
+                      <el-radio label="3">退回</el-radio>
+                      <!-- <el-radio label="4">已签收</el-radio> -->
+                    </el-radio-group>
                  </el-col>
                </el-row>
                <el-row type="flex" class="mb-15 t-ml70">
@@ -968,15 +977,15 @@ export default {
     this.CurrentPage=1;
     this.CurrentPage1=1;
     this.CurrentPage5=1;
-    this.row = this.$route.query.row
+    this.row = this.$route.query.row;
     this.rybh=this.$route.query.row.RYBH;
     this.hcShow=true;
     this.shShow=true;
     this.pc={HCBZ:''};
     this.shpc.SHBZ='';
-    if(this.row.CLZT=='0'||(this.row.CLZT=='2'&&this.row.HCZT=='0')){
+    if(this.row.CLZT=='0'||(this.row.CLZT=='2'&&this.row.FKZT=='1')){
       this.hcShow=false;
-      this.pc.HCZT = this.row.HCZT;
+      this.pc.FKZT = this.row.FKZT;
       this.pc.HCBZ = this.row.HCBZ;
     }
     if(this.row.SFYX=='1'){
@@ -1374,7 +1383,7 @@ export default {
       }
       let url="";
       this.pcl={
-        HCZT:this.pc.HCZT,
+        FKZT:this.pc.FKZT,
         HCBZ:this.pc.HCBZ,
         HCCLRDW:this.$store.state.orgname,
         HCCLR:this.withname,
@@ -1384,58 +1393,79 @@ export default {
         url="/SLRYSBWarningInfoController/saveCLJG"
       }else if(this.$route.query.hiType=='jlxk'){
         this.pcl.DTID=this.row.DTID,
+        this.pcl.hcztType='hc'
         url="/JLXKXBZFWarningInfoController/saveCLJG"
       }else{
         this.pcl.YJID=this.row.YJID,
         url="/SWDWWarningInfoController/saveCLJG"
       }
-      this.$confirm('是否将处理结果反馈至外网?', '提示', {
-         confirmButtonText: '确定',
-         cancelButtonText: '取消',
-         type: 'warning',
-         center: true
-       }).then(() => {
-         this.pcl.SFFK='1'
-         let p = {
-           "pd":this.pcl,
-           userCode:this.userCode,
-           userName:this.userName,
-           orgCode:this.orgCode,
-           orgJB:this.juState,
-           token:this.token,
-         };
-         this.$api.post(this.Global.aport4+url, p,
-           r => {
-              if(r.success){
-                this.$message({
-                  message: '反馈成功',
-                  type: 'success'
-                });
-                this.$router.go(-1);
-              }
-           })
-       }).catch(() => {
-         this.pcl.SFFK='0';
-         let p = {
-           "pd":this.pcl,
-           userCode:this.userCode,
-           userName:this.userName,
-           orgCode:this.orgCode,
-           orgJB:this.juState,
-           token:this.token,
-         };
-         this.$api.post(this.Global.aport4+url, p,
-           r => {
-              if(r.success){
-                this.$message({
-                  message: '取消反馈，保存成功',
-                  type: 'success'
-                });
-                this.$router.go(-1);
-              }
-           })
-       });
-
+      if(this.$route.query.hiType=='jlxk'){
+        let p = {
+          "pd":this.pcl,
+          userCode:this.userCode,
+          userName:this.userName,
+          orgCode:this.orgCode,
+          orgJB:this.juState,
+          token:this.token,
+        };
+        this.$api.post(this.Global.aport4+url,p,
+         r => {
+            if(r.success){
+              this.$message({
+                message: '反馈成功',
+                type: 'success'
+              });
+              this.$router.go(-1);
+            }
+          })
+      }else{
+        this.$confirm('是否将处理结果反馈至外网?', '提示', {
+           confirmButtonText: '确定',
+           cancelButtonText: '取消',
+           type: 'warning',
+           center: true
+         }).then(() => {
+           this.pcl.SFFK='1'
+           let p = {
+             "pd":this.pcl,
+             userCode:this.userCode,
+             userName:this.userName,
+             orgCode:this.orgCode,
+             orgJB:this.juState,
+             token:this.token,
+           };
+           this.$api.post(this.Global.aport4+url, p,
+             r => {
+                if(r.success){
+                  this.$message({
+                    message: '反馈成功',
+                    type: 'success'
+                  });
+                  this.$router.go(-1);
+                }
+             })
+         }).catch(() => {
+           this.pcl.SFFK='0';
+           let p = {
+             "pd":this.pcl,
+             userCode:this.userCode,
+             userName:this.userName,
+             orgCode:this.orgCode,
+             orgJB:this.juState,
+             token:this.token,
+           };
+           this.$api.post(this.Global.aport4+url, p,
+             r => {
+                if(r.success){
+                  this.$message({
+                    message: '取消反馈，保存成功',
+                    type: 'success'
+                  });
+                  this.$router.go(-1);
+                }
+             })
+         });
+      }
     },
     shSaves(){
       if(this.shpc.SHNR=="" || this.shpc.SHNR==undefined){

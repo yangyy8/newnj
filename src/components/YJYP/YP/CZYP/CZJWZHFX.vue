@@ -111,7 +111,7 @@
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                   <span class="input-text">入住方式：</span>
-                  <el-select v-model="pd.RZFS"  filterable clearable default-first-option  placeholder="请选择"  size="small" class="input-input">
+                  <el-select v-model="pd.RZFS"  filterable clearable multiple collapse-tags default-first-option  placeholder="请选择"  size="small" class="input-input">
                     <el-option
                       v-for="item in $store.state.rzfs"
                       :key="item.dm"
@@ -122,7 +122,7 @@
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                   <span class="input-text">住房类型：</span>
-                  <el-select v-model="pd.ZFLX"  filterable clearable default-first-option  placeholder="请选择"  size="small" class="input-input">
+                  <el-select v-model="pd.ZFLX"  filterable clearable multiple collapse-tags default-first-option  placeholder="请选择"  size="small" class="input-input">
                     <el-option
                       v-for="item in $store.state.zflx"
                       :key="item.dm"
@@ -133,7 +133,7 @@
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                   <span class="input-text">居住状态：</span>
-                  <el-select v-model="pd.JZZT"  filterable clearable default-first-option  placeholder="请选择"  size="small" class="input-input">
+                  <el-select v-model="pd.JZZT"  filterable clearable multiple collapse-tags default-first-option  placeholder="请选择"  size="small" class="input-input">
                     <el-option
                       v-for="item in $store.state.jzztlx"
                       :key="item.dm"
@@ -176,10 +176,10 @@
                        </el-option>
                      </el-select>
                   </el-col> -->
-                <AREAFX @getArea="getArea"></AREAFX>
+                <AREAMS @getArea="getArea"></AREAMS>
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                   <span class="input-text">身份：</span>
-                  <el-select v-model="pd.SFDM"  filterable clearable default-first-option  placeholder="请选择"  size="small" class="input-input">
+                  <el-select v-model="pd.SFDM"  filterable clearable multiple collapse-tags default-first-option  placeholder="请选择"  size="small" class="input-input">
                     <el-option
                       v-for="item in $store.state.sf"
                       :key="item.dm"
@@ -265,7 +265,7 @@
                 </el-col> -->
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                   <span class="input-text">出入境状态：</span>
-                  <el-select v-model="pd.CRJBS"  filterable clearable default-first-option  placeholder="请选择"  size="small" class="input-input">
+                  <el-select v-model="pd.CRJBS"  filterable clearable multiple collapse-tags default-first-option  placeholder="请选择"  size="small" class="input-input">
                     <el-option
                       v-for="item in $store.state.crjbs"
                       :key="item.dm"
@@ -335,7 +335,7 @@
                <el-table-column
                  label="操作" width="100">
                  <template slot-scope="scope">
-                 <el-button type="text"  class="a-btn"  title="详情"  icon="el-icon-document" @click="$router.push({name:'CZJWZHFXRYXX',query:{row:scope.row,queryPd:pd}})"></el-button>
+                 <el-button type="text"  class="a-btn"  title="详情"  icon="el-icon-document" @click="$router.push({name:'CZJWZHFXRYXX',query:{row:scope.row,queryPd:Object.assign({},pd,areaPd)}})"></el-button>
                  </template>
                </el-table-column>
             </el-table>
@@ -519,9 +519,9 @@
       ToArray,sortByKey
     } from '@/assets/js/ToArray.js'
     import CZXX from '../../../common/czxx_xq'
-    import AREAFX from '../../../common/areaFx'
+    import AREAMS from '../../../common/areaMs'
     export default {
-      components:{CZXX,AREAFX},
+      components:{CZXX,AREAMS},
       data() {
         return {
           areaPd:{},
@@ -541,7 +541,7 @@
             SQJSSJ_DateRange:{begin:'',end:'',dataType:'date'},
             TLYXQ_DateRange:{begin:'',end:'',dataType:'date'},
             HISTORY_DateRange:{begin:'',end:'',dataType:'date'},
-            JZZT:"1",
+            JZZT:["1"],
             isYXRY:true,
             YWX:'',
             YWM:''

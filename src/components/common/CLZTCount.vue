@@ -75,7 +75,9 @@ export default {
           'userName':this.userName,
           'orgJB':this.juState,
           'orgCode':this.orgCode,
-          'token':this.token
+          'token':this.token,
+          "orderBy": {"dataType":"date","value":"LNSJ"},
+          "orderType":'DESC',
         }
       }else{
         url='/warningInfoController/getClztCount';

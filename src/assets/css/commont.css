@@ -1,8 +1,14 @@
 .green{
   color: green;
 }
+.el-tag{
+  overflow: hidden!important;
+}
 .t-yel{
   color:#f19d05;
+}
+.bac-yel{
+  background-color: #f19d05!important;
 }
 .t-red{
   color:red;
@@ -30,6 +36,7 @@
 .big_dialog.combine{
   width: 80%!important
 }
+
 .el-dialog.big_dialog .el-dialog__body{
   flex: 1;
   overflow: auto;

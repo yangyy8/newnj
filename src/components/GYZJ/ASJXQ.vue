@@ -95,7 +95,7 @@
                    {{baseData.ZJHM}}
               </el-col>
               <el-col :span="6" class="stu-col-row">
-                <span title="出入境签证种类">出入境签证种类：{{baseData.QZZL_DESC}}</span>
+                <span title="入境签证种类">入境签证种类：{{baseData.QZZL_DESC}}</span>
               </el-col>
               <el-col :span="6" class="stu-col-row">
                 <span>联系电话：</span>
@@ -111,11 +111,11 @@
                 <span title="人员类别">人员类别：{{baseData.RYLB_DESC}}</span>
               </el-col>
               <el-col :span="6" class="stu-col-row">
-                <span title="服务处所">服务处所：{{baseData.FWCS}}</span>
+                <span title="在宁状态">在宁状态：</span>
+                   {{baseData.ZNZT_DESC}}
               </el-col>
               <el-col :span="12" class="stu-col-row">
-                <span title="离宁原因">离宁原因：</span>
-                   {{baseData.LNYY}}
+                <span title="服务处所">服务处所：{{baseData.FWCS}}</span>
               </el-col>
              </el-row>
           </el-col>

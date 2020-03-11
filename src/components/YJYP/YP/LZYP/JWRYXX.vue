@@ -58,6 +58,10 @@
              label="性别">
            </el-table-column>
            <el-table-column
+             prop="CSRQ"
+             label="出生日期">
+           </el-table-column>
+           <el-table-column
              prop="GJDQ_DESC"
              label="国家地区">
            </el-table-column>
@@ -80,6 +84,18 @@
            <el-table-column
              prop="QZHM"
              label="签证号码">
+           </el-table-column>
+           <el-table-column
+             prop="JLSY_DESC"
+             label="停留事由">
+           </el-table-column>
+           <el-table-column
+             prop="SSFJ_DESC"
+             label="所属分局">
+           </el-table-column>
+           <el-table-column
+             prop="SSPCS_DESC"
+             label="所属派出所">
            </el-table-column>
            <el-table-column
              label="操作" width="70">
@@ -392,6 +408,9 @@ export default {
   },
   activated() {
     this.row = this.$route.query.row;
+    if(this.row.SSFJ){this.row.SSFJ=[this.row.SSFJ]};
+    if(this.row.SSPCS){this.row.SSPCS=[this.row.SSPCS]};
+    if(this.row.SSZRQ){this.row.SSZRQ=[this.row.SSZRQ]};
     this.queryPd=this.$route.query.queryPd;
     this.getList(this.CurrentPage,this.pageSize,this.pd);
   },
@@ -483,6 +502,7 @@ export default {
     getList(currentPage, showCount, pd) {
       this.objCompare(this.row,this.queryPd)
       pd = Object.assign({},this.row,this.queryPd,pd);
+      console.log(pd);
       if(pd.hasOwnProperty('DTID')){
         delete pd['DTID']
       }

@@ -51,6 +51,51 @@
                       </el-option>
                     </el-select>
                 </el-col>
+                <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                    <span class="input-text">证件种类：</span>
+                    <el-select v-model="pd.ZJZLDM" filterable clearable  default-first-option placeholder="请选择"  size="small" class="input-input">
+                      <el-option
+                        v-for="(item,ind2) in $store.state.zjzl"
+                        :key="ind2"
+                        :label="item.dm+' - '+item.mc"
+                        :value="item.dm">
+                      </el-option>
+                    </el-select>
+                </el-col>
+                <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
+                   <span class="input-text">身份证号：</span>
+                   <el-input placeholder="请输入内容" size="small" v-model="pd.SFZH" class="input-input"></el-input>
+                </el-col>
+                <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
+                   <span class="input-text">户口所在地：</span>
+                   <el-input placeholder="请输入内容" size="small" v-model="pd.HKSZD" class="input-input"></el-input>
+                </el-col>
+                <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
+                   <span class="input-text">联系电话：</span>
+                   <el-input placeholder="请输入内容" size="small" v-model="pd.LXDH" class="input-input"></el-input>
+                </el-col>
+                <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                    <span class="input-text">入境出发地：</span>
+                    <el-select v-model="pd.WLGDM" filterable clearable  default-first-option placeholder="请选择"  size="small" class="input-input">
+                      <el-option
+                        v-for="(item,ind4) in $store.state.wlg"
+                        :key="ind4"
+                        :label="item.dm+' - '+item.mc"
+                        :value="item.dm">
+                      </el-option>
+                    </el-select>
+                </el-col>
+                <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                    <span class="input-text">出入境状态：</span>
+                    <el-select v-model="pd.CRJBSDM" filterable clearable  default-first-option placeholder="请选择"  size="small" class="input-input">
+                      <el-option
+                        v-for="(item,ind3) in $store.state.crjbs"
+                        :key="ind3"
+                        :label="item.dm+' - '+item.mc"
+                        :value="item.dm">
+                      </el-option>
+                    </el-select>
+                </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
                    <span class="input-text">标题：</span>
                    <el-input placeholder="请输入内容" size="small" v-model="pd.BT" class="input-input"></el-input>
@@ -58,7 +103,8 @@
           </el-row>
          </el-col>
             <el-col :span="2" class="down-btn-area">
-              <el-button type="success" size="small"  @click="getListType">查询</el-button>
+              <el-button type="success" size="small"  @click="getListType" class="mb-15">查询</el-button>
+              <el-button type="primary"  size="small" class="t-ml0" @click="downloadAll">导出</el-button>
             </el-col>
           </el-row>
     </div>
@@ -73,10 +119,11 @@
       </div> -->
       <!-- <div class="ak-tab-pane" > -->
           <div v-show="page==0">
-            <el-row class="mb-15">
+            <!-- <el-row class="mb-15">
               <el-button type="primary"  size="small" @click="showUpload(0)">批量导入</el-button>
               <el-button type="success" size="small" @click="download(0)">模板下载</el-button>
-            </el-row>
+            </el-row> -->
+            <div class="yylbt mb-15">预警信息列表</div>
             <el-table
                  ref="multipleTable"
                  :data="tableData"
@@ -127,8 +174,8 @@
                    label="操作" width="120">
                    <template slot-scope="scope">
                    <el-button type="text"  class="a-btn"  title="详情"  icon="el-icon-document" @click="details(scope.row,0)"></el-button>
-                   <el-button type="text"  class="a-btn"  title="编辑"  icon="el-icon-edit" @click="edits(scope.row,0)"></el-button>
-                   <el-button type="text"  class="a-btn"  title="删除"  icon="el-icon-delete" @click="deletes(scope.row,0)"></el-button>
+                   <!-- <el-button type="text"  class="a-btn"  title="编辑"  icon="el-icon-edit" @click="edits(scope.row,0)"></el-button>
+                   <el-button type="text"  class="a-btn"  title="删除"  icon="el-icon-delete" @click="deletes(scope.row,0)"></el-button> -->
                    </template>
                  </el-table-column>
                </el-table>
@@ -232,20 +279,7 @@
                     <el-input placeholder="请输入内容" size="small" v-model="editForm.ZJHM" class="input-input"></el-input>
                   </el-col>
 
-                  <el-col :span="12" class="input-item">
-                    <span class="input-text">人员类别：</span>
-                    <el-input placeholder="请输入内容" size="small" v-model="editForm.RYLBMC" class="input-input"></el-input>
-                  </el-col>
 
-                  <el-col :span="12" class="input-item">
-                    <span class="input-text">证件签发机关：</span>
-                    <el-input placeholder="请输入内容" size="small" v-model="editForm.QFJGMC" class="input-input"></el-input>
-                  </el-col>
-
-                  <el-col :span="12" class="input-item">
-                    <span class="input-text">所属派出所：</span>
-                    <el-input placeholder="请输入内容" size="small" v-model="editForm.SSPCSMC" class="input-input"></el-input>
-                  </el-col>
                   <el-col :span="12" class="input-item">
                     <span class="input-text">出入境时间：</span>
                     <el-date-picker
@@ -265,7 +299,7 @@
                       </el-option>
                     </el-select>
                   </el-col>
-                  <!-- <el-col :span="12" class="input-item">
+                  <el-col :span="12" class="input-item">
                     <span class="input-text" title="出入境标识">出入境标识：</span>
                     <el-select v-model="editForm.CRJBSDM" @change="getLable1(11,editForm.CRJBSDM)" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
                       <el-option
@@ -275,12 +309,12 @@
                         :value="item.dm">
                       </el-option>
                     </el-select>
-                  </el-col> -->
+                  </el-col>
                   <!-- <el-col :span="12" class="input-item">
                     <span class="input-text">住址：</span>
                       <el-input placeholder="请输入内容" size="small" v-model="editForm.DZ" class="input-input"></el-input>
                   </el-col> -->
-                  <!-- <el-col :span="12" class="input-item">
+                  <el-col :span="12" class="input-item">
                     <span class="input-text">交通方式：</span>
                     <el-select v-model="editForm.JTFSDM" @change="getLable(8,editForm.JTFSDM)" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
                       <el-option
@@ -290,26 +324,23 @@
                         :value="item.dm">
                       </el-option>
                     </el-select>
-                  </el-col> -->
-                  <el-col :span="12" class="input-item">
-                    <span class="input-text">交通工具：</span>
-                      <el-input placeholder="请输入内容" size="small" v-model="editForm.JTGJ" class="input-input"></el-input>
                   </el-col>
                   <el-col :span="12" class="input-item">
                     <span class="input-text">往来国：</span>
-                    <el-select v-model="editForm.WLGDM" @change="getLable(9,editForm.WLGDM)" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
+                    <el-select v-model="editForm1.WLGDM" @change="getLable(9,editForm.WLGDM)" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
                       <el-option
-                        v-for="(item,ind15) in $store.state.wlg"
-                        :key="ind15"
+                        v-for="(item,ind10) in $store.state.wlg"
+                        :key="ind10"
                         :label="item.dm+' - '+item.mc"
                         :value="item.dm">
                       </el-option>
                     </el-select>
                   </el-col>
                   <el-col :span="12" class="input-item">
-                   <span class="input-text" title="签证（注）号码">签证（注）号码：</span>
-                   <el-input placeholder="请输入内容" size="small" v-model="editForm.QZHM" class="input-input"></el-input>
+                    <span class="input-text">交通工具：</span>
+                      <el-input placeholder="请输入内容" size="small" v-model="editForm.JTGJ" class="input-input"></el-input>
                   </el-col>
+
                   <!-- <el-col :span="12" class="input-item">
                     <span class="input-text">操作人：</span>
                     <el-input placeholder="请输入内容" size="small" v-model="editForm.CZR" class="input-input"></el-input>
@@ -355,10 +386,6 @@
               <el-form   ref="mapForm">
                 <el-row :gutter="3"  class="mb-6">
                     <el-col :span="12" class="input-item">
-                     <span class="input-text">标题：</span>
-                     <span class="input-input detailinput">  {{mapForm.BT}}</span>
-                    </el-col>
-                    <el-col :span="12" class="input-item">
                      <span class="input-text">姓名：</span>
                      <span class="input-input detailinput">  {{mapForm.XM}}</span>
                     </el-col>
@@ -396,8 +423,6 @@
                       <span class="input-text" title="证件号码">所属派出所：</span>
                       <span class="input-input detailinput">  {{mapForm.SSPCSMC}}</span>
                     </el-col>
-
-
                     <el-col :span="12" class="input-item">
                       <span class="input-text" title="出入境时间">出入境时间：</span>
                       <span class="input-input detailinput">  {{mapForm.CRJSJ}}</span>
@@ -407,9 +432,21 @@
                       <span class="input-input detailinput">  {{mapForm.CRJKAMC}}</span>
                     </el-col>
                     <el-col :span="12" class="input-item">
+                      <span class="input-text" title="出入境标识">出入境标识：</span>
+                      <span class="input-input detailinput">  {{mapForm.CRJBSMC}}</span>
+                    </el-col>
+                    <el-col :span="12" class="input-item">
                       <span class="input-text">交通工具：</span>
                       <span class="input-input detailinput">  {{mapForm.JTGJ}}</span>
                     </el-col>
+                    <el-col :span="12" class="input-item">
+                      <span class="input-text">交通方式：</span>
+                      <span class="input-input detailinput">  {{mapForm.JTFSMC}}</span>
+                    </el-col>
+                    <!-- <el-col :span="24" class="input-item">
+                      <span class="input-text" style="width:11.5%!important">住址：</span>
+                      <span class="input-input detailinput" style="width:80%!important">  {{mapForm.DZ}}</span>
+                    </el-col> -->
                     <el-col :span="12" class="input-item">
                       <span class="input-text">往来国：</span>
                       <span class="input-input detailinput">  {{mapForm.WLGMC}}</span>
@@ -418,18 +455,6 @@
                       <span class="input-text" title="签证号（注）码">签证号（注）码：</span>
                       <span class="input-input detailinput">  {{mapForm.QZHM}}</span>
                     </el-col>
-                    <!-- <el-col :span="12" class="input-item">
-                      <span class="input-text" title="出入境标识">出入境标识：</span>
-                      <span class="input-input detailinput">  {{mapForm.CRJBSMC}}</span>
-                    </el-col> -->
-                    <!-- <el-col :span="12" class="input-item">
-                      <span class="input-text">交通方式：</span>
-                      <span class="input-input detailinput">  {{mapForm.JTFSMC}}</span>
-                    </el-col> -->
-                    <!-- <el-col :span="24" class="input-item">
-                      <span class="input-text" style="width:11.5%!important">住址：</span>
-                      <span class="input-input detailinput" style="width:80%!important">  {{mapForm.DZ}}</span>
-                    </el-col> -->
                     <el-col :span="12" class="input-item">
                       <span class="input-text">操作人：</span>
                       <span class="input-input detailinput">  {{mapForm.CZR}}</span>
@@ -505,18 +530,6 @@
                   <el-table-column
                     prop="CRJSJ"
                     label="出入境时间">
-                  </el-table-column>
-                  <el-table-column
-                    prop="RYLBMC"
-                    label="人员类别">
-                  </el-table-column>
-                  <el-table-column
-                    prop="QFJGMC"
-                    label="证件签发机关">
-                  </el-table-column>
-                  <el-table-column
-                    prop="SSPCSMC"
-                    label="所属派出所">
                   </el-table-column>
                   <el-table-column
                     label="操作" width="120">
@@ -1043,13 +1056,6 @@ export default {
         });
         this.editForm.CRJBSMC = obj.mc;
      }
-     // if(t==12){//人员类别
-     //   let obj = {};
-     //    obj = this.$store.state.rylb.find((item)=>{
-     //        return item.dm === val;
-     //    });
-     //    this.editForm.RYLBMC = obj.mc;
-     // }
    },
    getLable1(t,val){
      // if(t==1){//行政区划
@@ -1154,6 +1160,32 @@ export default {
     },
     handleCurrentChange1(val) {
       this.getList1(val, this.pageSize1, this.pd);
+    },
+    downloadAll(){
+      if(this.tableData.length==0){
+        this.$message({
+          message: '无可导出数据！',
+          type: 'warning'
+        });
+        return
+      }
+      this.pd.token = this.$store.state.token;
+      this.$api.post(this.Global.aport3 + '/drbjmd/exportByzggm',this.pd,
+        r =>{
+          this.downloadM(r)
+        },e=>{},{},'blob')
+    },
+    downloadM (data) {
+        if (!data) {
+            return
+        }
+        let url = window.URL.createObjectURL(new Blob([data],{type:"application/xls"}))
+        let link = document.createElement('a')
+        link.style.display = 'none'
+        link.href = url
+        link.setAttribute('download', '入境人员来宁核查列表'+this.format(new Date(),'yyyyMMddhhmmss')+'.xls')
+        document.body.appendChild(link)
+        link.click()
     },
     getListType(){
       if(this.page==0){
@@ -1344,6 +1376,11 @@ export default {
           this.$refs.upload1.clearFiles();
         }
       }
+      this.typemd = "";
+        // this.actions = "http://10.0.9.51:9439";
+
+      // console.log(this.$refs.upload)
+
     },
     submitUpload() {
       if(this.page==0){
@@ -1366,16 +1403,16 @@ export default {
         this.$refs.upload1.submit();
       }
     },
-        download(t) {
-          switch (t) {
-            case 0:
-              window.location.href = window.IPConfig.IP +"/"+this.Global.aport3 + '/webapp/templateFile/中国公民导入.xlsx'
-              break;
-            case 1:
-              window.location.href = window.IPConfig.IP +"/"+this.Global.aport3 + '/webapp/templateFile/边防检查入境外国人.xls'
-              break;
-            default:
-              break;
+    download(t) {
+      switch (t) {
+        case 0:
+          window.location.href = window.IPConfig.IP +"/"+this.Global.aport3 + '/webapp/templateFile/边防检查国外归来中国人.xls'
+          break;
+        case 1:
+          window.location.href = window.IPConfig.IP +"/"+this.Global.aport3 + '/webapp/templateFile/边防检查入境外国人.xls'
+          break;
+        default:
+          break;
 
       }
     },

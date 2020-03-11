@@ -162,6 +162,10 @@
              label="性别">
            </el-table-column>
            <el-table-column
+             prop="CSRQ"
+             label="出生日期">
+           </el-table-column>
+           <el-table-column
              prop="GJDQ_DESC"
              label="国家地区">
            </el-table-column>
@@ -178,12 +182,16 @@
              label="签证种类">
            </el-table-column>
            <el-table-column
-             prop="QZHM"
-             label="签证号码">
+             prop="BZHDZMC"
+             label="临住地址">
            </el-table-column>
            <el-table-column
-             prop="BJSJ"
-             label="预警时间">
+             prop="CRJ_TYPE_DESC"
+             label="出入境状态">
+           </el-table-column>
+           <el-table-column
+             prop="CRJ_SJ"
+             label="出入境时间">
            </el-table-column>
            <el-table-column
              prop="SSFJ_DESC"
@@ -209,6 +217,10 @@
                <span v-if="juState=='1'">{{scope.row.FJCLZT_DESC}}</span>
                <span v-else :class="{'t-red':scope.row.FJCLZT=='1','t-blue':scope.row.FJCLZT=='2','t-yel':scope.row.FJCLZT=='3'}">{{scope.row.FJCLZT_DESC}}</span>
              </template>
+           </el-table-column>
+           <el-table-column
+             prop="BJSJ"
+             label="预警时间">
            </el-table-column>
            <el-table-column
              label="操作" width="70">

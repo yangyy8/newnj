@@ -228,6 +228,7 @@ export default {
   },
   activated() {
     this.row = this.$route.query.row;
+    if(this.row.SSFJ){this.row.SSFJ=[this.row.SSFJ]};
     this.queryPd = this.$route.query.queryPd;
     this.getList(this.CurrentPage,this.pageSize,this.pd);
   },

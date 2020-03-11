@@ -291,13 +291,13 @@ export default new Router({
         {
           path: 'JTLN',
           name: 'JTLN',
-          meta:{title:['预警研判','预警信息','交通来宁']},
+          meta:{title:['预警研判','预警信息','外国人来宁预警']},
           component: resolve => require(['@/components/YJYP/YJ/CZYJ/JTLN'], resolve),
         },
         {
           path: 'JTLN_XQ',
           name: 'JTLN_XQ',
-          meta:{title:['预警研判','预警信息','交通来宁详情']},
+          meta:{title:['预警研判','预警信息','外国人来宁预警详情']},
           component: resolve => require(['@/components/GYZJ/ASJXQ'], resolve),
         },
         {
@@ -359,6 +359,12 @@ export default new Router({
           name: 'CQQZFFJYYJ',
           meta:{title:['预警研判','预警信息','留学生非法就业预警']},
           component: resolve => require(['@/components/YJYP/YJ/ASJYJ/CQQZFFJYYJ'], resolve),
+        },
+        {
+          path: 'ZGGMHCYJ',
+          name: 'ZGGMHCYJ',
+          meta:{title:['预警研判','预警信息','入境人员来宁核查']},
+          component: resolve => require(['@/components/YJYP/YJ/ASJYJ/ZGGMHCYJ'], resolve),
         },
         {
           path: 'WLYPYJ',
@@ -874,8 +880,14 @@ export default new Router({
         {
           path: 'BJMD',
           name: 'BJMD',
-          meta:{title:['日常管理','数据导入','边检名单导入']},
+          meta:{title:['日常管理','数据导入','中国公民名单导入']},
           component: resolve => require(['@/components/YWCZ/SJDR/BJMD'], resolve),
+        },
+        {
+          path: 'HKXX',
+          name: 'HKXX',
+          meta:{title:['日常管理','数据导入','航空信息导入']},
+          component: resolve => require(['@/components/YWCZ/SJDR/HKXX'], resolve),
         },
         {
           path: 'TBRY',

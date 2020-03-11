@@ -93,7 +93,7 @@
                          </el-option>
                        </el-select>
                     </el-col> -->
-                    <AREAFX @getArea="getArea"></AREAFX>
+                    <AREAMS @getArea="getArea"></AREAMS>
                     <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
                       <span class="input-text">证件种类：</span>
                       <el-select v-model="pd.ZJZL" placeholder="请选择"   multiple collapse-tags filterable clearable default-first-option   size="small" class="input-input">
@@ -217,7 +217,7 @@
                <el-table-column
                  label="操作" width="100">
                  <template slot-scope="scope">
-                 <el-button type="text"  class="a-btn"  title="详情"  icon="el-icon-document" @click="$router.push({name:'JWRYXX',query:{row:scope.row,queryPd:pd}})"></el-button>
+                 <el-button type="text"  class="a-btn"  title="详情"  icon="el-icon-document" @click="$router.push({name:'JWRYXX',query:{row:scope.row,queryPd:Object.assign({},pd,areaPd)}})"></el-button>
                  </template>
                </el-table-column>
           </el-table>
@@ -281,6 +281,10 @@
                  label="性别">
                </el-table-column>
                <el-table-column
+                 prop="CSRQ"
+                 label="出生日期">
+               </el-table-column>
+               <el-table-column
                  prop="GJDQ_DESC"
                  label="国家地区">
                </el-table-column>
@@ -303,6 +307,18 @@
                <el-table-column
                  prop="QZHM"
                  label="签证号码">
+               </el-table-column>
+               <el-table-column
+                 prop="JLSY_DESC"
+                 label="停留事由">
+               </el-table-column>
+               <el-table-column
+                 prop="SSFJ_DESC"
+                 label="所属分局">
+               </el-table-column>
+               <el-table-column
+                 prop="SSPCS_DESC"
+                 label="所属派出所">
                </el-table-column>
                <el-table-column
                  prop="LSDWDZ"
@@ -364,9 +380,9 @@
       ToArray,sortByKey
     } from '@/assets/js/ToArray.js'
     import LZXX from '../../../common/lzxx_xq'
-    import AREAFX from '../../../common/areaFx'
+    import AREAMS from '../../../common/areaMs'
     export default {
-        components:{LZXX,AREAFX},
+        components:{LZXX,AREAMS},
       data() {
         return {
           areaPd:{},

@@ -16,11 +16,14 @@ var root = window.IPConfig.IP
 
 
 // 引用axios
-var axios = require('axios');
+var httpAxios = require('axios');
 import store from '../assets/js/store' //注册store
 import { Message } from 'element-ui';
 import { Loading } from 'element-ui';
 import global_ from '../Global.js';
+const axios = httpAxios.create({timeout:120000});//创建实例
+// let config = {TIMEOUT:120000};
+// axios.defaults.timeout = config.TIMEOUT;
 // 自定义判断元素类型JS
 function toType (obj) {
     return ({}).toString.call(obj).match(/\s([a-zA-Z]+)/)[1].toLowerCase()
