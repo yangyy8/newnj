@@ -9,10 +9,10 @@
                    <span class="input-text">英文姓名：</span>
                    <el-input placeholder="请输入内容" size="small" v-model="pd.YWXM_Like" class="input-input"></el-input>
                 </el-col>
-                <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
+                <!-- <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
                    <span class="input-text">中文姓名：</span>
                    <el-input placeholder="请输入内容" size="small" v-model="pd.ZWXM_Like" class="input-input"></el-input>
-                </el-col>
+                </el-col> -->
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                   <span class="input-text">预警时间：</span>
                   <div class="input-input t-flex t-date">
@@ -80,6 +80,32 @@
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                     <span class="input-text">签证号码：</span>
                     <el-input placeholder="请输入内容" size="small" v-model="pd.QZHM" class="input-input"></el-input>
+                </el-col>
+                <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                    <span class="input-text">入境口岸：</span>
+                    <el-select v-model="pd.CRJ_KA" filterable clearable multiple collapse-tags default-first-option placeholder="请选择"  size="small" class="input-input">
+                      <el-option
+                        v-for="item in $store.state.rjkn"
+                        :key="item.dm"
+                        :label="item.dm+' - '+item.mc"
+                        :value="item.dm">
+                      </el-option>
+                    </el-select>
+                </el-col>
+                <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                    <span class="input-text">入境时间：</span>
+                    <el-input placeholder="请输入内容" size="small" v-model="pd.CRJ_SJ" class="input-input"></el-input>
+                </el-col>
+                <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                    <span class="input-text">来自国家：</span>
+                    <el-select v-model="pd.CRJ_LNGJ" filterable clearable multiple collapse-tags default-first-option placeholder="请选择"  size="small" class="input-input">
+                      <el-option
+                        v-for="item in $store.state.gjdq"
+                        :key="item.dm"
+                        :label="item.dm+' - '+item.mc"
+                        :value="item.dm">
+                      </el-option>
+                    </el-select>
                 </el-col>
                 <!-- <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                     <span class="input-text">所属分局：</span>
@@ -159,11 +185,8 @@
              label="标题">
            </el-table-column>
            <el-table-column
-             prop="ZWXM"
-             label="姓名">
-             <template slot-scope="scope">
-               <span>{{getXM(scope.row.ZWXM,scope.row.YWXM)}}</span>
-             </template>
+             prop="YWXM"
+             label="英文姓名">
            </el-table-column>
            <el-table-column
              prop="XB_DESC"
@@ -190,16 +213,20 @@
              label="签证种类">
            </el-table-column>
            <el-table-column
-             prop="BZHDZMC"
-             label="临住地址">
+             prop="QZHM"
+             label="签证号码">
            </el-table-column>
            <el-table-column
-             prop="CRJ_TYPE_DESC"
-             label="出入境状态">
+             prop="CRJ_KA_DESC"
+             label="入境口岸">
            </el-table-column>
            <el-table-column
              prop="CRJ_SJ"
-             label="出入境时间">
+             label="入境时间">
+           </el-table-column>
+           <el-table-column
+             prop="CRJ_LNGJ_DESC"
+             label="来自国家">
            </el-table-column>
            <el-table-column
              prop="SSFJ_DESC"
@@ -354,13 +381,11 @@ export default {
     //   this.getPSC(this.pd.FJ);
     //   this.pd.PCS = this.orgCode;
     // }
-    this.Global.indexstate=1;
-    this.selectionAll5=[];
-    this.selectionReal5=[];
-
+      this.Global.indexstate=1;
+      this.selectionAll5=[];
+     this.selectionReal5=[];
      this.type=5;
-     this.$store.commit('getType',this.type)
-     this.getMXLX(this.type);
+     this.pd.MXLX="YQFK_JWLNRY";
      let _this = this;
      setTimeout(function(){
        _this.getList(_this.CurrentPage, _this.pageSize, _this.pd);
@@ -378,6 +403,7 @@ export default {
     this.$store.dispatch('getLgyj');
     this.$store.dispatch('getGljb');
     this.$store.dispatch('getFjclzt');
+    this.$store.dispatch('getRjkn');
     this.userCode=this.$store.state.uid;
     this.userName=this.$store.state.uname;
     this.orgName=this.$store.state.orgname;
@@ -468,7 +494,7 @@ export default {
       }
       this.$api.post(this.Global.aport4+'/warningInfoController/exportByMxLx',p,
         r =>{
-          if(this.type==5){this.downloadM(r,'布控预警报表')}
+          if(this.type==5){this.downloadM(r,'重点疫情国家人员来宁预警报表')}
         },e=>{},{},'blob')
     },
     downloadM (data,name) {
@@ -482,43 +508,6 @@ export default {
         link.setAttribute('download', name+this.format(new Date(),'yyyyMMddhhmmss')+'.xls')
         document.body.appendChild(link)
         link.click()
-    },
-    getMXLX(type){
-      switch (parseInt(type)) {
-      case 0:
-          this.pd.MXLX="LXS_SWLZYJ";//留学生市外临住预警
-          break;
-      case 1:
-        this.pd.MXLX="LXS_SKYJ";//留学生涉恐预警
-        break;
-      case 2:
-       this.pd.MXLX="LXS_CRJTX";//留学生出入境提醒
-        break;
-      case 3:
-        this.pd.MXLX="LZ_HC";//临住核查预警
-        break;
-      case 4:
-          this.pd.MXLX="CZ_NMYJ";//难民
-          break;
-      case 5:
-          this.pd.MXLX="BKYJ";//布控预警
-          // console.log(this.pd,this.pd.MXLX);
-          break;
-      case 6:
-          this.pd.MXLX="LXS_WBDYJ";//留学生录取未报到预警
-          break;
-      case 7:
-          this.pd.MXLX="QZ_HCYJ";//受理、签发信息核查预警
-          break;
-      case 8:
-          this.pd.MXLX="ASJ_SKGJRY";//涉恐国家人员预警
-          break;
-      default:
-         break;
-       }
-      if(this.pd.MXLX!=undefined){
-       this.getList(this.CurrentPage, this.pageSize, this.pd);
-      }
     },
     tabClick(i){
       this.$router.push({name:i.name})
@@ -550,14 +539,13 @@ export default {
       this.areaPd = val;
     },
     getList(currentPage, showCount, pd) {
-      this.ccPd.MXLX="BKYJ";
+      this.ccPd.MXLX="YQFK_JWLNRY";
       this.ccPd.FJ=this.areaPd.FJ;
       this.ccPd.PCS=this.areaPd.PCS;
       if(pd.hasOwnProperty('YJID')){
         delete pd['YJID']
       }
       pd = Object.assign({},pd,this.areaPd);
-      console.log('getList===',pd);
       this.pd.YWXM_Like = (this.pd.YWXM_Like).toUpperCase();
       let p = {
         "currentPage": currentPage,
@@ -595,7 +583,7 @@ export default {
       }
     },
     getEdit(n){
-      this.$router.push({name:'LXSXXGLYJ_XQ',query:{row:n}});
+      this.$router.push({name:'ZDYQGJYJ_XQ',query:{yjType:16,row:n}});
     },
     getXM(zw,yw){
       if(zw!=undefined && yw!=undefined){

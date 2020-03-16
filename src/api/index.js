@@ -102,7 +102,8 @@ function apiAxios (method, url, params, success, failure,header,responseType) {
         loadingInstance1.close();
       }
         let res = err.response
-        if (err) {
+        if (res.data.message) {
+          Message.error(res.data.message);
             // console.log('api error, HTTP CODE: ' + res.status)
         }
     })

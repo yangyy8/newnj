@@ -191,7 +191,7 @@
             </el-pagination>
           </div>
       </div>
-      <div class="mb-15" v-if="yjType==1||yjType==2||yjType==5||yjType==3">
+      <div class="mb-15" v-if="yjType==1||yjType==2||yjType==5||yjType==3||yjType==16">
         <div class="stru-lal">签证信息</div>
         <el-table
            :data="tableData1"
@@ -251,7 +251,7 @@
             </el-pagination>
           </div>
       </div>
-      <div class="mb-15" v-if="yjType==1||yjType==2||yjType==4||yjType==5||yjType==20||yjType==3||yjType==15">
+      <div class="mb-15" v-if="yjType==1||yjType==2||yjType==4||yjType==5||yjType==20||yjType==3||yjType==15||yjType==16">
         <div class="stru-lal">出入境信息</div>
         <el-table
              :data="tableData2"
@@ -307,7 +307,7 @@
             </el-pagination>
           </div>
       </div>
-      <div class="mb-15" v-if="yjType==1||yjType==4||yjType==5||yjType==2||yjType==20||yjType==15">
+      <div class="mb-15" v-if="yjType==1||yjType==4||yjType==5||yjType==2||yjType==20||yjType==15||yjType==16">
         <div class="stru-lal">临住信息</div>
         <el-table
              :data="tableData3"
@@ -371,7 +371,7 @@
             </el-pagination>
           </div>
       </div>
-      <div class="mb-15" v-if="yjType==1||yjType==3||yjType==15">
+      <div class="mb-15" v-if="yjType==1||yjType==3||yjType==15||yjType==16">
         <div class="stru-lal">常住信息</div>
         <el-table
              :data="tableData4"
@@ -692,7 +692,7 @@
     </el-collapse>
       </div>
       <!-- 交通来宁 -->
-      <div class="mb-15" v-if="yjType==15">
+      <div class="mb-15" v-if="yjType==15||yjType==16">
         <el-collapse  accordion>
          <el-collapse-item>
            <template slot="title">
@@ -1793,6 +1793,18 @@ export default {
         this.getListLN(this.CurrentPageLN3,this.pageSizeLN3,this.tableDataLN3,this.TotalResultLN3,'es_st_mh_dpxx');//民航订票
         this.getListLN(this.CurrentPageLN4,this.pageSizeLN4,this.tableDataLN4,this.TotalResultLN4,'es_kyjt_smgpxx');//客运大巴
       }
+      //------------重点疫情---------------
+      if(this.yjType==16){
+        this.getList(this.CurrentPage1,this.pageSize1,this.url1, 1); //签证信息
+        this.getList(this.CurrentPage2,this.pageSize2,this.url2, 2); //出入境信息
+        this.getList(this.CurrentPage3,this.pageSize3,this.url3, 3); //临住信息
+        this.getList(this.CurrentPage4,this.pageSize4,this.url4, 4); //常住信息
+        //交通信息
+        this.getListLN(this.CurrentPageLN1,this.pageSizeLN1,this.tableDataLN1,this.TotalResultLN1,'es_st_tl_dpxx');//铁路
+        this.getListLN(this.CurrentPageLN2,this.pageSizeLN2,this.tableDataLN2,this.TotalResultLN2,'es_st_mh_jgxx');//民航进出港
+        this.getListLN(this.CurrentPageLN3,this.pageSizeLN3,this.tableDataLN3,this.TotalResultLN3,'es_st_mh_dpxx');//民航订票
+        this.getListLN(this.CurrentPageLN4,this.pageSizeLN4,this.tableDataLN4,this.TotalResultLN4,'es_kyjt_smgpxx');//客运大巴
+      }
   },
   mounted() {
    this.$store.dispatch("getYjcl2");
@@ -1812,6 +1824,7 @@ export default {
       if(this.yjType==20){this.$router.push({name:'GWHZYJ'})}//公务护照预警
       if(this.yjType==3){this.$router.push({name:'CFRYWBZYJ'})}//处罚人员未办证预警
       if(this.yjType==15){this.$router.push({name:'JTLN'})}//交通来宁
+      if(this.yjType==16){this.$router.push({name:'ZDYQGJYJ'})}//交通来宁
     },
     getJB(){
       let p = {

@@ -55,7 +55,10 @@
                       </el-option>
                     </el-select>
                 </el-col>
-
+                <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
+                   <span class="input-text">标题：</span>
+                   <el-input placeholder="请输入内容" size="small" v-model="pd.BT" class="input-input"></el-input>
+                </el-col>
           </el-row>
          </el-col>
             <el-col :span="2" class="down-btn-area">
@@ -81,6 +84,10 @@
              type="selection"
              width="55">
            </el-table-column> -->
+           <el-table-column
+             prop="BT"
+             label="标题">
+           </el-table-column>
            <el-table-column
              prop="XM"
              label="姓名">
@@ -257,6 +264,10 @@
   <el-dialog title="详情" :visible.sync="detailsDialogVisible">
     <el-form   ref="mapForm">
       <el-row :gutter="2"  class="mb-6">
+          <el-col :span="12" class="input-item">
+           <span class="input-text">标题：</span>
+           <span class="input-input detailinput">  {{mapForm.BT}}</span>
+          </el-col>
           <el-col :span="12" class="input-item">
            <span class="input-text">姓名：</span>
            <span class="input-input detailinput">  {{mapForm.XM}}</span>

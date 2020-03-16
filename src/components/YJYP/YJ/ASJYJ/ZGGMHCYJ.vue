@@ -171,6 +171,18 @@
                    label="身份证号">
                  </el-table-column>
                  <el-table-column
+                   prop="CRJBSMC"
+                   label="出入境标识">
+                 </el-table-column>
+                 <el-table-column
+                   prop="HCCRJKAMC"
+                   label="出入境口岸">
+                 </el-table-column>
+                 <el-table-column
+                   prop="HCWLGMC"
+                   label="前往/来自国">
+                 </el-table-column>
+                 <el-table-column
                    label="操作" width="120">
                    <template slot-scope="scope">
                    <el-button type="text"  class="a-btn"  title="详情"  icon="el-icon-document" @click="details(scope.row,0)"></el-button>
@@ -425,11 +437,11 @@
                     </el-col>
                     <el-col :span="12" class="input-item">
                       <span class="input-text" title="出入境时间">出入境时间：</span>
-                      <span class="input-input detailinput">  {{mapForm.CRJSJ}}</span>
+                      <span class="input-input detailinput">  {{mapForm.HCCRJSJ}}</span>
                     </el-col>
                     <el-col :span="12" class="input-item">
                       <span class="input-text" title="出入境口岸">出入境口岸：</span>
-                      <span class="input-input detailinput">  {{mapForm.CRJKAMC}}</span>
+                      <span class="input-input detailinput">  {{mapForm.HCCRJKAMC}}</span>
                     </el-col>
                     <el-col :span="12" class="input-item">
                       <span class="input-text" title="出入境标识">出入境标识：</span>
@@ -437,7 +449,7 @@
                     </el-col>
                     <el-col :span="12" class="input-item">
                       <span class="input-text">交通工具：</span>
-                      <span class="input-input detailinput">  {{mapForm.JTGJ}}</span>
+                      <span class="input-input detailinput">  {{mapForm.HCJTGJ}}</span>
                     </el-col>
                     <el-col :span="12" class="input-item">
                       <span class="input-text">交通方式：</span>
@@ -448,8 +460,8 @@
                       <span class="input-input detailinput" style="width:80%!important">  {{mapForm.DZ}}</span>
                     </el-col> -->
                     <el-col :span="12" class="input-item">
-                      <span class="input-text">往来国：</span>
-                      <span class="input-input detailinput">  {{mapForm.WLGMC}}</span>
+                      <span class="input-text">前往/来自国：</span>
+                      <span class="input-input detailinput">  {{mapForm.HCWLGMC}}</span>
                     </el-col>
                     <el-col :span="12" class="input-item">
                       <span class="input-text" title="签证号（注）码">签证号（注）码：</span>
@@ -1183,7 +1195,7 @@ export default {
         let link = document.createElement('a')
         link.style.display = 'none'
         link.href = url
-        link.setAttribute('download', '入境人员来宁核查列表'+this.format(new Date(),'yyyyMMddhhmmss')+'.xls')
+        link.setAttribute('download', '中国人来宁出入境核查列表'+this.format(new Date(),'yyyyMMddhhmmss')+'.xls')
         document.body.appendChild(link)
         link.click()
     },

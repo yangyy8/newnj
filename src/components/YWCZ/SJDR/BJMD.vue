@@ -55,6 +55,56 @@
                    <span class="input-text">标题：</span>
                    <el-input placeholder="请输入内容" size="small" v-model="pd.BT" class="input-input"></el-input>
                 </el-col>
+                <div v-if="page==1">
+                  <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                      <span class="input-text">证件种类：</span>
+                      <el-select v-model="pd1.ZJZLDM" filterable clearable  default-first-option placeholder="请选择"  size="small" class="input-input">
+                        <el-option
+                          v-for="(item,ind1) in $store.state.zjzl"
+                          :key="ind1"
+                          :label="item.dm+' - '+item.mc"
+                          :value="item.dm">
+                        </el-option>
+                      </el-select>
+                  </el-col>
+                  <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                      <span class="input-text">签发单位：</span>
+                      <el-select v-model="pd1.QFDWDM" filterable clearable  default-first-option placeholder="请选择"  size="small" class="input-input">
+                        <el-option
+                          v-for="(item,ind1) in $store.state.qfjg"
+                          :key="ind1"
+                          :label="item.dm+' - '+item.mc"
+                          :value="item.dm">
+                        </el-option>
+                      </el-select>
+                  </el-col>
+                  <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
+                     <span class="input-text">联系电话：</span>
+                     <el-input placeholder="请输入内容" size="small" v-model="pd1.LXDH" class="input-input"></el-input>
+                  </el-col>
+                  <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                      <span class="input-text">出入境口岸：</span>
+                      <el-select v-model="pd1.CRJKADM" filterable clearable  default-first-option placeholder="请选择"  size="small" class="input-input">
+                        <el-option
+                          v-for="(item,ind1) in $store.state.rjkn"
+                          :key="ind1"
+                          :label="item.dm+' - '+item.mc"
+                          :value="item.dm">
+                        </el-option>
+                      </el-select>
+                  </el-col>
+                  <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
+                      <span class="input-text">往来国：</span>
+                      <el-select v-model="pd1.WLGDM" filterable clearable  default-first-option placeholder="请选择"  size="small" class="input-input">
+                        <el-option
+                          v-for="(item,ind1) in $store.state.wlg"
+                          :key="ind1"
+                          :label="item.dm+' - '+item.mc"
+                          :value="item.dm">
+                        </el-option>
+                      </el-select>
+                  </el-col>
+                </div>
           </el-row>
          </el-col>
             <el-col :span="2" class="down-btn-area">
@@ -63,15 +113,15 @@
           </el-row>
     </div>
     <div class="yycontent ffjs">
-      <!-- <div class="ak-tabs">
+      <div class="ak-tabs">
         <div class="ak-tab-item abehgt hand" :class="{'ak-checked':page==0}" @click="base">
-          边防检查国外归来中国人
+          国外归来中国人
         </div>
         <div class="ak-tab-item abehgt hand" :class="{'ak-checked':page==1}" @click="base1">
-          边防检查入境外国人
+          入境外国人
         </div>
-      </div> -->
-      <!-- <div class="ak-tab-pane" > -->
+      </div>
+      <div class="ak-tab-pane" >
           <div v-show="page==0">
             <el-row class="mb-15">
               <el-button type="primary"  size="small" @click="showUpload(0)">批量导入</el-button>
@@ -190,7 +240,7 @@
               <el-form   ref="editForm">
                 <el-row :gutter="2"  class="mb-6">
                   <el-col :span="12" class="input-item">
-                   <span class="input-text">姓名：</span>
+                   <span class="input-text"><span class="t-red">* </span>姓名：</span>
                    <el-input placeholder="请输入内容" size="small" v-model="editForm.XM" class="input-input"></el-input>
                   </el-col>
 
@@ -207,7 +257,7 @@
                   </el-col> -->
 
                   <el-col :span="12" class="input-item">
-                    <span class="input-text">性别：</span>
+                    <span class="input-text"><span class="t-red">* </span>性别：</span>
                     <el-select v-model="editForm.XBDM" @change="getLable(3,editForm.XBDM)" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
                       <el-option
                         v-for="(item,ind4) in $store.state.xb"
@@ -218,7 +268,7 @@
                     </el-select>
                   </el-col>
                   <el-col :span="12" class="input-item">
-                    <span class="input-text">出生日期：</span>
+                    <span class="input-text"><span class="t-red">* </span>出生日期：</span>
                     <el-date-picker
                           v-model="editForm.CSRQ" format="yyyy-MM-dd"
                           type="date" size="small" value-format="yyyy-MM-dd" class="input-input"
@@ -228,7 +278,7 @@
 
 
                   <el-col :span="12" class="input-item">
-                    <span class="input-text" title="证件号码">证件号码：</span>
+                    <span class="input-text" title="证件号码"><span class="t-red">* </span>证件号码：</span>
                     <el-input placeholder="请输入内容" size="small" v-model="editForm.ZJHM" class="input-input"></el-input>
                   </el-col>
 
@@ -487,6 +537,10 @@
                     width="55">
                   </el-table-column> -->
                   <el-table-column
+                    prop="BT"
+                    label="标题">
+                  </el-table-column>
+                  <el-table-column
                     prop="XM"
                     label="姓名">
                   </el-table-column>
@@ -499,24 +553,48 @@
                     label="出生日期">
                   </el-table-column>
                   <el-table-column
+                    prop="GJDQMC"
+                    label="国家地区">
+                  </el-table-column>
+                  <el-table-column
+                    prop="ZJZLMC"
+                    label="证件种类">
+                  </el-table-column>
+                  <el-table-column
                     prop="ZJHM"
                     label="证件号码">
                   </el-table-column>
                   <el-table-column
+                    prop="QZLXMC"
+                    label="签证种类">
+                  </el-table-column>
+                  <el-table-column
+                    prop="TLYXQ"
+                    label="停留有效期">
+                  </el-table-column>
+                  <el-table-column
+                    prop="QFDWMC"
+                    label="签发单位">
+                  </el-table-column>
+                  <el-table-column
+                    prop="LXDH"
+                    label="联系电话">
+                  </el-table-column>
+                  <el-table-column
+                    prop="CRJKAMC"
+                    label="出入境口岸">
+                  </el-table-column>
+                  <el-table-column
                     prop="CRJSJ"
-                    label="出入境时间">
+                    label="出入境日期">
                   </el-table-column>
                   <el-table-column
-                    prop="RYLBMC"
-                    label="人员类别">
+                    prop="JTGJ"
+                    label="交通工具标识">
                   </el-table-column>
                   <el-table-column
-                    prop="QFJGMC"
-                    label="证件签发机关">
-                  </el-table-column>
-                  <el-table-column
-                    prop="SSPCSMC"
-                    label="所属派出所">
+                    prop="WLGMC"
+                    label="往来国">
                   </el-table-column>
                   <el-table-column
                     label="操作" width="120">
@@ -565,7 +643,7 @@
                      <el-upload
                        class="input-input"
                        ref="upload1"
-                       :action='actions+"/drbjmd/readExcel"'
+                       :action='actions+"/jwrylnhc/readExcel"'
                        :file-list="fileList"
                        multiple
                        :on-success="upSuccess"
@@ -586,11 +664,11 @@
                <el-form   ref="editForm1">
                  <el-row :gutter="2"  class="mb-6">
                    <el-col :span="12" class="input-item">
-                    <span class="input-text">姓名：</span>
+                    <span class="input-text"><span class="t-red">* </span>姓名：</span>
                     <el-input placeholder="请输入内容" size="small" v-model="editForm1.XM" class="input-input"></el-input>
                    </el-col>
                    <el-col :span="12" class="input-item">
-                    <span class="input-text">国籍/地区：</span>
+                    <span class="input-text"><span class="t-red">* </span>国籍/地区：</span>
                     <el-select v-model="editForm1.GJDQDM" @change="getLable1(4,editForm1.GJDQDM)" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
                       <el-option
                         v-for="(item,ind5) in $store.state.gjdq"
@@ -600,7 +678,7 @@
                       </el-option>
                     </el-select>
                    </el-col>
-                   <el-col :span="12" class="input-item">
+                   <!-- <el-col :span="12" class="input-item">
                     <span class="input-text">民族：</span>
                     <el-select v-model="editForm1.MZDM" @change="getLable1(10,editForm1.MZDM)" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
                       <el-option
@@ -610,10 +688,10 @@
                         :value="item.dm">
                       </el-option>
                     </el-select>
-                   </el-col>
+                   </el-col> -->
 
                    <el-col :span="12" class="input-item">
-                     <span class="input-text">性别：</span>
+                     <span class="input-text"><span class="t-red">* </span>性别：</span>
                      <el-select v-model="editForm1.XBDM" @change="getLable1(3,editForm1.XBDM)" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
                        <el-option
                          v-for="(item,ind4) in $store.state.xb"
@@ -624,7 +702,7 @@
                      </el-select>
                    </el-col>
                    <el-col :span="12" class="input-item">
-                     <span class="input-text">出生日期：</span>
+                     <span class="input-text"><span class="t-red">* </span>出生日期：</span>
                      <el-date-picker
                            v-model="editForm1.CSRQ" format="yyyy-MM-dd"
                            type="date" size="small" value-format="yyyy-MM-dd" class="input-input"
@@ -644,11 +722,11 @@
                     </el-select>
                    </el-col>
                    <el-col :span="12" class="input-item">
-                     <span class="input-text" title="证件号码">证件号码：</span>
+                     <span class="input-text" title="证件号码"><span class="t-red">* </span>证件号码：</span>
                      <el-input placeholder="请输入内容" size="small" v-model="editForm1.ZJHM" class="input-input"></el-input>
                    </el-col>
                    <el-col :span="12" class="input-item">
-                     <span class="input-text" title="签证（注）类型">签证（注）类型：</span>
+                     <span class="input-text" title="签证（注）类型">签证种类：</span>
                      <el-select v-model="editForm1.QZLXDM" @change="getLable1(6,editForm1.QZLXDM)" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
                        <el-option
                          v-for="(item,ind7) in $store.state.rjqzzl"
@@ -659,17 +737,28 @@
                      </el-select>
                    </el-col>
                    <el-col :span="12" class="input-item">
-                    <span class="input-text" title="签证（注）号码">签证（注）号码：</span>
-                    <el-input placeholder="请输入内容" size="small" v-model="editForm1.QZHM" class="input-input"></el-input>
+                    <span class="input-text" title="停留有效期">停留有效期：</span>
+                    <el-input placeholder="请输入内容" size="small" v-model="editForm1.TLYXQ" class="input-input"></el-input>
                    </el-col>
                    <el-col :span="12" class="input-item">
-                    <span class="input-text" title="停留天数">停留天数：</span>
-                    <el-input placeholder="请输入内容" size="small" v-model="editForm1.TLTS" class="input-input"></el-input>
+                     <span class="input-text" title="签发单位">签发单位：</span>
+                     <el-select v-model="editForm1.QFDWDM" @change="getLable1(12,editForm1.QFDWDM)" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
+                       <el-option
+                         v-for="(item,ind7) in $store.state.qfjg"
+                         :key="ind7"
+                         :label="item.dm+' - '+item.mc"
+                         :value="item.dm">
+                       </el-option>
+                     </el-select>
                    </el-col>
                    <el-col :span="12" class="input-item">
+                    <span class="input-text" title="联系电话">联系电话：</span>
+                    <el-input placeholder="请输入内容" size="small" v-model="editForm1.LXDH" class="input-input"></el-input>
+                   </el-col>
+                   <!-- <el-col :span="12" class="input-item">
                     <span class="input-text" title="自定义代码">自定义代码：</span>
                     <el-input placeholder="请输入内容" size="small" v-model="editForm1.ZDYDM" class="input-input"></el-input>
-                   </el-col>
+                   </el-col> -->
                    <!-- <el-col :span="12" class="input-item">
                      <span class="input-text" title="签证签发日期">签证签发日期：</span>
                      <el-date-picker
@@ -687,7 +776,7 @@
                      </el-date-picker>
                    </el-col> -->
                    <el-col :span="12" class="input-item">
-                     <span class="input-text">出入境时间：</span>
+                     <span class="input-text">出入境日期：</span>
                      <el-date-picker
                            v-model="editForm1.CRJSJ" format="yyyy-MM-dd"
                            type="date" size="small" value-format="yyyy-MM-dd" class="input-input"
@@ -705,7 +794,7 @@
                        </el-option>
                      </el-select>
                    </el-col>
-                   <el-col :span="12" class="input-item">
+                   <!-- <el-col :span="12" class="input-item">
                      <span class="input-text" title="出入境标识">出入境标识：</span>
                      <el-select v-model="editForm1.CRJBSDM" @change="getLable1(11,editForm1.CRJBSDM)" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
                        <el-option
@@ -715,12 +804,12 @@
                          :value="item.dm">
                        </el-option>
                      </el-select>
-                   </el-col>
+                   </el-col> -->
                    <!-- <el-col :span="12" class="input-item">
                      <span class="input-text">住址：</span>
                        <el-input placeholder="请输入内容" size="small" v-model="editForm.DZ" class="input-input"></el-input>
                    </el-col> -->
-                   <el-col :span="12" class="input-item">
+                   <!-- <el-col :span="12" class="input-item">
                      <span class="input-text">交通方式：</span>
                      <el-select v-model="editForm1.JTFSDM" @change="getLable1(8,editForm1.JTFSDM)" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
                        <el-option
@@ -730,7 +819,7 @@
                          :value="item.dm">
                        </el-option>
                      </el-select>
-                   </el-col>
+                   </el-col> -->
                    <el-col :span="12" class="input-item">
                      <span class="input-text">交通工具：</span>
                        <el-input placeholder="请输入内容" size="small" v-model="editForm1.JTGJ" class="input-input"></el-input>
@@ -747,10 +836,10 @@
                      </el-select>
                    </el-col>
                    <el-col :span="12" class="input-item">
-                     <span class="input-text">员工标记：</span>
-                     <el-input placeholder="请输入内容" size="small" v-model="editForm1.YGBJ" class="input-input"></el-input>
+                     <span class="input-text">拟前往地：</span>
+                       <el-input placeholder="请输入内容" size="small" v-model="editForm1.NQWD" class="input-input"></el-input>
                    </el-col>
-                   <el-col :span="12" class="input-item">
+                   <!-- <el-col :span="12" class="input-item">
                      <span class="input-text">操作人：</span>
                      <el-input placeholder="请输入内容" size="small" v-model="editForm1.CZR" class="input-input"></el-input>
                    </el-col>
@@ -765,7 +854,7 @@
                    <el-col :span="12" class="input-item">
                      <span class="input-text">修改时间：</span>
                      <el-input placeholder="请输入内容" size="small" v-model="editForm1.XGSJ" class="input-input"></el-input>
-                   </el-col>
+                   </el-col> -->
                  </el-row>
 
                </el-form>
@@ -778,6 +867,10 @@
                <el-form   ref="mapForm1">
                  <el-row :gutter="3"  class="mb-6">
                      <el-col :span="12" class="input-item">
+                      <span class="input-text">标题：</span>
+                      <span class="input-input detailinput">  {{mapForm1.BT}}</span>
+                     </el-col>
+                     <el-col :span="12" class="input-item">
                       <span class="input-text">姓名：</span>
                       <span class="input-input detailinput">  {{mapForm1.XM}}</span>
                      </el-col>
@@ -785,15 +878,10 @@
                        <span class="input-text" title="国籍/地区">国籍/地区：</span>
                        <span class="input-input detailinput">  {{mapForm1.GJDQMC}}</span>
                      </el-col>
-                     <el-col :span="12" class="input-item">
+                     <!-- <el-col :span="12" class="input-item">
                        <span class="input-text">民族：</span>
                        <span class="input-input detailinput">  {{mapForm1.MZMC}}</span>
-                     </el-col>
-
-                     <el-col :span="12" class="input-item">
-                      <span class="input-text">性别：</span>
-                      <span class="input-input detailinput">  {{mapForm1.XM}}</span>
-                     </el-col>
+                     </el-col> -->
                      <el-col :span="12" class="input-item">
                        <span class="input-text">性别：</span>
                        <span class="input-input detailinput">  {{mapForm1.XBMC}}</span>
@@ -812,36 +900,37 @@
                        <span class="input-input detailinput">  {{mapForm1.ZJHM}}</span>
                      </el-col>
                      <el-col :span="12" class="input-item">
-                      <span class="input-text" title="签证（注）类型">签证（注）类型：</span>
+                      <span class="input-text" title="签证（注）类型">签证种类：</span>
                       <span class="input-input detailinput">  {{mapForm1.QZLXMC}}</span>
                      </el-col>
+
                      <el-col :span="12" class="input-item">
-                       <span class="input-text" title="签证号（注）码">签证号（注）码：</span>
-                       <span class="input-input detailinput">  {{mapForm1.QZHM}}</span>
+                       <span class="input-text" title="停留天数">停留有效期：</span>
+                       <span class="input-input detailinput">  {{mapForm1.TLYXQ}}</span>
                      </el-col>
                      <el-col :span="12" class="input-item">
-                       <span class="input-text" title="停留天数">停留天数：</span>
-                       <span class="input-input detailinput">  {{mapForm1.TLTS}}</span>
+                       <span class="input-text" title="停留天数">签发单位：</span>
+                       <span class="input-input detailinput">  {{mapForm1.QFDWMC}}</span>
                      </el-col>
                      <el-col :span="12" class="input-item">
-                       <span class="input-text" title="自定义代码">自定义代码：</span>
-                       <span class="input-input detailinput">  {{mapForm1.ZDYDM}}</span>
+                       <span class="input-text" title="联系电话">联系电话：</span>
+                       <span class="input-input detailinput">  {{mapForm1.QFDWMC}}</span>
                      </el-col>
                      <el-col :span="12" class="input-item">
-                       <span class="input-text" title="出入境时间">出入境时间：</span>
+                       <span class="input-text" title="出入境时间">出入境日期：</span>
                        <span class="input-input detailinput">  {{mapForm1.CRJSJ}}</span>
                      </el-col>
                      <el-col :span="12" class="input-item">
                        <span class="input-text" title="出入境口岸">出入境口岸：</span>
                        <span class="input-input detailinput">  {{mapForm1.CRJKAMC}}</span>
                      </el-col>
-                     <el-col :span="12" class="input-item">
+                     <!-- <el-col :span="12" class="input-item">
                        <span class="input-text" title="出入境标识">出入境标识：</span>
                        <span class="input-input detailinput">  {{mapForm1.CRJBSMC}}</span>
-                     </el-col>
+                     </el-col> -->
                      <el-col :span="12" class="input-item">
-                       <span class="input-text">交通方式：</span>
-                       <span class="input-input detailinput">  {{mapForm1.JTFSMC}}</span>
+                       <span class="input-text">交通工具：</span>
+                       <span class="input-input detailinput">  {{mapForm1.JTGJ}}</span>
                      </el-col>
                      <!-- <el-col :span="24" class="input-item">
                        <span class="input-text" style="width:11.5%!important">住址：</span>
@@ -852,8 +941,8 @@
                        <span class="input-input detailinput">  {{mapForm1.WLGMC}}</span>
                      </el-col>
                      <el-col :span="12" class="input-item">
-                       <span class="input-text">员工标记：</span>
-                       <span class="input-input detailinput">  {{mapForm1.YGBJ}}</span>
+                       <span class="input-text">拟前往地：</span>
+                       <span class="input-input detailinput">  {{mapForm1.NQWD}}</span>
                      </el-col>
                      <el-col :span="12" class="input-item">
                        <span class="input-text">操作人：</span>
@@ -878,7 +967,7 @@
                </div>
              </el-dialog>
           </div>
-     <!-- </div> -->
+     </div>
     </div>
   </div>
 
@@ -900,6 +989,7 @@ export default {
       pageSize3: 10,
       TotalResult3: 0,
       pd: {},
+      pd1:{},
       uploadIconData:{token:this.$store.state.token,SFZGR:'1'},
       uploadIconData1:{token:this.$store.state.token,SFZGR:'2'},
       nation: [],
@@ -983,7 +1073,8 @@ export default {
         obj = this.$store.state.xb.find((item)=>{
             return item.dm === val;
         });
-        this.editForm.XBMC = obj.mc;
+        console.log('===',obj)
+        if(obj){this.editForm.XBMC = obj.mc}else{this.editForm.XBMC=''}
      }
 
      if(t==4){//国家地区
@@ -991,21 +1082,21 @@ export default {
         obj = this.$store.state.gjdq.find((item)=>{
             return item.dm === val;
         });
-        this.editForm.GJDQMC = obj.mc;
+        if(obj){this.editForm.GJDQMC = obj.mc}else{this.editForm.GJDQMC=''}
      }
      if(t==5){//证件种类
        let obj = {};
         obj = this.$store.state.zjzl.find((item)=>{
             return item.dm === val;
         });
-        this.editForm.ZJZLMC = obj.mc;
+        if(obj){this.editForm.ZJZLMC = obj.mc}else{this.editForm.ZJZLMC=''}
      }
      if(t==6){//签证种类
        let obj = {};
         obj = this.$store.state.rjqzzl.find((item)=>{
             return item.dm === val;
         });
-        this.editForm.QZLXMC = obj.mc;
+        if(obj){this.editForm.QZLXMC = obj.mc}else{this.editForm.QZLXMC=''}
      }
 
      if(t==7){//出入境口岸
@@ -1013,35 +1104,35 @@ export default {
         obj = this.$store.state.rjkn.find((item)=>{
             return item.dm === val;
         });
-        this.editForm.CRJKAMC = obj.mc;
+        if(obj){this.editForm.CRJKAMC = obj.mc}else{this.editForm.CRJKAMC=''}
      }
      if(t==8){//交通方式
        let obj = {};
         obj = this.$store.state.jtfs.find((item)=>{
             return item.dm === val;
         });
-        this.editForm.JTFSMC = obj.mc;
+        if(obj){this.editForm.JTFSMC = obj.mc}else{this.editForm.JTFSMC=''}
      }
      if(t==9){//往来国
        let obj = {};
         obj = this.$store.state.wlg.find((item)=>{
             return item.dm === val;
         });
-        this.editForm.WLGMC = obj.mc;
+        if(obj){this.editForm.WLGMC = obj.mc}else{this.editForm.WLGMC=''}
      }
      if(t==10){//民族
        let obj = {};
         obj = this.$store.state.mz.find((item)=>{
             return item.dm === val;
         });
-        this.editForm.MZMC = obj.mc;
+        if(obj){this.editForm.MZMC = obj.mc}else{this.editForm.MZMC=''}
      }
      if(t==11){//民族
        let obj = {};
         obj = this.$store.state.crjbs.find((item)=>{
             return item.dm === val;
         });
-        this.editForm.CRJBSMC = obj.mc;
+        if(obj){this.editForm.CRJBSMC = obj.mc}else{this.editForm.CRJBSMC=''}
      }
      // if(t==12){//人员类别
      //   let obj = {};
@@ -1073,7 +1164,7 @@ export default {
         obj = this.$store.state.xb.find((item)=>{
             return item.dm === val;
         });
-        this.editForm1.XBMC = obj.mc;
+        if(obj){this.editForm1.XBMC = obj.mc}else{this.editForm1.XBMC=''}
      }
 
      if(t==4){//国家地区
@@ -1081,21 +1172,21 @@ export default {
         obj = this.$store.state.gjdq.find((item)=>{
             return item.dm === val;
         });
-        this.editForm1.GJDQMC = obj.mc;
+        if(obj){this.editForm1.GJDQMC = obj.mc}else{this.editForm1.GJDQMC=''}
      }
      if(t==5){//证件种类
        let obj = {};
         obj = this.$store.state.zjzl.find((item)=>{
             return item.dm === val;
         });
-        this.editForm1.ZJZLMC = obj.mc;
+        if(obj){this.editForm1.ZJZLMC = obj.mc}else{this.editForm1.ZJZLMC=''}
      }
      if(t==6){//签证种类
        let obj = {};
         obj = this.$store.state.rjqzzl.find((item)=>{
             return item.dm === val;
         });
-        this.editForm1.QZLXMC = obj.mc;
+        if(obj){this.editForm1.QZLXMC = obj.mc}else{this.editForm1.QZLXMC=''}
      }
 
      if(t==7){//出入境口岸
@@ -1103,35 +1194,42 @@ export default {
         obj = this.$store.state.rjkn.find((item)=>{
             return item.dm === val;
         });
-        this.editForm1.CRJKAMC = obj.mc;
+        if(obj){this.editForm1.CRJKAMC = obj.mc}else{this.editForm1.CRJKAMC=''}
      }
      if(t==8){//交通方式
        let obj = {};
         obj = this.$store.state.jtfs.find((item)=>{
             return item.dm === val;
         });
-        this.editForm1.JTFSMC = obj.mc;
+        if(obj){this.editForm1.JTFSMC = obj.mc}else{this.editForm1.JTFSMC=''}
      }
      if(t==9){//往来国
        let obj = {};
         obj = this.$store.state.wlg.find((item)=>{
             return item.dm === val;
         });
-        this.editForm1.WLGMC = obj.mc;
+        if(obj){this.editForm1.WLGMC = obj.mc}else{this.editForm1.WLGMC=''}
      }
      if(t==10){//民族
        let obj = {};
         obj = this.$store.state.mz.find((item)=>{
             return item.dm === val;
         });
-        this.editForm1.MZMC = obj.mc;
+        if(obj){this.editForm1.MZMC = obj.mc}else{this.editForm1.MZMC=''}
      }
-     if(t==11){//民族
+     if(t==11){
        let obj = {};
         obj = this.$store.state.crjbs.find((item)=>{
             return item.dm === val;
         });
-        this.editForm1.CRJBSMC = obj.mc;
+        if(obj){this.editForm1.CRJBSMC = obj.mc}else{this.editForm1.CRJBSMC=''}
+     }
+     if(t==12){//签发单位
+       let obj = {};
+        obj = this.$store.state.qfjg.find((item)=>{
+            return item.dm === val;
+        });
+        if(obj){this.editForm1.QFDWMC = obj.mc}else{this.editForm1.QFDWMC=''}
      }
   },
     base() {
@@ -1182,6 +1280,7 @@ export default {
       // this.getList1(this.CurrentPage1, this.pageSize1, this.pd);
     },
     getList1(currentPage, showCount, pd) {
+      pd=Object.assign(pd,this.pd1);
       pd.SFZGR = '2';
       let p = {
         "currentPage": currentPage,
@@ -1189,7 +1288,7 @@ export default {
         "pd": pd,
         "token":this.$store.state.token,
       };
-      this.$api.post(this.Global.aport3 + '/drbjmd/getBJMDPage', p,
+      this.$api.post(this.Global.aport3 + '/jwrylnhc/getJWRYLNHCPage', p,
         r => {
           if(r.code=="1000001"){
               window.location.href ="#/";
@@ -1224,7 +1323,7 @@ export default {
         this.editForm.token=this.$store.state.token;
         ff=this.editForm;
       } else if (t == 1) {
-        url = this.Global.aport3 + "/drbjmd/updateBJMD";
+        url = this.Global.aport3 + "/jwrylnhc/updateJWRYLNHC";
         this.editForm1.token=this.$store.state.token;
         ff=this.editForm1;
       }
@@ -1261,9 +1360,9 @@ export default {
         "token":this.$store.state.token,
       };
       var url = this.Global.aport3 + '/drbjmd/deleteBJMDById';
-      // if (t == 1) {
-      //   url = this.Global.aport3 + '/drffjlyrjkawzswjlxk/deleteFFJL_YRJKAWZSWJLXKById';
-      // }
+      if (t == 1) {
+        url = this.Global.aport3 + '/jwrylnhc/deleteJWRYLNHCById';
+      }
       this.$confirm('您是否确认删除？', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -1339,6 +1438,7 @@ export default {
         }
       }
       if (t == 1) {
+        // this.actions = 'http://10.0.30.110:9439'
         this.uploadDialogVisible1 = true;
         if (this.$refs.upload1) {
           this.$refs.upload1.clearFiles();
@@ -1372,7 +1472,7 @@ export default {
               window.location.href = window.IPConfig.IP +"/"+this.Global.aport3 + '/webapp/templateFile/中国公民导入.xlsx'
               break;
             case 1:
-              window.location.href = window.IPConfig.IP +"/"+this.Global.aport3 + '/webapp/templateFile/边防检查入境外国人.xls'
+              window.location.href = window.IPConfig.IP +"/"+this.Global.aport3 + '/webapp/templateFile/境外人员来宁核查导入.xlsx'
               break;
             default:
               break;

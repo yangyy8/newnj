@@ -52,12 +52,14 @@ export default {
     this.orgCode=this.$store.state.orgid;
     this.juState=this.$store.state.juState;
     this.token=this.$store.state.token;
-    this.getCount();
+    // this.getCount();
   },
   watch: {
     random:function(newVal,oldVal){
       this.random = newVal;
-      this.getCount();
+      if(this.ccPd.MXLX||this.state=='LN'){
+        this.getCount();
+      }
     }
   },
   methods:{

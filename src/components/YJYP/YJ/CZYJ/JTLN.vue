@@ -538,7 +538,7 @@ export default {
       }
       this.$api.post(this.Global.aport4+'/JTLNInfoController/exportByJtlnRy',p,
         r =>{
-          if(this.type==5){this.downloadM(r,'交通来宁报表')}
+          if(this.type==5){this.downloadM(r,'外国人交通来宁报表')}
         },e=>{},{},'blob')
     },
     downloadM (data,name) {
