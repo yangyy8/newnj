@@ -401,19 +401,15 @@ export default {
     },
     pageSizeChange(val) {
       this.getList(this.CurrentPage, val, this.pd);
-      console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
       this.getList(val, this.pageSize, this.pd);
-      console.log(`当前页: ${val}`);
     },
     pageSizeChange1(val) {
       this.getLis1t(this.CurrentPage1, val, this.pd1);
-      console.log(`每页 ${val} 条`);
     },
     handleCurrentChange1(val) {
       this.getList1(val, this.pageSize1, this.pd1);
-      console.log(`当前页: ${val}`);
     },
     changeValue(value) {
       this.$forceUpdate();

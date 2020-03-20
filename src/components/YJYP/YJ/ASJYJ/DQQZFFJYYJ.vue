@@ -168,6 +168,7 @@
            :highlight-current-row="true"
            style="width: 100%"
            @select="selectfn"
+           @select-all="selectfn"
            @selection-change="handleSelectionChange"
            @header-click="titleShow">
            <el-table-column
@@ -481,6 +482,9 @@ export default {
       this.$api.post(this.Global.aport4+'/warningInfoController/exportByMxLx',p,
         r =>{
           this.downloadM(r)
+          this.selectionAll=[];
+          this.multipleSelection=[];
+          this.getList(this.CurrentPage,this.pageSize,this.pd,1);
         },e=>{},{},'blob')
     },
     downloadM (data) {
@@ -564,6 +568,8 @@ export default {
           }
           if(type==1){
             this.selectionAll=[];
+            this.multipleSelection=[];
+            this.selectionReal=[];
           }else{
             this.$nextTick(()=>{
               this.multipleSelection=[]

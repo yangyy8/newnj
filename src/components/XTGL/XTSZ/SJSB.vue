@@ -111,16 +111,18 @@
             <el-input type="textarea" v-model="dform.NR"  :autosize="{ minRows: 6, maxRows: 10}" :disabled="true"></el-input>
           </el-col>
         </el-row>
-        <el-row class="mb-6" style="margin-top:10px">
-          <el-col :span="8" class="input-item">
-            <span class="input-text" style="width:85px!important;text-align:left">上报单位：</span>
+        <el-row type="flex"  class="mb-6">
+          <el-col :span="24" class="input-item">
+            <span class="input-text" style="width:70px!important;text-align:left">上报单位：</span>
             <span class="review-span" style="padding-left:13px">{{dform.CJDWMC}}</span>
           </el-col>
-          <el-col :span="8" class="input-item">
+        </el-row>
+        <el-row class="mb-6" style="margin-top:10px">
+          <el-col :span="12" class="input-item" style="width: 48.7%;">
             <span class="input-text" style="width:70px!important;text-align:left">上报人：</span>
             <span class="review-span" style="padding-left:13px">{{dform.CJR}}</span>
           </el-col>
-          <el-col :span="8" class="input-item">
+          <el-col :span="12" class="input-item">
             <span class="input-text" style="width:70px!important;text-align:left">上报时间：</span>
             <span class="review-span" style="padding-left:13px">{{dform.CREATETIME}}</span>
           </el-col>
@@ -511,7 +513,7 @@ export default {
       display: inline-block;
     }
     .avgerName{
-      width: 30%;
+      width: 45%;
       display: inline-block;
     }
     .avgeraTime{

@@ -65,6 +65,7 @@
                     <el-button type="primary" size="mini" @click="getSearch('leaflet-draw-draw-polygon')">多边形</el-button>
                     <el-button type="primary" size="mini" @click="getSearch('leaflet-draw-draw-rectangle')">矩形</el-button>
                     <el-button type="primary" size="mini" @click="doset()">重置</el-button>
+                    <el-button type="primary" size="mini" @click="downLoad()">导出</el-button>
                   </el-col>
                 </el-row>
              </div>
@@ -201,6 +202,7 @@ export default {
        bzhid:'',
        mc:'',
        lrdw:'',
+       downDz:[],
     }
   },
 
@@ -213,11 +215,9 @@ export default {
   methods:{
     pageSizeChange(val) {
       this.getRyxx(this.CurrentPage,val,this.bzhid,this.mc,this.lrdw);
-      console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
       this.getRyxx(val,this.pageSize,this.bzhid,this.mc,this.lrdw);
-      console.log(`当前页: ${val}`);
     },
       changtab(){
         this.show=!this.show;
@@ -255,6 +255,60 @@ export default {
       // this.$set(this.pd,"gjdq",'');
       // this.$set(this.pd,"qzzl",'');
     },
+    downLoad(){
+      if(this.downDz.length==0){
+        this.$message.error("无可导出数据！");
+        return
+      }
+      let p={
+        "rzsjStart":this.pd.beginTime,
+        "rzsjEnd":this.pd.endTime,
+        "gjdq":this.pd.gjdq,
+        "qzzl":this.pd.qzzl,
+        "arrayList":this.downDz,
+      }
+      let url='';
+      if(this.radioe=="1"){
+        url='/ywczdt/exportCZZDQYJKRYXXList'
+      }else if(this.radioe=="2"){
+        url='/zxdt/exportLSZSZDQYJKRYXXList'
+      }
+      this.$api.post(this.Global.aport+url,p,
+       r =>{
+         this.downloadM(r)
+       },e=>{},{},'blob')
+    },
+    // downLoad(){
+    //   let p={
+    //     "rzsjStart":this.pd.beginTime,
+    //     "rzsjEnd":this.pd.endTime,
+    //     "gjdq":this.pd.gjdq,
+    //     "qzzl":this.pd.qzzl,
+    //     "arrayList": [{"dm": "江苏南京市玄武区孝陵卫街200号"}]
+    //   }
+    //   let url='';
+    //   if(this.radioe=="1"){
+    //     url='http://10.0.30.110:9420/ywczdt/exportCZZDQYJKRYXXList'
+    //   }else if(this.radioe=="2"){
+    //     url='http://10.0.30.110:9420/zxdt/exportLSZSZDQYJKRYXXList'
+    //   }
+    //   this.$api.post(url,p,
+    //    r =>{
+    //      this.downloadM(r)
+    //    },e=>{},{},'blob')
+    // },
+    downloadM (data) {
+        if (!data) {
+            return
+        }
+        let url = window.URL.createObjectURL(new Blob([data],{type:"application/xls"}))
+        let link = document.createElement('a')
+        link.style.display = 'none'
+        link.href = url
+        link.setAttribute('download', '重点区域监控分析'+this.format(new Date(),'yyyyMMddhhmmss')+'.xls')
+        document.body.appendChild(link)
+        link.click()
+    },
     getSearch(className) {
         if(this.radioe=="2"){
               if(this.pd.beginTime==undefined && this.pd.endTime==undefined){
@@ -275,6 +329,7 @@ export default {
               bb.push(das[i]);
           }
         }
+        this.downDz = bb;
      console.log('bb',bb.length);
       console.log('pp',pp);
         //this.ssfj=n;
@@ -369,7 +424,6 @@ export default {
        this.bzhDialogVisible=true;
     },
     getBX(n){
-      console.log(n);
       if(n==1){
         this.sjshow=false;
       }else {

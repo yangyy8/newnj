@@ -95,7 +95,7 @@
           </el-row>
          </el-col>
         <el-col :span="2" class="down-btn-area">
-          <el-button type="success" size="small"  class="mb-15" @click="getList(CurrentPage,pageSize,pd)">查询</el-button>
+          <el-button type="success" size="small"  class="mb-15" @click="getList(CurrentPage,pageSize,pd,1)">查询</el-button>
           <el-button type="primary" size="small"  class="t-ml0" @click="download">导出</el-button>
         </el-col>
       </el-row>
@@ -110,6 +110,7 @@
            :highlight-current-row="true"
            style="width: 100%"
            @select="selectfn"
+           @select-all="selectfn"
            @header-click="titleShow">
            <el-table-column
              type="selection"
@@ -197,6 +198,7 @@
         <el-pagination
           background
           @current-change="handleCurrentChange"
+          :current-page.sync ="CurrentPage"
           :page-size="pageSize"
           layout="prev, pager, next"
           :total="TotalResult">
@@ -339,7 +341,10 @@ export default {
       }
       this.$api.post(this.Global.aport4+'/warningInfoController/exportByMxLx',p,
         r =>{
-          this.downloadM(r)
+          this.downloadM(r);
+          this.selectionAll=[];
+          this.multipleSelection=[];
+          this.getList(this.CurrentPage,this.pageSize,this.pd,1);
         },e=>{},{},'blob')
     },
     downloadM (data) {
@@ -365,7 +370,7 @@ export default {
     getArea(val){
       this.areaPd = val;
     },
-    getList(currentPage, showCount, pd) {
+    getList(currentPage, showCount, pd,type) {
       this.pd.MXLX='LXS_ZSYJ';
       this.pd.BJSJ_DateRange.begin=this.pd0.beginBJSJ;
       this.pd.BJSJ_DateRange.end=this.pd0.endBJSJ;
@@ -373,6 +378,11 @@ export default {
         delete pd['YJID']
       }
       pd = Object.assign({},pd,this.areaPd);
+      if(type==1){
+        this.selectionAll=[];
+        this.multipleSelection=[];
+        this.selectionReal=[];
+      }
       let p = {
         "currentPage": currentPage,
         "showCount": showCount,

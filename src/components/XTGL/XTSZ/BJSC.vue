@@ -904,7 +904,7 @@ export default {
           this.downloadM(r)
           this.selectionAll=[];
           this.multipleSelection=[];
-          this.getList(this.CurrentPage, this.pageSize, this.pd,this.type);
+          this.getList(this.CurrentPage, this.pageSize, this.pd,this.type,true);
         },e=>{},{},'blob')
     },
     downloadM (data) {
@@ -933,7 +933,6 @@ export default {
           this.selectionAll=[];
           this.multipleSelection=[];
           this.selectionReal=[];
-          console.log('this.selectionReal',this.selectionReal);
         }
          if(type==2){
            if(this.fileData==null){

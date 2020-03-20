@@ -135,7 +135,7 @@
           </el-row>
          </el-col>
         <el-col :span="2" class="down-btn-area">
-          <el-button type="success" size="small"  class="t-mb" @click="CurrentPage=1;getList(CurrentPage,pageSize,pd,ruleMap,ruleNo)">查询</el-button>
+          <el-button type="success" size="small"  class="t-mb" @click="CurrentPage=1;getList(CurrentPage,pageSize,pd,ruleMap,ruleNo,1)">查询</el-button>
           <el-button type="primary" size="small"  class="t-ml0" @click="download">导出</el-button>
         </el-col>
       </el-row>
@@ -150,6 +150,7 @@
            :highlight-current-row="true"
            style="width: 100%"
            @select="selectfn"
+           @select-all="selectfn"
            @selection-change="handleSelectionChange"
            @header-click="titleShow">
            <el-table-column
@@ -477,7 +478,12 @@ export default {
 
       this.$api.post(this.Global.aport4+'/warningInfoController/exportByMxLx',p,
         r =>{
-          if(this.type==3){this.downloadM(r,'临住核查报表')}
+          if(this.type==3){
+            this.downloadM(r,'临住核查报表')
+            this.selectionAll3=[];
+            this.multipleSelection3=[];
+            this.getList(this.CurrentPage, this.pageSize,this.pd,this.ruleMap,this.ruleNo,1);
+          }
         },e=>{},{},'blob')
     },
     downloadM (data,name) {
@@ -578,7 +584,7 @@ export default {
     getArea(val){
       this.areaPd = val;
     },
-    getList(currentPage, showCount, pd,map,notIn) {
+    getList(currentPage, showCount, pd,map,notIn,type) {
       this.ccPd.MXLX="LZ_HC";
       this.ccPd.FJ=this.areaPd.FJ;
       this.ccPd.PCS=this.areaPd.PCS;
@@ -611,9 +617,15 @@ export default {
             this.tableData = r.data.resultList;
             this.TotalResult = r.data.totalResult;
             if(this.type==3&&this.selectionReal3.length==0){this.selectionReal3=new Array(Math.ceil(this.TotalResult/showCount))}
-            this.$nextTick(()=>{
-              if(this.type==3){this.selectionXr(this.tableData,this.selectionAll3,this.multipleSelection3)}
-            })
+            if(type==1){
+              this.selectionAll3=[];
+              this.multipleSelection3=[];
+              this.selectionReal3=[];
+            }else{
+              this.$nextTick(()=>{
+                if(this.type==3){this.selectionXr(this.tableData,this.selectionAll3,this.multipleSelection3)}
+              })
+            }
           }
         })
     },

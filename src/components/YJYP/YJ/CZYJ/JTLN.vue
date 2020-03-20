@@ -170,7 +170,7 @@
           </el-row>
          </el-col>
         <el-col :span="2" class="down-btn-area">
-          <el-button type="success" size="small"  class="t-mb" @click="CurrentPage=1;getList(CurrentPage,pageSize,pd)">查询</el-button>
+          <el-button type="success" size="small"  class="t-mb" @click="CurrentPage=1;getList(CurrentPage,pageSize,pd,1)">查询</el-button>
           <el-button type="primary" size="small"  class="t-ml0" @click="download">导出</el-button>
         </el-col>
       </el-row>
@@ -185,6 +185,7 @@
            :highlight-current-row="true"
            style="width: 100%"
            @select="selectfn"
+           @select-all="selectfn"
            @selection-change="handleSelectionChange"
            @header-click="titleShow">
            <el-table-column
@@ -538,7 +539,12 @@ export default {
       }
       this.$api.post(this.Global.aport4+'/JTLNInfoController/exportByJtlnRy',p,
         r =>{
-          if(this.type==5){this.downloadM(r,'外国人交通来宁报表')}
+          if(this.type==5){
+            this.downloadM(r,'外国人交通来宁报表')
+            this.selectionAll5=[];
+            this.multipleSelection5=[];
+            this.getList(this.CurrentPage,this.pageSize,this.pd,1);
+          }
         },e=>{},{},'blob')
     },
     downloadM (data,name) {
@@ -583,7 +589,7 @@ export default {
     getArea(val){
       this.areaPd = val;
     },
-    getList(currentPage, showCount, pd) {
+    getList(currentPage, showCount, pd,type) {
       // this.ccPd.MXLX="BKYJ";
       this.ccPd.FJ=this.areaPd.FJ;
       this.ccPd.PCS=this.areaPd.PCS;
@@ -611,9 +617,15 @@ export default {
             this.tableData = r.data.resultList;
             this.TotalResult = r.data.totalResult;
             if(this.type==5&&this.selectionReal5.length==0){this.selectionReal5=new Array(Math.ceil(this.TotalResult/showCount))}
-            this.$nextTick(()=>{
-              if(this.type==5){this.selectionXr(this.tableData,this.selectionAll5,this.multipleSelection5)}
-            })
+            if(type==1){
+              this.selectionAll5=[];
+              this.multipleSelection5=[];
+              this.selectionReal5=[];
+            }else{
+              this.$nextTick(()=>{
+                if(this.type==5){this.selectionXr(this.tableData,this.selectionAll5,this.multipleSelection5)}
+              })
+            }
           }
         })
     },

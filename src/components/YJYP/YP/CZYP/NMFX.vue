@@ -101,7 +101,7 @@
           </el-row>
          </el-col>
             <el-col :span="2" class="down-btn-area">
-              <el-button type="success" size="small" @click="CurrentPage=1;getList(CurrentPage,pageSize,pd)" class="mb-15">查询</el-button>
+              <el-button type="success" size="small" @click="CurrentPage=1;getList(CurrentPage,pageSize,pd,1)" class="mb-15">查询</el-button>
               <el-button type="primary" size="small"  class="t-ml0" @click="download">导出</el-button>
             </el-col>
           </el-row>
@@ -124,6 +124,7 @@
                border
                style="width: 100%"
                @select="selectfn"
+               @select-all="selectfn"
                @header-click="titleShow">
                <el-table-column
                  type="selection"
@@ -154,6 +155,7 @@
                 border
                 style="width: 100%;"
                 @select="selectfn"
+                @select-all="selectfn"
                 @header-click="titleShow">
                 <el-table-column
                   type="selection"
@@ -227,7 +229,7 @@
               <el-pagination
                 background
                 @current-change="handleCurrentChange"
-                :current-page.sync ="CurrentPage"
+                :current-page.sync="CurrentPage"
                 :page-size="pageSize"
                 layout="prev, pager, next"
                 :total="TotalResult">
@@ -335,9 +337,9 @@ export default {
     this.orgCode=this.$store.state.orgid;
     this.juState=this.$store.state.juState;
     this.token=this.$store.state.token;
-   this.$store.dispatch("getGjdq");
-   this.$store.dispatch("getXB");
-   this.$store.dispatch("getSflx");
+     this.$store.dispatch("getGjdq");
+     this.$store.dispatch("getXB");
+     this.$store.dispatch("getSflx");
   },
   watch:{
     falg:function(newVal,oldVal){
@@ -436,7 +438,10 @@ export default {
       }
       this.$api.post(this.Global.aport5+'/nanMinController/export',p,
         r =>{
-          this.downloadM(r)
+          this.downloadM(r);
+          this.selectionAll=[];
+          this.multipleSelection=[];
+          this.getList(this.CurrentPage,this.pageSize,this.pd,1);
         },e=>{},{},'blob')
     },
     downloadM (data) {
@@ -464,7 +469,7 @@ export default {
         confirmButtonText: '确定',
       });
     },
-    getList(currentPage, showCount, pd) {
+    getList(currentPage, showCount, pd,type) {
       this.pd.CSRQ_DateRange.begin=this.pd0.beginCS;
       this.pd.CSRQ_DateRange.end=this.pd0.endCS;
       this.pd.ZCRQ_DateRange.begin=this.pd0.beginZC;
@@ -487,6 +492,11 @@ export default {
       }
       if(pd.hasOwnProperty('RGUID')){
         delete pd['RGUID']
+      }
+      if(type==1){
+        this.selectionAll=[];
+        this.multipleSelection=[];
+        this.selectionReal=[];
       }
       let p = {
         "currentPage": currentPage,

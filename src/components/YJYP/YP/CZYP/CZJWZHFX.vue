@@ -288,7 +288,7 @@
               </el-row>
              </el-col>
                 <el-col :span="2" class="down-btn-area">
-                  <el-button type="success" size="small" @click="CurrentPage=1;getList(CurrentPage,pageSize,pd)" class="mb-15">查询</el-button>
+                  <el-button type="success" size="small" @click="CurrentPage=1;getList(CurrentPage,pageSize,pd,1)" class="mb-15">查询</el-button>
                   <!-- <el-button type="" size="small" @click="" class="mb-15"> 重置</el-button> -->
                   <el-button type="primary"  size="small" class="t-ml0 mb-15" @click="download">导出</el-button>
                   <el-button type="warning"  size="small" class="t-ml0" v-if="juState=='1'" @click="downloadT">综合导出</el-button>
@@ -316,6 +316,7 @@
                border
                style="width: 100%"
                @select="selectfn"
+               @select-all="selectfn"
                @selection-change="handleSelectionChange"
                @header-click="titleShow">
                <el-table-column
@@ -380,6 +381,7 @@
              border
              style="width: 100%"
              @select="selectfn"
+             @select-all="selectfn"
              @selection-change="handleSelectionChange"
              @header-click="titleShow">
              <el-table-column
@@ -759,7 +761,6 @@
           var url = this.Global.aport2 + "/data_report/selectSsfjDm";
           this.$api.post(url, p,
             r => {
-
               this.ssfj = sortByKey(r.data.SSFJ,'dm');
             })
         },
@@ -768,7 +769,6 @@
           this.$set(this.pd, "SSPCS", '');
           var srr = [];
           srr.push(arr);
-          // console.log(srr);
           let p = {
             "fjdmList": srr
           }
@@ -867,7 +867,10 @@
           }
           this.$api.post(this.Global.aport5+'/changZhuController/export',p,
             r =>{
-              this.downloadM(r)
+              this.downloadM(r);
+              this.selectionAll=[];
+              this.multipleSelection=[];
+              this.getList(this.CurrentPage,this.pageSize,this.pd,1);
             },e=>{},{},'blob')
         },
         downloadM (data) {
@@ -911,7 +914,7 @@
         getArea(val){
           this.areaPd = val;
         },
-        getList(currentPage, showCount, pd) {
+        getList(currentPage, showCount, pd,type) {
           this.checkItemReal=[];
           for(var i=0;i<this.checkedList.length;i++){
             for(var j=0;j<this.checkItem.length;j++){
@@ -926,6 +929,11 @@
             delete pd['RGUID']
           }
           pd = Object.assign({},pd,this.areaPd);
+          if(type==1){
+            this.selectionAll=[];
+            this.multipleSelection=[];
+            this.selectionReal=[];
+          }
           let p = {
             "currentPage": currentPage,
             "showCount": showCount,

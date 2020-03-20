@@ -178,7 +178,7 @@
               </el-row>
              </el-col>
                 <el-col :span="2" class="down-btn-area">
-                  <el-button type="success" size="small" @click="CurrentPage=1;getList(CurrentPage,pageSize,pd)" class="mb-15">查询</el-button>
+                  <el-button type="success" size="small" @click="CurrentPage=1;getList(CurrentPage,pageSize,pd,1)" class="mb-15">查询</el-button>
                   <el-button type="primary" size="small"  class="t-ml0" @click="download">导出</el-button>
                   <!-- <el-button type="" size="small" @click="" class="mb-15"> 重置</el-button> -->
                 </el-col>
@@ -199,6 +199,7 @@
                border
                style="width: 100%"
                @select="selectfn"
+               @select-all="selectfn"
                @header-click="titleShow">
                <el-table-column
                  type="selection"
@@ -245,7 +246,7 @@
             <el-pagination
               background
               @current-change="handleCurrentChange"
-              :current-page:sync="CurrentPage"
+              :current-page.sync="CurrentPage"
               :page-size="pageSize"
               layout="prev, pager, next"
               :total="TotalResult">
@@ -263,6 +264,7 @@
                border
                style="width: 100%"
                @select="selectfn"
+               @select-all="selectfn"
                @header-click="titleShow">
                <el-table-column
                  type="selection"
@@ -355,7 +357,7 @@
             <el-pagination
               background
               @current-change="handleCurrentChange"
-              :current-page:sync="CurrentPage"
+              :current-page.sync="CurrentPage"
               :page-size="pageSize"
               layout="prev, pager, next"
               :total="TotalResult">
@@ -707,6 +709,9 @@
           this.$api.post(this.Global.aport5+url,p,
             r =>{
               this.downloadM(r)
+              this.selectionAll=[];
+              this.multipleSelection=[];
+              this.getList(this.CurrentPage,this.pageSize,this.pd,1);
             },e=>{},{},'blob')
         },
         downloadM (data) {
@@ -757,7 +762,7 @@
         getArea(val){
           this.areaPd = val;
         },
-        getList(currentPage, showCount, pd) {
+        getList(currentPage, showCount, pd,type) {
           this.checkItemReal=[];
           for(var i=0;i<this.checkedList.length;i++){
             for(var j=0;j<this.checkItem.length;j++){
@@ -777,6 +782,11 @@
             delete pd['DTID']
           }
           pd = Object.assign({},pd,this.areaPd);
+          if(type==1){
+            this.selectionAll=[];
+            this.multipleSelection=[];
+            this.selectionReal=[];
+          }
           let p = {
             "currentPage": currentPage,
             "showCount": showCount,
@@ -854,7 +864,7 @@
                          for(var i=0;i<this.tableData.length;i++){
                            for(var j=0;j<this.selectionAll.length;j++){
                              if(this.tableData[i].DTID==this.selectionAll[j].DTID){
-                               console.log(this.tableData[i].RGUID,this.selectionAll[j].RGUID,'this.selectionAll======',this.selectionAll)
+                               // console.log(this.tableData[i].RGUID,this.selectionAll[j].RGUID,'this.selectionAll======',this.selectionAll)
                                this.$refs.multipleTable.toggleRowSelection(this.tableData[i],true);
                              }
                            }

@@ -77,7 +77,7 @@
               </el-row>
              </el-col>
                 <el-col :span="2" class="down-btn-area">
-                  <el-button type="success" size="small" @click="CurrentPage=1;getList(CurrentPage,pageSize,pd)" class="mb-10">查询</el-button>
+                  <el-button type="success" size="small" @click="CurrentPage=1;getList(CurrentPage,pageSize,pd,1)" class="mb-10">查询</el-button>
                   <!-- <el-button type="" size="small" @click="" class="mb-15"> 重置</el-button> -->
                   <el-button type="primary"  size="small" class="t-ml0" @click="download">导出</el-button>
                 </el-col>
@@ -96,6 +96,7 @@
                :data="tableData"
                border
                @select="selectfn"
+               @select-all="selectfn"
                style="width: 100%"
                @header-click="titleShow">
                <el-table-column
@@ -143,7 +144,7 @@
               <el-pagination
                 background
                 @current-change="handleCurrentChange"
-                :current-page:sync="CurrentPage"
+                :current-page.sync="CurrentPage"
                 :page-size="pageSize"
                 layout="prev, pager, next"
                 :total="TotalResult">
@@ -159,6 +160,7 @@
              :data="tableData"
              border
              @select="selectfn"
+             @select-all="selectfn"
              style="width: 100%"
              @header-click="titleShow">
              <el-table-column
@@ -228,7 +230,7 @@
             <el-pagination
               background
               @current-change="handleCurrentChange"
-              :current-page:sync="CurrentPage"
+              :current-page.sync="CurrentPage"
               :page-size="pageSize"
               layout="prev, pager, next"
               :total="TotalResult">
@@ -485,7 +487,10 @@
           }
           this.$api.post(this.Global.aport5+'/esYmController/exportYm',p,
             r =>{
-              this.downloadM(r)
+              this.downloadM(r);
+              this.selectionAll=[];
+              this.multipleSelection=[];
+              this.getList(this.CurrentPage,this.pageSize,this.pd,1);
             },e=>{},{},'blob')
         },
         downloadM (data) {
@@ -514,7 +519,7 @@
             confirmButtonText: '确定',
           });
         },
-        getList(currentPage, showCount, pd) {
+        getList(currentPage, showCount, pd,type) {
           this.checkItemReal=[];
           for(var i=0;i<this.checkedList.length;i++){
             for(var j=0;j<this.checkItem.length;j++){
@@ -525,6 +530,11 @@
           }
           if(pd.hasOwnProperty('RGUID')){
             delete pd['RGUID']
+          }
+          if(type==1){
+            this.selectionAll=[];
+            this.multipleSelection=[];
+            this.selectionReal=[];
           }
           let p = {
             "currentPage": currentPage,

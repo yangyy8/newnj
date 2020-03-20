@@ -490,13 +490,11 @@ export default {
       let checkList = this.$refs.tree.getCheckedNodes();
       var array = checkList;
       var childrenlist = new Array();
-      console.log('checkList', checkList);
-
+      // console.log('checkList', checkList);
       if (checkList.length == 0) {
         this.$message.error('请选择功能项！');
         return false;
       }
-
       // for (var i = 0; i < array.length; i++) {
       //
       //   childrenlist.push(array[i].dm);
@@ -506,17 +504,18 @@ export default {
       var ff = new FormData();
       if (n == 0) {
         url = this.Global.aport1 + '/fun/batchUpdateFunsToUsers';
-        if (this.multipleSelection1.length == 0) {
+        // console.log(this.selectionAll1,this.multipleSelection1)
+        if (this.selectionAll1.length == 0) {
           this.$message.error('请选择用户列表内容！');
           return;
         }
         var orgs = [];
         var users = [];
-        for (var i = 0; i < this.multipleSelection1.length; i++) {
+        for (var i = 0; i < this.selectionAll1.length; i++) {
 
-          var gg=this.multipleSelection1[i].dwdm;
+          var gg=this.selectionAll1[i].dwdm;
           orgs.push(gg);
-          var s = this.multipleSelection1[i].id;
+          var s = this.selectionAll1[i].id;
           var ssr=gg.split(',');
           for (var j = 0; j < ssr.length; j++) {
 
@@ -528,13 +527,13 @@ export default {
 
       } else if (n == 1){
         url = this.Global.aport1 + '/fun/batchUpdateFunsToRoles';
-        if (this.multipleSelection2.length == 0) {
+        if (this.selectionAll2.length == 0) {
           this.$message.error('请选择角色列表内容！');
           return;
         }
         var roleids = [];
-        for (var i = 0; i < this.multipleSelection2.length; i++) {
-          var s = this.multipleSelection2[i].id;
+        for (var i = 0; i < this.selectionAll2.length; i++) {
+          var s = this.selectionAll2[i].id;
           roleids.push(s);
         }
         ff.append("roleids", roleids);
@@ -553,11 +552,9 @@ export default {
               message: '保存成功'
             });
             this.getMenu();
-            this.getList(this.CurrentPage, this.pageSize, this.pd);
-            this.getList1(this.CurrentPage1, this.pageSize1, this.pd1);
-
+            this.getList(this.CurrentPage, this.pageSize, this.pd,1);
+            this.getList1(this.CurrentPage1, this.pageSize1, this.pd1,1);
           } else {
-
             this.$message.error('保存失败');
           }
         })
@@ -565,7 +562,6 @@ export default {
           //this.getList1(this.CurrentPage1, this.pageSize1, this.pd1);
     },
     getDM(n) {
-
       var sum = '';
       for (var i = 0; i < n.length; i++) {
         sum = sum + ',' + n[i].mc;

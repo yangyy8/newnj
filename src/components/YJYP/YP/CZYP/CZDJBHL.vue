@@ -244,6 +244,7 @@
              border
              style="width: 100%"
              @select="selectfn"
+             @select-all="selectfn"
              ref="multipleTable"
              @header-click="titleShow">
              <el-table-column
@@ -481,7 +482,10 @@ import AREAFX from '../../../common/areaFx'
       }
       this.$api.post(this.Global.aport5+'/djbhl/exportdjbhl',p,
         r =>{
-          this.downloadM(r)
+          this.downloadM(r);
+          this.selectionAll=[];
+          this.multipleSelection=[];
+          this.getList(this.CurrentPage,this.pageSize,this.pdTu,1);
         },e=>{},{},'blob')
     },
     changeTu(){
@@ -592,7 +596,7 @@ import AREAFX from '../../../common/areaFx'
         this.selectionAll=[];
     },
 
-    getList(currentPage,pageSize,pd){
+    getList(currentPage,pageSize,pd,type){
       pd = Object.assign({},pd,this.areaPd);
       let p={
         'currentPage':currentPage,
@@ -612,16 +616,22 @@ import AREAFX from '../../../common/areaFx'
            if(this.selectionReal.length==0){//声明一个数组对象
              this.selectionReal=new Array(Math.ceil(this.TotalResult/showCount))
            }
-           this.$nextTick(()=>{
-             this.multipleSelection=[]
-             for(var i=0;i<this.tableData.length;i++){
-               for(var j=0;j<this.selectionAll.length;j++){
-                 if(this.tableData[i].RGUID==this.selectionAll[j].RGUID){
-                   this.$refs.multipleTable.toggleRowSelection(this.tableData[i],true);
+           if(type==1){
+             this.selectionAll=[];
+             this.multipleSelection=[];
+             this.selectionReal=[];
+           }else{
+             this.$nextTick(()=>{
+               this.multipleSelection=[]
+               for(var i=0;i<this.tableData.length;i++){
+                 for(var j=0;j<this.selectionAll.length;j++){
+                   if(this.tableData[i].RGUID==this.selectionAll[j].RGUID){
+                     this.$refs.multipleTable.toggleRowSelection(this.tableData[i],true);
+                   }
                  }
                }
-             }
-           })
+             })
+           }
          }
        })
     },
@@ -736,7 +746,7 @@ import AREAFX from '../../../common/areaFx'
              that.page=1;
              that.CurrentPage=1;
              that.selectionAll=[];
-             that.getList(that.CurrentPage,that.pageSize,that.pdTu);
+             that.getList(that.CurrentPage,that.pageSize,that.pdTu,1);
            })
            that.lineChart.resize();
       },

@@ -131,7 +131,7 @@
           </el-row>
          </el-col>
         <el-col :span="2" class="down-btn-area">
-          <el-button type="success" size="small"  class="t-mb" @click="CurrentPage=1;getList(CurrentPage,pageSize,pd)">查询</el-button>
+          <el-button type="success" size="small"  class="t-mb" @click="CurrentPage=1;getList(CurrentPage,pageSize,pd,1)">查询</el-button>
           <el-button type="primary" size="small"  class="t-ml0" @click="download">导出</el-button>
         </el-col>
       </el-row>
@@ -145,6 +145,7 @@
            :highlight-current-row="true"
            style="width: 100%"
            @select="selectfn"
+           @select-all="selectfn"
            @selection-change="handleSelectionChange"
            @header-click="titleShow">
            <el-table-column
@@ -440,6 +441,9 @@ export default {
       this.$api.post(this.Global.aport4+'/warningInfoController/exportByMxLx',p,
         r =>{
           this.downloadM(r)
+          this.selectionAll=[];
+          this.multipleSelection=[];
+          this.getList(this.CurrentPage,this.pageSize,this.pd,1);
         },e=>{},{},'blob')
     },
     downloadM (data) {
@@ -465,7 +469,7 @@ export default {
     getArea(val){
       this.areaPd = val;
     },
-    getList(currentPage, showCount, pd) {
+    getList(currentPage, showCount, pd,type) {
       this.ccPd.MXLX="QZ_HCYJ";
       this.ccPd.FJ=this.areaPd.FJ;
       this.ccPd.PCS=this.areaPd.PCS;
@@ -496,16 +500,22 @@ export default {
           if(this.selectionReal.length==0){//声明一个数组对象
             this.selectionReal=new Array(Math.ceil(this.TotalResult/showCount))
           }
-          this.$nextTick(()=>{
-            this.multipleSelection=[]
-            for(var i=0;i<this.tableData.length;i++){
-              for(var j=0;j<this.selectionAll.length;j++){
-                if(this.tableData[i].YJID==this.selectionAll[j].YJID){
-                  this.$refs.multipleTable.toggleRowSelection(this.tableData[i],true);
+          if(type==1){
+            this.selectionAll=[];
+            this.multipleSelection=[];
+            this.selectionReal=[];
+          }else{
+            this.$nextTick(()=>{
+              this.multipleSelection=[]
+              for(var i=0;i<this.tableData.length;i++){
+                for(var j=0;j<this.selectionAll.length;j++){
+                  if(this.tableData[i].YJID==this.selectionAll[j].YJID){
+                    this.$refs.multipleTable.toggleRowSelection(this.tableData[i],true);
+                  }
                 }
               }
-            }
-          })
+            })
+          }
         })
     },
     getEdit(n){

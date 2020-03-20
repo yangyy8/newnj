@@ -21,7 +21,8 @@ import store from '../assets/js/store' //注册store
 import { Message } from 'element-ui';
 import { Loading } from 'element-ui';
 import global_ from '../Global.js';
-const axios = httpAxios.create({timeout:120000});//创建实例
+const axios = httpAxios.create();//创建实例
+
 // let config = {TIMEOUT:120000};
 // axios.defaults.timeout = config.TIMEOUT;
 // 自定义判断元素类型JS
@@ -66,6 +67,7 @@ function apiAxios (method, url, params, success, failure,header,responseType) {
         withCredentials: false,
         headers: header||{'X-Requested-With': 'XMLHttpRequest'},
         responseType: responseType||'json',
+        timeout:120000
     })
 
     .then(function (res) {
