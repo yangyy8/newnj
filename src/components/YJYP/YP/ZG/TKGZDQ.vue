@@ -35,8 +35,8 @@
     </div>
     <div class="yycontent">
       <div class="mb-15">
-        <el-button type="primary" size="small" @click="">批量导入</el-button>
-        <el-button type="success" size="small" @click="" class="tt-mr10">模板下载</el-button>
+        <el-button type="primary" size="small" @click="showUpload">批量导入</el-button>
+        <el-button type="success" size="small" @click="downloadTk" class="tt-mr10">模板下载</el-button>
         <el-button type="info" size="small" @click="areaFun">行政区划</el-button>
       </div>
       <el-table
@@ -104,18 +104,46 @@
         </el-pagination>
       </div>
     </div>
-    <el-dialog title="全国行政区划" :visible.sync="areaDialogVisible">
-      <el-tree
-        :data="menudata"
-        :check-strictly="true"
-        show-checkbox
-        default-expand-all
-        node-key="DQBM"
-        :default-checked-keys="defaultChecked"
-        ref="tree"
-        highlight-current
-        :props="defaultProps">
-      </el-tree>
+    <el-dialog title="上传模板" :visible.sync="uploadDialogVisible"  width="640px">
+      <el-form>
+      <el-row type="flex" class="mb-6">
+       <el-col :span="24" class="input-item">
+            <el-upload
+              class="input-input"
+              ref="upload"
+              :action='actions+"/tkgzdqpz/readExcel"'
+              :file-list="fileList"
+              multiple
+              :on-success="upSuccess"
+              :data="uploadIconData"
+              :limit="1"
+              :auto-upload="false">
+              <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+              <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
+              <br/>
+              <span slot="tip" class="el-upload__tip">只能上传EXCEL文件</span>
+            </el-upload>
+          </el-col>
+        </el-row>
+      </el-form>
+    </el-dialog>
+    <el-dialog title="全国行政区划" :visible.sync="areaDialogVisible" custom-class="xzqu-dialog">
+      <el-input
+        placeholder="模糊查询"
+        v-model="filterText">
+      </el-input>
+      <div v-infinite-scroll="load" class="xzqh">
+        <el-tree
+          class="filter-tree"
+          :data="menudata"
+          node-key="dm"
+          show-checkbox
+          :filter-node-method="filterNode"
+          :default-checked-keys="defaultChecked"
+          ref="tree"
+          :props="defaultProps">
+        </el-tree>
+      </div>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="areaSave" size="small">保 存</el-button>
         <el-button @click="areaDialogVisible = false" size="small">取 消</el-button>
@@ -124,15 +152,22 @@
     </div>
 </template>
 <script>
+import {ToArray} from '@/assets/js/ToArray.js'
 export default {
 
   data() {
     return {
       areaDialogVisible:false,
+      fileList:[],
+      actions: "",
+      uploadIconData:{token:this.$store.state.token},
+      uploadDialogVisible:false,
       menudata:[],
+      filterText: '',
       defaultChecked:[],
       defaultProps:{
-        label:'DQMC',
+        children: 'children',
+        label: 'mc'
       },
       CurrentPage: 1,
       pageSize: 10,
@@ -158,6 +193,7 @@ export default {
       selectionAll:[],
       yuid:[],
       selectionReal:[],
+      xzCount:0,
     }
   },
   activated() {
@@ -166,6 +202,11 @@ export default {
   mounted() {
       this.$store.dispatch('getXzqh');
   },
+  watch:{
+     filterText(val) {
+       this.$refs.tree.filter(val);
+     }
+  },
   methods: {
     titleShow(e,el){
       el.target.title = e.label;
@@ -173,6 +214,10 @@ export default {
     selectfn(a,b){
       this.multipleSelection = a;
       this.dataSelection()
+    },
+    filterNode(value, data) {
+      if (!value) return true;
+      return data.mc.indexOf(value) !== -1;
     },
     dataSelection(){
       // console.log('this.multipleSelection',this.multipleSelection)
@@ -187,6 +232,71 @@ export default {
         }
       }
       // console.log('this.selectionAll',this.selectionAll);
+    },
+    downloadTk(){
+      // window.location.href = window.IPConfig.IP +"/"+this.Global.aport11 + '/webapp/templateFile/重点区域配置数据导入.xlsx'
+      window.location.href = this.Global.aport11 + '/webapp/templateFile/重点区域配置数据导入.xlsx'
+      // console.log(this.Global.aport11 + '/webapp/templateFile/重点区域配置数据导入.xlsx')
+    },
+    showUpload() {
+      // this.actions = window.IPConfig.IP+this.Global.aport11;
+      this.actions = this.Global.aport11;
+      this.uploadDialogVisible = true;
+      if (this.$refs.upload) {
+        this.$refs.upload.clearFiles();
+      }
+    },
+    upSuccess(r) {
+      if (r.success) {
+        if(r.data.errList.length!=0){
+          this.$confirm('是否导出错误信息?', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning'
+            }).then(() => {
+              this.$api.post(this.Global.aport11+'/tkgzdqpz/exportErrData',{errList:r.data.errList},
+              r =>{
+                this.downloadM(r,'调控关注地区配置错误数据导出');
+              },e=>{},{},'blob')
+            }).catch(() => {
+              this.$message({
+                type: 'info',
+                message: '已取消导出'
+              });
+            });
+        }else{
+          this.$message({
+            message: r.data,
+            type: 'success'
+          });
+        }
+      } else {
+        this.$message.error(r.message);
+      }
+      this.uploadDialogVisible = false;
+      this.getList(this.CurrentPage, this.pageSize, this.pd);
+    },
+    downloadM (data,name) {
+        if (!data) {
+            return
+        }
+        let url = window.URL.createObjectURL(new Blob([data],{type:"application/xlsx"}))
+        let link = document.createElement('a')
+        link.style.display = 'none'
+        link.href = url
+        link.setAttribute('download', name+'.xlsx')
+        document.body.appendChild(link)
+        link.click()
+   },
+    submitUpload() {
+      if (this.$refs.upload.uploadFiles.length == 0) {
+        this.$message({
+          message: '请先选择文件！',
+          type: 'warning'
+        });
+        return
+      }
+      this.$refs.upload.submit();
     },
     download(){
       if(this.tableData.length==0){
@@ -236,10 +346,25 @@ export default {
         link.click()
     },
     areaFun(){
-
+      this.areaDialogVisible=true;
+      this.menudata=(this.$store.state.xzqh).slice(0,20);
+      // console.log(this.menudata);
+    },
+    load(){
+      this.xzCount+=20;
+      let aa = (this.$store.state.xzqh).slice(this.xzCount,this.xzCount+20)
+      this.menudata.concat(aa);
     },
     areaSave(){
+      let data=this.$refs.tree.getCheckedNodes(true,true);
+      let p={
+        data:data,
+        token:this.$store.state.token
+      }
+      this.$api.post(this.Global.aport11+'/tkgzdqpz/addTkgzdqPzDataList',p,
+       r =>{
 
+       })
     },
     handleSelectionChange(val) {
       this.multipleSelection = val;

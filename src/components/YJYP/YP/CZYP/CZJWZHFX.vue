@@ -122,7 +122,7 @@
                 </el-col>
                 <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                   <span class="input-text">住房类型：</span>
-                  <el-select v-model="pd.ZFLX"  filterable clearable multiple collapse-tags default-first-option  placeholder="请选择"  size="small" class="input-input">
+                  <el-select v-model="pd.ZSXZ"  filterable clearable multiple collapse-tags default-first-option  placeholder="请选择"  size="small" class="input-input">
                     <el-option
                       v-for="item in $store.state.zflx"
                       :key="item.dm"
@@ -409,7 +409,7 @@
              <el-table-column
                prop="ZJZL_DESC"
                label="证件种类"
-               min-width="100">
+               min-width="130">
              </el-table-column>
              <el-table-column
                prop="ZJHM"
@@ -447,7 +447,7 @@
              <el-table-column
                prop="XXDZ"
                label="详细地址"
-               min-width="100">
+               min-width="150">
              </el-table-column>
              <el-table-column
                prop="CRJBS_DESC"
@@ -462,10 +462,17 @@
              <el-table-column
                prop="FWCS"
                label="服务处所"
+               min-width="130">
+             </el-table-column>
+             <el-table-column
+               prop="ZSXZ_DESC"
+               label="住房类型"
                min-width="100">
              </el-table-column>
              <el-table-column
-               label="操作" width="70">
+               label="操作"
+               width="70"
+               fixed="right">
                <template slot-scope="scope">
                <el-button type="text"  class="a-btn"  title="详情"  icon="el-icon-document" @click="details(scope.row)"></el-button>
                </template>

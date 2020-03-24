@@ -130,7 +130,7 @@
                <el-table-column
                  label="操作" width="100">
                  <template slot-scope="scope">
-                 <el-button type="text"  class="a-btn"  title="编辑"  icon="el-icon-edit-outline" @click="$router.push({name:'NDJMRYXX',query:{row:scope.row,queryPd:pd}})"></el-button>
+                 <el-button type="text"  class="a-btn"  title="编辑"  icon="el-icon-edit-outline" @click="$router.push({name:'ZDRYRYXX',query:{row:scope.row,queryPd:pd}})"></el-button>
                  </template>
                </el-table-column>
             </el-table>
@@ -209,8 +209,12 @@
                label="户籍地">
              </el-table-column>
              <el-table-column
-               prop="ZY_DESC"
-               label="职业">
+               prop="SQLB_DESC"
+               label="办证类别">
+             </el-table-column>
+             <el-table-column
+               prop="CSD_DESC"
+               label="出生地">
              </el-table-column>
              <el-table-column
                label="操作" width="70">
@@ -261,7 +265,7 @@
                </el-col>
                <el-col :span="8" class="input-item">
                 <span class="input-text">身份证号：</span>
-                <span class="input-input detailinput">{{detailForm.SHZH}}</span>
+                <span class="input-input detailinput">{{detailForm.SFZH}}</span>
                </el-col>
                <el-col :span="8" class="input-item">
                  <span class="input-text">姓名：</span>
@@ -284,8 +288,8 @@
                 <span class="input-input detailinput">{{detailForm.HKSZD_DESC}}</span>
                </el-col>
                <el-col :span="8" class="input-item">
-                 <span class="input-text">职业：</span>
-                 <span class="input-input detailinput">{{detailForm.ZY_DESC}}</span>
+                 <span class="input-text">出生地：</span>
+                 <span class="input-input detailinput">{{detailForm.CSD_DESC}}</span>
                </el-col>
            </el-row>
          </el-form>
@@ -328,19 +332,19 @@
           tableData: [],
           checkItem:[
             {
-              code:'ZWXM',
+              code:'SK',
               label:'涉恐'
             },
+            // {
+            //   code:'FDBZCRJRY',
+            //   label:'法定不准出境人员'
+            // },
             {
               code:'XB',
-              label:'法定不准出境人员'
-            },
-            {
-              code:'SFZH',
               label:'性别'
             },
             {
-              code:'ZJZL',
+              code:'SQLB',
               label:'办证类别'
             },
           ],
@@ -348,48 +352,20 @@
           checkItemReal:[],
           tableHead:[
             {
-              code:'ZWXM',
-              label:'姓名'
+              code:'HKSZD_DESC',
+              label:'户籍地'
             },
             {
               code:'XB_DESC',
               label:'性别'
             },
             {
-              code:'SFZH',
-              label:'身份证号'
-            },
-            {
-              code:'ZJZL_DESC',
-              label:'证件种类'
-            },
-            {
-              code:'CSD_DESC',
-              label:'出生地'
-            },
-            {
-              code:'CSRQ',
-              label:'出生日期'
-            },
-            {
-              code:'HKSZD_DESC',
-              label:'户籍地'
-            },
-            {
-              code:'ZY_DESC',
-              label:'职业'
-            },
-            {
-              code:'CJSY_DESC',
-              label:'申请事由'
-            },
-            {
-              code:'QWD_DESC',
-              label:'前往地'
+              code:'MZ_DESC',
+              label:'民族'
             },
             {
               code:'SQLB_DESC',
-              label:'异地办证类别'
+              label:'办证类别'
             },
           ],
 
@@ -569,7 +545,7 @@
               'token':this.token
             };
             this.falg=false;
-            var url = this.Global.aport11 + "/ndjmsqtj/getNdjmDataList";
+            var url = this.Global.aport11 + "/zdryblqktj/getZdryblqktjDataList";
             this.$api.post(url, p,
               r => {
                 if (r.success) {
@@ -599,7 +575,7 @@
               'token':this.token
             };
             this.falg=true;
-            this.$api.post(this.Global.aport11+'/ndjmsqtj/getCount', p,
+            this.$api.post(this.Global.aport11+'/zdryblqktj/getCount', p,
               r => {
                   this.tableData = r.data.resultList;
                   this.TotalResult = r.data.totalResult;
@@ -608,7 +584,16 @@
                   let _this = this;
                   for(var i=0;i<_this.checkItemReal.length;i++){
                     var obj={};
+                    var obj1={};
                     for(var j=0;j<_this.tableHead.length;j++){
+                      if(_this.checkItemReal[i].code=='SK'){
+                        obj.code="HKSZD_DESC";
+                        obj.label="户籍地";
+                        obj1.code="MZ_DESC";
+                        obj1.label="民族";
+                        // _this.configHeader=[{'code':'HKSZD_DESC','label':'户籍地'},{'code':'MZ_DESC','label':'民族'}]
+                        _this.configHeader.push(obj1);
+                      }
                       if(_this.tableHead[j].label==_this.checkItemReal[i].label){
                         obj.code=_this.tableHead[j].code;
                         obj.label=_this.tableHead[j].label;
@@ -616,6 +601,15 @@
                     }
                     _this.configHeader.push(obj);
                   }
+                  var arrAfter=[];
+                  var arrReal=[];
+                  for(var h=0;h<this.configHeader.length;h++){
+                    if(arrAfter.indexOf(this.configHeader[h].code)==-1){
+                      arrAfter.push(this.configHeader[h].code);
+                      arrReal.push(this.configHeader[h]);
+                    }
+                  }
+                  this.configHeader=arrReal;
                   if(this.selectionReal.length==0){//声明一个数组对象
                     this.selectionReal=new Array(Math.ceil(this.TotalResult/showCount))
                   }

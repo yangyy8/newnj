@@ -16,6 +16,13 @@
 .t-blue{
   color:blue;
 }
+.xzqh{
+  height: 400px;
+  overflow-y: scroll;
+}
+.xzqu-dialog.el-dialog{
+  margin-top: 0vh !important;
+}
 .count-ul{
   margin-bottom: 10px;
 }
