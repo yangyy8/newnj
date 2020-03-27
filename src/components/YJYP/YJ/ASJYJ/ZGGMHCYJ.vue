@@ -100,6 +100,14 @@
                    <span class="input-text">标题：</span>
                    <el-input placeholder="请输入内容" size="small" v-model="pd.BT" class="input-input"></el-input>
                 </el-col>
+                <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
+                  <!-- <el-checkbox style="margin-left:6%;" v-model="HCBJDM">入境时间是否满足14天</el-checkbox> -->
+                  <span class="input-text">是否14天：</span>
+                  <el-select v-model="pd.HCBJ"  filterable clearable default-first-option  placeholder="请选择"  size="small" class="input-input">
+                    <el-option value="0" label="0 - 否"></el-option>
+                    <el-option value="1" label="1 - 是"></el-option>
+                  </el-select>
+                </el-col>
           </el-row>
          </el-col>
             <el-col :span="2" class="down-btn-area">
@@ -144,19 +152,17 @@
                  </el-table-column>
                  <el-table-column
                    prop="XBMC"
-                   label="性别">
+                   label="性别"
+                   min-width="50">
                  </el-table-column>
                  <el-table-column
                    prop="CSRQ"
                    label="出生日期">
                  </el-table-column>
                  <el-table-column
-                   prop="ZJHM"
-                   label="证件号码">
-                 </el-table-column>
-                 <el-table-column
                    prop="HKSZD"
-                   label="户口所在地">
+                   label="户口所在地"
+                   min-width="100">
                  </el-table-column>
                  <el-table-column
                    prop="JTZZ"
@@ -172,18 +178,49 @@
                  </el-table-column>
                  <el-table-column
                    prop="CRJBSMC"
-                   label="出入境标识">
+                   label="出入境标识"
+                   min-width="100">
                  </el-table-column>
                  <el-table-column
                    prop="HCCRJKAMC"
-                   label="出入境口岸">
+                   label="出入境口岸"
+                   min-width="100">
                  </el-table-column>
                  <el-table-column
                    prop="HCWLGMC"
-                   label="前往/来自国">
+                   label="前往/来自国"
+                   min-width="100">
                  </el-table-column>
                  <el-table-column
-                   label="操作" width="120">
+                   prop="HCCRJSJ"
+                   label="出入境时间"
+                   min-width="100">
+                 </el-table-column>
+                 <!-- <el-table-column
+                   prop="ZJZLMC"
+                   label="证件种类">
+                 </el-table-column>
+                 <el-table-column
+                   prop="ZJHM"
+                   label="证件号码">
+                 </el-table-column> -->
+                 <el-table-column
+                   prop="HCSJ"
+                   label="核查时间"
+                   min-width="100">
+                 </el-table-column>
+                 <el-table-column
+                   prop="HCZJZLMC"
+                   label="核查证件种类"
+                   min-width="110">
+                 </el-table-column>
+                 <el-table-column
+                   prop="HCZJHM"
+                   label="核查证件号码"
+                   min-width="110">
+                 </el-table-column>
+                 <el-table-column
+                   label="操作" width="70">
                    <template slot-scope="scope">
                    <el-button type="text"  class="a-btn"  title="详情"  icon="el-icon-document" @click="details(scope.row,0)"></el-button>
                    <!-- <el-button type="text"  class="a-btn"  title="编辑"  icon="el-icon-edit" @click="edits(scope.row,0)"></el-button>
@@ -417,14 +454,29 @@
                     </el-col>
 
                     <el-col :span="12" class="input-item">
-                      <span class="input-text" title="证件号码">证件号码：</span>
-                      <span class="input-input detailinput">  {{mapForm.ZJHM}}</span>
-                    </el-col>
-
-                    <el-col :span="12" class="input-item">
                       <span class="input-text" title="证件号码">人员类别：</span>
                       <span class="input-input detailinput">  {{mapForm.RYLBMC}}</span>
                     </el-col>
+
+                    <!-- <el-col :span="12" class="input-item">
+                      <span class="input-text" title="证件号码">证件种类：</span>
+                      <span class="input-input detailinput">  {{mapForm.ZJZLMC}}</span>
+                    </el-col>
+                    <el-col :span="12" class="input-item">
+                      <span class="input-text" title="证件号码">证件号码：</span>
+                      <span class="input-input detailinput">  {{mapForm.ZJHM}}</span>
+                    </el-col> -->
+
+                    <el-col :span="12" class="input-item">
+                      <span class="input-text" title="证件号码">核查证件种类：</span>
+                      <span class="input-input detailinput">  {{mapForm.HCZJZLMC}}</span>
+                    </el-col>
+                    <el-col :span="12" class="input-item">
+                      <span class="input-text" title="证件号码">核查证件号码：</span>
+                      <span class="input-input detailinput">  {{mapForm.HCZJHM}}</span>
+                    </el-col>
+
+
 
                     <el-col :span="12" class="input-item">
                       <span class="input-text" title="证件号码">证件签发机关：</span>
@@ -924,6 +976,7 @@ export default {
       CurrentPage3: 1,
       pageSize3: 10,
       TotalResult3: 0,
+      // HCBJDM:false,
       pd: {},
       uploadIconData:{token:this.$store.state.token,SFZGR:'1'},
       uploadIconData1:{token:this.$store.state.token,SFZGR:'2'},
@@ -1182,6 +1235,7 @@ export default {
         return
       }
       this.pd.token = this.$store.state.token;
+      // this.HCBJDM==true?pd.HCBJ='1':pd.HCBJ='0';
       this.$api.post(this.Global.aport3 + '/drbjmd/exportByzggm',this.pd,
         r =>{
           this.downloadM(r)
@@ -1207,6 +1261,7 @@ export default {
       }
     },
     getList(currentPage, showCount, pd) {
+      // this.HCBJDM==true?pd.HCBJ='1':pd.HCBJ='0';
       pd.SFZGR = '1';
       let p = {
         "currentPage": currentPage,

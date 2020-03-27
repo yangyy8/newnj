@@ -16,9 +16,13 @@
 .t-blue{
   color:blue;
 }
+.t-color{
+  color:#409EFF;
+  font-weight: bold;
+}
 .xzqh{
   height: 400px;
-  overflow-y: scroll;
+  overflow: auto;
 }
 .xzqu-dialog.el-dialog{
   margin-top: 0vh !important;

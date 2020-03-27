@@ -128,22 +128,34 @@
       </el-form>
     </el-dialog>
     <el-dialog title="全国行政区划" :visible.sync="areaDialogVisible" custom-class="xzqu-dialog">
-      <el-input
-        placeholder="模糊查询"
-        v-model="filterText">
-      </el-input>
-      <div v-infinite-scroll="load" class="xzqh">
-        <el-tree
-          class="filter-tree"
-          :data="menudata"
-          node-key="dm"
-          show-checkbox
-          :filter-node-method="filterNode"
-          :default-checked-keys="defaultChecked"
-          ref="tree"
-          :props="defaultProps">
-        </el-tree>
-      </div>
+      <el-row type="flex">
+        <el-col :span='12'>
+          <el-input  placeholder="模糊查询" size="small" style="width: 96%;" v-model="filterText" @input="hazyQuery(filterText)"></el-input>
+          <span class="t-color" style="padding-left: 23px;">区域选择</span>
+          <el-tree
+            v-infinite-scroll="load"
+            infinite-scroll-distance="10"
+            class="filter-tree xzqh"
+            :data="menudata"
+            node-key="dm"
+            show-checkbox
+            :filter-node-method="filterNode"
+            :default-checked-keys="defaultChecked"
+            @check="selectChange"
+            ref="tree"
+            :props="defaultProps">
+          </el-tree>
+        </el-col>
+        <el-col :span='12'>
+          <el-input  style="visibility:hidden"></el-input>
+          <span class="t-color" style="padding-left: 23px;">选中区域</span>
+          <ul style="padding-left: 23px;" class="xzqh" v-if="selectArr.length!=0">
+            <li v-for="item in selectArr" style="line-height:25px">{{item.mc}}</li>
+          </ul>
+          <div style="padding-left: 23px;" class="t-red" v-else>{{'未选择区域！'}}</div>
+        </el-col>
+      </el-row>
+
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="areaSave" size="small">保 存</el-button>
         <el-button @click="areaDialogVisible = false" size="small">取 消</el-button>
@@ -164,6 +176,8 @@ export default {
       uploadDialogVisible:false,
       menudata:[],
       filterText: '',
+      hazyFlag:false,//默认模糊查询无值
+      filArr:[],//模糊查询集合
       defaultChecked:[],
       defaultProps:{
         children: 'children',
@@ -194,6 +208,10 @@ export default {
       yuid:[],
       selectionReal:[],
       xzCount:0,
+      filCount:0,
+      allArr:[],
+      scrollW:0,
+      selectArr:[],
     }
   },
   activated() {
@@ -345,25 +363,97 @@ export default {
         document.body.appendChild(link)
         link.click()
     },
+    hazyQuery(val){
+      if(val!=''){
+        this.hazyFlag=true;
+        this.filArr = (this.$store.state.xzqh).filter(function (value) {
+          return (value.mc).includes(val);
+        });
+        this.menudata=(this.filArr).slice(0,20);
+      }else{
+        this.filArr=[];
+        this.filCount=0;
+        this.hazyFlag=false;
+        this.menudata = this.allArr;
+        this.$nextTick(()=>{
+          this.$refs.tree.$el.scrollTop=this.scrollW;
+        })
+      }
+      this.$nextTick(()=>{
+        this.$refs.tree.setCheckedNodes(this.selectArr)
+      })
+    },
     areaFun(){
       this.areaDialogVisible=true;
-      this.menudata=(this.$store.state.xzqh).slice(0,20);
-      // console.log(this.menudata);
+      this.filterText='';
+      this.selectArr=[];
+      this.allArr=(this.$store.state.xzqh).slice(0,20);
+      this.menudata = this.allArr;
+      this.$nextTick(()=>{
+        this.$refs.tree.setCheckedNodes([]);
+      })
     },
     load(){
-      this.xzCount+=20;
-      let aa = (this.$store.state.xzqh).slice(this.xzCount,this.xzCount+20)
-      this.menudata.concat(aa);
+      if(this.hazyFlag==true){//模糊查询 有值 懒加载
+        let aa=[];
+        if(this.filArr.length-this.filCount>20){
+          this.filCount+=20;
+          aa = (this.filArr).slice(this.filCount,this.filCount+20)
+        }else if(0<=Math.abs(this.filArr.length-this.filCount)<=20){
+          this.filCount+=20;
+          aa = (this.filArr).slice(this.filCount,this.filCount+Math.abs(this.filArr.length-this.filCount))
+        }else{
+          return
+        }
+        for(var i in aa){
+          this.menudata.push(aa[i])
+        }
+      }else{
+        let aa=[];
+        if(this.$store.state.xzqh.length-this.xzCount>20){
+          this.xzCount+=20;
+          aa=(this.$store.state.xzqh).slice(this.xzCount,this.xzCount+20)
+        }else if(0<=Math.abs(this.$store.state.xzqh.length-this.xzCount)<=20){
+          this.xzCount+=20;
+          aa=(this.$store.state.xzqh).slice(this.xzCount,this.xzCount+Math.abs(this.$store.state.xzqh.length-this.xzCount))
+        }else{
+          return
+        }
+        for(var i in aa){
+          this.allArr.push(aa[i])
+        }
+        this.menudata = this.allArr;
+        this.scrollW = this.$refs.tree.$el.scrollTop;
+      }
+    },
+    selectChange(data,state){
+      // console.log(data.dm,state.checkedKeys)
+      state.checkedKeys.find((item, i) =>{
+        if((item == data.dm)){//选中
+          this.selectArr.push(data)
+        }
+      })
+      if(state.checkedKeys.indexOf(data.dm)==-1){
+        this.selectArr.splice(this.selectArr.indexOf(data),1)
+      }
+      // console.log('this.selectArr',this.selectArr)
     },
     areaSave(){
-      let data=this.$refs.tree.getCheckedNodes(true,true);
       let p={
-        data:data,
+        data:this.selectArr,
         token:this.$store.state.token
       }
       this.$api.post(this.Global.aport11+'/tkgzdqpz/addTkgzdqPzDataList',p,
        r =>{
-
+         if(r.success){
+           this.$message({
+              message: r.data,
+              type: 'success',
+              duration:'6000'
+            });
+            this.areaDialogVisible=false;
+            this.getList(this.CurrentPage, this.pageSize, this.pd);
+         }
        })
     },
     handleSelectionChange(val) {
