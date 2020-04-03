@@ -419,7 +419,7 @@
               </el-col>
           </el-row>
           <!-- <el-row :gutter="2" style="border-top:1px solid #eee; padding-top:10px;">
-          
+
           </el-row>
           <el-row :gutter="2">
 
@@ -2038,6 +2038,9 @@ export default {
         });
 
       } else {
+        if(r.errorExportByte){
+          this.downLoadCom(r.errorExportByte);
+        }
         this.$message.error(r.message);
       }
       this.uploadDialogVisible = false;

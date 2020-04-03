@@ -415,6 +415,9 @@ export default {
         });
 
       } else {
+        if(r.errorExportByte){
+          this.downLoadCom(r.errorExportByte);
+        }
         this.$message.error(r.message);
       }
       this.uploadDialogVisible = false;

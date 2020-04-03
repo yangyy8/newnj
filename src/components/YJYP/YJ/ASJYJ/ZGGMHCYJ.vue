@@ -132,6 +132,7 @@
               <el-button type="success" size="small" @click="download(0)">模板下载</el-button>
             </el-row> -->
             <div class="yylbt mb-15">预警信息列表</div>
+            <span class="t-red" style="display:inline-block;margin-bottom:10px">未核查：  {{hcCount}}</span>
             <el-table
                  ref="multipleTable"
                  :data="tableData"
@@ -977,6 +978,7 @@ export default {
       pageSize3: 10,
       TotalResult3: 0,
       // HCBJDM:false,
+      hcCount:0,
       pd: {},
       uploadIconData:{token:this.$store.state.token,SFZGR:'1'},
       uploadIconData1:{token:this.$store.state.token,SFZGR:'2'},
@@ -1037,6 +1039,7 @@ export default {
     this.$store.dispatch('getJtfs');
     this.$store.dispatch('getCrjbs');
     this.getList(this.CurrentPage, this.pageSize, this.pd);
+    this.hcCountFun();
   },
   methods: {
     getLable(t,val){
@@ -1255,10 +1258,26 @@ export default {
     },
     getListType(){
       if(this.page==0){
-        this.CurrentPage=1;this.getList(this.CurrentPage,this.pageSize,this.pd)
+        this.CurrentPage=1;this.getList(this.CurrentPage,this.pageSize,this.pd);
+        this.hcCountFun();
       }else if(this.page==1){
         this.CurrentPage1=1;this.getList1(this.CurrentPage1,this.pageSize1,this.pd)
       }
+    },
+    hcCountFun(){
+      let obj={
+        SFZGR:'1',
+        token:this.$store.state.token
+      }
+      let p={};
+      p=Object.assign({},obj,this.pd)
+      this.$api.post(this.Global.aport3 + '/drbjmd/countHc', p,
+        r => {
+          if(r.code=="1000001"){
+              window.location.href ="#/";
+          }
+          this.hcCount = r.data;
+        })
     },
     getList(currentPage, showCount, pd) {
       // this.HCBJDM==true?pd.HCBJ='1':pd.HCBJ='0';

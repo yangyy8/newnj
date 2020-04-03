@@ -343,6 +343,11 @@
       this.$api.post(this.Global.aport2+'/czgltb/getgltb',{pd:this.pd,userCode:this.userCode,userName:this.userName,orgJB:this.juState,orgCode:this.orgCode,token:this.token},
        r =>{
          if(r.success){
+           for(var i=r.data.length-1;i>=0;i--){
+             if(r.data[i]==null){
+               r.data.splice(i,1)
+             }
+           }
            this.tableData=r.data;
          }
        })
@@ -352,8 +357,8 @@
       this.$api.post(this.Global.aport2+'/czgltb/getgltb',{pd:this.pd,userCode:this.userCode,userName:this.userName,orgJB:this.juState,orgCode:this.orgCode,token:this.token},
        r=>{
          if(r.success){
-           for(var i=0;i<r.data.length;i++){
-             if(r.data[i].fjmc=='合计'){
+           for(var i=r.data.length-1;i>=0;i--){
+             if(r.data[i]==null||r.data[i].fjmc=='合计'){
                r.data.splice(i,1)
              }
            }

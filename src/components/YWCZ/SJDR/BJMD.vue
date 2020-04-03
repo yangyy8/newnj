@@ -219,14 +219,14 @@
                     <el-upload
                       class="input-input"
                       ref="upload"
-                      :action='actions+"/drbjmd/readExcel"'
+                      action=''
                       :file-list="fileList"
                       multiple
                       :on-success="upSuccess"
-                      :data="uploadIconData"
                       :before-upload="beforeAvatarUpload"
                       :limit="1"
-                      :auto-upload="false">
+                      :auto-upload="false"
+                      :http-request="uploadFile">
                       <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
                       <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
                       <br/>
@@ -643,14 +643,15 @@
                      <el-upload
                        class="input-input"
                        ref="upload1"
-                       :action='actions+"/jwrylnhc/readExcel"'
+                       :action='actionsT+"/jwrylnhc/readExcel"'
                        :file-list="fileList"
                        multiple
                        :on-success="upSuccess"
                        :data="uploadIconData1"
                        :before-upload="beforeAvatarUpload"
                        :limit="1"
-                       :auto-upload="false">
+                       :auto-upload="false"
+                       :http-request="uploadFile">
                        <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
                        <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
                        <br/>
@@ -994,7 +995,10 @@ export default {
       uploadIconData1:{token:this.$store.state.token,SFZGR:'2'},
       nation: [],
       fileList: [],
-      actions: "",
+      actionsO:"",
+      actionsT:"",
+      fileData0:null,
+      fileData1:null,
       page: 0,
       uploadDialogVisible: false,
       detailsDialogVisible: false,
@@ -1402,22 +1406,22 @@ export default {
       });
     },
     upSuccess(r) {
-      if (r.success) {
-        this.$message({
-          message: r.data,
-          type: 'success'
-        });
-
-      } else {
-        this.$message.error(r.message);
-      }
-      if(this.page==0){
-        this.uploadDialogVisible = false;
-        this.getList(this.CurrentPage, this.pageSize, this.pd);
-      }else if(this.page==1){
-        this.uploadDialogVisible1 = false;
-        this.getList1(this.CurrentPage1, this.pageSize1, this.pd);
-      }
+      // if (r.success) {
+      //   this.$message({
+      //     message: r.data,
+      //     type: 'success'
+      //   });
+      //
+      // } else {
+      //   this.$message.error(r.message);
+      // }
+      // if(this.page==0){
+      //   this.uploadDialogVisible = false;
+      //   this.getList(this.CurrentPage, this.pageSize, this.pd);
+      // }else if(this.page==1){
+      //   this.uploadDialogVisible1 = false;
+      //   this.getList1(this.CurrentPage1, this.pageSize1, this.pd);
+      // }
     },
     beforeAvatarUpload(file) {
       // console.log(file.type)
@@ -1430,19 +1434,28 @@ export default {
       // return isEXL?isEXL:isExls;
     },
     showUpload(t) {
-      this.actions = window.IPConfig.IP+this.Global.aport3;
       if(t == 0){
+        // this.actionsO = "http://10.0.30.88:9439/drbjmd/readExcel";
+        this.actionsO = window.IPConfig.IP+this.Global.aport3+"/drbjmd/readExcel";
         this.uploadDialogVisible = true;
         if (this.$refs.upload) {
           this.$refs.upload.clearFiles();
         }
       }
       if (t == 1) {
+        this.actionsT = window.IPConfig.IP+this.Global.aport3+"/jwrylnhc/readExcel";
         // this.actions = 'http://10.0.30.110:9439'
         this.uploadDialogVisible1 = true;
         if (this.$refs.upload1) {
           this.$refs.upload1.clearFiles();
         }
+      }
+    },
+    uploadFile(file){
+      if(this.page==0){
+        this.fileData0.append('file', file.file);
+      }else{
+        this.fileData1.append('file', file.file);
       }
     },
     submitUpload() {
@@ -1454,7 +1467,24 @@ export default {
           });
           return
         }
+        this.fileData0 = new FormData();
         this.$refs.upload.submit();
+        this.fileData0.append('token',this.$store.state.token);
+        this.fileData0.append('SFZGR','1');
+        this.$api.post(this.actionsO,this.fileData0,
+          r =>{
+            if (r.success) {
+              this.$message({
+                message: r.data,
+                type: 'success',
+                duration:6000
+              });
+            } else {
+              this.$message.error(r.message);
+            }
+            this.uploadDialogVisible = false;
+            this.getList(this.CurrentPage, this.pageSize, this.pd);
+          })
       }else if(this.page==1){
         if (this.$refs.upload1.uploadFiles.length == 0) {
           this.$message({
@@ -1463,7 +1493,24 @@ export default {
           });
           return
         }
+        this.fileData1 = new FormData();
         this.$refs.upload1.submit();
+        this.fileData1.append('token',this.$store.state.token);
+        this.fileData1.append('SFZGR','2');
+        this.$api.post(this.actionsT,this.fileData1,
+          r =>{
+            if (r.success) {
+              this.$message({
+                message: r.data,
+                type: 'success',
+                duration:6000
+              });
+            } else {
+              this.$message.error(r.message);
+            }
+            this.uploadDialogVisible1 = false;
+            this.getList1(this.CurrentPage1, this.pageSize1, this.pd);
+          })
       }
     },
         download(t) {

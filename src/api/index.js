@@ -16,13 +16,13 @@ var root = window.IPConfig.IP
 
 
 // 引用axios
-var httpAxios = require('axios');
+import httpAxios from 'axios'
+// var httpAxios = require('axios');
 import store from '../assets/js/store' //注册store
 import { Message } from 'element-ui';
 import { Loading } from 'element-ui';
 import global_ from '../Global.js';
-const axios = httpAxios.create();//创建实例
-
+const axios = httpAxios.create({timeout:360000});//创建实例
 // let config = {TIMEOUT:120000};
 // axios.defaults.timeout = config.TIMEOUT;
 // 自定义判断元素类型JS
@@ -67,7 +67,7 @@ function apiAxios (method, url, params, success, failure,header,responseType) {
         withCredentials: false,
         headers: header||{'X-Requested-With': 'XMLHttpRequest'},
         responseType: responseType||'json',
-        timeout:120000
+        // timeout:120000
     })
 
     .then(function (res) {
@@ -78,11 +78,22 @@ function apiAxios (method, url, params, success, failure,header,responseType) {
           if (success) {
             success(res.data)
           }
-          if(res.data.code=='1000001'){
-            window.location.href ="#/";
-          }else if((!res.data.success)){
+          if((!res.data.success)){
             Message.error(res.data.message);
           }
+          if(res.data.code=='1000001'){
+            window.location.href ="#/";
+          }else if(res.data.errorExportByte){
+            let prefix =  'data:application/vnd.ms-excel;base64,'
+            let url = prefix+res.data.errorExportByte;
+            let link = document.createElement('a')
+            link.style.display = 'none'
+            link.href = url
+            link.setAttribute('download', "错误信息.xlsx")
+            document.body.appendChild(link)
+            link.click()
+          }
+
           // else if((!res.data.success)&&(res.data.success!=0)){
           //   Message.error(res.data.message);
           // }
@@ -104,6 +115,7 @@ function apiAxios (method, url, params, success, failure,header,responseType) {
         loadingInstance1.close();
       }
         let res = err.response
+        console.log(res)
         if (res.data.message) {
           Message.error(res.data.message);
             // console.log('api error, HTTP CODE: ' + res.status)

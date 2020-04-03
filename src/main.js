@@ -61,6 +61,16 @@ Vue.prototype.objCompare=function(objRow,objPd){
     }
   }
 };
+Vue.prototype.downLoadCom=function(data){
+  let prefix =  'data:application/vnd.ms-excel;base64,'
+  let url = prefix+data;
+  let link = document.createElement('a')
+  link.style.display = 'none'
+  link.href = url
+  link.setAttribute('download', "错误信息.xlsx")
+  document.body.appendChild(link)
+  link.click()
+};
 Vue.prototype.format=function(date,format){
   var args = {
       "M+": date.getMonth() + 1,
