@@ -124,6 +124,14 @@
                    :label="val.label">
                </el-table-column>
                <el-table-column
+                 prop="HKSZD_DESC"
+                 label="户籍地">
+               </el-table-column>
+               <el-table-column
+                 prop="MZ_DESC"
+                 label="民族">
+               </el-table-column>
+               <el-table-column
                  prop="COUNT"
                  label="统计数量">
                </el-table-column>
@@ -207,6 +215,10 @@
              <el-table-column
                prop="HKSZD_DESC"
                label="户籍地">
+             </el-table-column>
+             <el-table-column
+               prop="MZ_DESC"
+               label="民族">
              </el-table-column>
              <el-table-column
                prop="SQLB_DESC"
@@ -331,10 +343,10 @@
         ],
           tableData: [],
           checkItem:[
-            {
-              code:'SK',
-              label:'涉恐'
-            },
+            // {
+            //   code:'SK',
+            //   label:'涉恐'
+            // },
             // {
             //   code:'FDBZCRJRY',
             //   label:'法定不准出境人员'
@@ -351,18 +363,18 @@
           checkedList:[],
           checkItemReal:[],
           tableHead:[
-            {
-              code:'HKSZD_DESC',
-              label:'户籍地'
-            },
+            // {
+            //   code:'HKSZD_DESC',
+            //   label:'户籍地'
+            // },
             {
               code:'XB_DESC',
               label:'性别'
             },
-            {
-              code:'MZ_DESC',
-              label:'民族'
-            },
+            // {
+            //   code:'MZ_DESC',
+            //   label:'民族'
+            // },
             {
               code:'SQLB_DESC',
               label:'办证类别'

@@ -19,7 +19,7 @@
             <el-col  :sm="24" :md="12" :lg="8"  class="input-item">
                 <span class="input-text">状态：</span>
                 <el-select v-model="pd.ZT" filterable clearable default-first-option placeholder="请选择"  size="small" class="input-input">
-                  <el-option label="0 - 无效" value="0"></el-option>
+                  <!-- <el-option label="0 - 无效" value="0"></el-option> -->
                   <el-option label="1 - 有效" value="1"></el-option>
                   <el-option label="2 - 重点关注" value="2"></el-option>
                 </el-select>
@@ -70,7 +70,7 @@
            label="操作" width="70">
            <template slot-scope="scope">
              <el-button type="text"  class="a-btn"  :title="scope.row.ZT=='2'?'取消重点':'设置重点'"  :icon="scope.row.ZT=='2'?'el-icon-star-on':'el-icon-star-off'" @click="ZdFun(scope.row)"></el-button>
-             <el-button type="text"  class="a-btn"  title="详情"  icon="el-icon-delete" @click="deleteFun(scope.row)"></el-button>
+             <el-button type="text"  class="a-btn"  title="删除"  icon="el-icon-delete" @click="deleteFun(scope.row)"></el-button>
            </template>
          </el-table-column>
      </el-table>
@@ -348,20 +348,8 @@ export default {
       }
       this.$api.post(this.Global.aport5+'/esFnvisasController/exportFnvisas',p,
         r =>{
-          this.downloadM(r)
+          this.downloadM(r,'调控关注地区列表信息')
         },e=>{},{},'blob')
-    },
-    downloadM (data) {
-        if (!data) {
-            return
-        }
-        let url = window.URL.createObjectURL(new Blob([data],{type:"application/xls"}))
-        let link = document.createElement('a')
-        link.style.display = 'none'
-        link.href = url
-        link.setAttribute('download', '签证信息统计人员列表'+this.format(new Date(),'yyyyMMddhhmmss')+'.xls')
-        document.body.appendChild(link)
-        link.click()
     },
     hazyQuery(val){
       if(val!=''){
@@ -446,11 +434,29 @@ export default {
       this.$api.post(this.Global.aport11+'/tkgzdqpz/addTkgzdqPzDataList',p,
        r =>{
          if(r.success){
-           this.$message({
-              message: r.data,
-              type: 'success',
-              duration:'6000'
-            });
+           if(r.data.errList.length!=0){
+             this.$confirm('是否导出错误信息?', '提示', {
+                 confirmButtonText: '确定',
+                 cancelButtonText: '取消',
+                 type: 'warning'
+               }).then(() => {
+                 this.$api.post(this.Global.aport11+'/tkgzdqpz/exportErrData',{errList:r.data.errList},
+                 r =>{
+                   this.downloadM(r,'调控关注地区配置错误数据导出');
+                 },e=>{},{},'blob')
+               }).catch(() => {
+                 this.$message({
+                   type: 'info',
+                   message: '已取消导出'
+                 });
+               });
+           }else{
+             this.$message({
+                message: r.data,
+                type: 'success',
+                duration:'6000'
+              });
+           }
             this.areaDialogVisible=false;
             this.getList(this.CurrentPage, this.pageSize, this.pd);
          }
@@ -529,9 +535,11 @@ export default {
       });
     },
     ZdFun(val){
+      console.log(val.ZT);
       let p={
         DTID:val.DTID,
-        token:this.$store.state.token
+        token:this.$store.state.token,
+        ZT:val.ZT=='1'?'2':val.ZT=='2'?'1':'',
       }
       this.$api.post(this.Global.aport11+'/tkgzdqpz/updateTkgzdqPzData',p,
        r =>{

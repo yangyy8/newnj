@@ -21,7 +21,7 @@ const aport5="api-yanpan";//李文龙研判
 // const aport5="http://10.0.30.47:9438";//李文龙
 
 // const aport11="api-zhongguan";
-// const aport11="http://10.0.30.82:9433";
+// const aport11="http://10.33.72.145:9433";
 const aport11="http://192.168.3.217:9433";
 
 // const aport6="api-es-fenxi";
