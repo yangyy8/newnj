@@ -109,6 +109,33 @@ Vue.prototype.chargeObjectEqual = function(obj1,obj2){
     }
     return true;
 }
+Vue.prototype.closeP = function(tab,routeList){
+  if(tab==undefined){
+    Vue.prototype.closeT(tab,0,routeList)
+  }else{
+    if(tab.length==0){
+      Vue.prototype.closeT(tab,0,routeList)
+    }else{
+      Vue.prototype.closeT(tab,tab.length-1,routeList)
+    }
+  }
+}
+Vue.prototype.closeT = function(tab,index,routeList){
+  if(tab!=undefined){
+    tab.splice(index,1);
+  }
+  if(index>0){
+    router.push({name:tab[index-1].name})
+  }
+  if(index==0){
+    if(tab!=undefined&&tab.length!=0){
+      router.push({name:tab[index].name})
+    }else{
+      router.push({name:'Home'})
+      routeList=[];
+    }
+  }
+}
 router.beforeResolve((to, from, next) => {
   // console.log("token",store.state.token)
   let state=store.state.token;

@@ -108,6 +108,74 @@ export default new Router({
           meta:{title:['预警研判','预警信息','预警详情']},
           component: resolve => require(['@/components/YJYP/YJ/LZYJ/YJCLXQ'], resolve),
         },
+
+        {
+          path: 'SWDWXX',
+          name: 'SWDWXX',
+          meta:{title:['日常管理','涉外单位信用评定','涉外单位信息']},
+          component: resolve => require(['@/components/XTGL/SWXYPD/SWDWXX'], resolve),
+        },
+        {
+          path: 'SWRYXX',
+          name: 'SWRYXX',
+          meta:{title:['日常管理','涉外单位信用评定','涉外人员信息']},
+          component: resolve => require(['@/components/XTGL/SWXYPD/SWRYXX'], resolve),
+        },
+        {
+          path: 'SWDWSPXX',
+          name: 'SWDWSPXX',
+          meta:{title:['日常管理','涉外单位信用评定','涉外单位审批信息']},
+          component: resolve => require(['@/components/XTGL/SWXYPD/SWDWSPXX'], resolve),
+        },
+        {
+          path: 'SWRYSPXX',
+          name: 'SWRYSPXX',
+          meta:{title:['日常管理','涉外单位信用评定','涉外人员审批信息']},
+          component: resolve => require(['@/components/XTGL/SWXYPD/SWRYSPXX'], resolve),
+        },
+        {
+          path: 'SWDWPFDJXX',
+          name: 'SWDWPFDJXX',
+          meta:{title:['日常管理','涉外单位信用评定','涉外单位评分登记信息']},
+          component: resolve => require(['@/components/XTGL/SWXYPD/SWDWPFDJXX'], resolve),
+        },
+        {
+          path: 'SWDWPFSHXX',
+          name: 'SWDWPFSHXX',
+          meta:{title:['日常管理','涉外单位信用评定','涉外单位评分审核信息']},
+          component: resolve => require(['@/components/XTGL/SWXYPD/SWDWPFSHXX'], resolve),
+        },
+
+        {
+          path: 'SWDWPFXGXX',
+          name: 'SWDWPFXGXX',
+          meta:{title:['日常管理','涉外单位信用评定','涉外单位评分修改信息']},
+          component: resolve => require(['@/components/XTGL/SWXYPD/SWDWPFXGXX'], resolve),
+        },
+        {
+          path: 'SWDWTJFXXX',
+          name: 'SWDWTJFXXX',
+          meta:{title:['日常管理','涉外单位信用评定','涉外单位统计分析信息']},
+          component: resolve => require(['@/components/XTGL/SWXYPD/SWDWTJFXXX'], resolve),
+        },
+        {
+          path: 'SWDWXYDJTJFXXX',
+          name: 'SWDWXYDJTJFXXX',
+          meta:{title:['日常管理','涉外单位信用评定','涉外单位信誉等级统计分析信息']},
+          component: resolve => require(['@/components/XTGL/SWXYPD/SWDWXYDJTJFXXX'], resolve),
+        },
+        {
+          path: 'SWDWRZCXXX',
+          name: 'SWDWRZCXXX',
+          meta:{title:['日常管理','涉外单位信用评定','涉外单位日志查询信息']},
+          component: resolve => require(['@/components/XTGL/SWXYPD/SWDWRZCXXX'], resolve),
+        },
+        {
+          path: 'SWDWPFRZCXXX',
+          name: 'SWDWPFRZCXXX',
+          meta:{title:['日常管理','涉外单位信用评定','涉外单位评分日志查询信息']},
+          component: resolve => require(['@/components/XTGL/SWXYPD/SWDWPFRZCXXX'], resolve),
+        },
         {
           path: 'ZDGZCZWYJ',
           name: 'ZDGZCZWYJ',

@@ -284,7 +284,7 @@ export default {
             });
         }else{
           this.$message({
-            message: r.data,
+            message: r.data.message,
             type: 'success'
           });
         }

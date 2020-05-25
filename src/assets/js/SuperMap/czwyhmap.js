@@ -17,7 +17,7 @@ export function createMapL() {
     attributionControl: false,
     closePopupOnClick: false //点击地图不关闭popup框
   });
-  L.supermap.wmtsLayer("http://10.33.66.183:2333/iserver/services/map-wmts-GADT/wmts-china", {
+  L.supermap.wmtsLayer("http://50.32.8.73:2333/iserver/services/map-wmts-GADT/wmts-china", {
     layer: "GADT",
     style: "default",
     tilematrixSet: "ChinaPublicServices_GADT",
@@ -28,7 +28,7 @@ export function createMapL() {
 
   // esservice = new SuperMap.ElasticSearch("http://10.33.69.24:9200/");
 
-  //var url = "http://10.33.66.183:8090/iserver/services/map-ugcv5-njcaihuimapsymbol/rest/maps/nj_caihui@mapsymbol";
+  //var url = "http://50.32.8.73:8090/iserver/services/map-ugcv5-njcaihuimapsymbol/rest/maps/nj_caihui@mapsymbol";
   //加载图层
   //L.supermap.tiledMapLayer(url).addTo(map);
 }
@@ -112,7 +112,7 @@ export function renderMarkerbzh(point, data,mc) {
 
 function mapSqlSearch(attributeFilter, from, to, callback) {
   //向服务器发送请求，并对返回的结果进行处理
-      var url = "http://10.33.66.183:2333/iserver/services/data-gt8/rest/data";
+      var url = "http://50.32.8.73:2333/iserver/services/data-gt8/rest/data";
 
   var sqlParam = new SuperMap.GetFeaturesBySQLParameters({
                           queryParameter: {

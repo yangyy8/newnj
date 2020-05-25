@@ -21,37 +21,37 @@ const aport5="api-yanpan";//李文龙研判
 // const aport5="http://10.0.30.47:9438";//李文龙
 
 // const aport11="api-zhongguan";
-// const aport11="http://10.33.72.145:9433";
-const aport11="http://192.168.3.217:9433";
+const aport11="http://10.33.72.145:9433";
+// const aport11="http://192.168.3.217:9433";
 
 // const aport6="api-es-fenxi";
-// const aport6="http://10.33.72.217:9447";//孙
-const aport6="http://192.168.3.217:9447";
+const aport6="http://10.33.72.217:9447";//孙
+// const aport6="http://192.168.3.217:9447";
 
 // const aport9="api-hbase";
-// const aport9="http://10.33.72.144:9444";
-const aport9="http://192.168.3.217:9444";
+const aport9="http://10.33.72.144:9444";
+// const aport9="http://192.168.3.217:9444";
 
 // const aport7="api-rule";
-// const aport7="http://10.33.72.218:9436";//游
-const aport7="http://192.168.3.217:9436";
+const aport7="http://10.33.72.218:9436";//游
+// const aport7="http://192.168.3.217:9436";
 
 // const aport8="api-zhongguan";
-// const aport8="http://10.33.72.144:9438";//中管
-const aport8="http://192.168.3.217:9438";
+const aport8="http://10.33.72.144:9438";//中管
+// const aport8="http://192.168.3.217:9438";
 
 // const aport10="api-zhongguan";
-// const aport10="http://10.33.72.145:9433";//中管大屏
-const aport10="http://192.168.3.217:9433";//中管
+const aport10="http://10.33.72.145:9433";//中管大屏
+// const aport10="http://192.168.3.217:9433";//中管
 
 // const aport12="api-distribution";
-// const aport12="http://10.33.72.217:9432";//流程监控
-const aport12="http://192.168.3.217:9432";//流程监控
+const aport12="http://10.33.72.217:9432";//流程监控
+// const aport12="http://192.168.3.217:9432";//流程监控
 
 const serviceState=1 //代码已统一
 
 
-const xyaddress="http://10.33.66.183:8081/map/poi";//坐标地址
+const xyaddress="http://50.32.8.73:8081/map/poi";//坐标地址
 const dmall="/data_report/selectDmList"; //加载全部代码
 const ssdw="/org/getSelfAndChilds";//所属单位
 const gjdq="/service/getRedisDataByDm?tablename=DM_GJDQ";//国家地区

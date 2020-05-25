@@ -188,7 +188,7 @@
      <el-col :span="14" class="input-item">
        <label class="file">
          上传文件
-         <input type="file" name=""  @change="uploadFile">
+         <input type="file" name=""  @change="uploadFile" ref="inp">
        </label>
        <div class="t-input input-input">
          <div class="t-input-content" v-for="(x,ind) in fileData" :key="ind">
@@ -791,7 +791,6 @@ export default {
       // if (!isEXL && !isExls) {
       //   this.$message.error('上传文件只能是 xlsx或者xls 格式!'); return false;
       // }
-
        this.fileData=event.target.files;
      },
      upload(){//上传文件
@@ -818,6 +817,10 @@ export default {
               type: 'info',
               message: '导入成功'
             });
+            
+            // if(this.$refs.inp.value){
+            //   this.$refs.inp.value='';
+            // }
           }else{
             this.$confirm('上传文件存在错误信息, 是否导出错误信息?', '提示', {
               confirmButtonText: '确定',
@@ -841,6 +844,9 @@ export default {
      },
     showUpload() {
       this.uploadDialogVisible = true;
+      if(this.$refs.inp.value){
+          this.$refs.inp.value='';
+      }
     },
     downcontent() {
       var url= window.IPConfig.IP +"/"+ this.Global.aport3 + '/webapp/templateFile/背景审查核查模板.xls';

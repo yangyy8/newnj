@@ -21,7 +21,7 @@ export function createMapL() {
     attributionControl: false,
     closePopupOnClick: false //点击地图不关闭popup框
   });
-  L.supermap.wmtsLayer("http://10.33.66.183:2333/iserver/services/map-wmts-GADT/wmts-china", {
+  L.supermap.wmtsLayer("http://50.32.8.73:2333/iserver/services/map-wmts-GADT/wmts-china", {
     layer: "GADT",
     style: "default",
     tilematrixSet: "ChinaPublicServices_GADT",
@@ -32,7 +32,7 @@ export function createMapL() {
   markerLayer1 = L.featureGroup().addTo(map);
   //esservice = new SuperMap.ElasticSearch("http://10.33.69.24:9200/");
 
-  //var url = "http://10.33.66.183:8090/iserver/services/map-ugcv5-njcaihuimapsymbol/rest/maps/nj_caihui@mapsymbol";
+  //var url = "http://50.32.8.73:8090/iserver/services/map-ugcv5-njcaihuimapsymbol/rest/maps/nj_caihui@mapsymbol";
   //加载图层
   //L.supermap.tiledMapLayer(url).addTo(map);
 }
@@ -182,7 +182,7 @@ ii=i+1;
   // markerLayer.addLayer(tm);
   var distanceMeasureParam = new SuperMap.MeasureParameters(polyLine);
   L.supermap
-    .measureService("http://10.33.66.183:2334/iserver/services/map-world/rest/maps/World")
+    .measureService("http://50.32.8.73:2334/iserver/services/map-world/rest/maps/World")
     .measureDistance(distanceMeasureParam, function(serviceResult) {
       var gl = parseInt(serviceResult.result.distance / 1000);
       if (gl > window.ffvm.jlsz) {
@@ -262,7 +262,7 @@ export function mapSqlSearch(tableName, attributeFilter, dm, from, to, callback)
     toIndex: 10
   });
 
-  L.supermap.featureService("http://10.33.66.183:2333/iserver/services/data-gt8/rest/data").getFeaturesBySQL(sqlParam, function(serviceResult) {
+  L.supermap.featureService("http://50.32.8.73:2333/iserver/services/data-gt8/rest/data").getFeaturesBySQL(sqlParam, function(serviceResult) {
     var features = serviceResult.result.features.features;
     callback && callback(features, dm);
   });

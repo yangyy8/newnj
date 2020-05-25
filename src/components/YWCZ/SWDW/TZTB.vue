@@ -178,7 +178,7 @@
             <span class="input-text" style="width: 14.9%!important;">附件：</span>
             <label class="file">
               上传附件
-              <input type="file" name=""  @change="reviewUpload" multiple>
+              <input type="file" name=""  @change="reviewUpload" multiple ref="inp">
             </label>
             <div class="fileColl" v-if="reviewFile">
               <div class="" v-for="(x,ind) in reviewFile" :key="ind">
@@ -491,6 +491,9 @@ export default {
                 message: '恭喜你，操作成功',
                 type: 'success'
               });
+            }
+            if(this.$refs.inp.value){
+              this.$refs.inp.value='';
             }
             this.addDialogVisible = false;
             this.getList(this.CurrentPage, this.pageSize, this.pd);

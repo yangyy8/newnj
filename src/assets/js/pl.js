@@ -248,5 +248,5 @@ const pstt=[{
 ];
 export default
 {
-	menu,tableData,ps
+	menu,tableData,ps,pstt
 }

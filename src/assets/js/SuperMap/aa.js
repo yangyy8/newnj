@@ -20,7 +20,7 @@ export function createMapL() {
     attributionControl: false,
     closePopupOnClick: false //点击地图不关闭popup框
   });
-  L.supermap.wmtsLayer("http://10.33.66.183:2333/iserver/services/map-wmts-GADT/wmts-china", {
+  L.supermap.wmtsLayer("http://50.32.8.73:2333/iserver/services/map-wmts-GADT/wmts-china", {
     layer: "GADT",
     style: "default",
     tilematrixSet: "ChinaPublicServices_GADT",
@@ -80,7 +80,7 @@ export function doSearch(className) {
       toIndex: 300000
     });
     console.log(geometryParam);
-    L.supermap.featureService("http://10.33.66.183:2333/iserver/services/data-gt8/rest/data").getFeaturesByGeometry(geometryParam, function(serviceResult) {
+    L.supermap.featureService("http://50.32.8.73:2333/iserver/services/data-gt8/rest/data").getFeaturesByGeometry(geometryParam, function(serviceResult) {
       console.log(serviceResult)
       // var aaa = L.geoJSON(serviceResult.result.features,{
       //   onEachFeature:function(feature,layer){

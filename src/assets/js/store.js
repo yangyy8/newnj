@@ -95,6 +95,7 @@ var store = new Vuex.Store({
     mz:[],
     lnzt:[],
     queryType:'',
+    tokenT:localStorage.getItem('tokenT') || '',
   },
   mutations: {
     getOne(state,data){
@@ -366,6 +367,10 @@ var store = new Vuex.Store({
     },
     getLnzt(state,data){
       state.lnzt=data;
+    },
+    getTokenT(state,data){
+      state.tokenT=data;
+      localStorage.setItem('tokenT',data)
     }
   },
   actions: {
@@ -750,7 +755,15 @@ var store = new Vuex.Store({
        r =>{
          context.commit('getLnzt',ToArray(r.data))
        })
-    }
+    },
+    getTokenT(context){
+      api.post(global_.aport3+'/swdw/getSwdwXtUserToken',{token:store.state.token},
+       r =>{
+         if(r.success){
+           context.commit('getTokenT',r.data)
+         }
+       })
+    },
   }
 });
 export default store;
