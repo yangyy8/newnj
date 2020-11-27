@@ -120,247 +120,275 @@
       </div>
     </template>
     <script>
-    import {
-      ToArray,sortByKey
-    } from '@/assets/js/ToArray.js'
-    import ANSJ from '../../../common/ansj_xq'
-    export default {
-        components:{ANSJ},
-      data() {
-        return {
-          //查询条件
-          pd: {},
-          queryPd:{},
+import { ToArray, sortByKey } from "@/assets/js/ToArray.js";
+import ANSJ from "../../../common/ansj_xq";
+export default {
+  components: { ANSJ },
+  data() {
+    return {
+      //查询条件
+      pd: {},
+      queryPd: {},
 
-          CurrentPage: 1,
-          pageSize: 10,
-          TotalResult: 0,
-          type:1,
-          xid:'',
-          asjDialogVisible:false,
-          options:[{
-            value: 10,
-            label: "10"
-          },
-          {
-            value: 20,
-            label: "20"
-          },
-          {
-            value: 30,
-            label: "30"
-
-          }
-        ],
-
-          tableData: [],
-          checkItemReal:[],
-          configHeader:[],
-
-          falg:false,
-          totalAllResult:0,
-
-          multipleSelection:[],
-          selectionAll:[],
-          yuid:[],
-          selectionReal:[],
-
-          userCode:'',
-          userName:'',
-          orgCode:'',
-          orgName:'',
-          token:'',
-          juState:'',
+      CurrentPage: 1,
+      pageSize: 10,
+      TotalResult: 0,
+      type: 1,
+      xid: "",
+      asjDialogVisible: false,
+      options: [
+        {
+          value: 10,
+          label: "10"
+        },
+        {
+          value: 20,
+          label: "20"
+        },
+        {
+          value: 30,
+          label: "30"
         }
-      },
-      mounted() {
-        this.userCode=this.$store.state.uid;
-        this.userName=this.$store.state.uname;
-        this.orgName=this.$store.state.orgname;
-        this.orgCode=this.$store.state.orgid;
-        this.juState=this.$store.state.juState;
-        this.token=this.$store.state.token;
-        this.$store.dispatch("getAjlb");
-        this.getGJDQ();
-        this.getSLDW();
-      },
-      activated(){
-        this.row = this.$route.query.row;
-        this.queryPd=this.$route.query.queryPd;
-        this.getList(this.CurrentPage,this.pageSize, this.pd);
-      },
-      methods: {
-        titleShow(e,el){
-          el.target.title = e.label;
-        },
-        selectfn(a,b){
-          this.multipleSelection = a;
-          this.dataSelection()
-        },
-        dataSelection(){
-          // console.log('this.multipleSelection',this.multipleSelection)
-          this.selectionReal.splice(this.CurrentPage-1,1,this.multipleSelection);
-          // console.log('this.selectionReal',this.selectionReal);
-          this.selectionAll=[];
-          for(var i=0;i<this.selectionReal.length;i++){
-            if(this.selectionReal[i]){
-              for(var j=0;j<this.selectionReal[i].length;j++){
-                this.selectionAll.push(this.selectionReal[i][j])
-              }
-            }
+      ],
+
+      tableData: [],
+      checkItemReal: [],
+      configHeader: [],
+
+      falg: false,
+      totalAllResult: 0,
+
+      multipleSelection: [],
+      selectionAll: [],
+      yuid: [],
+      selectionReal: [],
+
+      userCode: "",
+      userName: "",
+      orgCode: "",
+      orgName: "",
+      token: "",
+      juState: ""
+    };
+  },
+  mounted() {
+    this.userCode = this.$store.state.uid;
+    this.userName = this.$store.state.uname;
+    this.orgName = this.$store.state.orgname;
+    this.orgCode = this.$store.state.orgid;
+    this.juState = this.$store.state.juState;
+    this.token = this.$store.state.token;
+    this.$store.dispatch("getAjlb");
+    this.getGJDQ();
+    this.getSLDW();
+  },
+  activated() {
+    this.row = this.$route.query.row;
+    this.queryPd = this.$route.query.queryPd;
+    this.getList(this.CurrentPage, this.pageSize, this.pd);
+  },
+  methods: {
+    titleShow(e, el) {
+      el.target.title = e.label;
+    },
+    selectfn(a, b) {
+      this.multipleSelection = a;
+      this.dataSelection();
+    },
+    dataSelection() {
+      // console.log('this.multipleSelection',this.multipleSelection)
+      this.selectionReal.splice(
+        this.CurrentPage - 1,
+        1,
+        this.multipleSelection
+      );
+      // console.log('this.selectionReal',this.selectionReal);
+      this.selectionAll = [];
+      for (var i = 0; i < this.selectionReal.length; i++) {
+        if (this.selectionReal[i]) {
+          for (var j = 0; j < this.selectionReal[i].length; j++) {
+            this.selectionAll.push(this.selectionReal[i][j]);
           }
-          // console.log('this.selectionAll',this.selectionAll);
-        },
-        download(){
-          if(this.tableData.length==0){
-             this.$message.error('无可导出数据！');
-             return
-          }
-          let p={};
-          this.objCompare(this.row,this.queryPd)
-          this.pd = Object.assign({},this.row,this.queryPd,this.pd);
-          let url="/ajController/exportFnvisas";
-          if(this.checkedList.length==0){//人员导出
-            if(this.selectionAll.length==0){//人员全部导出
-              p={
-                "pd":this.pd,
-                userCode:this.userCode,
-                userName:this.userName,
-                orgJB:this.juState,
-                orgCode:this.orgCode,
-                token:this.token,
-              }
-            }else{//人员部分导出
-              this.yuid=[];
-              for(var i in this.selectionAll){
-                this.yuid.push(this.selectionAll[i].DTID)
-              }
-              this.pd.DTID=this.yuid;
-              p={
-                "pd":this.pd,
-                userCode:this.userCode,
-                userName:this.userName,
-                orgJB:this.juState,
-                orgCode:this.orgCode,
-                token:this.token,
-              }
-            }
-          }
-          this.$api.post(this.Global.aport5+url,p,
-            r =>{
-              this.downloadM(r)
-            },e=>{},{},'blob')
-        },
-        downloadM (data) {
-            if (!data) {
-                return
-            }
-            let url = window.URL.createObjectURL(new Blob([data],{type:"application/xls"}))
-            let link = document.createElement('a')
-            link.style.display = 'none'
-            link.href = url
-            link.setAttribute('download', '案件综合分析列表'+this.format(new Date(),'yyyyMMddhhmmss')+'.xls')
-            document.body.appendChild(link)
-            link.click()
-        },
-        handleSelectionChange(val) {
-          this.multipleSelection = val;
-        },
-        pageSizeChange(val) {
-          this.pageSize=val;
-          this.getList(this.CurrentPage, val, this.pd);
-        },
-        handleCurrentChange(val) {
-          this.CurrentPage=val;
-          this.getList(val, this.pageSize, this.pd);
-        },
-        getList(currentPage, showCount, pd) {
-          this.objCompare(this.row,this.queryPd)
-          pd = Object.assign({},this.row,this.queryPd,pd);
-          if(pd.hasOwnProperty('DTID')){
-            delete pd['DTID']
-          }
-          let p = {
-            "currentPage": currentPage,
-            "showCount": showCount,
-            "pd": pd,
-            "orderBy":'',
-            "orderType":'DESC',
-            "groupList":this.checkedList,
-            userCode:this.userCode,
-            userName:this.userName,
-            orgJB:this.juState,
-            orgCode:this.orgCode,
-            token:this.token,
-          };
-          var url = this.Global.aport5 + "/ajController/getResultListByParams";
-          this.$api.post(url, p,
-            r => {
-              if (r.success) {
-                 this.tableData = r.data.resultList;
-                 this.TotalResult = r.data.totalResult;
-                 if(this.selectionReal.length==0){//声明一个数组对象
-                   this.selectionReal=new Array(Math.ceil(this.TotalResult/showCount))
-                 }
-                 this.$nextTick(()=>{
-                   this.multipleSelection=[]
-                   for(var i=0;i<this.tableData.length;i++){
-                     for(var j=0;j<this.selectionAll.length;j++){
-                       if(this.tableData[i].DTID==this.selectionAll[j].DTID){
-                         this.$refs.multipleTable.toggleRowSelection(this.tableData[i],true);
-                       }
-                     }
-                   }
-                 })
-              }
-            });
-        },
-        details(n) {
-          this.xid=n.RGUID+","+n.DTID;
-          this.type=1;
-          this.asjDialogVisible=true;
-        },
+        }
       }
+      // console.log('this.selectionAll',this.selectionAll);
+    },
+    download() {
+      if (this.tableData.length == 0) {
+        this.$message.error("无可导出数据！");
+        return;
+      }
+      let p = {};
+      this.objCompare(this.row, this.queryPd);
+      this.pd = Object.assign({}, this.row, this.queryPd, this.pd);
+      let url = "/ajController/exportFnvisas";
+      if (this.checkedList.length == 0) {
+        //人员导出
+        if (this.selectionAll.length == 0) {
+          //人员全部导出
+          p = {
+            pd: this.pd,
+            userCode: this.userCode,
+            userName: this.userName,
+            orgJB: this.juState,
+            orgCode: this.orgCode,
+            token: this.token
+          };
+        } else {
+          //人员部分导出
+          this.yuid = [];
+          for (var i in this.selectionAll) {
+            this.yuid.push(this.selectionAll[i].DTID);
+          }
+          this.pd.DTID = this.yuid;
+          p = {
+            pd: this.pd,
+            userCode: this.userCode,
+            userName: this.userName,
+            orgJB: this.juState,
+            orgCode: this.orgCode,
+            token: this.token
+          };
+        }
+      }
+      this.$api.post(
+        this.Global.aport5 + url,
+        p,
+        r => {
+          this.downloadM(r);
+        },
+        e => {},
+        {},
+        "blob"
+      );
+    },
+    downloadM(data) {
+      if (!data) {
+        return;
+      }
+      let url = window.URL.createObjectURL(
+        new Blob([data], { type: "application/xls" })
+      );
+      let link = document.createElement("a");
+      link.style.display = "none";
+      link.href = url;
+      link.setAttribute(
+        "download",
+        "案件综合分析列表" + this.format(new Date(), "yyyyMMddhhmmss") + ".xls"
+      );
+      document.body.appendChild(link);
+      link.click();
+    },
+    handleSelectionChange(val) {
+      this.multipleSelection = val;
+    },
+    pageSizeChange(val) {
+      this.pageSize = val;
+      this.getList(this.CurrentPage, val, this.pd);
+    },
+    handleCurrentChange(val) {
+      this.CurrentPage = val;
+      this.getList(val, this.pageSize, this.pd);
+    },
+    getList(currentPage, showCount, pd) {
+      this.objCompare(this.row, this.queryPd);
+      pd = Object.assign({}, this.row, this.queryPd, pd);
+      if (pd.hasOwnProperty("DTID")) {
+        delete pd["DTID"];
+      }
+      let p = {
+        currentPage: currentPage,
+        showCount: showCount,
+        pd: pd,
+        orderBy: "",
+        orderType: "DESC",
+        groupList: this.checkedList,
+        userCode: this.userCode,
+        userName: this.userName,
+        orgJB: this.juState,
+        orgCode: this.orgCode,
+        token: this.token
+      };
+      var url = this.Global.aport5 + "/ajController/getResultListByParams";
+      this.$api.post(url, p, r => {
+        if (r.success) {
+          this.tableData = r.data.resultList;
+          this.TotalResult = r.data.totalResult;
+          if (this.selectionReal.length == 0) {
+            //声明一个数组对象
+            this.selectionReal = new Array(
+              Math.ceil(this.TotalResult / showCount)
+            );
+          }
+          this.$nextTick(() => {
+            this.multipleSelection = [];
+            for (var i = 0; i < this.tableData.length; i++) {
+              for (var j = 0; j < this.selectionAll.length; j++) {
+                if (this.tableData[i].DTID == this.selectionAll[j].DTID) {
+                  this.$refs.multipleTable.toggleRowSelection(
+                    this.tableData[i],
+                    true
+                  );
+                }
+              }
+            }
+          });
+        }
+      });
+    },
+    details(n) {
+      this.xid = n.RGUID + "," + n.DTID;
+      this.type = 1;
+      this.asjDialogVisible = true;
     }
-    </script>
+  }
+};
+</script>
 
     <style scoped>
-    .el-carousel__item h3 {
-      color: #475669;
-      font-size: 14px;
-      opacity: 0.75;
-      line-height: 150px;
-      margin: 0;
-    }
+.el-carousel__item h3 {
+  color: #475669;
+  font-size: 14px;
+  opacity: 0.75;
+  line-height: 150px;
+  margin: 0;
+}
 
-    .el-carousel__item img {
-      width: 100%;
-      height: 100%;
-      cursor: pointer;
-    }
+.el-carousel__item img {
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
 
-    .el-carousel__item:nth-child(2n) {
-      /* background: url(../../../assets/img/t1.png); */
-      background-size: 100% 100%;
-    }
+.el-carousel__item:nth-child(2n) {
+  /* background: url(../../../assets/img/t1.png); */
+  background-size: 100% 100%;
+}
 
-    .el-carousel__item:nth-child(2n+1) {
-      background-color: #d3dce6;
-    }
+.el-carousel__item:nth-child(2n + 1) {
+  background-color: #d3dce6;
+}
 
-    .crcolor {
-      background: #EFF3F6;
-    }
-    .yy-input-text {
-      text-align: left !important;
-    }
-    </style>
+.crcolor {
+  background: #eff3f6;
+}
+.yy-input-text {
+  text-align: left !important;
+}
+</style>
     <style>
-      .el-button+.el-button{margin-left: 0!important;}
-      .t-tjCheck .el-checkbox{margin-left: 20px!important; line-height: 30px;}
-      .t-tjCheck .el-checkbox+.el-checkbox{margin-left: 20px!important;}
-      .bj .el-dialog__wrapper {
-        background: #000;
-        background: rgba(0, 0, 0, 0.3);
-      }
-    </style>
+.el-button + .el-button {
+  margin-left: 0 !important;
+}
+.t-tjCheck .el-checkbox {
+  margin-left: 20px !important;
+  line-height: 30px;
+}
+.t-tjCheck .el-checkbox + .el-checkbox {
+  margin-left: 20px !important;
+}
+.bj .el-dialog__wrapper {
+  background: #000;
+  background: rgba(0, 0, 0, 0.3);
+}
+</style>

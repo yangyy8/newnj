@@ -852,11 +852,16 @@ export default new Router({
           component: resolve => require(['@/components/YWCZ/LZXX/CRJJLHC'], resolve),
         },
         {
-
           path: 'LZSJHE',
           name: 'LZSJHE',
           meta:{title:['日常管理','临住信息','临住数据核查'],father:'CRJJLHC'},
           component: resolve => require(['@/components/YWCZ/LZXX/LZSJHE'], resolve),
+        },
+        {
+          path: 'WLZ',
+          name: 'WLZ',
+          meta:{title:['日常管理','临住信息','微临住']},
+          component: resolve => require(['@/components/YWCZ/LZXX/WLZ'], resolve),
         },
         {
           path: 'LZCQBJ',

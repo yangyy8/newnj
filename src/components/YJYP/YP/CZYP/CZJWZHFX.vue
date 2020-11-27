@@ -474,8 +474,14 @@
                width="70"
                fixed="right">
                <template slot-scope="scope">
-               <el-button type="text"  class="a-btn"  title="详情"  icon="el-icon-document" @click="details(scope.row)"></el-button>
-               </template>
+  <el-button
+    type="text"
+    class="a-btn"
+    title="详情"
+    icon="el-icon-document"
+    @click="details(scope.row)"
+  ></el-button>
+</template>
              </el-table-column>
          </el-table>
          <div class="middle-foot">
@@ -524,558 +530,615 @@
 
     </template>
     <script>
-    import {
-      ToArray,sortByKey
-    } from '@/assets/js/ToArray.js'
-    import CZXX from '../../../common/czxx_xq'
-    import AREAMS from '../../../common/areaMs'
-    export default {
-      components:{CZXX,AREAMS},
-      data() {
-        return {
-          areaPd:{},
-          tenArr:[],
-          tirArr:[],
-          rybh:'',
-          radio1:'0',
-          radio2:'0',
-          typet:'1',
-          CurrentPage: 1,
-          pageSize: 10,
-          TotalResult: 0,
-          pd: {
-            CSRQ_DateRange:{begin:'',end:'',dataType:'date'},
-            FJJSSJ_DateRange:{begin:'',end:'',dataType:'date'},
-            SJXFSJ_DateRange:{begin:'',end:'',dataType:'date'},
-            SQJSSJ_DateRange:{begin:'',end:'',dataType:'date'},
-            TLYXQ_DateRange:{begin:'',end:'',dataType:'date'},
-            HISTORY_DateRange:{begin:'',end:'',dataType:'date'},
-            JZZT:["1"],
-            isYXRY:true,
-            YWX:'',
-            YWM:''
-          },
-          // pdGjItem:{
-          //   GJDQITEM:'',
-          //   SHIGUO:'',
-          //   SANSHIYI:'',
-          // },
-          pm:{},
-          imagess:[],
-          imgshow1:false,
-          imgshow2:true,
-          shm:false,
-          lg:false,
-          type:3,
-          xid:'',
-          random:'',
-          czDialogVisible:false,
-          options:[{
-            value: 10,
-            label: "10"
-          },
-          {
-            value: 20,
-            label: "20"
-          },
-          {
-            value: 30,
-            label: "30"
+import { ToArray, sortByKey } from "@/assets/js/ToArray.js";
+import CZXX from "../../../common/czxx_xq";
+import AREAMS from "../../../common/areaMs";
+export default {
+  components: { CZXX, AREAMS },
+  data() {
+    return {
+      areaPd: {},
+      tenArr: [],
+      tirArr: [],
+      rybh: "",
+      radio1: "0",
+      radio2: "0",
+      typet: "1",
+      CurrentPage: 1,
+      pageSize: 10,
+      TotalResult: 0,
+      pd: {
+        CSRQ_DateRange: { begin: "", end: "", dataType: "date" },
+        FJJSSJ_DateRange: { begin: "", end: "", dataType: "date" },
+        SJXFSJ_DateRange: { begin: "", end: "", dataType: "date" },
+        SQJSSJ_DateRange: { begin: "", end: "", dataType: "date" },
+        TLYXQ_DateRange: { begin: "", end: "", dataType: "date" },
+        HISTORY_DateRange: { begin: "", end: "", dataType: "date" },
+        JZZT: ["1"],
+        isYXRY: true,
+        YWX: "",
+        YWM: ""
+      },
+      // pdGjItem:{
+      //   GJDQITEM:'',
+      //   SHIGUO:'',
+      //   SANSHIYI:'',
+      // },
+      pm: {},
+      imagess: [],
+      imgshow1: false,
+      imgshow2: true,
+      shm: false,
+      lg: false,
+      type: 3,
+      xid: "",
+      random: "",
+      czDialogVisible: false,
+      options: [
+        {
+          value: 10,
+          label: "10"
+        },
+        {
+          value: 20,
+          label: "20"
+        },
+        {
+          value: 30,
+          label: "30"
+        }
+      ],
+      tableData: [],
+      checkItem: [
+        {
+          code: "GJDQ",
+          label: "国家地区"
+        },
+        {
+          code: "JZZT",
+          label: "居住类型状态"
+        },
+        {
+          code: "JZD_ZRQ",
+          label: "居住地责任区"
+        },
+        {
+          code: "JZD_PCS",
+          label: "居住地所属派出所"
+        },
+        {
+          code: "SFDM",
+          label: "身份"
+        },
+        {
+          code: "QZZL",
+          label: "签证种类"
+        },
+        {
+          code: "FWCS",
+          label: "服务处所"
+        },
+        {
+          code: "ZJZL",
+          label: "证件种类"
+        },
+        {
+          code: "XB",
+          label: "性别"
+        },
+        {
+          code: "SHIGUO",
+          label: "十国人员"
+        },
+        {
+          code: "SANSHIYIGUO",
+          label: "三十一国人员"
+        },
+        {
+          code: "SSFJ",
+          label: "所属分局"
+        },
+        {
+          code: "CRJBS",
+          label: "出入境状态"
+        }
+      ],
+      checkedList: [],
+      checkItemReal: [],
+      tableHead: [
+        {
+          code: "GJDQ_DESC",
+          label: "国家地区"
+        },
+        {
+          code: "JZZT_DESC",
+          label: "居住类型状态"
+        },
+        {
+          code: "JZD_ZRQ_DESC",
+          label: "居住地责任区"
+        },
+        {
+          code: "JZD_PCS_DESC",
+          label: "居住地所属派出所"
+        },
+        {
+          code: "SFDM_DESC",
+          label: "身份"
+        },
+        {
+          code: "QZZL_DESC",
+          label: "签证种类"
+        },
+        {
+          code: "FWCS",
+          label: "服务处所"
+        },
+        {
+          code: "ZJZL_DESC",
+          label: "证件种类"
+        },
+        {
+          code: "XB_DESC",
+          label: "性别"
+        },
+        {
+          code: "SSFJ_DESC",
+          label: "所属分局"
+        },
+        {
+          code: "CRJBS_DESC",
+          label: "出入境状态"
+        }
+      ],
+      configHeader: [],
+      pd0: {},
+      form: {},
+      falg: false,
+      disa: false,
+      allData: {},
+      totalAllResult: 0,
 
+      multipleSelection: [],
+      selectionAll: [],
+      yuid: [],
+      selectionReal: [],
+      ssfj: [],
+      sspcs: [],
+
+      userCode: "",
+      userName: "",
+      orgCode: "",
+      orgName: "",
+      token: "",
+      juState: ""
+    };
+  },
+  mounted() {
+    this.$store.dispatch("getGjdq");
+    this.$store.dispatch("getXB");
+    this.$store.dispatch("getSsdw");
+    this.$store.dispatch("getZjzl");
+    this.$store.dispatch("getRjqzzl");
+    this.$store.dispatch("getRjsy");
+    this.$store.dispatch("getZsxz");
+    this.$store.dispatch("getRzfs");
+    this.$store.dispatch("getJzztlx");
+    this.$store.dispatch("getSf");
+    this.$store.dispatch("getZflx");
+    this.$store.dispatch("getCrjbs");
+    this.userCode = this.$store.state.uid;
+    this.userName = this.$store.state.uname;
+    this.orgName = this.$store.state.orgname;
+    this.orgCode = this.$store.state.orgid;
+    this.juState = this.$store.state.juState;
+    this.token = this.$store.state.token;
+    if (this.juState == "2") {
+      //分局登录
+      this.pd.SSFJ = this.orgCode;
+      this.getSSPCS(this.pd.SSFJ);
+    }
+    if (this.juState == "3") {
+      //派出所登录
+      this.pd.SSFJ = this.$store.state.pcsToju;
+      this.getSSPCS(this.pd.SSFJ);
+      this.pd.SSPCS = this.orgCode;
+    }
+    this.getSsfj();
+  },
+  watch: {
+    falg: function(newVal, oldVal) {
+      this.multipleSelection = [];
+      this.selectionAll = [];
+      this.selectionReal = [];
+    },
+    checkedList: {
+      handler(newVal, oldVal) {
+        if (!(newVal.toString() == oldVal.toString())) {
+          this.multipleSelection = [];
+          this.selectionAll = [];
+          this.selectionReal = [];
+        }
+      }
+    }
+  },
+  methods: {
+    titleShow(e, el) {
+      el.target.title = e.label;
+    },
+    getSsfj() {
+      let p = {
+        operatorId: this.$store.state.uid,
+        operatorNm: this.$store.state.uname
+      };
+      var url = this.Global.aport2 + "/data_report/selectSsfjDm";
+      this.$api.post(url, p, r => {
+        this.ssfj = sortByKey(r.data.SSFJ, "dm");
+      });
+    },
+
+    getSSPCS(arr) {
+      this.$set(this.pd, "SSPCS", "");
+      var srr = [];
+      srr.push(arr);
+      let p = {
+        fjdmList: srr
+      };
+      this.$api.post(this.Global.aport2 + "/data_report/selectPcsDm", p, r => {
+        if (r.success) {
+          this.sspcs = r.data.PCS;
+        }
+      });
+    },
+    handleSelectionChange(val) {},
+    selectfn(a, b) {
+      this.multipleSelection = a;
+      this.dataSelection();
+    },
+    dataSelection() {
+      // console.log('this.multipleSelection',this.multipleSelection)
+      this.selectionReal.splice(
+        this.CurrentPage - 1,
+        1,
+        this.multipleSelection
+      );
+      // console.log('this.selectionReal',this.selectionReal);
+      this.selectionAll = [];
+      for (var i = 0; i < this.selectionReal.length; i++) {
+        if (this.selectionReal[i]) {
+          for (var j = 0; j < this.selectionReal[i].length; j++) {
+            this.selectionAll.push(this.selectionReal[i][j]);
           }
-        ],
-          tableData: [],
-          checkItem:[
-            {
-              code:'GJDQ',
-              label:'国家地区'
-            },
-            {
-              code:'JZZT',
-              label:'居住类型状态'
-            },
-            {
-              code:'JZD_ZRQ',
-              label:'居住地责任区'
-            },
-            {
-              code:'JZD_PCS',
-              label:'居住地所属派出所'
-            },
-            {
-              code:'SFDM',
-              label:'身份'
-            },
-            {
-              code:'QZZL',
-              label:'签证种类'
-            },
-            {
-              code:'FWCS',
-              label:'服务处所'
-            },
-            {
-              code:'ZJZL',
-              label:'证件种类'
-            },
-            {
-              code:'XB',
-              label:'性别'
-            },
-            {
-              code:'SHIGUO',
-              label:'十国人员'
-            },
-            {
-              code:'SANSHIYIGUO',
-              label:'三十一国人员'
-            },
-            {
-              code:'SSFJ',
-              label:'所属分局'
-            },
-            {
-              code:'CRJBS',
-              label:'出入境状态'
-            },
-          ],
-          checkedList:[],
-          checkItemReal:[],
-          tableHead:[
-            {
-              code:'GJDQ_DESC',
-              label:'国家地区'
-            },
-            {
-              code:'JZZT_DESC',
-              label:'居住类型状态'
-            },
-            {
-              code:'JZD_ZRQ_DESC',
-              label:'居住地责任区'
-            },
-            {
-              code:'JZD_PCS_DESC',
-              label:'居住地所属派出所'
-            },
-            {
-              code:'SFDM_DESC',
-              label:'身份'
-            },
-            {
-              code:'QZZL_DESC',
-              label:'签证种类'
-            },
-            {
-              code:'FWCS',
-              label:'服务处所'
-            },
-            {
-              code:'ZJZL_DESC',
-              label:'证件种类'
-            },
-            {
-              code:'XB_DESC',
-              label:'性别'
-            },
-            {
-              code:'SSFJ_DESC',
-              label:'所属分局'
-            },
-            {
-              code:'CRJBS_DESC',
-              label:'出入境状态'
-            },
-          ],
-          configHeader:[],
-          pd0:{},
-          form:{},
-          falg:false,
-          disa:false,
-          allData:{},
-          totalAllResult:0,
-
-          multipleSelection:[],
-          selectionAll:[],
-          yuid:[],
-          selectionReal:[],
-          ssfj: [],
-          sspcs: [],
-
-          userCode:'',
-          userName:'',
-          orgCode:'',
-          orgName:'',
-          token:'',
-          juState:'',
         }
-      },
-      mounted() {
-         this.$store.dispatch("getGjdq");
-         this.$store.dispatch("getXB");
-         this.$store.dispatch("getSsdw");
-         this.$store.dispatch("getZjzl");
-         this.$store.dispatch("getRjqzzl");
-         this.$store.dispatch("getRjsy");
-         this.$store.dispatch("getZsxz");
-         this.$store.dispatch("getRzfs");
-         this.$store.dispatch("getJzztlx");
-         this.$store.dispatch("getSf");
-         this.$store.dispatch("getZflx");
-         this.$store.dispatch("getCrjbs");
-         this.userCode=this.$store.state.uid;
-         this.userName=this.$store.state.uname;
-         this.orgName=this.$store.state.orgname;
-         this.orgCode=this.$store.state.orgid;
-         this.juState=this.$store.state.juState;
-         this.token=this.$store.state.token;
-         if(this.juState=='2'){//分局登录
-           this.pd.SSFJ = this.orgCode;
-           this.getSSPCS(this.pd.SSFJ);
-         }
-         if(this.juState=='3'){//派出所登录
-           this.pd.SSFJ = this.$store.state.pcsToju;
-           this.getSSPCS(this.pd.SSFJ);
-           this.pd.SSPCS = this.orgCode;
-         }
-         this.getSsfj();
-      },
-      watch:{
-        falg:function(newVal,oldVal){
-          this.multipleSelection=[];
-          this.selectionAll=[];
-          this.selectionReal=[];
+      }
+      // console.log('this.selectionAll',this.selectionAll);
+    },
+    downloadT() {
+      let p = {
+        token: this.token
+      };
+      this.$api.post(
+        this.Global.aport6 + "/api/es/cz/czDataFx",
+        p,
+        r => {
+          this.downloadM(r);
         },
-        checkedList:{
-          handler(newVal, oldVal) {
-            if(!(newVal.toString()==oldVal.toString())){
-              this.multipleSelection=[];
-              this.selectionAll=[];
-              this.selectionReal=[];
-            }
-          },
-        }
-      },
-      methods: {
-        titleShow(e,el){
-          el.target.title = e.label;
-        },
-        getSsfj() {
-          let p = {
-            "operatorId": this.$store.state.uid,
-            "operatorNm": this.$store.state.uname
+        e => {},
+        {},
+        "blob"
+      );
+    },
+    download() {
+      if (this.tableData.length == 0) {
+        this.$message.error("无可导出数据！");
+        return;
+      }
+      let p = {};
+      let url = "";
+      this.pd.YWX = this.pd.YWX.toUpperCase();
+      this.pd.YWM = this.pd.YWM.toUpperCase();
+      this.pd = Object.assign({}, this.pd, this.areaPd);
+      if (this.selectionAll.length == 0) {
+        //全部导出
+        if (this.checkedList.length == 0) {
+          //人员全部导出
+          p = {
+            pd: this.pd,
+            userCode: this.userCode,
+            userName: this.userName,
+            orgJB: this.juState,
+            orgCode: this.orgCode,
+            token: this.token
           };
-          var url = this.Global.aport2 + "/data_report/selectSsfjDm";
-          this.$api.post(url, p,
-            r => {
-              this.ssfj = sortByKey(r.data.SSFJ,'dm');
-            })
-        },
-
-        getSSPCS(arr) {
-          this.$set(this.pd, "SSPCS", '');
-          var srr = [];
-          srr.push(arr);
-          let p = {
-            "fjdmList": srr
+        } else {
+          //统计全部导出
+          p = {
+            pd: this.pd,
+            groupList: this.checkedList,
+            userCode: this.userCode,
+            userName: this.userName,
+            orgJB: this.juState,
+            orgCode: this.orgCode,
+            token: this.token
+          };
+        }
+      } else {
+        //导出选中
+        if (this.checkedList.length == 0) {
+          //人员选中导出
+          this.yuid = [];
+          for (var i in this.selectionAll) {
+            this.yuid.push(this.selectionAll[i].RGUID);
           }
-          this.$api.post(this.Global.aport2 + '/data_report/selectPcsDm', p,
-            r => {
+          this.pd.RGUID = this.yuid;
+          p = {
+            pd: this.pd,
+            userCode: this.userCode,
+            userName: this.userName,
+            orgJB: this.juState,
+            orgCode: this.orgCode,
+            token: this.token
+          };
+        } else {
+          //统计选中导出
+          p = {
+            requestTempList: this.selectionAll,
+            groupList: this.checkedList,
+            userCode: this.userCode,
+            userName: this.userName,
+            orgJB: this.juState,
+            orgCode: this.orgCode,
+            token: this.token
+          };
+        }
+      }
+      this.$api.post(
+        this.Global.aport5 + "/changZhuController/export",
+        p,
+        r => {
+          this.downloadM(r);
+          this.selectionAll = [];
+          this.multipleSelection = [];
+          this.getList(this.CurrentPage, this.pageSize, this.pd, 1);
+        },
+        e => {},
+        {},
+        "blob"
+      );
+    },
+    downloadM(data) {
+      if (!data) {
+        return;
+      }
+      let url = window.URL.createObjectURL(
+        new Blob([data], { type: "application/xls" })
+      );
+      let link = document.createElement("a");
+      link.style.display = "none";
+      link.href = url;
+      link.setAttribute(
+        "download",
+        "常住境外人员综合分析列表" +
+          this.format(new Date(), "yyyyMMddhhmmss") +
+          ".xls"
+      );
+      document.body.appendChild(link);
+      link.click();
+    },
+    pageSizeChange(val) {
+      this.pageSize = val;
+      this.getList(this.CurrentPage, val, this.pd);
+    },
+    handleCurrentChange(val) {
+      this.CurrentPage = val;
+      this.getList(val, this.pageSize, this.pd);
+    },
+    open(content) {
+      this.$alert(content, "提示", {
+        confirmButtonText: "确定"
+      });
+    },
+    // getPdGj(pd){
+    //   pd.GJDQ=[];
+    //   if(this.pdGjItem.GJDQITEM!=''){
+    //     pd.GJDQ.push(this.pdGjItem.GJDQITEM)
+    //   }
+    //   if(this.pdGjItem.SHIGUO!=''){
+    //     pd.GJDQ.push(this.pdGjItem.SHIGUO)
+    //   }
+    //   if(this.pdGjItem.SANSHIYI!=''){
+    //     pd.GJDQ.push(this.pdGjItem.SANSHIYI)
+    //   }
+    //   return pd;
+    // },
+    getArea(val) {
+      this.areaPd = val;
+    },
+    getList(currentPage, showCount, pd, type) {
+      this.checkItemReal = [];
+      for (var i = 0; i < this.checkedList.length; i++) {
+        for (var j = 0; j < this.checkItem.length; j++) {
+          if (this.checkedList[i] == this.checkItem[j].code) {
+            this.checkItemReal.push(this.checkItem[j]);
+          }
+        }
+      }
+      this.pd.YWX = this.pd.YWX.toUpperCase();
+      this.pd.YWM = this.pd.YWM.toUpperCase();
+      if (pd.hasOwnProperty("RGUID")) {
+        delete pd["RGUID"];
+      }
+      pd = Object.assign({}, pd, this.areaPd);
+      if (type == 1) {
+        this.selectionAll = [];
+        this.multipleSelection = [];
+        this.selectionReal = [];
+      }
+      let p = {
+        currentPage: currentPage,
+        showCount: showCount,
+        pd: pd,
+        groupList: this.checkedList,
+        userCode: this.userCode,
+        userName: this.userName,
+        orgJB: this.juState,
+        orgCode: this.orgCode,
+        token: this.token
+      };
+
+      this.$api.post(
+        this.Global.aport5 + "/changZhuController/getCount",
+        p,
+        r => {
+          if (r.data.isFenLei == true) {
+            //统计列表
+            this.falg = true;
+            this.tableData = r.data.resultList;
+            this.TotalResult = r.data.totalResult;
+            this.totalAllResult = r.data.totalAllResult;
+            this.configHeader = [];
+            let _this = this;
+            for (var i = 0; i < _this.checkItemReal.length; i++) {
+              var obj = {};
+              for (var j = 0; j < _this.tableHead.length; j++) {
+                if (
+                  _this.checkItemReal[i].code == "SHIGUO" ||
+                  _this.checkItemReal[i].code == "SANSHIYIGUO"
+                ) {
+                  obj.code = "GJDQ_DESC";
+                  obj.label = "国家地区";
+                }
+                if (_this.tableHead[j].label == _this.checkItemReal[i].label) {
+                  obj.code = _this.tableHead[j].code;
+                  obj.label = _this.tableHead[j].label;
+                }
+              }
+              _this.configHeader.push(obj);
+            }
+            var arrAfter = [];
+            var arrReal = [];
+            for (var h = 0; h < this.configHeader.length; h++) {
+              if (arrAfter.indexOf(this.configHeader[h].code) == -1) {
+                arrAfter.push(this.configHeader[h].code);
+                arrReal.push(this.configHeader[h]);
+              }
+            }
+            this.configHeader = arrReal;
+            if (this.selectionReal.length == 0) {
+              //声明一个数组对象
+              this.selectionReal = new Array(
+                Math.ceil(this.TotalResult / showCount)
+              );
+            }
+            this.$nextTick(() => {
+              this.multipleSelection = [];
+              for (var a = 0; a < this.tableData.length; a++) {
+                for (var b = 0; b < this.selectionAll.length; b++) {
+                  // console.log('======',this.chargeObjectEqual(this.tableData[a],this.selectionAll[b]))
+                  if (
+                    this.chargeObjectEqual(
+                      this.tableData[a],
+                      this.selectionAll[b]
+                    )
+                  ) {
+                    // console.log(this.chargeObjectEqual(this.tableData[a],this.selectionAll[b]))
+                    this.$refs.multipleTable.toggleRowSelection(
+                      this.tableData[a],
+                      true
+                    );
+                  }
+                }
+              }
+            });
+          } else {
+            this.falg = false;
+            var url =
+              this.Global.aport5 + "/changZhuController/getResultListByParams";
+            this.$api.post(url, p, r => {
               if (r.success) {
-                this.sspcs = r.data.PCS;
-              }
-            })
-        },
-        handleSelectionChange(val) {},
-        selectfn(a,b){
-          this.multipleSelection = a;
-          this.dataSelection()
-        },
-        dataSelection(){
-          // console.log('this.multipleSelection',this.multipleSelection)
-          this.selectionReal.splice(this.CurrentPage-1,1,this.multipleSelection);
-          // console.log('this.selectionReal',this.selectionReal);
-          this.selectionAll=[];
-          for(var i=0;i<this.selectionReal.length;i++){
-            if(this.selectionReal[i]){
-              for(var j=0;j<this.selectionReal[i].length;j++){
-                this.selectionAll.push(this.selectionReal[i][j])
-              }
-            }
-          }
-          // console.log('this.selectionAll',this.selectionAll);
-        },
-        downloadT(){
-          let p={
-            token:this.token,
-          }
-          this.$api.post(this.Global.aport6+'/api/es/cz/czDataFx',p,
-           r =>{
-             this.downloadM(r)
-           },e=>{},{},'blob')
-        },
-        download(){
-          if(this.tableData.length==0){
-             this.$message.error('无可导出数据！');
-             return
-          }
-          let p={};
-          let url="";
-          this.pd.YWX = (this.pd.YWX).toUpperCase();
-          this.pd.YWM = (this.pd.YWM).toUpperCase();
-          this.pd = Object.assign({},this.pd,this.areaPd);
-          if(this.selectionAll.length==0){//全部导出
-            if(this.checkedList.length==0){//人员全部导出
-              p={
-               "pd":this.pd,
-               userCode:this.userCode,
-               userName:this.userName,
-               orgJB:this.juState,
-               orgCode:this.orgCode,
-               token:this.token
-             }
-            }else{//统计全部导出
-             p={
-               "pd":this.pd,
-               "groupList":this.checkedList,
-               userCode:this.userCode,
-               userName:this.userName,
-               orgJB:this.juState,
-               orgCode:this.orgCode,
-               token:this.token
-             }
-            }
-          }else{//导出选中
-            if(this.checkedList.length==0){//人员选中导出
-              this.yuid=[];
-              for(var i in this.selectionAll){
-                this.yuid.push(this.selectionAll[i].RGUID)
-              };
-              this.pd.RGUID=this.yuid;
-               p={
-                "pd":this.pd,
-                userCode:this.userCode,
-                userName:this.userName,
-                orgJB:this.juState,
-                orgCode:this.orgCode,
-                token:this.token
-              }
-            }else{//统计选中导出
-              p={
-                "requestTempList":this.selectionAll,
-                "groupList":this.checkedList,
-                userCode:this.userCode,
-                userName:this.userName,
-                orgJB:this.juState,
-                orgCode:this.orgCode,
-                token:this.token
-              }
-            }
-          }
-          this.$api.post(this.Global.aport5+'/changZhuController/export',p,
-            r =>{
-              this.downloadM(r);
-              this.selectionAll=[];
-              this.multipleSelection=[];
-              this.getList(this.CurrentPage,this.pageSize,this.pd,1);
-            },e=>{},{},'blob')
-        },
-        downloadM (data) {
-            if (!data) {
-                return
-            }
-            let url = window.URL.createObjectURL(new Blob([data],{type:"application/xls"}))
-            let link = document.createElement('a')
-            link.style.display = 'none'
-            link.href = url
-            link.setAttribute('download', '常住境外人员综合分析列表'+this.format(new Date(),'yyyyMMddhhmmss')+'.xls')
-            document.body.appendChild(link)
-            link.click()
-        },
-        pageSizeChange(val) {
-          this.pageSize=val;
-          this.getList(this.CurrentPage, val, this.pd);
-        },
-        handleCurrentChange(val) {
-          this.CurrentPage=val;
-          this.getList(val, this.pageSize, this.pd);
-        },
-        open(content) {
-          this.$alert(content, '提示', {
-            confirmButtonText: '确定',
-          });
-        },
-        // getPdGj(pd){
-        //   pd.GJDQ=[];
-        //   if(this.pdGjItem.GJDQITEM!=''){
-        //     pd.GJDQ.push(this.pdGjItem.GJDQITEM)
-        //   }
-        //   if(this.pdGjItem.SHIGUO!=''){
-        //     pd.GJDQ.push(this.pdGjItem.SHIGUO)
-        //   }
-        //   if(this.pdGjItem.SANSHIYI!=''){
-        //     pd.GJDQ.push(this.pdGjItem.SANSHIYI)
-        //   }
-        //   return pd;
-        // },
-        getArea(val){
-          this.areaPd = val;
-        },
-        getList(currentPage, showCount, pd,type) {
-          this.checkItemReal=[];
-          for(var i=0;i<this.checkedList.length;i++){
-            for(var j=0;j<this.checkItem.length;j++){
-              if(this.checkedList[i] == this.checkItem[j].code){
-                this.checkItemReal.push(this.checkItem[j])
-              }
-            }
-          }
-          this.pd.YWX = (this.pd.YWX).toUpperCase();
-          this.pd.YWM = (this.pd.YWM).toUpperCase();
-          if(pd.hasOwnProperty('RGUID')){
-            delete pd['RGUID']
-          }
-          pd = Object.assign({},pd,this.areaPd);
-          if(type==1){
-            this.selectionAll=[];
-            this.multipleSelection=[];
-            this.selectionReal=[];
-          }
-          let p = {
-            "currentPage": currentPage,
-            "showCount": showCount,
-            "pd": pd,
-            "groupList":this.checkedList,
-            userCode:this.userCode,
-            userName:this.userName,
-            orgJB:this.juState,
-            orgCode:this.orgCode,
-            token:this.token
-          };
-
-          this.$api.post(this.Global.aport5+'/changZhuController/getCount', p,
-            r => {
-              if(r.data.isFenLei==true){//统计列表
-                this.falg=true;
                 this.tableData = r.data.resultList;
                 this.TotalResult = r.data.totalResult;
-                this.totalAllResult = r.data.totalAllResult;
-                this.configHeader=[];
-                let _this = this;
-                for(var i=0;i<_this.checkItemReal.length;i++){
-                  var obj={};
-                  for(var j=0;j<_this.tableHead.length;j++){
-                    if(_this.checkItemReal[i].code=='SHIGUO'||_this.checkItemReal[i].code=='SANSHIYIGUO'){
-                      obj.code='GJDQ_DESC';
-                      obj.label='国家地区';
-                    }
-                    if(_this.tableHead[j].label==_this.checkItemReal[i].label){
-                      obj.code=_this.tableHead[j].code;
-                      obj.label=_this.tableHead[j].label;
-                    }
-                  }
-                  _this.configHeader.push(obj);
+                if (this.selectionReal.length == 0) {
+                  //声明一个数组对象
+                  this.selectionReal = new Array(
+                    Math.ceil(this.TotalResult / showCount)
+                  );
                 }
-                var arrAfter=[];
-                var arrReal=[];
-                for(var h=0;h<this.configHeader.length;h++){
-                  if(arrAfter.indexOf(this.configHeader[h].code)==-1){
-                    arrAfter.push(this.configHeader[h].code);
-                    arrReal.push(this.configHeader[h]);
-                  }
-                }
-                this.configHeader=arrReal;
-                if(this.selectionReal.length==0){//声明一个数组对象
-                  this.selectionReal=new Array(Math.ceil(this.TotalResult/showCount))
-                }
-                this.$nextTick(()=>{
-                  this.multipleSelection=[];
-                  for(var a=0;a<this.tableData.length;a++){
-                    for(var b=0;b<this.selectionAll.length;b++){
-                      // console.log('======',this.chargeObjectEqual(this.tableData[a],this.selectionAll[b]))
-                      if(this.chargeObjectEqual(this.tableData[a],this.selectionAll[b])){
-                        // console.log(this.chargeObjectEqual(this.tableData[a],this.selectionAll[b]))
-                        this.$refs.multipleTable.toggleRowSelection(this.tableData[a],true);
+                this.$nextTick(() => {
+                  this.multipleSelection = [];
+                  for (var i = 0; i < this.tableData.length; i++) {
+                    for (var j = 0; j < this.selectionAll.length; j++) {
+                      if (
+                        this.tableData[i].RGUID == this.selectionAll[j].RGUID
+                      ) {
+                        this.$refs.multipleTable.toggleRowSelection(
+                          this.tableData[i],
+                          true
+                        );
                       }
                     }
                   }
-                })
-              }else {
-                this.falg=false;
-                var url = this.Global.aport5 + "/changZhuController/getResultListByParams";
-                this.$api.post(url, p,
-                  r => {
-                    if (r.success) {
-                     this.tableData = r.data.resultList;
-                     this.TotalResult = r.data.totalResult;
-                     if(this.selectionReal.length==0){//声明一个数组对象
-                       this.selectionReal=new Array(Math.ceil(this.TotalResult/showCount))
-                     }
-                     this.$nextTick(()=>{
-                       this.multipleSelection=[]
-                       for(var i=0;i<this.tableData.length;i++){
-                         for(var j=0;j<this.selectionAll.length;j++){
-                           if(this.tableData[i].RGUID==this.selectionAll[j].RGUID){
-                             this.$refs.multipleTable.toggleRowSelection(this.tableData[i],true);
-                           }
-                         }
-                       }
-                     })
-                    }
-                  });
+                });
               }
-            })
-        },
-        details(i) {
-          this.random=new Date().getTime();
-          this.xid=i.RGUID;
-          this.rybh=i.RYBH;
-          this.allData=i;
-          this.type=3;
-          this.czDialogVisible = true;
-        },
-      }
+            });
+          }
+        }
+      );
+    },
+    details(i) {
+      this.random = new Date().getTime();
+      this.xid = i.RGUID;
+      this.rybh = i.RYBH;
+      this.allData = i;
+      this.type = 3;
+      this.czDialogVisible = true;
     }
-    </script>
+  }
+};
+</script>
 
     <style scoped>
-    .el-carousel__item h3 {
-      color: #475669;
-      font-size: 14px;
-      opacity: 0.75;
-      line-height: 150px;
-      margin: 0;
-    }
+.el-carousel__item h3 {
+  color: #475669;
+  font-size: 14px;
+  opacity: 0.75;
+  line-height: 150px;
+  margin: 0;
+}
 
-    .el-carousel__item img {
-      width: 100%;
-      height: 100%;
-      cursor: pointer;
-    }
+.el-carousel__item img {
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
 
-    .el-carousel__item:nth-child(2n) {
-      /* background: url(../../../assets/img/t1.png); */
-      background-size: 100% 100%;
-    }
+.el-carousel__item:nth-child(2n) {
+  /* background: url(../../../assets/img/t1.png); */
+  background-size: 100% 100%;
+}
 
-    .el-carousel__item:nth-child(2n+1) {
-      background-color: #d3dce6;
-    }
+.el-carousel__item:nth-child(2n + 1) {
+  background-color: #d3dce6;
+}
 
-    .crcolor {
-      background: #EFF3F6;
-    }
-    .yy-input-text {
-      text-align: left !important;
-    }
-
-    </style>
+.crcolor {
+  background: #eff3f6;
+}
+.yy-input-text {
+  text-align: left !important;
+}
+</style>
     <style>
-      /* .el-button+.el-button{margin-left: 0!important;} */
-      .t-tjCheck .el-checkbox{margin-left: 20px!important; line-height: 30px;}
-      .t-tjCheck .el-checkbox+.el-checkbox{margin-left: 20px!important;}
-      .bj .el-dialog__wrapper {
-        background: #000;
-        background: rgba(0, 0, 0, 0.3);
-      }
-    </style>
+/* .el-button+.el-button{margin-left: 0!important;} */
+.t-tjCheck .el-checkbox {
+  margin-left: 20px !important;
+  line-height: 30px;
+}
+.t-tjCheck .el-checkbox + .el-checkbox {
+  margin-left: 20px !important;
+}
+.bj .el-dialog__wrapper {
+  background: #000;
+  background: rgba(0, 0, 0, 0.3);
+}
+</style>

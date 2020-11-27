@@ -280,7 +280,8 @@ export default {
       let p={
         "pd":{
           RYBH:this.rybh,
-          YWLB:'0003'
+          YWLB:'0003',
+          TXLY:'0',
         },
         userCode:this.userCode,
         userName:this.userName,
@@ -290,7 +291,7 @@ export default {
         // "orderType":"DESC",
 	      // "orderBy":{value:"CJSJ",dataType:"date"}
       }
-      this.$api.post(this.Global.aport4+'/eS_RY_TPXXController/getResultListByParams',p,
+      this.$api.post(this.Global.aport2+'/ryhx/getrytpxx',p,
        r =>{
          if(r.success){
            this.imagess=r.data.resultList;

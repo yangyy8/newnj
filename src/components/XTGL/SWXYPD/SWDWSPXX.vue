@@ -16,6 +16,7 @@ export default {
     if(this.$store.state.tokenT){
       this.url = "http://10.33.72.147:8080/njswdw/auth/swdwspEmbed.do?token="+this.$store.state.tokenT;
     }
+    // this.url = 'http://10.0.30.101:8080/#/Frame?jh=code&sfzh=ceshi&page=ZrqVistManage'
   },
   activated(){
     // var url="http://10.33.72.147:8080/njswdw/auth/swdwspEmbed.do?token="+this.$store.state.tokenT;

@@ -16,6 +16,7 @@ export default {
     if(this.$store.state.tokenT){
       this.url="http://10.33.72.147:8080/njswdw/auth/swdwxxEmbed.do?token="+this.$store.state.tokenT;
     }
+    // this.url = 'http://10.0.30.101:8080/#/Specialcheck?jh=code&sfzh=ceshi&page=Specialcheck'
   },
   activated(){
     // this.url="http://10.33.72.147:8080/njswdw/auth/swdwxxEmbed.do?token="+this.$store.state.tokenT;

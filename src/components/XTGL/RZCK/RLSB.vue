@@ -84,7 +84,10 @@ export default {
         console.log(value);
       },
      handleAvatarSuccess(res, file) {
+       console.log(res)
+       console.log(file)
        this.imageUrl = URL.createObjectURL(file.raw);
+       console.log('==',this.imageUrl)
      },
      changeUpload(file,fileList){
        // const loading = this.$loading({
