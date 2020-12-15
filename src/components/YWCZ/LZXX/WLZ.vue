@@ -4,8 +4,19 @@
 <script>
 export default {
   activated(){
-    var url="http://50.32.166.211:9091/index?SFZH=" + this.$store.state.uid; //身份证号
-    // console.log('====',url)
+    let idCard = this.$store.state.uid
+    let birthday = ''
+    if(idCard.length == 15){  
+      birthday = "19"+idCard.substr(6,6);  
+    } else if(idCard.length == 18){  
+      birthday = idCard.substr(6,8);  
+    } 
+    // console.log('++++',parseInt(this.format(new Date(),'yyyyMMdd')))
+    // console.log('===',idCard,parseInt(birthday),birthday) 
+    let idnumber = parseInt(birthday) + parseInt(this.format(new Date(),'yyyyMMdd'))
+    // console.log('heheh',idnumber)
+    var url="http://50.32.166.211:9091/login?idnumber=" + this.$store.state.uid + "&vcode=" + idnumber + "&returnUrl=null"; //身份证号
+    // console.log('url====',url)
     this.tabList=this.Global.tabLists;
     if(this.Global.tabLists==undefined){
       this.close1(0);
@@ -37,7 +48,6 @@ export default {
            this.$router.push({name:'Home'})
            this.routeList=[]
          }
-
        }
      },
    }

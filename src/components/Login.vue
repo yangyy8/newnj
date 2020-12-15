@@ -1,7 +1,7 @@
 <template>
   <div class="loginbg">
      <div class="logintop">
-        <img src="../assets/img/logodlr.png">
+        <img src="../assets/img/logodlr_1.png">
      </div>
        <div class="login-box">
          <div class="logintitle">用户登录</div>

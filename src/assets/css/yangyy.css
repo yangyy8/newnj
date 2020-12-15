@@ -46,10 +46,10 @@
 
 /* 1920 */
 @media screen and (min-width: 1440px) {
- .newlogo{background: url('../../assets/img/logon.png') no-repeat;  width: 639px;height: 57px; margin-top: 10px;}
+ .newlogo{background: url('../../assets/img/logon_1.png') no-repeat;  width: 639px;height: 57px; margin-top: 10px;}
 }
 
 /* 1366*/
 @media screen and (max-width: 1440px) {
- .newlogo{background: url('../../assets/img/logon.png') no-repeat;width: 440px;height: 44px;margin-top: 10px;background-size: 100%}
+ .newlogo{background: url('../../assets/img/logon_1.png') no-repeat;width: 440px;height: 44px;margin-top: 10px;background-size: 100%}
 }
