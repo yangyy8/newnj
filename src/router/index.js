@@ -15,7 +15,7 @@ export default new Router({
     path:'/index',
     name:'Index',
     meta: {logined:true},
-    component:resolve => require(['@/components/indexNew1'], resolve),
+    component:resolve => require(['@/components/indexNew'], resolve),
     },
     {
     path:'/wgCenter',
@@ -1131,6 +1131,12 @@ export default new Router({
           name: 'LCJK',
           meta:{title:['系统管理','系统配置','流程监控']},
           component: resolve => require(['@/components/XTGL/XTSZ/LCJK'], resolve),
+        },
+        {
+          path: 'CustomQuery',
+          name: 'CustomQuery',
+          meta:{title:['系统管理','系统配置','自定义配置']},
+          component: resolve => require(['@/components/XTGL/XTSZ/CustomQuery'], resolve),
         },
         {
           path: 'YHSQ',

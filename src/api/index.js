@@ -75,7 +75,7 @@ function apiAxios (method, url, params, success, failure,header,responseType) {
           if(loadingInstance1){
             loadingInstance1.close();
           }
-          console.log(res)
+          // console.log(res)
           if (success) {
             success(res.data)
           }

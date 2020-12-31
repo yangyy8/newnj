@@ -1,4 +1,4 @@
-/* <template lang="html">
+<template lang="html">
       <!-- 临住信息综合分析 -->
       <div class="yymain tshu">
         <div class="yytitle">
@@ -230,14 +230,14 @@
                <el-table-column
                  label="操作" width="70">
                  <template slot-scope="scope">
-  <el-button
-    type="text"
-    class="a-btn"
-    title="详情"
-    icon="el-icon-document"
-    @click="details(scope.row)"
-  ></el-button>
-</template>
+                  <el-button
+                    type="text"
+                    class="a-btn"
+                    title="详情"
+                    icon="el-icon-document"
+                    @click="details(scope.row)"
+                  ></el-button>
+                </template>
                </el-table-column>
          </el-table>
          <div class="middle-foot">
@@ -272,19 +272,17 @@
           </div>
         </div>
         </div>
-     <div class="bj">
-       <el-dialog title="案事件信息详情" :visible.sync="asjDialogVisible" custom-class="big_dialog" :append-to-body="false" :modal="false">
-         <ANSJ :type="type" :xid="xid"  :random="(new Date()).getTime()"></ANSJ>
-         <div slot="footer" class="dialog-footer">
-           <el-button @click="asjDialogVisible = false" size="small">取 消</el-button>
-         </div>
-       </el-dialog>
-    </div>
-
+        <div class="bj">
+          <el-dialog title="案事件信息详情" :visible.sync="asjDialogVisible" custom-class="big_dialog" :append-to-body="false" :modal="false">
+            <ANSJ :type="type" :xid="xid"  :random="(new Date()).getTime()"></ANSJ>
+            <div slot="footer" class="dialog-footer">
+              <el-button @click="asjDialogVisible = false" size="small">取 消</el-button>
+            </div>
+          </el-dialog>
+        </div>
       </div>
-
-    </template>
-    <script>
+</template>
+<script>
 import { ToArray, sortByKey } from "@/assets/js/ToArray.js";
 import ANSJ from "../../../common/ansj_xq";
 export default {
@@ -665,8 +663,7 @@ export default {
   }
 };
 </script>
-
-    <style scoped>
+<style scoped>
 .el-carousel__item h3 {
   color: #475669;
   font-size: 14px;
@@ -697,7 +694,7 @@ export default {
   text-align: left !important;
 }
 </style>
-    <style>
+<style>
 /* .el-button+.el-button{margin-left: 0!important;} */
 .t-tjCheck .el-checkbox {
   margin-left: 20px !important;
@@ -711,4 +708,3 @@ export default {
   background: rgba(0, 0, 0, 0.3);
 }
 </style>
- */

@@ -230,19 +230,19 @@
              prop="FJCLZT_DESC"
              label="分局处理状态"
              v-if="juState=='1'||juState=='2'">
-             <template slot-scope="scope">
+             <div slot-scope="scope">
                <span v-if="juState=='1'">{{scope.row.FJCLZT_DESC}}</span>
                <span v-else :class="{'t-red':scope.row.FJCLZT=='1','t-blue':scope.row.FJCLZT=='2','t-yel':scope.row.FJCLZT=='3'}">{{scope.row.FJCLZT_DESC}}</span>
-             </template>
+             </div>
            </el-table-column>
            <el-table-column
              label="操作" width="70">
-             <template slot-scope="scope">
-               <div>
+             <!-- <template slot-scope="scope"> -->
+               <div slot-scope="scope">
                   <el-button type="text"  class="a-btn"  title="编辑"  icon="el-icon-edit-outline" @click="$router.push({name:'DQQZFFJYYJ_XQ',query:{yjType:2,row:scope.row}})"></el-button>
                   <el-button type="text"  class="a-btn"  title="设为关注人员"  icon="el-icon-user" @click="adds(scope.row);form={};"></el-button>
                </div>
-             </template>
+             <!-- </template> -->
            </el-table-column>
          </el-table>
      <div class="middle-foot">

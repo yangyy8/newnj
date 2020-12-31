@@ -153,6 +153,8 @@ var store = new Vuex.Store({
       state.uname = data;
     },
     getUid(state, data) {
+      // state.uid = data;
+      // window.localStorage.setItem('UID', data)
       localStorage.setItem('UID', data)
       state.uid = data;
     },

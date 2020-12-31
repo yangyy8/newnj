@@ -77,10 +77,9 @@ export default {
   mounted(){
     this.token=this.$route.query.token;
     this.serverip=this.$route.query.serverip;
-    console.log('this.token',this.token);
-    console.log('this.serviceip',this.serverip);
-    if(this.token!=undefined && this.serverip!=undefined)
-    {
+    // console.log('this.token',this.token);
+    // console.log('this.serviceip',this.serverip);
+    if(this.token!=undefined && this.serverip!=undefined){
         var url=this.Global.aport1+'/sso/api/checkUserLogin';
         var ff=new FormData();
         ff.append("token",this.token);
@@ -90,6 +89,7 @@ export default {
           if(r.success){
            this.user.userName=r.data.userName;
            this.user.password=r.data.passWord;
+           this.$store.commit('getUid',r.data.userName)
            this.$store.commit('getWtoken',this.token)
            this.$store.commit('getServerip',this.serverip)
            this.login();
@@ -97,12 +97,10 @@ export default {
            window.location.href="http://tymh.gaj.nkg.js:908/loginOperate/toUserLogin";
          }
         });
-
      }else{
          this.getDown();
      }
     this.initJzmm();
-
   },
   methods:{
     getJuState(name){
@@ -114,11 +112,8 @@ export default {
       this.$api.post(this.Global.aport4+'/LRDWController/getMCAndJBByDM',p,
        r =>{
          if(r.success){
-           console.log('11111')
            this.$store.commit('getJuS',r.data[0].JB);
-           console.log('f方法==',this.$store.state.juState,r.data[0].JB);
            if(this.$store.state.juState=='3'||this.$store.state.juState=='4'){//派出所&责任区
-             console.log('this.$store.state.juState',this.$store.state.juState)
              this.$api.post(this.Global.aport4+'/LRDWController/getAllParentByChildDW',p,
               r =>{
                 if(r.success){

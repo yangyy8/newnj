@@ -1,16 +1,16 @@
 <template lang="html">
-  <div class="t-screen">
+  <div class="t-screen" :class="{'tt-screent':isFull,'tt-screenM':isFullM}" ref="fullS" style="">
     <div class="">
       <div class="index_nav_1" style="z-index:1000">
         <div class="nav_1" :class="{'nav_1_check':nav1Id==a.dm}" v-for="(a,ind) in nav1" @mouseover="getNav(a,ind)">
           <i :class="a.icon" :style="{'color':color[ind]}"></i>
-          <span>{{a.mc}}</span>
+          <span>{{a.mc!=undefined?a.mc:''}}</span>
         </div>
       </div>
       <div class="index_nav" v-if="navShow" style="z-index:1000">
         <div class="index_nav2">
           <div class="index_nav2_box" :class="{'nav_2_check':nav2Id==b.dm}" v-for="(b,ind2) in nav2" @click="getNav2(b)" style="font-size:15px;">
-            ● {{b.mc}}
+            ● {{b.mc!=undefined?b.mc:''}}
           </div>
         </div>
         <div class="index_nav3">
@@ -19,11 +19,11 @@
               <router-link class="h3_2" :class="{'h3_2check':menuPath==c.url}" :to="{ name: c.url }"><i class="el-icon-caret-right" style="color:#a3a7a8"></i>{{c.mc}}</router-link>
             </div>
             <div v-if="c.children">
-              <div class="h3_1" >{{c.mc}}</div>
+              <div class="h3_1" >{{c.mc!=undefined?c.mc:''}}</div>
               <el-row  :gutter="2">
                 <router-link :to="{ name: d.url }" class="h3_2" :class="{'h3_2check':menuPath==d.url}" v-for="(d,ind4) in c.children" :key="ind4">
                     <el-col :span="12">
-                    <i class="el-icon-caret-right" style="color:#a3a7a8"></i>{{d.mc}}
+                    <i class="el-icon-caret-right" style="color:#a3a7a8"></i>{{d.mc!=undefined?d.mc:''}}
                     </el-col>
                 </router-link>
              </el-row>
@@ -32,11 +32,14 @@
         </div>
       </div>
     </div>
-    <div class="" @mouseover="navShow=false">
+    <div class="" @mouseover="navShow=false" ref="contentS" style="">
       <div class="banner">
+        <!-- <img src="../assets/img/sg/tc_nor.png" alt="链至大屏" class="toScreen" @click="$router.push({name:'Screen',query:{mtype:mapList.type,year:lzyear,month:lzmonth,day:lzdate}})"> -->
+        <div class="clickClass" @click="screenShow"></div>
         <div class="common-report hand" @click="shortMenu">
           常用报表
         </div>
+        <span class="el-icon-switch-button login-out hand" title="退出" @click="loginOut"></span>
         <transition name="el-zoom-in-top">
           <div class="arrow_content" v-show="bjShow">
               <div class="arrow_box">
@@ -65,7 +68,7 @@
                   <div v-for="(item,index) in dataList" class="menuClass">
                     <div class="arrow_title">{{item.parentName}}</div>
                     <el-checkbox-group v-model="checkedList">
-                      <el-checkbox v-for="val in item.child" :label="val.id" :key="val.id">{{val.mc}}</el-checkbox>
+                      <el-checkbox v-for="val in item.child" :label="val.id" :key="val.id">{{val.mc!=undefined?val.mc:''}}</el-checkbox>
                     </el-checkbox-group>
                   </div>
                 </div>
@@ -76,29 +79,33 @@
       <div class="time">
         {{realTime}}
       </div>
-      <div class="main">
-      <el-row :gutter="3">
-        <el-col :span="6"  style="">
-             <div class="bgline1 tu1">
+      <div class="main" style="height:90%">
+      <el-row :gutter="3" style="height:100%">
+        <el-col :span="6"  style="height:100%">
+             <div class="bgline1 tu4" ref="ban1">
+                <img src="../assets/img/sg/frame_1.png" class="img1" ref="ajC"/>
                 <div class="title gradient-text-one">
                   案件6个月变化量
                 </div>
-                <div class = "chart" style="width:100%">
-                  <div id = "ajecharts" style = "width: 100%" class="tu1-1"></div>
+                <div class = "chart1" style="width:100%">
+                  <div id = "ajecharts" style = "width: 100%"></div>
                 </div>
              </div>
 
-             <div class="bgline1 tu2">
+             <div class="bgline1 tu4 tu-mt" ref="ban2">
+                <img src="../assets/img/sg/frame_2.png" class="img1">
                 <div class="title gradient-text-one">
                   常住人员身份分析
                 </div>
                 <div class="tb1">
-                     <ul class="huan">
-                        <li :class="{'color1':index==0,'color2':index==1,'color3':index==2,'color4':index==3,'color5':index==4}" v-for="(item,index) in czList">{{item}}</li>
-                     </ul>
+                  <img src="../assets/img/sg/tb1.png" class="cz-img">
+                   <ul class="huan huan-font huan-li">
+                      <li class="hand" :class="{'color1':index==0,'color2':index==1,'color3':index==2,'color4':index==3,'color5':index==4}" v-for="(item,index) in czList">{{item}}</li>
+                   </ul>
                 </div>
              </div>
-             <div class="bgline11 tu3">
+             <div class="bgline11 tu3 tu-mt" ref="ban3">
+                <img src="../assets/img/sg/frame_21.png" class="img4">
                 <div class="title gradient-text-one">
                   重点国家人员
                 </div>
@@ -139,15 +146,17 @@
             <div class="map">
                 <div class="lzrq">
                   <div class="fun-choose">
-                    <span @click="mapFun('L');page=0" class="tab-fun hand" style="border-right:1px solid #02C8E8">临住登记量</span>
-                    <span @click="mapFun('C');page=1" class="tab-fun hand" style="position:relative;z-index:999">常住人员量</span>
+                    <div @click="mapFun('L');page=0" :class="{'checktab':page==0}" class="tab-fun hand" style="position:relative;z-index:999;border-right:1px solid #02C8E8">
+                      <div>临住登记量</div><div>{{allLzNum}}</div></div
+                    ><div @click="mapFun('C');page=1" :class="{'checktab':page==1}" class="tab-fun hand" style="position:relative;z-index:999">
+                      <div>常住人员量</div><div>{{allCzNum}}</div></div>
                   </div>
                   <div class="choose" v-show="page==0">
-                    <el-select v-model="lzyear" size="small" placeholder="年" clearable @change="mapFun">
+                    <el-select v-model="lzyear" size="small" placeholder="年" style="z-index: 999" clearable @change="mapFun">
                       <el-option
                         v-for="(item,ind) in years"
                         :key="ind"
-                        :label="item+'年'"
+                        :label="item"
                         :value="item">
                       </el-option>
                     </el-select>
@@ -159,7 +168,7 @@
                         :value="item">
                       </el-option>
                     </el-select>
-                    <el-select v-model="lzmonth" size="small" placeholder="月" @visible-change='monthFun' clearable @change="mapFun">
+                    <el-select v-model="lzmonth" size="small" placeholder="月" style="z-index: 999" @visible-change='monthFun' clearable @change="monthChange">
                       <el-option
                         v-for="(item,ind) in months"
                         :key="ind"
@@ -167,7 +176,7 @@
                         :value="item">
                       </el-option>
                     </el-select>
-                    <el-select v-model="lzdate" size="small" placeholder="日" @visible-change='dayFun' style="z-index: 999" clearable @change="mapFun">
+                    <el-select v-model="lzdate" size="small" placeholder="日" @visible-change='dayFun' style="z-index: 999" clearable @change="dayChange">
                       <el-option
                         v-for="(item,ind) in dates"
                         :key="ind"
@@ -177,7 +186,8 @@
                     </el-select>
                   </div>
                 </div>
-                <div id="mapall">
+                <div id="mapall" class="map-all">
+                  <img src="../assets/img/sg/map2.png" alt="" class="map-img">
                   <div id="home_map" class="zuobiao"></div>
                   <transition name="el-fade-in-linear">
                     <div class = "chart tooltipm" v-show="isShow" :class="claname" id="tt">
@@ -189,8 +199,17 @@
           </div>
           <div class="content-foot">
             <div class="foot-title">
-              <img src="../assets/img/sg/pdjh.png" class="img-tl">
-              <img src="../assets/img/sg/warm.png" class="img-tr">
+              <div>
+                <img src="../assets/img/sg/pdjh.png" class="img-tl">
+              </div>
+              <div class="img-tr">
+                <ul>
+                  <li><img src="../assets/img/sg/wd_33.png" class="foot-imgbz"><span>正常</span></li>
+                  <li><img src="../assets/img/sg/wd_22.png" class="foot-imgbz"><span>繁忙</span></li>
+                  <li><img src="../assets/img/sg/wd_11.png" class="foot-imgbz"><span>拥挤</span></li>
+                  <div style="clear:both"></div>
+                </ul>
+              </div>
             </div>
           </div>
           <div class="pdjh-content">
@@ -204,37 +223,37 @@
                     </span>
                     <span class="ci">人</span>
                    </div>
-                   <img src="../assets/img/sg/wd_1.png" width="48" v-if="ind==0">
-                   <img src="../assets/img/sg/wd_2.png" width="48" v-if="ind==1">
-                   <img src="../assets/img/sg/wd_3.png" width="48" v-if="ind==2">
-                   <img src="../assets/img/sg/wd_4.png" width="48" v-if="ind!=0 && ind!=1 &&ind!=2">
+                   <img :src="i.isbusy=='拥挤'?imgOne:i.isbusy=='繁忙'?imgTwo:imgFor" width="48">
                  </li>
               </ul>
           </div>
         </el-col>
-        <el-col :span="6">
-          <div class="bgline2 tu4">
+        <el-col :span="6" style="height:100%">
+          <div class="bgline2 tu4" ref="ban4">
+             <img src="../assets/img/sg/frame_2.png" class="img4" ref="lzC"/>
              <div class="title gradient-text-one">
                临住6个月变化量
              </div>
-             <div class = "chart" style="width:100%">
+             <div class = "chart4" style="width:100%">
                <div id = "lzecharts" style = "width: 100%" class="tu4-4"></div>
              </div>
           </div>
-          <div class="bgline2 tu5">
+          <div class="bgline2 tu4 tu-mt" ref="ban5">
+             <img src="../assets/img/sg/frame_2.png" class="img4" ref='zgC'/>
              <div class="title gradient-text-one">
                中管6个月办理量
              </div>
-             <div class = "chart" style="width:100%">
-               <div id = "zgecharts" style = "width: 100%;" class="tu5-5"></div>
+             <div class = "chart4" style="width:100%;">
+               <div id = "zgecharts" style = "width: 100%"></div>
              </div>
           </div>
-          <div class="bgline21 tu6">
+          <div class="bgline21 tu3 tu-mt" ref="ban6">
+             <img src="../assets/img/sg/frame_21.png" class="img4" ref='jtC'/>
              <div class="title gradient-text-one">
                居留、停留6个月签发量
              </div>
-             <div class = "chart" style="width:100%">
-               <div id = "jtecharts" style = "width: 100%;" class="tu6-6"></div>
+             <div class = "chart4" style="width:100%;height:100%">
+               <div id = "jtecharts" style = "width: 100%;height:100%"></div>
              </div>
           </div>
         </el-col>
@@ -287,7 +306,13 @@
                 </el-table-column>
                 <el-table-column
                   prop="djrq"
-                  label="登记日期">
+                  label="登记日期"
+                  v-if="czshow">
+                </el-table-column>
+                <el-table-column
+                  prop="rzrq"
+                  label="住宿日期"
+                  v-if="!czshow">
                 </el-table-column>
                 <el-table-column
                   prop="gjdq"
@@ -344,6 +369,15 @@
           <div class="arrow_line" style="right:0px;bottom:0px; border-top-width:0;border-left-width:0"></div>
          </el-dialog>
     </div>
+    <div class="screenClass">
+      <el-dialog title="大屏链接" :visible.sync="screenDialogVisible" width="600px">
+        <ul class="screen-ul">
+          <li><el-link :underline="false" href="http://10.33.72.145:8080/dist/#/zgLeft" target="_blank">中管左屏  http://10.33.72.145:8080/dist/#/zgLeft</el-link></li>
+          <li><el-link :underline="false" href="http://10.33.72.145:8080/dist/#/wgCenter" target="_blank">外管中间屏  http://10.33.72.145:8080/dist/#/wgCenter</el-link></li>
+          <li><el-link :underline="false" href="http://10.33.72.145:8080/dist/#/zgRight" target="_blank">中管右屏  http://10.33.72.145:8080/dist/#/zgRight</el-link></li>
+        </ul>
+      </el-dialog>
+    </div>
   </div>
 </template>
 <script scoped>
@@ -354,10 +388,18 @@ import NAV from './NAV'
 import echarts from 'echarts'
 import '../assets/js/jquery-3.4.1.min.js'
 import '../assets/js/scroll.js'
+import imgUrlOne from "../assets/img/sg/wd_1.png"
+import imgUrlTwo from "../assets/img/sg/wd_2.png"
+// import imgUrlThr from "../assets/img/sg/wd_3.png"
+import imgUrlFor from "../assets/img/sg/wd_4.png"
 export default {
   components:{NAV},
   data() {
     return {
+      imgOne:imgUrlOne,
+      imgTwo:imgUrlTwo,
+      // imgThr:imgUrlThr,
+      imgFor:imgUrlFor,
       mapCenter:null,
       ajCharts:null,
       lzCharts:null,
@@ -366,6 +408,7 @@ export default {
       mapCharts:null,
       dialogTableVisible:false,
       mapDialogVisible:false,
+      screenDialogVisible:false,
       claname:'',
       animate:false,
       isShow:false,
@@ -381,6 +424,15 @@ export default {
       lzdate:'',
       mapList:{},
       screenWidth: document.body.clientWidth,
+      fullHeight: document.documentElement.clientHeight,
+      // imgHeightOne:this.$store.state.imgHeightOne,
+      // imgHeightTwo:this.$store.state.imgHeightTwo,
+      // imgHeightThr:this.$store.state.imgHeightThr,
+      // imgHeightFor:this.$store.state.imgHeightFor,
+      imgHeightOne:0,
+      imgHeightTwo:0,
+      imgHeightThr:0,
+      imgHeightFor:0,
       data:[
         {
           gj:'阿尔及利亚',
@@ -484,11 +536,32 @@ export default {
       showMenuData:[],
       dataList:[],
       checkedList:[],
+      isFull:false,
+      isFullM:false,
+
+      allLzNum:0,
+      allCzNum:0,
+
+      currentMonth:'',
+      currentYear:'',
+
+      userCode:'',
+      userName:'',
+      orgCode:'',
+      orgName:'',
+      token:'',
+      juState:'',
+      clickFive:0,
     }
   },
   mounted() {
      window.vm=this;
-     console.log(this.Global.indexstate);
+     this.userCode=this.$store.state.uid;
+     this.userName=this.$store.state.uname;
+     this.orgName=this.$store.state.orgname;
+     this.orgCode=this.$store.state.orgid;
+     this.getJuState();
+     this.token=this.$store.state.token;
      if(this.Global.indexstate!=0){
        this.Global.indexstate=0;
        window.location.reload();
@@ -497,27 +570,62 @@ export default {
      const that = this
      window.onresize = () => {
         return (() => {
-            window.screenWidth = document.body.clientWidth
-            that.screenWidth = window.screenWidth
+            window.screenWidth = document.body.clientWidth;
+            that.screenWidth = window.screenWidth;
+            window.fullHeight = document.documentElement.clientHeight
+            that.fullHeight = window.fullHeight;
+            // console.log('window.fullHeight',document.documentElement.clientHeight);
+            that.imgHeightOne=that.$refs.ajC.offsetHeight;
+            that.$store.commit('getOne',that.imgHeightOne);
         })()
      }
-    if(this.screenWidth<1550){
+     if(this.fullHeight>=657&&this.fullHeight<=768){
+       this.isFullM = true;
+     }else{
+       this.isFullM = false;
+     }
+     if(this.fullHeight>800){
+       // this.isFull = true
+       console.log('this.fullHeight',this.fullHeight)
+       this.$refs.fullS.style.height = this.fullHeight +'px';
+       this.$refs.contentS.style.height = this.fullHeight +'px';
+     }
+    if(this.screenWidth<1600){
       this.seriesData=[
-                        [[11, 28, '六合区', 12, 28]],
-                        [[10, 13, '江宁区', 10, 28]],
-                        [[4, 18, '浦口区', 10, 28]],
-                        [[15, 7, '溧水区', 10, 28]],
-                        [[15, 0, '高淳区', 10, 28]],
-                        [[12, 21, '栖霞区', 10, 20]],
+                        [[13, 27, '六合区', 12, 28]],
+                        [[11, 13, '江宁区', 10, 28]],
+                        [[3, 18, '浦口区', 10, 28]],
+                        [[18, 7, '溧水区', 10, 28]],
+                        [[15, 1, '高淳区', 10, 28]],
+                        [[15.2, 21.5, '栖霞区', 10, 13]],
                         [[7, 16, '雨花台区', 10, 15]],
-                        [[9, 20, '鼓楼区', 10, 13]],
-                        [[10.5, 19, '玄武区', 10, 13]],
-                        [[8, 18, '建邺区', 10, 13]],
-                        [[10, 18, '秦淮区', 10, 13]],
-                        [[8, 23.5, '江北新区', 10, 25]]
+                        [[10, 20, '鼓楼区', 10, 13]],
+                        [[13, 21, '玄武区', 10, 13]],
+                        [[8.5, 18, '建邺区', 10, 13]],
+                        [[11.5, 19, '秦淮区', 10, 13]],
+                        [[8.4, 23.5, '江北新区', 10, 20]],
+                        [[12.5, 22.5, '经济技术开发区', 10, 8]],
                     ];
-      this.yjl='370px';
+      this.yjl='350px';
       this.ajyjl="155px";
+    }else if(this.screenWidth>=1600&&this.screenWidth<1700){
+      this.seriesData=[
+                        [[13, 27, '六合区', 12, 35]],
+                        [[11, 13, '江宁区', 10, 35]],
+                        [[3, 18, '浦口区', 10, 35]],
+                        [[18, 7, '溧水区', 10, 35]],
+                        [[15, 1, '高淳区', 10, 35]],
+                        [[15.2, 21.5, '栖霞区', 10, 18]],
+                        [[7, 16, '雨花台区', 10, 18]],
+                        [[10, 20, '鼓楼区', 10, 18]],
+                        [[13, 21, '玄武区', 10, 18]],
+                        [[8.5, 18, '建邺区', 10, 18]],
+                        [[11.5, 19, '秦淮区', 10, 18]],
+                        [[8.5, 23.5, '江北新区', 10, 23]],
+                        [[13, 22.5, '经济技术开发区', 10, 12]],
+                    ];
+                    this.yjl='500px';
+                    this.ajyjl="240px";
     }else{
       this.seriesData=[
                         [[13, 27, '六合区', 12, 40]],
@@ -525,57 +633,106 @@ export default {
                         [[3, 18, '浦口区', 10, 40]],
                         [[18, 7, '溧水区', 10, 40]],
                         [[15, 1, '高淳区', 10, 40]],
-                        [[11, 22, '栖霞区', 10, 30]],
+                        [[15.2, 21.5, '栖霞区', 10, 20]],
                         [[7, 16, '雨花台区', 10, 20]],
                         [[10, 20, '鼓楼区', 10, 20]],
-                        [[13, 21, '玄武区', 10, 25]],
+                        [[13, 21, '玄武区', 10, 20]],
                         [[8.5, 18, '建邺区', 10, 20]],
                         [[11.5, 19, '秦淮区', 10, 20]],
-                        [[9, 23, '江北新区', 10, 20]]
+                        [[8.5, 23.3, '江北新区', 10, 25]],
+                        [[13, 22.5, '经济技术开发区', 10, 15]],
                     ];
       this.yjl='500px';
       this.ajyjl="240px";
     }
-    // this.mapdata=[
-    //   {dm:1,mc:'六合区',value:50000,cla:'liuhe'},
-    //   {dm:2,mc:'江北新区',value:30000,cla:'jiangbei'},
-    //   {dm:3,mc:'栖霞区',value:5000,cla:'qixia'},
-    //   {dm:4,mc:'玄武区',value:100,cla:'xuanwu'},
-    //   {dm:5,mc:'鼓楼区',value:123,cla:'gulou'},
-    //   {dm:6,mc:'秦淮区',value:123,cla:'qinhuai'},
-    //   {dm:7,mc:'建邺区',value:123,cla:'jianye'},
-    //   {dm:8,mc:'雨花台区',value:123,cla:'yuhua'},
-    //   {dm:9,mc:'浦口区',value:123,cla:'pukou'},
-    //   {dm:10,mc:'溧水区',value:123,cla:'lishui'},
-    //   {dm:11,mc:'江宁区',value:123,cla:'jiangning'},
-    //   {dm:12,mc:'高淳区',value:123,cla:'gaochun'},
-    // ];
+
     this.allEcharts();
     this.yearFun();
     this.aaa();
     this.pdjhFun();
+
   },
-  activated(){},
+  activated(){
+
+  },
   watch: {
+    fullHeight (val) {
+       // if(!this.timer) {
+       //   this.fullHeight = val
+       //   this.timer = true
+       //   let that = this
+       //    setTimeout(function (){
+       //     that.timer = false
+       //    },400)
+       // }
+       console.log('window.fullHeight==val',document.documentElement.clientHeight,val);
+       if(val>=657&&val<=768){
+         this.isFullM = true;
+       }else{
+         this.isFullM = false;
+       }
+       if(val>1000||val<=925){
+         this.$refs.ban1.style.height = '30%';
+         this.$refs.ban2.style.height = '30%';
+         this.$refs.ban3.style.height = '28%';
+         this.$refs.ban4.style.height = '30%';
+         this.$refs.ban5.style.height = '30%';
+         this.$refs.ban6.style.height = '28%';
+       }else{
+         this.$refs.ban1.style.height = '33%';
+         this.$refs.ban2.style.height = '33%';
+         this.$refs.ban3.style.height = '29%';
+         this.$refs.ban4.style.height = '33%';
+         this.$refs.ban5.style.height = '33%';
+         this.$refs.ban6.style.height = '29%';
+       }
+       // if(val>800){
+         // this.isFull = true
+         this.$refs.fullS.style.height = val+'px';
+         this.$refs.contentS.style.height = val +'px';
+       // }
+       // else{
+       //   this.isFull = false
+       // }
+     },
       screenWidth (val) {
           this.screenWidth = val;
-          if(this.screenWidth<1550){
+          if(this.screenWidth<1600){
             this.seriesData=[
-                            [[11, 28, '六合区', 12, 28]],
-                            [[10, 13, '江宁区', 10, 28]],
-                            [[4, 18, '浦口区', 10, 28]],
-                            [[15, 7, '溧水区', 10, 28]],
-                            [[15, 0, '高淳区', 10, 28]],
-                            [[12, 21, '栖霞区', 10, 20]],
-                            [[7, 16, '雨花台区', 10, 15]],
-                            [[9, 20, '鼓楼区', 10, 13]],
-                            [[10.5, 19, '玄武区', 10, 13]],
-                            [[8, 18, '建邺区', 10, 13]],
-                            [[10, 18, '秦淮区', 10, 13]],
-                            [[8, 23.5, '江北新区', 10, 25]]
+                              [[13, 27, '六合区', 12, 28]],
+                              [[11, 13, '江宁区', 10, 28]],
+                              [[3, 18, '浦口区', 10, 28]],
+                              [[18, 7, '溧水区', 10, 28]],
+                              [[15, 1, '高淳区', 10, 28]],
+                              [[15.2, 21.5, '栖霞区', 10, 13]],
+                              [[7, 16, '雨花台区', 10, 15]],
+                              [[10, 20, '鼓楼区', 10, 13]],
+                              [[13, 21, '玄武区', 10, 13]],
+                              [[8.5, 18, '建邺区', 10, 13]],
+                              [[11.5, 19, '秦淮区', 10, 13]],
+                              [[8.4, 23.5, '江北新区', 10, 20]],
+                              [[12.5, 22.5, '经济技术开发区', 10, 8]],
                           ];
-            this.yjl='370px';
+            this.yjl='350px';
             this.ajyjl="155px";
+          }else if(this.screenWidth>=1600&&this.screenWidth<1700){
+            this.seriesData=[
+                              [[13, 27, '六合区', 12, 30]],
+                              [[11, 13, '江宁区', 10, 30]],
+                              [[3, 18, '浦口区', 10, 30]],
+                              [[18, 7, '溧水区', 10, 30]],
+                              [[15, 1, '高淳区', 10, 30]],
+                              [[15.2, 21.5, '栖霞区', 10, 15]],
+                              [[7, 16, '雨花台区', 10, 15]],
+                              [[10, 20, '鼓楼区', 10, 15]],
+                              [[13, 21, '玄武区', 10, 15]],
+                              [[8.5, 18, '建邺区', 10, 15]],
+                              [[11.5, 19, '秦淮区', 10, 15]],
+                              [[8.5, 23.5, '江北新区', 10, 20]],
+                              [[13, 22.5, '经济技术开发区', 10, 10]],
+                          ];
+                          this.yjl='500px';
+                          this.ajyjl="240px";
           }else{
             this.seriesData=[
                             [[13, 27, '六合区', 12, 40]],
@@ -583,20 +740,52 @@ export default {
                             [[3, 18, '浦口区', 10, 40]],
                             [[18, 7, '溧水区', 10, 40]],
                             [[15, 1, '高淳区', 10, 40]],
-                            [[11, 22, '栖霞区', 10, 30]],
+                            [[15.2, 21.5, '栖霞区', 10, 20]],
                             [[7, 16, '雨花台区', 10, 20]],
                             [[10, 20, '鼓楼区', 10, 20]],
-                            [[13, 21, '玄武区', 10, 25]],
+                            [[13, 21, '玄武区', 10, 20]],
                             [[8.5, 18, '建邺区', 10, 20]],
                             [[11.5, 19, '秦淮区', 10, 20]],
-                            [[9, 23, '江北新区', 10, 20]]
+                            [[8.5, 23.3, '江北新区', 10, 25]],
+                            [[13, 22.5, '经济技术开发区', 10, 15]],
                           ];
             this.yjl='500px';
             this.ajyjl="240px";
           }
           this.mapFun();
           this.ajFun();
-      }
+      },
+      imgHeightOne(val){
+        this.$nextTick(()=>{
+          // console.log('one==',val);
+          this.$store.commit('getOne',val);
+          document.getElementById("ajecharts").style.height=(val-20)+'px';
+          document.getElementById("lzecharts").style.height=(val-20)+'px';
+          document.getElementById("zgecharts").style.height=(val-20)+'px';
+          document.getElementById("jtecharts").style.height=(val-50)+'px';
+        })
+
+      },
+      // imgHeightTwo(val){
+      //   this.$nextTick(()=>{
+      //     console.log('two==',val);
+      //     document.getElementById("lzecharts").style.height=(val-20)+'px';
+      //   })
+      //
+      // },
+      // imgHeightThr(val){
+      //   this.$nextTick(()=>{
+      //     console.log('thr==',val);
+      //     document.getElementById("zgecharts").style.height=(val-20)+'px';
+      //   })
+      //
+      // },
+      // imgHeightFor(val){
+      //   this.$nextTick(()=>{
+      //     console.log('for==',val);
+      //     document.getElementById("jtecharts").style.height=(val)+'px';
+      //   })
+      // },
   },
   created(){
       setInterval(this.scroll,2000);
@@ -605,6 +794,58 @@ export default {
       setInterval(this.realTimeFun,1000);
   },
   methods:{
+    screenShow(){
+      this.clickFive++;
+      if(this.clickFive==5){
+        this.screenDialogVisible=true;
+        this.clickFive=0;
+      }
+    },
+    getJuState(){
+      let p={
+        "currentPage":1,
+        "showCount":10,
+        "pd":{"DM":this.orgCode}
+      }
+      this.$api.post(this.Global.aport4+'/LRDWController/getMCAndJBByDM',p,
+       r =>{
+         if(r.success){
+           this.$store.commit('getJuS',r.data[0].JB);
+           this.juState=this.$store.state.juState;
+           this.yjFun();
+           if(this.$store.state.juState=='3'||this.$store.state.juState=='4'){
+             this.$api.post(this.Global.aport4+'/LRDWController/getAllParentByChildDW',p,
+              r =>{
+                if(r.success){
+                  this.$store.commit('PcsToJu',r.data.FJDM);//分局
+                  this.$store.commit('ZrqToPcs',r.data.PCSDM);//派出所
+                }
+              })
+           }
+         }
+       })
+    },
+      loginOut(){
+          if(this.$store.state.wtoken!='' && this.$store.state.wtoken!=undefined && this.$store.state.serverip!='' && this.$store.state.serverip!=undefined){
+           window.location.href='http://tymh.gaj.nkg.js:908/loginOperate/toUserLogin';return ;
+          }else {
+            var url=this.Global.aport1+'/user/logout';
+            var formData = new FormData();
+            formData.append("token",this.$store.state.token);
+            let p=formData;
+            this.$api.post(url, p,
+              r => {
+                if (r.success) {
+                  // this.$message({
+                  //   message: '退出成功',
+                  //   type: 'success'
+                  // });
+                }
+                localStorage.clear();
+                this.$router.push('/')
+              })
+        }
+      },
       realTimeFun(){
         this.realTime = formatDate(new Date(),'yyyy-MM-dd hh:mm')
       },
@@ -657,7 +898,7 @@ export default {
       },
       //得到派出所
       getpcs(n,callback){
-        console.log('this.mapList.type',this.mapList.type)
+        // console.log('this.mapList.type',this.mapList.type)
           var searchResult = [];
             let p={
               "lrdw":this.mapList.lrdw,
@@ -685,11 +926,9 @@ export default {
       },
       pageSizeChange(val) {
         this.getRyxx(this.CurrentPage,val,this.bzhid,this.mc,this.lrdw);
-        console.log(`每页 ${val} 条`);
       },
       handleCurrentChange(val) {
         this.getRyxx(val,this.pageSize,this.bzhid,this.mc,this.lrdw);
-        console.log(`当前页: ${val}`);
       },
       //获取标准化地址
       getbzhdz(n,callback){
@@ -738,8 +977,12 @@ export default {
            'day':this.lzdate,
            "lrdw":this.ssfj,
          };
+         this.czshow=false;
+         console.log('临住',this.czshow)
           var url=this.Global.aport+"/zxdt/getLSZSDJXXRYList";
          if(this.mapList.type=="C"){
+           this.czshow=true;
+           console.log('常住',this.czshow)
            p={
              "currentPage":currentPage,
              "showCount":showCount,
@@ -790,6 +1033,7 @@ export default {
         this.$api.post(url, p,
          r => {
            if(r.success){
+
              this.nav1=r.data;
            }
          });
@@ -806,7 +1050,7 @@ export default {
                  this.data.push(this.data[0]);  // 将数组的第一个元素添加到数组的
                  this.data.shift();               //删除数组的第一个元素
                  this.animate=false;  // margin-top 为0 的时候取消过渡动画，实现无缝滚动
-         },1)
+         },0)
       },
       scrollt(){
          this.animate=true;    // 因为在消息向上滚动的时候需要添加css3过渡动画，所以这里需要设置true
@@ -814,9 +1058,12 @@ export default {
                  this.data1.push(this.data1[0]);  // 将数组的第一个元素添加到数组的
                  this.data1.shift();               //删除数组的第一个元素
                  this.animate=false;  // margin-top 为0 的时候取消过渡动画，实现无缝滚动
-         },1)
+         },0)
       },
       scrollYj(){
+        if(this.yjList.length<3){
+          return
+        }
         this.animate=true;    // 因为在消息向上滚动的时候需要添加css3过渡动画，所以这里需要设置true
         setTimeout(()=>{      //  这里直接使用了es6的箭头函数，省去了处理this指向偏移问题，代码也比之前简化了很多
                 this.yjList.push(this.yjList[0]);  // 将数组的第一个元素添加到数组的
@@ -829,20 +1076,23 @@ export default {
         },0)
       },
       sbEnter(){
-        console.log('enter')
+        // console.log('enter')
         // this.animate=false;
         clearInterval(this.timer);
         this.timer=null;
       },
       sbleave(){
-        console.log('leave')
+        // console.log('leave')
         // this.animate=true;
         this.timer=setInterval(this.scrollYj,2000);
       },
       yjFun(){
-        this.$api.post(this.Global.aport+'/home/getWaringData',{},
+        console.log('预警',this.$store.state.juState)
+        this.$api.post(this.Global.aport+'/home/getWaringData',{userCode:this.userCode,userName:this.userName,orgJB:this.$store.state.juState,orgCode:this.orgCode,token:this.token},
          r =>{
-           this.yjList = r.data
+           if(r.data!=null){
+             this.yjList = r.data
+           }
          })
       },
       yearFun(){
@@ -861,9 +1111,14 @@ export default {
          r =>{
            if(r.success){
              this.months = r.data.MONTH;
-             if(this.lzyear==''){this.lzyear = r.data.YEAR;}
+             this.currentYear = r.data.YEAR
+
            }
          })
+      },
+      monthChange(){
+        if(this.lzyear==''){this.lzyear = this.currentYear;}
+        this.mapFun();
       },
       dayFun(){
         let p={
@@ -874,10 +1129,15 @@ export default {
          r =>{
            if(r.success){
              this.dates = r.data.DAY;
-             if(this.lzmonth==''){this.lzmonth = r.data.MONTH;}
-             if(this.lzyear==''){this.lzyear = r.data.YEAR;}
+             this.currentMonth = r.data.MONTH;
+             this.currentYear = r.data.YEAR;
            }
          })
+      },
+      dayChange(){
+        if(this.lzmonth==''){this.lzmonth = this.currentMonth;}
+        if(this.lzyear==''){this.lzyear = this.currentYear;}
+        this.mapFun();
       },
       czFun(){
         this.$api.post(this.Global.aport+'/home/getCzsfdata',{},
@@ -906,6 +1166,8 @@ export default {
         this.$api.post(this.Global.aport+'/home/getCenterData',p,
          r =>{
            if(r.success){
+             this.allLzNum = r.data.allLzNum;
+             this.allCzNum = r.data.allCzNum;
              this.drawLine(r.data.series,r.data.legend,r.data.name)
            }
          })
@@ -913,6 +1175,7 @@ export default {
       drawLine(data,legend,name){
         this.mapCenter = echarts.init(document.getElementById('home_map'));
         var shadowColor='';
+        console.log('legend',legend);
         //x, y, 名称， 数值， symbolSize
         // var seriesData = [
         //     [13, 27, '六合区', 12, 40],
@@ -1014,7 +1277,7 @@ export default {
                 normal: {
                     color:function(params){
             					//颜色渐变，右/下/左/上，从下往上渐变
-                      console.log('===',params);
+                      // console.log('===',params);
             					return new echarts.graphic.LinearGradient(0,0,1,1,[
             						{offset: 0,color: params.value[10]},
             						{offset: 1,color: params.value[11]},
@@ -1209,6 +1472,48 @@ export default {
                       }
                   }
               },
+            },
+            {//经济技术开发区
+                name:name['kaifaqu'],
+                data: _this.seriesData[12],
+                hoverAnimation:true,
+                symbolSize: function (v) {
+                    return v[4];
+                },
+                type: 'effectScatter',
+                rippleEffect: {
+                    brushType: 'stroke', //stroke(涟漪)和fill(扩散)，两种效果:3
+                    scale:1.7
+                },
+                itemStyle: {
+                  normal: {
+                      color:function(params){
+                        //颜色渐变，右/下/左/上，从下往上渐变
+                        return new echarts.graphic.LinearGradient(0,0,1,1,[
+                          {offset: 0,color: params.value[10]},
+                          {offset: 1,color: params.value[11]},
+                        ])
+                      },
+                      shadowBlur: 10,
+                      shadowColor: _this.seriesData[12][0][11]
+                  },
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        color:'#fff',
+                        fontWeight:'bold',
+                        formatter: function(v) {
+                            return v.value[2];
+                        },
+                        fontSize: 10,
+                        rich: {
+                            name: {
+                                textBorderColor: '#fff'
+                            }
+                        }
+                    }
+                },
             },
             {//栖霞
                 name:name['qixia'],
@@ -1421,7 +1726,7 @@ export default {
                 },
             },
             {//秦淮
-                name:name['qihuai'],
+                name:name['qinhuai'],
                 data: _this.seriesData[10],
                 hoverAnimation:true,
                 hoverAnimation:true,
@@ -1511,13 +1816,16 @@ export default {
           _this.mapCenter.resize();
         });
         _this.mapCenter.on('mouseover',function(params){
+
           _this.claname = params.value[6];
           _this.isShow=true;
+
+            console.log('params',params.value[3],params.value[8],params.value[5],params.value[2]);
           _this.aaa(params.value[3],params.value[8],params.value[5],params.value[2]);
         })
         var mapCan = document.getElementById('mapall');
          mapCan.onmouseleave = function (e) {
-           console.log(e.target.lastChild.id,e.target.firstChild.id)
+           // console.log(e.target.lastChild.id,e.target.firstChild.id)
            if(e.target.lastChild.id=='tt'||e.target.firstChild.id=='home_map'){
              // console.log('鼠标离开',e);
             _this.isShow=false;
@@ -1531,12 +1839,14 @@ export default {
         if(val==3){return '#46FF7F'};
       },
       aaa(lzdata,czdata,lrdw,lrdwmc){
+        console.log('lzdata',lzdata,czdata);
         this.mapCharts = echarts.init(document.getElementById('mapecharts'));
         let _this = this;
         _this.mapCharts.setOption({
           xAxis: {
                type: 'category',
                data: ['临住', '常住'],
+               // data: ['临住'],
                axisLine:{
                    lineStyle:{
                        color:'#01DEEC',
@@ -1642,12 +1952,13 @@ export default {
                       fontSize:12
                     },
                     value:czdata
-                }],
+                }
+              ],
            }]
         },true)
         _this.mapCharts.off('click');
         _this.mapCharts.on('click',function(params){
-            console.log('====',params);
+            // console.log('====',params);
             if(params.name=='临住'||params.value=='临住'){_this.mapList.type="L",_this.mapList.rs=lzdata}
             if(params.name=='常住'||params.value=='常住'){_this.mapList.type="C",_this.mapList.rs=czdata}
 
@@ -1661,13 +1972,12 @@ export default {
                 bb.setAttribute('id','mainMap');
                 bb.setAttribute('class','mapbjindex');
                  _this.aaDom.appendChild(bb);
-                 console.log(_this.aaDom);
             })
             createMapL(_this.mapList.lrdw,_this.mapList.lrdwmc,_this.mapList.rs,_this.mapList.type);
             if(_this.mapList.type=="C"){
-              this.czshow=true;
+              _this.czshow=true;
             }else {
-              this.czshow=false;
+              _this.czshow=false;
             }
         })
       },
@@ -1675,7 +1985,6 @@ export default {
         this.$api.post(this.Global.aport+'/home/getaj12data',{},
          r =>{
            if(r.success){
-             console.log(r.data.series['非法就业'])
              this.drawAjchart(r.data.legend,r.data.yAxis,r.data.series);
            }
          })
@@ -1692,7 +2001,8 @@ export default {
               },
           },
           legend: {
-              y:_this.ajyjl,
+              // y:_this.ajyjl,
+              bottom:10,
               type: 'scroll',
               data: legend,
               textStyle:{
@@ -1713,8 +2023,6 @@ export default {
           grid: {
             x:70,
             y:5,
-
-            // containLabel: true
           },
           xAxis:  {
               type: 'value',
@@ -1744,12 +2052,12 @@ export default {
                   barWidth : 20,
                   stack: '总量',
                   barGap:'90%', // 控制柱子的间隔
-                  label: {
-                      normal: {
-                          show: true,
-                          position: 'insideRight'
-                      }
-                  },
+                  // label: {
+                  //     normal: {
+                  //         show: true,
+                  //         position: 'insideRight'
+                  //     }
+                  // },
                   itemStyle:{
                     normal:{
                       color:'#DCAD68'
@@ -1762,12 +2070,12 @@ export default {
                   type: 'bar',
                   stack: '总量',
                   barGap:'90%', // 控制柱子的间隔
-                  label: {
-                      normal: {
-                          show: true,
-                          position: 'insideRight'
-                      }
-                  },
+                  // label: {
+                  //     normal: {
+                  //         show: true,
+                  //         position: 'insideRight'
+                  //     }
+                  // },
                   itemStyle:{
                     normal:{
                       color:'#7583A0'
@@ -1780,12 +2088,12 @@ export default {
                   type: 'bar',
                   stack: '总量',
                   barGap:'90%', // 控制柱子的间隔
-                  label: {
-                      normal: {
-                          show: true,
-                          position: 'insideRight'
-                      }
-                  },
+                  // label: {
+                  //     normal: {
+                  //         show: true,
+                  //         position: 'insideRight'
+                  //     }
+                  // },
                   itemStyle:{
                     normal:{
                       color:'#E7D188'
@@ -1799,12 +2107,12 @@ export default {
                   type: 'bar',
                   stack: '总量',
                   barGap:'90%', // 控制柱子的间隔
-                  label: {
-                      normal: {
-                          show: true,
-                          position: 'insideRight'
-                      }
-                  },
+                  // label: {
+                  //     normal: {
+                  //         show: true,
+                  //         position: 'insideRight'
+                  //     }
+                  // },
                   itemStyle:{
                     normal:{
                       color:'#8CBCC0'
@@ -1814,6 +2122,7 @@ export default {
               },
           ]
         })
+
       },
       lzFun(){
         this.$api.post(this.Global.aport+'/home/getlz6Data',{},
@@ -2199,11 +2508,45 @@ export default {
                   barWidth:15,
                   data:series['居留']
               },
+              {
+                  name:'停留',
+                  type:'bar',
+                  itemStyle:{
+                    normal:{
+                      label: {
+      									show: true, //开启显示
+      									position: 'top', //在上方显示
+      									textStyle: { //数值样式
+      										color: '#fff',
+      										fontSize: 12
+  									    }
+      								},
+                      color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                         offset: 0,
+                         color: '#895EDB'
+                       }, {
+                         offset: 1,
+                         color: '#5568D4'
+                       }])
+                    },
+                    emphasis:{
+                      color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                         offset: 0,
+                         color: '#D5C95D'
+                       }, {
+                         offset: 1,
+                         color: '#C39E69'
+                       }])
+                    },
+                  },
+                  barWidth:15,
+                  data:series['停留']
+              },
           ]
         })
       },
       allEcharts(){
-        this.yjFun();
+        // this.yjFun();
         this.zdFun();
         this.czFun();
         this.ajFun();
@@ -2211,11 +2554,17 @@ export default {
         this.zgFun();
         this.jtFun();
         this.mapFun();
-        // this.drawAjchart();
-        // this.drawLzchart();
-        // this.drawZgchart();
-        // this.drawJtchart();
-        // this.drawLine(this.mapdata,null);
+        this.$nextTick(()=>{
+          this.imgHeightOne=this.$refs.ajC.offsetHeight;//只以案件为准
+          if(this.imgHeightOne!=0){this.$store.commit('getOne',this.imgHeightOne)}//不等于0时存入
+          if(this.imgHeightOne==0){this.imgHeightOne = this.$store.state.imgHeightOne}//等于0时拿到缓存
+          //赋值
+          document.getElementById("lzecharts").style.height=(this.imgHeightOne-20)+'px';
+          document.getElementById("zgecharts").style.height=(this.imgHeightOne-20)+'px';
+          document.getElementById("ajecharts").style.height=(this.imgHeightOne-20)+'px';
+          document.getElementById("jtecharts").style.height=(this.imgHeightOne-50)+'px';
+          console.log(this.imgHeightOne);
+        })
         window.addEventListener("resize", () => {
           this.ajCharts.resize();
           this.lzCharts.resize();
@@ -2249,17 +2598,13 @@ export default {
   display: flex;
   flex-direction: column;
 } */
-.nav_1{
+/* .nav_1{
   width: 16px;
-  /* height: 193px!important; */
   font-size: 16px;
   color: #787e8c;
-  /* display: flex; */
-  /* flex-direction: column; */
-  /* align-items: center; */
   padding: 20px 0;
   border-bottom: 1px solid #273542;
-}
+} */
 .nav_1_check,.nav_1:hover{
   color: #fff;
 }
@@ -2334,9 +2679,50 @@ export default {
   font-size: 18px;font-weight: lighter;
         border-left: 4px #86cdfb solid;padding-left: 10px;
       }
-    .bgh1 .el-dialog__header{
-        border-bottom: none;
+      .bgh1 .map-class .el-dialog__headerbtn{
+          position: fixed;
+          top: 38px;
+          right: 4.5%;
+          padding: 0px;
+          background: #fff;
+          border: none;
+          border-radius: 50%;
+          outline: 0;
+          cursor: pointer;
+          font-size: 16px;
+          width: 25px;
+          height: 25px;
+          color: #000;
+        }
+    .bgh1  .el-dialog__headerbtn{
+        position: absolute;
+        top: -6px;
+        right: -11px;
+        padding: 0px;
+        background: #fff;
+        border: none;
+        border-radius: 50%;
+        outline: 0;
+        cursor: pointer;
+        font-size: 16px;
+        width: 25px;
+        height: 25px;
+        color: #000;
+        z-index: 2000;
       }
+      .bgh1 .el-dialog__wrapper{
+        /* top: -79px!important; */
+        overflow: hidden!important;
+      }
+    .bgh1 .map-class .el-dialog__header{
+        border-bottom: none;
+        padding: 0px 20px 10px!important;
+      }
+
+      .bgh1 .el-dialog__header{
+          border-bottom: none;
+          padding: 15px 20px 10px!important;
+        }
     .bgh1 .el-dialog__body {
       padding: 10px 20px;
       line-height: 30px!important;
@@ -2385,6 +2771,12 @@ export default {
         }
         .bgh1 .el-table__empty-text{
           color: #a9d6fd;
+        }
+        .bgh1 .map-class{
+          top: 48px!important;
+          margin: 0 auto 0!important;
+          overflow: hidden;
+          height: 90%!important;
         }
       .bgh1 .el-pagination.is-background .btn-next.disabled, .el-pagination.is-background .btn-next:disabled, .el-pagination.is-background .btn-prev.disabled, .el-pagination.is-background .btn-prev:disabled, .el-pagination.is-background .el-pager li.disabled
       {

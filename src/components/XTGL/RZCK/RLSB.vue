@@ -67,7 +67,7 @@ export default {
   mounted() {
     this.$store.dispatch("getXB");
     this.actions = window.IPConfig.IP + this.Global.aport3 + "/getTp";
-    // this.actions = "http://10.0.9.175:9439/getTp";
+    // this.actions = "http://10.0.30.163:9439/getTp";
   },
   methods: {
     getXB(n) {

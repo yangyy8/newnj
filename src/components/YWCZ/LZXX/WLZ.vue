@@ -4,18 +4,23 @@
 <script>
 export default {
   activated(){
-    let idCard = this.$store.state.uid
-    let birthday = ''
-    if(idCard.length == 15){  
-      birthday = "19"+idCard.substr(6,6);  
-    } else if(idCard.length == 18){  
-      birthday = idCard.substr(6,8);  
-    } 
-    // console.log('++++',parseInt(this.format(new Date(),'yyyyMMdd')))
-    // console.log('===',idCard,parseInt(birthday),birthday) 
-    let idnumber = parseInt(birthday) + parseInt(this.format(new Date(),'yyyyMMdd'))
-    // console.log('heheh',idnumber)
-    var url="http://50.32.166.211:9091/login?idnumber=" + this.$store.state.uid + "&vcode=" + idnumber + "&returnUrl=null"; //身份证号
+    var url = ''
+    if(this.$store.state.uid == 'admin'){
+      url="http://50.32.166.211:9091/login?idnumber=" + this.$store.state.uid + "&vcode=00000000&returnUrl=null"; //身份证号
+    }else{
+      let idCard = this.$store.state.uid
+      let birthday = ''
+      if(idCard.length == 15){  
+        birthday = "19"+idCard.substr(6,6);  
+      } else if(idCard.length == 18){  
+        birthday = idCard.substr(6,8);  
+      } 
+      // console.log('++++',parseInt(this.format(new Date(),'yyyyMMdd')))
+      // console.log('===',idCard,parseInt(birthday),birthday) 
+      let idnumber = parseInt(birthday) + parseInt(this.format(new Date(),'yyyyMMdd'))
+      // console.log('heheh',idnumber)
+      url="http://50.32.166.211:9091/login?idnumber=" + this.$store.state.uid + "&vcode=" + idnumber + "&returnUrl=null"; 
+    }
     // console.log('url====',url)
     this.tabList=this.Global.tabLists;
     if(this.Global.tabLists==undefined){

@@ -57,9 +57,9 @@
                     <p style="text-align:right;padding-right:5px;margin-top:5px; color:#FFFF04; font-size:16px; font-weight:400;">
                       {{item.xsd | filteint}}<br/>匹配</p>
                      <p class="slh" style="margin-top:-38px;">国家地区：<span>{{item.gjdq}}</span></p>
-                     <p class="slh" >证件号码：<span>{{item.zjhm}}</span></p>
+                     <p class="slh" >证件号码：<span>{{item.sfzh}}</span></p>
                      <p class="slh" >人员性别：<span>{{item.xb}}</span></p>
-                     <p class="slh" >中文姓名：<span>{{item.zwmc}}</span></p>
+                     <p class="slh" >中文姓名：<span>{{item.xm}}</span></p>
                      <p class="slh" >英文姓名：<span :title="item.ywx+item.ywm">{{item.ywx}}{{item.ywm}}</span></p>
                    </el-col>
                   </el-row>
@@ -233,7 +233,7 @@ export default {
   },
   filters: {
     filteint(n) {
-      var ss = n.split(".");
+      var ss = (n+'').split(".");
       console.log(ss);
       if (ss.length > 1) {
         return parseInt(n * 100) + "%";

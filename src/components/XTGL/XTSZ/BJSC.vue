@@ -62,6 +62,10 @@
                    <span class="input-text">证件号码：</span>
                    <el-input placeholder="请输入内容" size="small" v-model="pd.ZJHM" class="input-input"></el-input>
                 </el-col>
+                <el-col  :sm="24" :md="12" :lg="8"   class="input-item">
+                   <span class="input-text">批次：</span>
+                   <el-input placeholder="请输入内容" size="small" v-model="pd.PC" class="input-input"></el-input>
+                </el-col>
           </el-row>
          </el-col>
         <el-col :span="2" class="down-btn-area">
@@ -111,6 +115,14 @@
              label="证件号码">
            </el-table-column>
            <el-table-column
+             prop="PC"
+             label="批次">
+           </el-table-column>
+           <el-table-column
+             prop="CJSJ"
+             label="审查时间">
+           </el-table-column>
+           <el-table-column
              prop="AJHCJG_DESC"
              label="案件核查结果">
              <template slot-scope="scope">
@@ -129,18 +141,18 @@
            <el-table-column
              prop="SJXXHCJG_DESC"
              label="涉警信息核查结果">
-             <template slot-scope="scope">
+             <div slot-scope="scope">
                <span  class="bjscblue" v-if="scope.row.SJXXHCJG_DESC == '无异常'">{{scope.row.SJXXHCJG_DESC}}</span>
                <span  class="hand bjscred" v-else @click="gotos(scope.row,3)">{{scope.row.SJXXHCJG_DESC}}</span>
               <!-- <span :class="{'bjscred':scope.row.SJXXHCJG_DESC == '查中','bjscblue':scope.row.SJXXHCJG_DESC == '无异常','bjscyellow':scope.row.SJXXHCJG_DESC == '疑似'}" @click="gotos(scope.row,3)">{{scope.row.SJXXHCJG_DESC}}</span> -->
-             </template>
+             </div>
            </el-table-column>
            <el-table-column
              prop="CRJJLHCJG_DESC"
              label="出入境核查结果">
-             <template slot-scope="scope">
-              <span :class="{'bjscred':scope.row.CRJJLHCJG_DESC == '境外','bjscblue':scope.row.CRJJLHCJG_DESC == '境内'}" @click="gotos(scope.row,4)">{{scope.row.CRJJLHCJG_DESC}}</span>
-             </template>
+             <div slot-scope="scope">
+                <span :class="{'bjscred':scope.row.CRJJLHCJG_DESC == '境外','bjscblue':scope.row.CRJJLHCJG_DESC == '境内'}" @click="gotos(scope.row,4)">{{scope.row.CRJJLHCJG_DESC}}</span>
+             </div>
            </el-table-column>
            <!-- <el-table-column
              label="操作" width="120">
@@ -222,9 +234,9 @@
           </el-table-column>
           <el-table-column
             label="操作" width="120">
-            <template slot-scope="scope">
-            <el-button type="text"  class="a-btn"  title="详情"  icon="el-icon-document" @click="detailstbxx(scope.row)"></el-button>
-            </template>
+            <div slot-scope="scope">
+              <el-button type="text"  class="a-btn"  title="详情"  icon="el-icon-document" @click="detailstbxx(scope.row)"></el-button>
+            </div>
           </el-table-column>
         </el-table>
         <div class="middle-foot">
@@ -286,9 +298,9 @@
        </el-table-column>
        <el-table-column
          label="操作" width="120">
-         <template slot-scope="scope">
-         <el-button type="text"  class="a-btn"  title="详情"  icon="el-icon-document" @click="detailsasj(scope.row)"></el-button>
-         </template>
+         <div slot-scope="scope">
+           <el-button type="text"  class="a-btn"  title="详情"  icon="el-icon-document" @click="detailsasj(scope.row)"></el-button>
+         </div>
        </el-table-column>
      </el-table>
     <div class="middle-foot">
@@ -359,9 +371,9 @@
          </el-table-column>
          <el-table-column
            label="操作" width="70">
-           <template slot-scope="scope">
-           <el-button type="text"  class="a-btn"  title="详情"  icon="el-icon-document" @click="detailssj(scope.row)"></el-button>
-           </template>
+           <div slot-scope="scope">
+              <el-button type="text"  class="a-btn"  title="详情"  icon="el-icon-document" @click="detailssj(scope.row)"></el-button>
+           </div>
          </el-table-column>
      </el-table>
      <div class="middle-foot mt-10">
@@ -418,13 +430,12 @@
          prop="IO_PORT_DESC"
          label="出入境口岸">
        </el-table-column>
-       <el-table-column
-         label="操作" width="120">
-         <template slot-scope="scope">
-           <div>
-              <el-button type="text"  class="a-btn"  title="详情"  icon="el-icon-document" @click="detailscrj(scope.row)"></el-button>
+       <el-table-column label="操作" width="120">
+         <!-- <template slot-scope="scope"> -->
+           <div slot-scope="scope">
+             <el-button type="text"  class="a-btn"  title="详情"  icon="el-icon-document" @click="detailscrj(scope.row)"></el-button>
            </div>
-         </template>
+         <!-- </template> -->
        </el-table-column>
      </el-table>
      <div class="middle-foot mt-10">
